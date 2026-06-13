@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Sign Up | Triangletech Learn</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0066FF;
+            --primary-dark: #0047B3;
+            --accent: #FF6B35;
+            --text: #1A1A2E;
+            --text-muted: #64748B;
+            --bg: #F5F7FA;
+            --surface: #FFFFFF;
+            --border: #E2E8F0;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --radius: 16px;
+            --transition: 0.3s ease;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 24px;
+        }
+        .auth-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 40px 32px;
+            width: 100%;
+            max-width: 480px;
+            border: 1px solid var(--border);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .logo img {
+            height: 50px;
+        }
+        h1 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 24px;
+            color: var(--text);
+        }
+        .toggle-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+        .toggle-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--border);
+            background: transparent;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-muted);
+        }
+        .toggle-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        input, select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            background: var(--surface);
+        }
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .phone-group {
+            display: flex;
+            gap: 8px;
+        }
+        .phone-prefix {
+            width: 80px;
+            text-align: center;
+            font-weight: 600;
+            background: #f0f0f0;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 0;
+            color: var(--text-muted);
+        }
+        .phone-group input {
+            flex: 1;
+        }
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            color: #fff;
+            background: var(--primary);
+            box-shadow: 0 4px 14px rgba(0,102,255,0.3);
+        }
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        .signup-hidden { display: none; }
+        .admin-id-display {
+            background: #e6f0ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 16px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
+            display: none;
+        }
+        .error-msg {
+            color: #d00;
+            font-size: 0.85rem;
+            margin-top: 4px;
+            display: none;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-link a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .back-link a:hover { color: var(--primary); }
+    </style>
+</head>
+<body>
+    <div class="auth-card">
+        <div class="logo">
+            <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="Logo">
+        </div>
+        <h1 id="formTitle">Log In to Your Account</h1>
+
+        <div class="toggle-buttons">
+            <button class="toggle-btn active" id="loginToggle">Log In</button>
+            <button class="toggle-btn" id="signupToggle">Sign Up</button>
+        </div>
+
+        <form id="authForm">
+            <!-- Sign Up Fields (hidden initially) -->
+            <div id="signupFields" class="signup-hidden">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="John Doe" autocomplete="name">
+                </div>
+                <div class="form-group">
+                    <label for="whatsapp">WhatsApp Number</label>
+                    <div class="phone-group">
+                        <div class="phone-prefix">+234</div>
+                        <input type="tel" id="whatsapp" placeholder="8012345678" pattern="[0-9]{10}" maxlength="10" autocomplete="off">
+                    </div>
+                    <div class="error-msg" id="phoneError">Enter a valid 10-digit number</div>
+                </div>
+            </div>
+
+            <!-- Common Fields -->
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="you@example.com" required autocomplete="email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password" minlength="6">
+            </div>
+
+            <button type="submit" class="btn" id="submitBtn">Log In</button>
+            <div id="adminIdBox" class="admin-id-display"></div>
+        </form>
+
+        <div class="back-link">
+            <a href="index.html">← Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        // ---------- Helper ----------
+        const USERS_KEY = 'ttl_users';
+        const getUsers = () => JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+        const saveUsers = (users) => localStorage.setItem(USERS_KEY, JSON.stringify(users));
+
+        // Generate admin ID: TTL/2026/3/SAM/6373
+        function generateAdminId(name) {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1;
+            const first3 = name.trim().substring(0, 3).toUpperCase();
+            const random4 = Math.floor(1000 + Math.random() * 9000);
+            return `TTL/${year}/${month}/${first3}/${random4}`;
+        }
+
+        // ---------- UI Toggle ----------
+        const loginToggle = document.getElementById('loginToggle');
+        const signupToggle = document.getElementById('signupToggle');
+        const signupFields = document.getElementById('signupFields');
+        const formTitle = document.getElementById('formTitle');
+        const submitBtn = document.getElementById('submitBtn');
+        const adminIdBox = document.getElementById('adminIdBox');
+
+        let isLogin = true;
+        function setMode(login) {
+            isLogin = login;
+            if (login) {
+                loginToggle.classList.add('active');
+                signupToggle.classList.remove('active');
+                signupFields.classList.add('signup-hidden');
+                formTitle.textContent = 'Log In to Your Account';
+                submitBtn.textContent = 'Log In';
+                adminIdBox.style.display = 'none';
+            } else {
+                signupToggle.classList.add('active');
+                loginToggle.classList.remove('active');
+                signupFields.classList.remove('signup-hidden');
+                formTitle.textContent = 'Create Your Account';
+                submitBtn.textContent = 'Sign Up';
+                adminIdBox.style.display = 'none';
+            }
+        }
+        loginToggle.addEventListener('click', () => setMode(true));
+        signupToggle.addEventListener('click', () => setMode(false));
+
+        // ---------- Form Submission ----------
+        const form = document.getElementById('authForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const nameInput = document.getElementById('name');
+        const whatsappInput = document.getElementById('whatsapp');
+        const phoneError = document.getElementById('phoneError');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            adminIdBox.style.display = 'none';
+            phoneError.style.display = 'none';
+
+            const email = emailInput.value.trim().toLowerCase();
+            const password = passwordInput.value.trim();
+            const name = isLogin ? '' : nameInput.value.trim();
+            const whatsappLocal = isLogin ? '' : whatsappInput.value.trim();
+            const fullWhatsapp = isLogin ? '' : '+234' + whatsappLocal;
+
+            // Validate
+            if (!email || !password) return alert('Email and password are required.');
+            if (!isLogin) {
+                if (!name) return alert('Full name is required.');
+                if (!/^\d{10}$/.test(whatsappLocal)) {
+                    phoneError.style.display = 'block';
+                    return;
+                }
+            }
+
+            const users = getUsers();
+
+            if (isLogin) {
+                // LOGIN
+                const user = users.find(u => u.email === email && u.password === password);
+                if (!user) {
+                    alert('Invalid email or password.');
+                    return;
+                }
+                // Store session
+                sessionStorage.setItem('ttl_currentUser', JSON.stringify(user));
+                // Redirect based on admin email OR role
+                if (user.email === 'okewunmitimileyin23@gmail.com' || user.role === 'admin') {
+                    window.location.href = 'admin-dashboard.html';
+                } else {
+                    window.location.href = 'learner-dashboard.html';
+                }
+            } else {
+                // SIGN UP
+                if (users.find(u => u.email === email)) {
+                    alert('An account with this email already exists.');
+                    return;
+                }
+                const adminId = generateAdminId(name);
+                const newUser = {
+                    name,
+                    email,
+                    password,
+                    whatsapp: fullWhatsapp,
+                    adminId,
+                    role: email === 'okewunmitimileyin23@gmail.com' ? 'admin' : 'learner',
+                    createdAt: new Date().toISOString()
+                };
+                users.push(newUser);
+                saveUsers(users);
+
+                // Show generated ID
+                adminIdBox.innerHTML = `✅ Your Admin ID: <strong>${adminId}</strong>`;
+                adminIdBox.style.display = 'block';
+
+                // Auto login & redirect
+                sessionStorage.setItem('ttl_currentUser', JSON.stringify(newUser));
+                setTimeout(() => {
+                    window.location.href = newUser.role === 'admin' ? 'admin-dashboard.html' : 'learner-dashboard.html';
+                }, 1500);
+            }
+        });
+    </script>
+</body>
+</html>
