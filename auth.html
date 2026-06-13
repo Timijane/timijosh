@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Login / Sign Up | Triangletech</title>
     <meta name="description" content="Access your Triangletech learner account. Log in or sign up to start your technology journey.">
@@ -11,9 +11,20 @@
     <!-- Preconnect -->
     <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://firebaseinstallations.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://securetoken.googleapis.com" crossorigin>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js">
+    </script>
 
     <style>
         :root {
@@ -60,6 +71,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
+            height: 100%;
         }
 
         body {
@@ -70,13 +82,16 @@
             overflow-x: hidden;
             letter-spacing: -0.01em;
             min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            margin: 0;
+            padding: 0;
         }
 
-        /* ============ BACKGROUND PARTICLES / ORBS ============ */
+        /* ============ BACKGROUND ORBS ============ */
         .bg-orb {
             position: fixed;
             border-radius: 50%;
@@ -675,13 +690,18 @@
             position: relative;
             overflow: hidden;
         }
-        .btn-submit:hover {
+        .btn-submit:hover:not(:disabled) {
             transform: translateY(-3px);
             box-shadow: 0 14px 40px rgba(220, 38, 38, 0.4);
         }
-        .btn-submit:active {
+        .btn-submit:active:not(:disabled) {
             transform: translateY(-1px) scale(0.97);
             transition: transform 0.1s ease;
+        }
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            filter: grayscale(20%);
         }
 
         /* ============ LEARNER ID BOX ============ */
@@ -758,6 +778,25 @@
             .ground-crack-container {
                 width: 100%;
                 max-width: 400px;
+            }
+            .phone-prefix {
+                padding: 12px 12px;
+                font-size: 0.8rem;
+            }
+        }
+        @media (max-width: 380px) {
+            .auth-card {
+                padding: 24px 16px;
+            }
+            .auth-logo img {
+                height: 40px;
+            }
+            .auth-title {
+                font-size: 1.2rem;
+            }
+            .toggle-btn {
+                padding: 8px 12px;
+                font-size: 0.75rem;
             }
         }
     </style>
@@ -866,44 +905,36 @@
 
     <script>
         (function() {
-            // ============ SPLASH LOADER ============
+            // ============ FIREBASE INITIALIZATION ============
+            const firebaseConfig = {
+                apiKey: "AIzaSyAvvB3C9SP8tDTqMmqzc6craI4d_0kSVX0",
+                authDomain: "timijosh-b8bee.firebaseapp.com",
+                projectId: "timijosh-b8bee",
+                storageBucket: "timijosh-b8bee.firebasestorage.app",
+                messagingSenderId: "779082784462",
+                appId: "1:779082784462:web:a9e9aca2177c7e343c3a9f",
+                measurementId: "G-ZPS8VP8ZBX"
+            };
+
+            firebase.initializeApp(firebaseConfig);
+            const auth = firebase.auth();
+            const db = firebase.firestore();
+
+            // ============ SPLASH LOADER & IMPACT EFFECTS ============
             const splashLoader = document.getElementById('splashLoader');
             const groundCrack = document.getElementById('groundCrack');
             const dustParticles = document.getElementById('dustParticles');
             const dustParticleEls = dustParticles.querySelectorAll('.dust-particle');
 
-            window.addEventListener('load', function() {
-                setTimeout(function() {
-                    splashLoader.classList.add('hidden');
-                    document.body.style.overflow = '';
-                    // Trigger ground crack after card lands
-                    triggerImpactEffects();
-                }, 1600);
-            });
-            document.body.style.overflow = 'hidden';
-            // Fallback
-            setTimeout(function() {
-                if (!splashLoader.classList.contains('hidden')) {
-                    splashLoader.classList.add('hidden');
-                    document.body.style.overflow = '';
-                    triggerImpactEffects();
-                }
-            }, 2200);
-
             function triggerImpactEffects() {
-                // Show ground crack
                 setTimeout(function() {
                     groundCrack.classList.add('active');
                 }, 200);
-
-                // Activate dust particles
                 setTimeout(function() {
                     dustParticleEls.forEach(function(p) {
                         p.classList.add('active');
                     });
                 }, 250);
-
-                // Reset crack animation for replay possibility
                 setTimeout(function() {
                     groundCrack.classList.remove('active');
                     dustParticleEls.forEach(function(p) {
@@ -911,6 +942,22 @@
                     });
                 }, 3000);
             }
+
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    splashLoader.classList.add('hidden');
+                    document.body.style.overflow = '';
+                    triggerImpactEffects();
+                }, 1600);
+            });
+            document.body.style.overflow = 'hidden';
+            setTimeout(function() {
+                if (!splashLoader.classList.contains('hidden')) {
+                    splashLoader.classList.add('hidden');
+                    document.body.style.overflow = '';
+                    triggerImpactEffects();
+                }
+            }, 2200);
 
             // ============ DOM ELEMENTS ============
             const loginTab = document.getElementById('loginTab');
@@ -927,19 +974,9 @@
             const whatsappInput = document.getElementById('whatsapp');
 
             const ADMIN_EMAIL = 'okewunmitimileyin23@gmail.com';
-            const USERS_KEY = 'ttl_users';
-
             let mode = 'login';
 
             // ============ HELPERS ============
-            function getUsers() {
-                return JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
-            }
-
-            function saveUsers(users) {
-                localStorage.setItem(USERS_KEY, JSON.stringify(users));
-            }
-
             function generateLearnerId(fullName) {
                 const now = new Date();
                 const year = now.getFullYear();
@@ -947,6 +984,18 @@
                 const first3 = fullName.trim().substring(0, 3).toUpperCase();
                 const random4 = Math.floor(1000 + Math.random() * 9000);
                 return `TTL/${year}/${month}/${first3}/${random4}`;
+            }
+
+            function showError(element, message) {
+                if (element) {
+                    element.textContent = message;
+                    element.style.display = 'block';
+                }
+            }
+
+            function clearErrors() {
+                phoneError.style.display = 'none';
+                learnerIdBox.style.display = 'none';
             }
 
             // ============ UI TOGGLE ============
@@ -958,9 +1007,7 @@
                 signupFields.classList.toggle('hidden', isLogin);
                 formTitle.textContent = isLogin ? 'Log In to Your Account' : 'Create Your Learner Account';
                 submitBtn.textContent = isLogin ? 'Log In' : 'Sign Up';
-                learnerIdBox.style.display = 'none';
-                phoneError.style.display = 'none';
-                // Clear signup fields when switching
+                clearErrors();
                 if (isLogin) {
                     if (nameInput) nameInput.value = '';
                     if (whatsappInput) whatsappInput.value = '';
@@ -970,90 +1017,7 @@
             loginTab.addEventListener('click', function() { setMode('login'); });
             signupTab.addEventListener('click', function() { setMode('signup'); });
 
-            // ============ FORM SUBMISSION ============
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                learnerIdBox.style.display = 'none';
-                phoneError.style.display = 'none';
-
-                const email = emailInput.value.trim().toLowerCase();
-                const password = passwordInput.value.trim();
-
-                if (!email || !password) {
-                    shakeCard();
-                    alert('Email and password are required.');
-                    return;
-                }
-
-                if (mode === 'login') {
-                    // LOGIN
-                    const users = getUsers();
-                    const user = users.find(function(u) { return u.email === email && u
-                            .password === password; });
-                    if (!user) {
-                        shakeCard();
-                        alert('Invalid email or password.');
-                        return;
-                    }
-                    sessionStorage.setItem('ttl_currentUser', JSON.stringify(user));
-                    window.location.href = (user.email === ADMIN_EMAIL || user.role === 'admin') ?
-                        'admin-dashboard.html' :
-                        'learner-dashboard.html';
-                    return;
-                }
-
-                // SIGN UP
-                const name = nameInput.value.trim();
-                const localNumber = whatsappInput.value.trim();
-
-                if (!name) {
-                    shakeCard();
-                    alert('Full name is required.');
-                    return;
-                }
-                if (!/^\d{10}$/.test(localNumber)) {
-                    phoneError.style.display = 'block';
-                    shakeCard();
-                    return;
-                }
-
-                const fullWhatsapp = '+234' + localNumber;
-                const users = getUsers();
-
-                if (users.some(function(u) { return u.email === email; })) {
-                    shakeCard();
-                    alert('An account with this email already exists.');
-                    return;
-                }
-
-                const isAdmin = email === ADMIN_EMAIL;
-                const learnerId = isAdmin ? null : generateLearnerId(name);
-                const newUser = {
-                    name: name,
-                    email: email,
-                    password: password,
-                    whatsapp: fullWhatsapp,
-                    learnerId: learnerId,
-                    role: isAdmin ? 'admin' : 'learner',
-                    createdAt: new Date().toISOString()
-                };
-
-                users.push(newUser);
-                saveUsers(users);
-
-                if (!isAdmin) {
-                    learnerIdBox.textContent = '🎓 Your Learner ID: ' + learnerId;
-                    learnerIdBox.style.display = 'block';
-                }
-
-                sessionStorage.setItem('ttl_currentUser', JSON.stringify(newUser));
-                setTimeout(function() {
-                    window.location.href = isAdmin ? 'admin-dashboard.html' :
-                        'learner-dashboard.html';
-                }, 1500);
-            });
-
-            // ============ CARD SHAKE ON ERROR ============
+            // ============ CARD SHAKE ============
             function shakeCard() {
                 const wrapper = document.getElementById('authCardWrapper');
                 wrapper.style.animation = 'none';
@@ -1082,9 +1046,152 @@
                     `;
             document.head.appendChild(shakeStyle);
 
-            console.log('%c🔐 Triangletech Auth %cLoaded Successfully',
+            // ============ FORM SUBMISSION ============
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                clearErrors();
+                submitBtn.disabled = true;
+                submitBtn.textContent = mode === 'login' ? 'Logging in...' : 'Creating account...';
+
+                const email = emailInput.value.trim().toLowerCase();
+                const password = passwordInput.value.trim();
+
+                if (!email || !password) {
+                    shakeCard();
+                    showError(phoneError, 'Email and password are required.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = mode === 'login' ? 'Log In' : 'Sign Up';
+                    return;
+                }
+
+                if (mode === 'login') {
+                    try {
+                        const userCredential = await auth.signInWithEmailAndPassword(email,
+                        password);
+                        const user = userCredential.user;
+                        // Fetch user profile from Firestore
+                        const userDoc = await db.collection('users').doc(user.uid).get();
+                        let userData = {};
+                        if (userDoc.exists) {
+                            userData = userDoc.data();
+                        } else {
+                            // Fallback: minimal profile
+                            userData = {
+                                email: user.email,
+                                role: user.email === ADMIN_EMAIL ? 'admin' : 'learner'
+                            };
+                        }
+                        // Store session info (optional, but for quick access)
+                        sessionStorage.setItem('ttl_currentUser', JSON.stringify(userData));
+                        // Redirect based on role
+                        window.location.href = (userData.role === 'admin') ?
+                            'admin-dashboard.html' : 'learner-dashboard.html';
+                    } catch (error) {
+                        shakeCard();
+                        let message = 'Login failed. Please check your credentials.';
+                        if (error.code === 'auth/user-not-found') message =
+                            'No account found with this email.';
+                        if (error.code === 'auth/wrong-password') message = 'Incorrect password.';
+                        if (error.code === 'auth/invalid-email') message =
+                        'Invalid email format.';
+                        alert(message);
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Log In';
+                    }
+                    return;
+                }
+
+                // SIGN UP
+                const name = nameInput.value.trim();
+                const localNumber = whatsappInput.value.trim();
+
+                if (!name) {
+                    shakeCard();
+                    alert('Full name is required.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Sign Up';
+                    return;
+                }
+                if (!/^\d{10}$/.test(localNumber)) {
+                    phoneError.style.display = 'block';
+                    shakeCard();
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Sign Up';
+                    return;
+                }
+
+                const fullWhatsapp = '+234' + localNumber;
+                try {
+                    // Create Firebase Auth user
+                    const userCredential = await auth.createUserWithEmailAndPassword(email,
+                    password);
+                    const user = userCredential.user;
+
+                    const isAdmin = email === ADMIN_EMAIL;
+                    const learnerId = isAdmin ? null : generateLearnerId(name);
+
+                    // Save profile to Firestore
+                    const userProfile = {
+                        name: name,
+                        email: email,
+                        whatsapp: fullWhatsapp,
+                        learnerId: learnerId,
+                        role: isAdmin ? 'admin' : 'learner',
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    };
+                    await db.collection('users').doc(user.uid).set(userProfile);
+
+                    // Show learner ID if not admin
+                    if (!isAdmin) {
+                        learnerIdBox.textContent = '🎓 Your Learner ID: ' + learnerId;
+                        learnerIdBox.style.display = 'block';
+                    }
+
+                    // Store session
+                    sessionStorage.setItem('ttl_currentUser', JSON.stringify(userProfile));
+
+                    // Redirect after a short delay
+                    setTimeout(function() {
+                        window.location.href = isAdmin ? 'admin-dashboard.html' :
+                            'learner-dashboard.html';
+                    }, 1500);
+
+                } catch (error) {
+                    shakeCard();
+                    let message = 'Sign up failed. Please try again.';
+                    if (error.code === 'auth/email-already-in-use') message =
+                        'An account with this email already exists.';
+                    if (error.code === 'auth/weak-password') message =
+                        'Password should be at least 6 characters.';
+                    if (error.code === 'auth/invalid-email') message = 'Invalid email format.';
+                    alert(message);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Sign Up';
+                }
+            });
+
+            // ============ AUTH STATE OBSERVER (optional) ============
+            auth.onAuthStateChanged(function(user) {
+                if (user && window.location.pathname.includes('auth.html')) {
+                    // User already signed in, redirect to appropriate dashboard
+                    db.collection('users').doc(user.uid).get().then(function(doc) {
+                        let role = 'learner';
+                        if (doc.exists) {
+                            role = doc.data().role || (user.email === ADMIN_EMAIL ? 'admin' :
+                                'learner');
+                        }
+                        window.location.href = role === 'admin' ? 'admin-dashboard.html' :
+                            'learner-dashboard.html';
+                    }).catch(function() {
+                        window.location.href = 'learner-dashboard.html';
+                    });
+                }
+            });
+
+            console.log('%c🔐 Triangletech Auth %cwith Firebase %cLoaded',
                 'font-size:1.1rem;font-weight:bold;color:#DC2626;',
-                'font-size:1rem;color:#F97316;');
+                'font-size:1rem;color:#F97316;',
+                'font-size:1rem;color:#6B7280;');
         })();
     </script>
 </body>
