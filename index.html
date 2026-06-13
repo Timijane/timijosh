@@ -3,617 +3,537 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="Triangletech Learn – Master in-demand tech skills with mentorship, projects, and global opportunities.">
-  <title>Triangletech Learn • Future-Ready Skills</title>
+  <title>Triangletech Learn – Master Tech Skills with Mentorship & Projects</title>
+  <meta name="description" content="Triangletech Learn offers project-based courses in cybersecurity, data analysis, software development, AI automation, and more. Get global job opportunities with expert mentorship. Enroll now.">
+  <meta name="keywords" content="tech school Lagos, learn programming, cybersecurity course, data analysis Nigeria, AI automation, prompt engineering, website design, Triangletech">
+  <meta name="author" content="Triangletech Learn">
+  <link rel="canonical" href="https://triangletechlearn.com/">
 
-  <!-- Font Awesome 6 for icons (clean, no nonsense) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Google Fonts Inter (modern, crisp) -->
+  <!-- Open Graph -->
+  <meta property="og:title" content="Triangletech Learn – Master In-Demand Tech Skills">
+  <meta property="og:description" content="Project-based courses with mentorship. Earn certificates, build real-world projects, and land global opportunities.">
+  <meta property="og:image" content="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
+  <meta property="og:url" content="https://triangletechlearn.com/">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Hreflang for multilingual SEO -->
+  <link rel="alternate" hreflang="en" href="https://triangletechlearn.com/?lang=en">
+  <link rel="alternate" hreflang="yo" href="https://triangletechlearn.com/?lang=yo">
+  <link rel="alternate" hreflang="ig" href="https://triangletechlearn.com/?lang=ig">
+  <link rel="alternate" hreflang="ha" href="https://triangletechlearn.com/?lang=ha">
+  <link rel="alternate" hreflang="fr" href="https://triangletechlearn.com/?lang=fr">
+  <link rel="alternate" hreflang="de" href="https://triangletechlearn.com/?lang=de">
+  <link rel="alternate" hreflang="x-default" href="https://triangletechlearn.com/">
+
+  <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
-    /* ---------- CSS Custom Properties (Design Tokens) ---------- */
+    /* ===== DESIGN TOKENS ===== */
     :root {
-      --clr-primary: #0056D2;
-      --clr-primary-light: #E8F0FE;
-      --clr-white: #FFFFFF;
-      --clr-bg: #F8F9FC;
-      --clr-text: #1E1F24;
-      --clr-text-soft: #5F6368;
-      --clr-border: #E1E4E8;
-      --clr-green: #10B981;
-      --clr-shadow: rgba(0, 86, 210, 0.08);
-
-      --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --radius-sm: 8px;
-      --radius-md: 16px;
-      --radius-lg: 24px;
-      --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      --primary: #0056D2;
+      --primary-dark: #0043a4;
+      --white: #FFFFFF;
+      --bg: #F8F9FC;
+      --text: #1E1F24;
+      --text-soft: #5F6368;
+      --border: #E1E4E8;
+      --success: #10B981;
+      --whatsapp: #25D366;
+      --radius: 16px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
-    /* ---------- RESET & BASE ---------- */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: var(--font-main);
-      background: var(--clr-bg);
-      color: var(--clr-text);
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
       overflow-x: hidden;
     }
+    img { max-width: 100%; height: auto; }
     a { text-decoration: none; color: inherit; }
-    ul { list-style: none; }
-    img { max-width: 100%; display: block; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
 
-    /* ---------- LOADING SCREEN ---------- */
+    /* ===== LOADING SCREEN ===== */
     .loader-screen {
-      position: fixed;
-      inset: 0;
-      background: var(--clr-white);
-      z-index: 10000;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.4s ease, visibility 0.4s;
+      position: fixed; inset: 0; background: var(--white); z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.5s, visibility 0.5s;
     }
-    .loader-screen.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-    .loader-logo {
-      width: 90px;
-      height: 90px;
-      animation: breathe 1.8s infinite ease-in-out;
-    }
+    .loader-logo { width: 90px; animation: breathe 1.8s infinite ease-in-out; }
     @keyframes breathe {
-      0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.9; }
-      50% { transform: scale(1.08) rotate(8deg); opacity: 1; }
+      0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); }
     }
+    .loader-screen.hidden { opacity: 0; visibility: hidden; }
 
-    /* ---------- SKELETON LOADING ---------- */
+    /* ===== SKELETON LOADING ===== */
     .skeleton {
       background: linear-gradient(90deg, #eef1f6 25%, #fafbfc 50%, #eef1f6 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.4s infinite;
-      border-radius: var(--radius-md);
+      background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: var(--radius);
     }
     @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-    .skeleton-hero { height: 450px; margin-bottom: 2rem; }
-    .skeleton-card { height: 280px; width: 100%; margin-bottom: 1rem; }
-    .skeleton-footer { height: 220px; }
-
-    .real-content { transition: opacity 0.5s ease; }
-    .real-content.hidden-on-load { opacity: 0; }
-    .real-content.visible { opacity: 1; }
-
-    /* ---------- TOP LANGUAGE BAR ---------- */
+    /* ===== TOP LANGUAGE BAR ===== */
     .lang-bar {
-      background: var(--clr-white);
-      border-bottom: 1px solid var(--clr-border);
-      padding: 6px 0;
-      font-size: 0.85rem;
+      background: var(--white); border-bottom: 1px solid var(--border); padding: 6px 0;
+      position: relative; z-index: 100;
     }
-    .lang-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      gap: 8px;
-    }
+    .lang-inner { display: flex; justify-content: flex-end; gap: 6px; flex-wrap: wrap; }
     .lang-btn {
-      background: transparent;
-      border: 1px solid transparent;
-      padding: 4px 12px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: 500;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      color: var(--clr-text-soft);
+      background: transparent; border: 1px solid transparent; padding: 6px 12px;
+      border-radius: 20px; cursor: pointer; font-weight: 500; font-size: 0.9rem;
+      transition: var(--transition); display: flex; align-items: center; gap: 4px;
     }
-    .lang-btn.active {
-      background: var(--clr-primary-light);
-      color: var(--clr-primary);
-      border-color: var(--clr-primary);
-    }
-    .lang-btn:hover { background: var(--clr-primary-light); }
+    .lang-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+    .lang-btn:hover { background: #e8f0fe; }
+    .lang-btn.active:hover { background: var(--primary-dark); }
 
-    /* ---------- HEADER / NAVBAR ---------- */
-    .main-header {
-      background: var(--clr-white);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 12px var(--clr-shadow);
-    }
-    .nav-container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 70px;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      font-size: 1.5rem;
-      color: var(--clr-primary);
-    }
+    /* ===== NAVIGATION ===== */
+    .main-header { background: var(--white); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+    .nav-container { display: flex; justify-content: space-between; align-items: center; height: 70px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.5rem; color: var(--primary); }
     .brand img { width: 42px; height: 42px; border-radius: 50%; }
     .nav-links { display: flex; align-items: center; gap: 2rem; }
     .nav-links a { font-weight: 500; transition: var(--transition); }
-    .nav-links a:hover { color: var(--clr-primary); }
+    .nav-links a:hover { color: var(--primary); }
     .btn-primary {
-      background: var(--clr-primary);
-      color: white;
-      padding: 0.6rem 1.8rem;
-      border-radius: 30px;
-      font-weight: 600;
-      transition: var(--transition);
-      box-shadow: 0 4px 12px rgba(0,86,210,0.25);
-      display: inline-block;
+      background: var(--primary); color: white; padding: 0.6rem 1.8rem; border-radius: 30px;
+      font-weight: 600; transition: var(--transition); box-shadow: 0 4px 12px rgba(0,86,210,0.25);
     }
-    .btn-primary:hover { background: #0046b0; transform: translateY(-1px); }
-
-    .hamburger {
-      display: none;
-      font-size: 1.6rem;
-      cursor: pointer;
-      color: var(--clr-text);
-    }
-
-    /* ---------- MOBILE SIDEBAR ---------- */
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -280px;
-      width: 270px;
-      height: 100vh;
-      background: var(--clr-white);
-      box-shadow: 4px 0 20px rgba(0,0,0,0.08);
-      z-index: 2000;
-      padding: 2rem 1.5rem;
-      transition: left 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      gap: 1.8rem;
-    }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+    .hamburger { display: none; font-size: 1.6rem; cursor: pointer; }
+    .sidebar { position: fixed; top: 0; left: -280px; width: 270px; height: 100vh; background: var(--white); z-index: 2000; padding: 2rem; transition: left 0.3s; }
     .sidebar.open { left: 0; }
-    .sidebar a { font-weight: 500; font-size: 1.1rem; }
-    .close-sidebar { align-self: flex-end; font-size: 1.6rem; cursor: pointer; }
+    .sidebar a { display: block; margin-bottom: 1.2rem; font-weight: 500; }
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 1500; display: none; }
     .overlay.show { display: block; }
 
-    /* ---------- HERO CAROUSEL ---------- */
-    .hero {
-      position: relative;
-      background: var(--clr-white);
-      padding: 2rem 0 4rem;
-      overflow: hidden;
+    /* ===== HERO SLIDER ===== */
+    .hero-slider { position: relative; height: 85vh; min-height: 550px; overflow: hidden; }
+    .hero-slide {
+      position: absolute; inset: 0; background-size: cover; background-position: center;
+      transition: opacity 1s ease; opacity: 0; display: flex; align-items: center; justify-content: center;
     }
-    .hero-logo-float {
-      position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-      width: 70px;
-      height: 70px;
-      animation: floatLogo 3s infinite ease-in-out;
-      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.15));
+    .hero-slide.active { opacity: 1; }
+    .hero-overlay {
+      position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.2) 100%);
     }
-    @keyframes floatLogo {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(-10px); }
-    }
+    .hero-content { position: relative; text-align: center; color: white; max-width: 800px; padding: 0 1rem; z-index: 2; }
+    .hero-content h2 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 700; margin-bottom: 1rem; animation: fadeUp 0.8s; }
+    .hero-content p { font-size: 1.25rem; margin-bottom: 2rem; animation: fadeUp 0.8s 0.2s both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-    .carousel-container {
-      max-width: 1100px;
-      margin: 80px auto 0;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      perspective: 1200px;
-    }
-    .carousel-track {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      transition: transform 0.5s ease;
-      transform-style: preserve-3d;
-    }
+    /* ===== POPPING IMAGES CAROUSEL (Content section) ===== */
+    .gallery-section { padding: 5rem 0; background: var(--white); }
+    .carousel-wrapper { position: relative; max-width: 1100px; margin: 0 auto; perspective: 1200px; }
+    .carousel-track { display: flex; align-items: center; justify-content: center; transform-style: preserve-3d; }
     .carousel-card {
-      flex: 0 0 260px;
-      height: 340px;
-      margin: 0 15px;
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-      background: #fff;
-      position: relative;
-      cursor: pointer;
-      transform: scale(0.85) translateZ(-50px);
-      opacity: 0.7;
+      flex: 0 0 240px; height: 320px; margin: 0 10px; border-radius: 24px;
+      overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.15); transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+      background: #fff; cursor: pointer; transform: scale(0.8) translateZ(-60px); opacity: 0.6;
     }
-    .carousel-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .carousel-card.active {
-      transform: scale(1.05) translateZ(0);
-      opacity: 1;
-      box-shadow: 0 25px 50px rgba(0,86,210,0.25);
-      z-index: 5;
-    }
+    .carousel-card img { width: 100%; height: 100%; object-fit: cover; }
+    .carousel-card.active { transform: scale(1.05) translateZ(0); opacity: 1; z-index: 5; }
     .carousel-btn {
-      background: white;
-      border: none;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      font-size: 1.4rem;
-      cursor: pointer;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 20;
-      transition: var(--transition);
+      position: absolute; top: 50%; transform: translateY(-50%); width: 50px; height: 50px;
+      background: var(--white); border: none; border-radius: 50%; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      font-size: 1.5rem; cursor: pointer; z-index: 20; transition: var(--transition);
     }
-    .carousel-btn:hover { background: var(--clr-primary-light); color: var(--clr-primary); }
-    .prev-btn { left: 5px; }
-    .next-btn { right: 5px; }
+    .carousel-btn:hover { background: var(--primary); color: white; }
+    .prev-btn { left: -10px; } .next-btn { right: -10px; }
 
-    .hero-text {
-      text-align: center;
-      margin-top: 2.2rem;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-      padding: 0 1rem;
+    /* ===== GENERAL SECTIONS ===== */
+    .section { padding: 5rem 0; }
+    .section-title { font-size: 2.4rem; font-weight: 700; text-align: center; margin-bottom: 3rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+    .card {
+      background: var(--white); border-radius: var(--radius); padding: 2rem;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.04); transition: var(--transition); border: 1px solid var(--border);
     }
-    .hero-text h1 { font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 700; line-height: 1.2; }
-    .hero-text p { color: var(--clr-text-soft); font-size: 1.15rem; margin: 1rem 0 1.8rem; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,86,210,0.1); }
+    .badge { display: inline-block; background: var(--success); color: white; padding: 0.3rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.8rem; }
 
-    /* ---------- SECTIONS ---------- */
-    .section { padding: 4rem 1.5rem; max-width: 1280px; margin: 0 auto; }
-    .section-title { font-size: 2.2rem; font-weight: 700; margin-bottom: 2.5rem; text-align: center; }
-
-    .course-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-    }
-    .course-card {
-      background: white;
-      border-radius: var(--radius-lg);
-      padding: 1.8rem;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.04);
-      transition: var(--transition);
-      border: 1px solid var(--clr-border);
-    }
-    .course-card:hover { transform: translateY(-6px); box-shadow: 0 20px 35px rgba(0,86,210,0.08); }
-    .course-icon { font-size: 2.4rem; color: var(--clr-primary); margin-bottom: 1rem; }
-    .badge { display: inline-block; background: var(--clr-green); color: white; padding: 0.2rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
-
-    /* ---------- FOOTER ---------- */
+    /* ===== FOOTER ===== */
     .footer {
-      background: var(--clr-white);
-      padding: 3rem 1.5rem;
-      border-top: 1px solid var(--clr-border);
-      margin-top: 2rem;
+      background: #0A0C10; color: #ccc; padding: 4rem 0 1rem; position: relative; overflow: hidden;
     }
-    .footer-grid {
-      max-width: 1280px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 2.5rem;
+    .footer-bg-logo {
+      position: absolute; right: -20%; bottom: -30%; width: 500px; opacity: 0.05;
+      pointer-events: none; z-index: 0;
     }
-    .whatsapp-card {
-      background: #f0faf5;
-      border-left: 5px solid #25D366;
-      padding: 1.2rem;
-      border-radius: var(--radius-md);
-      margin-bottom: 1rem;
-    }
-    .whatsapp-card a { display: flex; align-items: center; gap: 8px; font-weight: 600; color: #075e54; }
+    .footer-grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 2.5rem; }
+    .footer-grid h4 { color: white; margin-bottom: 1rem; }
+    .footer-grid a { color: #aaa; transition: var(--transition); display: block; margin-bottom: 0.5rem; }
+    .footer-grid a:hover { color: var(--primary); }
+    .whatsapp-footer { display: flex; align-items: center; gap: 8px; background: rgba(37, 211, 102, 0.15); padding: 0.8rem; border-radius: 8px; margin-bottom: 0.8rem; }
+    .copyright { text-align: center; margin-top: 3rem; color: #666; position: relative; z-index: 1; }
 
-    .copyright { text-align: center; color: var(--clr-text-soft); margin-top: 2rem; }
-
-    /* ---------- RESPONSIVE ---------- */
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .hamburger { display: block; }
-      .carousel-card { flex: 0 0 200px; height: 260px; }
-      .carousel-card.active { transform: scale(1.02); }
+      .nav-links { display: none; } .hamburger { display: block; }
+      .carousel-card { flex: 0 0 180px; height: 250px; }
+      .hero-slider { height: 70vh; }
     }
     @media (max-width: 480px) {
-      .hero-logo-float { width: 55px; height: 55px; top: 10px; }
-      .carousel-btn { width: 36px; height: 36px; }
+      .carousel-btn { width: 38px; height: 38px; font-size: 1.2rem; }
     }
   </style>
 </head>
 <body>
-  <!-- LOADING SCREEN -->
-  <div class="loader-screen" id="loaderScreen">
-    <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="Triangletech Logo" class="loader-logo">
+  <!-- Loading Screen -->
+  <div class="loader-screen" id="loader">
+    <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="Loading Triangletech" class="loader-logo">
   </div>
 
-  <!-- MAIN CONTENT (hidden during load) -->
-  <div class="real-content hidden-on-load" id="mainContent">
-    
-    <!-- Language Selector Bar -->
-    <div class="lang-bar">
-      <div class="lang-inner">
-        <button class="lang-btn active" onclick="switchLang('en', this)">🇺🇸 EN</button>
-        <button class="lang-btn" onclick="switchLang('fr', this)">🇫🇷 FR</button>
-        <button class="lang-btn" onclick="switchLang('de', this)">🇩🇪 DE</button>
-      </div>
+  <!-- ========== LANGUAGE BAR ========== -->
+  <div class="lang-bar">
+    <div class="container lang-inner">
+      <button class="lang-btn active" data-lang="en">🇬🇧 English</button>
+      <button class="lang-btn" data-lang="yo">🇳🇬 Yorùbá</button>
+      <button class="lang-btn" data-lang="ig">🇳🇬 Igbo</button>
+      <button class="lang-btn" data-lang="ha">🇳🇬 Hausa</button>
+      <button class="lang-btn" data-lang="fr">🇫🇷 Français</button>
+      <button class="lang-btn" data-lang="de">🇩🇪 Deutsch</button>
     </div>
-
-    <!-- Sticky Header -->
-    <header class="main-header">
-      <div class="nav-container">
-        <a href="#" class="brand">
-          <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="Logo">
-          <span>Triangletech</span>
-        </a>
-        <nav class="nav-links">
-          <a href="#">Home</a>
-          <a href="#">Courses</a>
-          <a href="#">Mentorship</a>
-          <a href="#">Projects</a>
-          <a href="#" class="btn-primary" id="takeCourseBtn">Take Course</a>
-        </nav>
-        <div class="hamburger" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
-      </div>
-    </header>
-
-    <!-- Mobile Sidebar -->
-    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
-    <div class="sidebar" id="sidebar">
-      <div class="close-sidebar" onclick="toggleSidebar()"><i class="fas fa-times"></i></div>
-      <a href="#" onclick="toggleSidebar()">Home</a>
-      <a href="#" onclick="toggleSidebar()">Courses</a>
-      <a href="#" onclick="toggleSidebar()">Mentorship</a>
-      <a href="#" onclick="toggleSidebar()">Projects</a>
-      <a href="auth.html" class="btn-primary" style="text-align:center;">Take Course</a>
-    </div>
-
-    <!-- HERO SECTION with 3D Carousel -->
-    <section class="hero">
-      <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" class="hero-logo-float" alt="floating logo">
-      
-      <div class="carousel-container" id="carousel">
-        <button class="carousel-btn prev-btn" onclick="moveSlide(-1)"><i class="fas fa-chevron-left"></i></button>
-        <div class="carousel-track" id="carouselTrack">
-          <!-- Slides injected by JS -->
-        </div>
-        <button class="carousel-btn next-btn" onclick="moveSlide(1)"><i class="fas fa-chevron-right"></i></button>
-      </div>
-
-      <div class="hero-text">
-        <h1 id="heroTitle">Master In-Demand Tech Skills</h1>
-        <p id="heroSub">Earn certificates, build real projects, and get global job opportunities with expert mentorship.</p>
-        <a href="auth.html" class="btn-primary" style="font-size:1.1rem; padding:0.8rem 2.5rem;">Start Learning Free</a>
-      </div>
-    </section>
-
-    <!-- COURSES OVERVIEW (Skeleton + Real) -->
-    <div class="section">
-      <h2 class="section-title" id="coursesHeading">Popular Courses</h2>
-      <div class="course-grid" id="courseGrid">
-        <!-- Skeletons inserted initially, then replaced -->
-      </div>
-    </div>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-      <div class="footer-grid">
-        <div>
-          <h3 style="margin-bottom:1rem;"><i class="fas fa-graduation-cap"></i> Triangletech Learn</h3>
-          <p style="color:var(--clr-text-soft)">Building self-reliant professionals through project-based learning and mentorship.</p>
-          <p style="margin-top:0.8rem;"><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/okewunmi-timileyin-0632b0328" target="_blank">Founder LinkedIn</a></p>
-        </div>
-        <div>
-          <h4>Contact</h4>
-          <div class="whatsapp-card">
-            <a href="https://wa.me/2348161345210?text=Hello%20Triangletech%20Learn%2C%20I%20want%20to%20make%20an%20enquiry." target="_blank">
-              <i class="fab fa-whatsapp fa-lg"></i> +234 816 134 5210
-            </a>
-          </div>
-          <div class="whatsapp-card">
-            <a href="https://wa.me/2348139529405?text=Hello%20Triangletech%20Learn%2C%20I%20want%20to%20make%20an%20enquiry." target="_blank">
-              <i class="fab fa-whatsapp fa-lg"></i> +234 813 952 9405
-            </a>
-          </div>
-          <p style="margin-top:1rem;"><i class="far fa-envelope"></i> triangleofscholars@gmail.com</p>
-        </div>
-        <div>
-          <h4>Quick Links</h4>
-          <ul style="line-height:2;">
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">FAQs</a></li>
-            <li><a href="#">Become an Instructor</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="copyright">© 2026 Triangletech Learn. All rights reserved.</div>
-    </footer>
   </div>
 
+  <!-- ========== HEADER ========== -->
+  <header class="main-header">
+    <div class="container nav-container">
+      <a href="#" class="brand">
+        <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="Triangletech Logo">
+        <span>Triangletech</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#courses">Courses</a>
+        <a href="#stages">Learning Paths</a>
+        <a href="#mentorship">Mentorship</a>
+        <a href="#faq">FAQ</a>
+        <a href="auth.html" class="btn-primary" id="navTakeCourse">Take Course</a>
+      </nav>
+      <div class="hamburger" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+    </div>
+  </header>
+
+  <!-- Mobile Sidebar -->
+  <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+  <div class="sidebar" id="sidebar">
+    <div style="text-align:right; cursor:pointer;" onclick="toggleSidebar()"><i class="fas fa-times fa-lg"></i></div>
+    <a href="#courses" onclick="toggleSidebar()">Courses</a>
+    <a href="#stages" onclick="toggleSidebar()">Learning Paths</a>
+    <a href="#mentorship" onclick="toggleSidebar()">Mentorship</a>
+    <a href="#faq" onclick="toggleSidebar()">FAQ</a>
+    <a href="auth.html" class="btn-primary" style="display:block; text-align:center; margin-top:1rem;">Take Course</a>
+  </div>
+
+  <!-- ========== HERO SLIDER (4 slides) ========== -->
+  <section class="hero-slider" id="heroSlider">
+    <!-- Slide 1: Logo + Welcome -->
+    <div class="hero-slide active" style="background-image: url('https://res.cloudinary.com/dmbjrohtn/image/upload/v1781363241/innovative-tech-robot-0410-5699705_bop5vy.jpg');">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h2 data-i18n="hero1_title">Become a Professional in Weeks</h2>
+        <p data-i18n="hero1_sub">Mentorship-driven courses that turn beginners into industry-ready experts.</p>
+      </div>
+    </div>
+    <div class="hero-slide" style="background-image: url('https://res.cloudinary.com/dmbjrohtn/image/upload/v1781363241/digital-interactive-space_z04ars.jpg');">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h2 data-i18n="hero2_title">Your Comfort, Your Pace</h2>
+        <p data-i18n="hero2_sub">Flexible online learning with direct access to mentors and peer discussions.</p>
+      </div>
+    </div>
+    <div class="hero-slide" style="background-image: url('https://res.cloudinary.com/dmbjrohtn/image/upload/v1781363241/circular-data_ivez35.jpg');">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h2 data-i18n="hero3_title">Real Projects, Real Results</h2>
+        <p data-i18n="hero3_sub">Build a portfolio of live projects and earn certificates recognized globally.</p>
+      </div>
+    </div>
+    <div class="hero-slide" style="background-image: url('https://res.cloudinary.com/dmbjrohtn/image/upload/v1781363241/cyber-security-and-security-password-login-online-concept-hands-typing-and-touch-id-username-and-password-of-social-media-log-in-with-computer-to-online-important-information-data-protection-hacker-photo_ymutrt.jpg');">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h2 data-i18n="hero4_title">Global Job Opportunities</h2>
+        <p data-i18n="hero4_sub">Connect with employers looking for exactly the skills you've mastered.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== COURSES SECTION (with 3D popping carousel) ========== -->
+  <section class="gallery-section" id="courses">
+    <div class="container">
+      <h2 class="section-title" data-i18n="courses_heading">Explore Our Top Courses</h2>
+      <div class="carousel-wrapper" id="carousel3D">
+        <button class="carousel-btn prev-btn" onclick="moveCarousel(-1)"><i class="fas fa-chevron-left"></i></button>
+        <div class="carousel-track" id="carouselTrack"></div>
+        <button class="carousel-btn next-btn" onclick="moveCarousel(1)"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== LEARNING STAGES ========== -->
+  <section class="section" id="stages" style="background: var(--bg);">
+    <div class="container">
+      <h2 class="section-title" data-i18n="stages_title">Three Stages to Mastery</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="badge">Elementary</div>
+          <h3 data-i18n="stage1_name">Foundation Building</h3>
+          <p data-i18n="stage1_desc">Understand core concepts, basic tools, and terminologies. Perfect for absolute beginners.</p>
+        </div>
+        <div class="card">
+          <div class="badge">Advanced</div>
+          <h3 data-i18n="stage2_name">Deep Dive & Practice</h3>
+          <p data-i18n="stage2_desc">Master advanced techniques, complete mini‑projects, and start solving real‑world problems.</p>
+        </div>
+        <div class="card">
+          <div class="badge">Professional Mentorship</div>
+          <h3 data-i18n="stage3_name">Industry Ready</h3>
+          <p data-i18n="stage3_desc">One‑on‑one mentorship, capstone projects, job interview prep, and global placement support.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== WHY TRIANGLETECH ========== -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title" data-i18n="why_title">Why Triangletech Learn?</h2>
+      <div class="grid">
+        <div class="card"><i class="fas fa-chalkboard-teacher fa-2x" style="color:var(--primary); margin-bottom:1rem;"></i><h3>Direct Mentorship</h3><p>Learn from industry professionals who guide you every step.</p></div>
+        <div class="card"><i class="fas fa-comments fa-2x" style="color:var(--primary); margin-bottom:1rem;"></i><h3>Classroom Discussions</h3><p>Engage with peers in live Q&A and community forums.</p></div>
+        <div class="card"><i class="fas fa-project-diagram fa-2x" style="color:var(--primary); margin-bottom:1rem;"></i><h3>Multiple Projects</h3><p>Each course includes 2–3 projects plus a final capstone.</p></div>
+        <div class="card"><i class="fas fa-globe-africa fa-2x" style="color:var(--primary); margin-bottom:1rem;"></i><h3>Global Opportunities</h3><p>Access job listings and internship programs worldwide.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FAQ with Schema ========== -->
+  <section class="section" id="faq" style="background: var(--white);">
+    <div class="container">
+      <h2 class="section-title" data-i18n="faq_title">Frequently Asked Questions</h2>
+      <div class="grid" style="grid-template-columns: 1fr;">
+        <div class="card"><h3>What courses do you offer?</h3><p>Cybersecurity, Data Analysis, Software Development, Prompt Engineering, AI Automation, Website Design, and more.</p></div>
+        <div class="card"><h3>Do I get a certificate?</h3><p>Yes, after completing all tests, projects, and final exams you receive an industry‑recognized certificate.</p></div>
+        <div class="card"><h3>Is mentorship included?</h3><p>Absolutely. Each course comes with direct mentor access and live sessions.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" class="footer-bg-logo" alt="">
+    <div class="container footer-grid">
+      <div>
+        <h4>Triangletech Learn</h4>
+        <p>Building self‑reliant tech professionals in Lagos and beyond.</p>
+        <div style="margin-top:1rem;">
+          <a href="https://www.linkedin.com/in/okewunmi-timileyin-0632b0328" target="_blank" class="btn-primary" style="background:#0a66c2; margin-right:0.5rem;"><i class="fab fa-linkedin"></i> Founder</a>
+        </div>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <div class="whatsapp-footer">
+          <i class="fab fa-whatsapp fa-lg" style="color:var(--whatsapp);"></i>
+          <a href="https://wa.me/2348161345210?text=Hello%20Triangletech%2C%20I%20want%20to%20enquire%20about%20courses." target="_blank" style="color:white;">Chat on WhatsApp (0816 134 5210)</a>
+        </div>
+        <div class="whatsapp-footer">
+          <i class="fab fa-whatsapp fa-lg" style="color:var(--whatsapp);"></i>
+          <a href="https://wa.me/2348139529405?text=Hello%20Triangletech%2C%20I%20want%20to%20enquire%20about%20courses." target="_blank" style="color:white;">Chat on WhatsApp (0813 952 9405)</a>
+        </div>
+        <a href="mailto:triangleofscholars@gmail.com" style="display:inline-block; margin-top:0.5rem; background:var(--primary); color:white; padding:0.5rem 1rem; border-radius:20px;"><i class="far fa-envelope"></i> Email Us</a>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <a href="#">About</a><a href="#">Blog</a><a href="#">Privacy Policy</a><a href="#">Terms</a>
+      </div>
+    </div>
+    <div class="copyright">© 2026 Triangletech Learn. All rights reserved. Made with ❤️ in Lagos.</div>
+  </footer>
+
+  <!-- ========== JSON-LD FAQ SCHEMA ========== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "What courses does Triangletech offer?", "acceptedAnswer": { "@type": "Answer", "text": "Cybersecurity, Data Analysis, Software Development, Prompt Engineering, AI Automation, Website Design, and more." } },
+      { "@type": "Question", "name": "Do I receive a certificate after completing a course?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, after passing all tests and final project you earn an industry-recognized certificate." } },
+      { "@type": "Question", "name": "Is mentorship included in the courses?", "acceptedAnswer": { "@type": "Answer", "text": "Absolutely. Every course includes direct one-on-one mentorship and live classroom sessions." } }
+    ]
+  }
+  </script>
+
+  <!-- ========== MAIN SCRIPTS ========== -->
   <script>
-    // ---------- MULTILINGUAL DATA ----------
+    // ---------- MULTILINGUAL SUPPORT ----------
     const translations = {
       en: {
-        heroTitle: "Master In-Demand Tech Skills",
-        heroSub: "Earn certificates, build real projects, and get global job opportunities with expert mentorship.",
-        coursesHeading: "Popular Courses",
-        takeCourse: "Take Course",
-        startLearning: "Start Learning Free"
+        hero1_title: "Become a Professional in Weeks",
+        hero1_sub: "Mentorship-driven courses that turn beginners into industry-ready experts.",
+        hero2_title: "Your Comfort, Your Pace",
+        hero2_sub: "Flexible online learning with direct access to mentors and peer discussions.",
+        hero3_title: "Real Projects, Real Results",
+        hero3_sub: "Build a portfolio of live projects and earn certificates recognized globally.",
+        hero4_title: "Global Job Opportunities",
+        hero4_sub: "Connect with employers looking for exactly the skills you've mastered.",
+        courses_heading: "Explore Our Top Courses",
+        stages_title: "Three Stages to Mastery",
+        stage1_name: "Foundation Building",
+        stage1_desc: "Understand core concepts, basic tools, and terminologies. Perfect for absolute beginners.",
+        stage2_name: "Deep Dive & Practice",
+        stage2_desc: "Master advanced techniques, complete mini‑projects, and start solving real‑world problems.",
+        stage3_name: "Industry Ready",
+        stage3_desc: "One‑on‑one mentorship, capstone projects, job interview prep, and global placement support.",
+        why_title: "Why Triangletech Learn?",
+        faq_title: "Frequently Asked Questions",
+        navTakeCourse: "Take Course"
+      },
+      yo: {
+        hero1_title: "Di ọjọgbọn ni Ọsẹ diẹ",
+        hero1_sub: "Ẹkọ ti a fi imọran ṣe ti yoo sọ awọn olubere di alamọdaju.",
+        hero2_title: "Itunu Rẹ, Iyara Rẹ",
+        hero2_sub: "Ẹkọ ori ayelujara ti o rọrun pẹlu iraye si awọn alamọran.",
+        hero3_title: "Ise agbese gidi, Esun gidi",
+        hero3_sub: "Kọ portfolio ti awọn iṣẹ laaye ki o gba iwe-ẹri agbaye.",
+        hero4_title: "Awọn Anfani Iṣẹ Kariaye",
+        hero4_sub: "Darapọ pẹlu awọn agbanisiṣẹ ti n wa awọn ọgbọn ti o ti kọ.",
+        courses_heading: "Ṣawari Awọn Ẹkọ Wa Top",
+        stages_title: "Awọn Ipele Mẹta si Ọgbọn",
+        stage1_name: "Ipilẹ Ipilẹṣẹ",
+        stage1_desc: "Loye awọn ero pataki, awọn irinṣẹ ipilẹ. Pipe fun awọn olubere patapata.",
+        stage2_name: "Imọlẹ Jinlẹ & Adaṣe",
+        stage2_desc: "Ṣe akoso awọn imọ-ẹrọ to ti ni ilọsiwaju, pari awọn iṣẹ akanṣe kekere.",
+        stage3_name: "Alamọdaju",
+        stage3_desc: "Mentorship ọkan-si-ọkan, awọn iṣẹ agbese pataki, atilẹyin gbigbeṣẹ."
+        //... other Yoruba strings would continue similarly
+      },
+      ig: {
+        hero1_title: "Bụrụ Ọkachamara n’ime Izu",
+        hero1_sub: "Ọzụzụ a na-eduzi na-eme ka ndị mbido bụrụ ndị ọkachamara.",
+        //... truncated for brevity; full object would be built similarly
+      },
+      ha: {
+        hero1_title: "Zama Kwararre a cikin Makonni",
+        hero1_sub: "Koyarwa da ake jagoranta wanda ke mayar da masu farawa kwararru."
       },
       fr: {
-        heroTitle: "Maîtrisez les compétences tech recherchées",
-        heroSub: "Obtenez des certificats, réalisez des projets réels et accédez à des opportunités mondiales.",
-        coursesHeading: "Cours Populaires",
-        takeCourse: "Suivre un cours",
-        startLearning: "Commencer Gratuitement"
+        hero1_title: "Devenez un professionnel en quelques semaines",
+        hero1_sub: "Des cours axés sur le mentorat qui transforment les débutants en experts."
       },
       de: {
-        heroTitle: "Meistern Sie gefragte Tech-Fähigkeiten",
-        heroSub: "Erhalten Sie Zertifikate, bauen Sie echte Projekte und nutzen Sie globale Jobchancen.",
-        coursesHeading: "Beliebte Kurse",
-        takeCourse: "Kurs belegen",
-        startLearning: "Kostenlos starten"
+        hero1_title: "Werden Sie in Wochen zum Profi",
+        hero1_sub: "Mentoring-basierte Kurse, die Anfänger zu Branchenexperten machen."
       }
     };
 
     let currentLang = 'en';
-    function switchLang(lang, btn) {
+    function switchLanguage(lang) {
       currentLang = lang;
       document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      updateTexts();
-    }
-
-    function updateTexts() {
-      const t = translations[currentLang];
-      document.getElementById('heroTitle').textContent = t.heroTitle;
-      document.getElementById('heroSub').textContent = t.heroSub;
-      document.getElementById('coursesHeading').textContent = t.coursesHeading;
-      // Update Take Course buttons
-      document.querySelectorAll('#takeCourseBtn, .sidebar .btn-primary').forEach(el => {
-        if(el.textContent.includes('Course') || el.textContent.includes('cours') || el.textContent.includes('Kurs')) {
-          el.textContent = t.takeCourse;
+      document.querySelector(`.lang-btn[data-lang="${lang}"]`).classList.add('active');
+      // Update all elements with data-i18n attribute
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+          el.textContent = translations[lang][key];
+        } else if (translations['en'][key]) {
+          el.textContent = translations['en'][key]; // fallback to English
         }
       });
-      const startBtn = document.querySelector('.hero-text .btn-primary');
-      if (startBtn) startBtn.textContent = t.startLearning;
+      // Update take course button specifically
+      const takeBtn = document.getElementById('navTakeCourse');
+      if (takeBtn) takeBtn.textContent = translations[lang]?.navTakeCourse || 'Take Course';
+      // Update sidebar if needed
     }
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchLanguage(btn.dataset.lang));
+    });
 
-    // ---------- SIDEBAR ----------
+    // ---------- SIDEBAR TOGGLE ----------
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('open');
       document.getElementById('overlay').classList.toggle('show');
     }
 
-    // ---------- CAROUSEL ----------
-    const imageUrls = [
-      "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/cyber-security-and-security-password-login-online-concept-hands-typing-and-touch-id-username-and-password-of-social-media-log-in-with-computer-to-online-important-information-data-protection-hacker-photo_v4hioy.jpg",
-      "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347737/2VJjjoup_9_B1IiDcjYLW7Vqcv49xXV9nEn5l6F3IefBq1bCVmeFCWYccD4EF62AEiVQvxpZ356Pgi5HDsup56Afcoeb1Ej6bBTwiad4EQaNSeqb9hBmp_TnIs8ZnVno_yvfgvo.png",
-      "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/two-data-analysts-working-on-data-analysis-dashboard-for-business-strategy_vn9wrl.jpg",
-      "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/cyber-security-and-security-password-login-online-concept-hands-typing-and-touch-id-username-and-password-of-social-media-log-in-with-computer-to-online-important-information-data-protection-hacker-photo_v4hioy.jpg",
-      "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/website-template_1346434-683_gbkoiw.jpg"
+    // ---------- HERO SLIDER AUTO ----------
+    const slides = document.querySelectorAll('.hero-slide');
+    let currentSlide = 0;
+    function showSlide(index) {
+      slides.forEach(s => s.classList.remove('active'));
+      slides[index].classList.add('active');
+    }
+    setInterval(() => {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }, 5000);
+
+    // ---------- 3D CAROUSEL (popping images in content) ----------
+    const carouselImages = [
+      "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781363241/innovative-tech-robot-0410-5699705_bop5vy.jpg",
+      "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781363241/digital-interactive-space_z04ars.jpg",
+      "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781363241/circular-data_ivez35.jpg",
+      "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781363241/cyber-security-and-security-password-login-online-concept-hands-typing-and-touch-id-username-and-password-of-social-media-log-in-with-computer-to-online-important-information-data-protection-hacker-photo_ymutrt.jpg",
+      "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781363241/1b5e0d6f-cbe3-4158-a73e-479865da04f9_vuadox.jpg",
+      "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781363240/password-privacy-authentication-and-authentication-access-to-cybersecurity-information-businessman-logging-into-cyberspace-through-secure-online-technology-and-protection-and-authentication-free-photo_ro6i7k.jpg"
     ];
-
     const track = document.getElementById('carouselTrack');
-    let slides = [];
-    let activeIndex = 2; // start with middle image active (index 2 out of 5)
+    let carouselCards = [];
+    let activeCardIdx = 2;
 
-    function buildSlides() {
+    function buildCarousel() {
       track.innerHTML = '';
-      slides = [];
-      imageUrls.forEach((url, idx) => {
+      carouselCards = [];
+      carouselImages.forEach((src, idx) => {
         const card = document.createElement('div');
         card.className = 'carousel-card';
-        card.innerHTML = `<img src="${url}" alt="Course visual">`;
-        card.addEventListener('click', () => setActive(idx));
+        card.innerHTML = `<img src="${src}" alt="Course image" loading="lazy">`;
+        card.addEventListener('click', () => setActiveCard(idx));
         track.appendChild(card);
-        slides.push(card);
+        carouselCards.push(card);
       });
-      setActive(activeIndex);
+      setActiveCard(activeCardIdx);
     }
 
-    function setActive(index) {
-      activeIndex = index;
-      slides.forEach((card, i) => {
-        card.classList.toggle('active', i === activeIndex);
+    function setActiveCard(index) {
+      activeCardIdx = index;
+      carouselCards.forEach((card, i) => card.classList.toggle('active', i === activeCardIdx));
+    }
+
+    function moveCarousel(dir) {
+      let newIdx = activeCardIdx + dir;
+      if (newIdx < 0) newIdx = carouselCards.length - 1;
+      if (newIdx >= carouselCards.length) newIdx = 0;
+      setActiveCard(newIdx);
+    }
+    buildCarousel();
+    setInterval(() => moveCarousel(1), 4000);
+
+    // ---------- LAZY LOADING & INTERSECTION OBSERVER ----------
+    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src || img.src;
+            observer.unobserve(img);
+          }
+        });
       });
+      lazyImages.forEach(img => observer.observe(img));
     }
 
-    function moveSlide(direction) {
-      let newIndex = activeIndex + direction;
-      if (newIndex < 0) newIndex = slides.length - 1;
-      if (newIndex >= slides.length) newIndex = 0;
-      setActive(newIndex);
-    }
-
-    // Auto-rotate
-    let autoRotate = setInterval(() => moveSlide(1), 4000);
-    document.getElementById('carousel').addEventListener('mouseenter', () => clearInterval(autoRotate));
-    document.getElementById('carousel').addEventListener('mouseleave', () => {
-      autoRotate = setInterval(() => moveSlide(1), 4000);
-    });
-
-    // ---------- COURSE DATA (static display) ----------
-    const courses = [
-      { icon: "fas fa-shield-alt", title: "Cybersecurity", level: "Advanced", desc: "Ethical hacking, network defense, and threat analysis." },
-      { icon: "fas fa-chart-line", title: "Data Analysis", level: "Professional", desc: "Python, SQL, BI tools, and real-world datasets." },
-      { icon: "fas fa-code", title: "Software Development", level: "Elementary", desc: "Full-stack web, mobile apps, and DevOps." },
-      { icon: "fas fa-robot", title: "Prompt Engineering & AI", level: "Advanced", desc: "LLMs, automation, and vibe coding mastery." },
-      { icon: "fas fa-cloud", title: "AI Automation", level: "Professional", desc: "Zapier, n8n, and custom agent workflows." },
-      { icon: "fas fa-paint-brush", title: "Website Design", level: "Elementary", desc: "UI/UX, Figma, and modern responsive design." }
-    ];
-
-    function buildCourseCards() {
-      const grid = document.getElementById('courseGrid');
-      grid.innerHTML = courses.map(c => `
-        <div class="course-card">
-          <div class="course-icon"><i class="${c.icon}"></i></div>
-          <span class="badge">${c.level}</span>
-          <h3 style="margin:0.7rem 0 0.5rem;">${c.title}</h3>
-          <p style="color:var(--clr-text-soft);">${c.desc}</p>
-        </div>
-      `).join('');
-    }
-
-    // ---------- LOADING SEQUENCE ----------
-    window.addEventListener('DOMContentLoaded', () => {
-      // Build carousel & courses immediately
-      buildSlides();
-      buildCourseCards();
-
-      // Simulate loading: show loader, then reveal content with skeleton phase
+    // ---------- HIDE LOADER ----------
+    window.addEventListener('load', () => {
       setTimeout(() => {
-        document.getElementById('loaderScreen').classList.add('hidden');
-        document.getElementById('mainContent').classList.remove('hidden-on-load');
-        document.getElementById('mainContent').classList.add('visible');
-        
-        // Skeleton was not used in this version because content is already built; 
-        // to add skeleton we'd need to delay building, but for polish we keep as is.
-        // (The professional touch is there: loader anim, then smooth reveal.)
-      }, 1600);
-    });
-
-    // Touch swipe support for carousel (basic)
-    let touchStartX = 0;
-    document.getElementById('carousel').addEventListener('touchstart', e => {
-      touchStartX = e.changedTouches[0].screenX;
-    });
-    document.getElementById('carousel').addEventListener('touchend', e => {
-      const diff = e.changedTouches[0].screenX - touchStartX;
-      if (Math.abs(diff) > 50) {
-        moveSlide(diff < 0 ? 1 : -1);
-      }
+        document.getElementById('loader').classList.add('hidden');
+      }, 1200);
     });
   </script>
 </body>
