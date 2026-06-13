@@ -3,1472 +3,370 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master In-Demand Tech Skills with Mentorship & Get Certified | Triangletech Learn</title>
-    <meta name="description" content="Triangletech Learn is a world-class tech school in Lagos offering courses in web design, software development, cybersecurity, data analysis, AI automation, and more. Get direct mentorship, earn certificates, and unlock global job opportunities. Chat on WhatsApp: +234 816 134 5210.">
-    <meta name="keywords" content="tech school Lagos, web design course, software development, cybersecurity Nigeria, data analysis, AI automation, Triangletech Learn">
-    <link rel="canonical" href="https://triangletechlearn.com/">
-    <!-- hreflang tags for multilingual SEO -->
-    <link rel="alternate" hreflang="en" href="https://triangletechlearn.com/en/">
-    <link rel="alternate" hreflang="fr" href="https://triangletechlearn.com/fr/">
-    <link rel="alternate" hreflang="de" href="https://triangletechlearn.com/de/">
-    <link rel="alternate" hreflang="yo" href="https://triangletechlearn.com/yo/">
-    <link rel="alternate" hreflang="ha" href="https://triangletechlearn.com/ha/">
-    <link rel="alternate" hreflang="ig" href="https://triangletechlearn.com/ig/">
-    <link rel="alternate" hreflang="x-default" href="https://triangletechlearn.com/">
-    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
-
-    <!-- Open Graph -->
-    <meta property="og:title" content="Triangletech Learn - Master Tech Skills & Get Certified">
-    <meta property="og:description" content="World-class tech education in Lagos with direct mentorship. Start your journey today.">
-    <meta property="og:image" content="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
-    <meta property="og:url" content="https://triangletechlearn.com">
-    <meta name="twitter:card" content="summary_large_image">
-
-    <!-- Fonts -->
+    <title>Master In-Demand Tech Skills | Triangletech Learn</title>
+    <meta name="description" content="Triangletech Learn is a premium tech school in Lagos offering courses in web design, software development, cybersecurity, and AI. Get certified and access global jobs.">
+    <link rel="icon" href="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" type="image/png">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     
     <style>
+        /* Modern CSS Reset & Variables */
         :root {
-            --primary: #0066FF;
-            --primary-dark: #0047B3;
-            --primary-light: #E6F0FF;
-            --accent: #FF6B35;
-            --accent-dark: #E55D20;
-            --text: #1A1A2E;
-            --text-muted: #64748B;
-            --bg: #F5F7FA;
-            --surface: #FFFFFF;
-            --border: #E2E8F0;
-            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
-            --shadow: 0 4px 20px rgba(0,0,0,0.08);
-            --shadow-hover: 0 12px 30px rgba(0,0,0,0.12);
-            --radius: 12px;
-            --radius-lg: 20px;
-            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F8FAFC;
+            --brand-primary: #0A2540; /* Deep SaaS Blue */
+            --brand-accent: #0066FF; /* Electric Blue for CTAs */
+            --brand-accent-hover: #0052CC;
+            --text-main: #0F172A;
+            --text-muted: #475569;
+            --border-color: #E2E8F0;
+            --success: #10B981;
+            --radius-md: 12px;
+            --radius-lg: 24px;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.02);
+            --shadow-md: 0 12px 24px -4px rgba(0,36,100,0.05);
+            --shadow-hover: 0 20px 32px -4px rgba(0,36,100,0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.7;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-        }
-        a {
-            text-decoration: none;
-            color: var(--primary);
-            transition: color 0.2s;
-        }
-        a:hover {
-            color: var(--primary-dark);
-        }
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-        h1, h2, h3, h4 {
-            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-            font-weight: 700;
-            line-height: 1.2;
-        }
-        h1 {
-            font-size: clamp(2.8rem, 6vw, 4.5rem);
-            margin-bottom: 1.5rem;
-        }
-        h2 {
-            font-size: clamp(2rem, 4vw, 2.8rem);
-            margin-bottom: 2rem;
-            position: relative;
-        }
-        h2:after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 80px;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            border-radius: 5px;
-        }
-        h3 {
-            font-size: 1.4rem;
-            margin-bottom: 0.75rem;
-        }
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 32px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: var(--transition);
-            cursor: pointer;
-            border: none;
-            text-decoration: none;
-            white-space: nowrap;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), #5C6BC0);
-            color: #fff;
-            box-shadow: 0 4px 14px rgba(0,102,255,0.3);
-        }
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,102,255,0.4);
-            color: #fff;
-        }
-        .btn-outline {
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            background: transparent;
-        }
-        .btn-outline:hover {
-            background: rgba(0,102,255,0.05);
-            transform: translateY(-3px);
-        }
-        .btn-accent {
-            background: var(--accent);
-            color: #fff;
-            box-shadow: 0 4px 14px rgba(255,107,53,0.3);
-        }
-        .btn-accent:hover {
-            background: var(--accent-dark);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255,107,53,0.4);
-        }
-        .card {
-            background: var(--surface);
-            border-radius: var(--radius-lg);
-            padding: 32px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            border: 1px solid var(--border);
-        }
-        .card:hover {
-            box-shadow: var(--shadow-hover);
-            transform: translateY(-5px);
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
-        }
-        .floating {
-            animation: float 5s ease-in-out infinite;
-        }
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); opacity: 0.9; }
-            50% { transform: scale(1.05); opacity: 1; }
-        }
-        .breathing {
-            animation: breathe 2s ease-in-out infinite;
         }
 
         /* Preloader */
         #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--surface);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease, visibility 0.5s;
+            position: fixed; inset: 0; background: var(--bg-primary);
+            z-index: 9999; display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
         }
-        #preloader.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
+        .breathing-logo {
+            width: 100px;
+            animation: breathe 2s ease-in-out infinite;
         }
-        #preloader img {
-            width: 120px;
-            height: auto;
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.15); opacity: 0.7; box-shadow: 0 0 40px rgba(0, 102, 255, 0.2); border-radius: 50%; }
         }
 
-        /* Skeleton Loading */
-        .skeleton {
-            background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: var(--radius-lg);
+        /* Typography */
+        h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.1; color: var(--brand-primary); }
+        h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); letter-spacing: -0.03em; }
+        h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex; justify-content: center; align-items: center; gap: 8px;
+            padding: 14px 28px; border-radius: 50px; font-weight: 600; font-size: 1rem;
+            cursor: pointer; transition: var(--transition); border: none;
         }
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-        .skeleton-card {
-            height: 380px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        .skeleton-img {
-            width: 100%;
-            height: 200px;
-            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-        }
-        .skeleton-body {
-            padding: 20px;
-            flex: 1;
-        }
-        .skeleton-line {
-            height: 14px;
-            margin-bottom: 12px;
-            border-radius: 8px;
-            background: #e0e0e0;
-        }
-        .skeleton-line.short { width: 60%; }
-        .skeleton-line.medium { width: 80%; }
-        .hidden-content { display: none; }
+        .btn-primary { background: var(--brand-accent); color: #fff; box-shadow: 0 8px 16px rgba(0, 102, 255, 0.2); }
+        .btn-primary:hover { background: var(--brand-accent-hover); transform: translateY(-2px); box-shadow: 0 12px 24px rgba(0, 102, 255, 0.3); }
+        .btn-outline { border: 2px solid var(--border-color); background: transparent; color: var(--text-main); }
+        .btn-outline:hover { border-color: var(--brand-accent); color: var(--brand-accent); }
+        .btn-whatsapp { background: #25D366; color: #fff; }
+        .btn-whatsapp:hover { background: #1EBE5C; transform: translateY(-2px); box-shadow: 0 8px 16px rgba(37, 211, 102, 0.2); }
 
         /* Navbar */
         .navbar {
-            position: sticky;
-            top: 0;
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
-            z-index: 1000;
-            padding: 16px 0;
+            position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-color);
+            z-index: 1000; padding: 16px 0; transition: var(--transition);
         }
-        .navbar .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--text);
-        }
-        .navbar-brand img {
-            height: 40px;
-            border-radius: 8px;
-        }
-        .navbar-links {
-            display: flex;
-            gap: 28px;
-            align-items: center;
-        }
-        .navbar-links a {
-            font-weight: 500;
-            color: var(--text);
-        }
-        .navbar-links a:hover {
-            color: var(--primary);
-        }
-        .lang-switch select {
-            background: transparent;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 8px 12px;
-            font-size: 0.9rem;
-            color: var(--text);
-            cursor: pointer;
-        }
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.8rem;
-            cursor: pointer;
-            color: var(--text);
-            padding: 5px;
-        }
-        @media (max-width: 992px) {
-            .menu-toggle {
-                display: block;
-            }
-            .navbar-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 80%;
-                max-width: 400px;
-                height: 100vh;
-                background: var(--surface);
-                flex-direction: column;
-                padding: 80px 30px 30px;
-                gap: 24px;
-                transition: right 0.3s ease;
-                box-shadow: -5px 0 20px rgba(0,0,0,0.1);
-                z-index: 1001;
-                align-items: flex-start;
-            }
-            .navbar-links.active {
-                right: 0;
-            }
-            .menu-close {
-                position: absolute;
-                top: 20px;
-                right: 20px;
-                background: none;
-                border: none;
-                font-size: 2rem;
-                cursor: pointer;
-                color: var(--text);
-            }
-            .lang-switch {
-                width: 100%;
-            }
-            .lang-switch select {
-                width: 100%;
-                padding: 12px;
-            }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .nav-brand { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 1.25rem; font-family: 'Plus Jakarta Sans'; }
+        .nav-brand img { height: 36px; border-radius: 8px; }
+        
+        .nav-menu { display: flex; align-items: center; gap: 32px; }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-links a { font-weight: 500; font-size: 0.95rem; color: var(--text-muted); }
+        .nav-links a:hover { color: var(--brand-accent); }
+        
+        .lang-select {
+            padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-color);
+            background: var(--bg-secondary); font-family: 'Inter'; font-weight: 500; cursor: pointer; outline: none;
         }
 
-        /* Hero */
-        .hero {
-            background: linear-gradient(135deg, #F5F7FA 0%, #E6F0FF 100%);
-            padding: 80px 0 40px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50px;
-            right: -50px;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(0,102,255,0.08) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-        .hero-logo {
-            margin-bottom: 40px;
-        }
-        .hero-logo img {
-            width: 100px;
-            height: auto;
-            filter: drop-shadow(0 8px 16px rgba(0,102,255,0.2));
-        }
-        .hero-content {
-            max-width: 850px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
-        .hero-content h1 {
-            background: linear-gradient(135deg, var(--text) 0%, var(--primary) 80%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero-content p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            margin-bottom: 32px;
-            max-width: 650px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .hero-ctas {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 60px;
-        }
+        /* Hamburger */
+        .hamburger { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--brand-primary); }
 
-        /* Carousel */
-        .carousel-container {
-            max-width: 1000px;
-            margin: 0 auto 80px;
-            position: relative;
-        }
-        .carousel {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-            height: 320px;
-        }
-        .carousel-slide {
-            flex: 0 0 300px;
-            height: 220px;
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: all 0.5s ease;
-            cursor: pointer;
-            position: relative;
-        }
-        .carousel-slide.active {
-            flex: 0 0 360px;
-            height: 280px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            z-index: 2;
-        }
-        .carousel-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        @media (max-width: 768px) {
-            .carousel {
-                gap: 15px;
-                height: 250px;
-            }
-            .carousel-slide {
-                flex: 0 0 200px;
-                height: 150px;
-            }
-            .carousel-slide.active {
-                flex: 0 0 240px;
-                height: 190px;
-            }
-        }
-        @media (max-width: 480px) {
-            .carousel-slide {
-                flex: 0 0 150px;
-                height: 120px;
-            }
-            .carousel-slide.active {
-                flex: 0 0 180px;
-                height: 150px;
-            }
-        }
+        /* Hero Section */
+        .hero { padding: 160px 0 80px; background: radial-gradient(circle at top right, rgba(0, 102, 255, 0.05), transparent 40%); }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .hero-content p { font-size: 1.25rem; color: var(--text-muted); margin: 24px 0 40px; max-width: 90%; }
+        .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
 
-        /* Three Stage Path */
-        .stage-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin: 80px 0;
-        }
-        .stage-card {
-            text-align: center;
-            padding: 40px 24px;
-        }
-        .stage-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), #5C6BC0);
-            color: #fff;
-            font-weight: 700;
-            font-size: 1.6rem;
-            margin-bottom: 24px;
-        }
-        @media (max-width: 768px) {
-            .stage-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        /* Hero Image Slider */
+        .hero-visual { position: relative; width: 100%; aspect-ratio: 4/3; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); }
+        .slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out; }
+        .slide.active { opacity: 1; }
+
+        /* Skeleton Loading */
+        .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: loading 1.5s infinite; }
+        @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+        /* Section Generics */
+        .section-header { text-align: center; max-width: 700px; margin: 0 auto 60px; }
+        .section-header p { color: var(--text-muted); font-size: 1.1rem; margin-top: 16px; }
+        .py-120 { padding: 120px 0; }
+        .bg-gray { background-color: var(--bg-secondary); }
 
         /* Course Grid */
-        .course-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 24px;
-            margin: 40px 0 80px;
-        }
-        .course-card {
-            background: var(--surface);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-        .course-card:hover {
-            box-shadow: var(--shadow-hover);
-            transform: translateY(-8px);
-        }
-        .course-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        .course-body {
-            padding: 24px;
-        }
-        .badge {
-            display: inline-block;
-            padding: 6px 16px;
-            background: var(--primary-light);
-            color: var(--primary);
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 14px;
-        }
-        .course-body h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-        }
-        .course-body p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px; }
+        .card { background: var(--bg-primary); border-radius: var(--radius-lg); border: 1px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+        .card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); border-color: transparent; }
+        .card-img-wrapper { height: 220px; overflow: hidden; position: relative; }
+        .card-img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .card:hover .card-img-wrapper img { transform: scale(1.05); }
+        .card-body { padding: 32px; }
+        .badge { display: inline-block; padding: 6px 14px; background: rgba(0, 102, 255, 0.1); color: var(--brand-accent); border-radius: 50px; font-size: 0.8rem; font-weight: 700; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .card-body h3 { font-size: 1.4rem; margin-bottom: 12px; }
+        .card-body p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px; }
 
-        /* Why Triangletech */
-        .why-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
-            margin: 40px 0 80px;
-        }
-        .why-card {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 16px;
-        }
-        .why-icon {
-            font-size: 2.5rem;
-        }
-
-        /* Stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin: 80px 0;
-        }
-        .stat-item {
-            text-align: center;
-            padding: 20px;
-        }
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        /* WhatsApp Contact Cards */
-        .whatsapp-cards {
-            display: flex;
-            gap: 24px;
-            flex-wrap: wrap;
-            margin: 60px 0;
-            justify-content: center;
-        }
-        .whatsapp-card {
-            background: var(--surface);
-            border: 2px solid #25D366;
-            border-radius: var(--radius-lg);
-            padding: 32px;
-            flex: 1;
-            min-width: 280px;
-            max-width: 400px;
-            text-align: center;
-            transition: var(--transition);
-        }
-        .whatsapp-card:hover {
-            box-shadow: 0 15px 35px rgba(37,211,102,0.2);
-        }
-        .whatsapp-card .phone {
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin: 16px 0 8px;
-        }
-
-        /* FAQ */
-        .faq-list {
-            max-width: 800px;
-            margin: 40px auto 80px;
-        }
-        .faq-item {
-            border-bottom: 1px solid var(--border);
-            padding: 16px 0;
-        }
-        .faq-question {
-            font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .faq-answer {
-            padding-top: 12px;
-            color: var(--text-muted);
-            display: none;
-            line-height: 1.7;
-        }
-        .faq-item.open .faq-answer {
-            display: block;
-        }
-        .faq-item.open .faq-question {
-            color: var(--primary);
-        }
-        .faq-question::after {
-            content: '+';
-            font-size: 1.5rem;
-            transition: transform 0.2s;
-        }
-        .faq-item.open .faq-question::after {
-            content: '−';
-            transform: rotate(180deg);
-        }
+        /* WhatsApp Contact CTA (No Numbers Exposed) */
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; max-width: 800px; margin: 0 auto; }
+        .contact-card { text-align: center; padding: 40px; background: var(--bg-primary); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); border: 1px solid var(--border-color); }
+        .contact-card h3 { margin-bottom: 8px; }
+        .contact-card p { color: var(--text-muted); margin-bottom: 24px; }
 
         /* Footer */
-        footer {
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-            padding: 60px 0 30px;
-            margin-top: 80px;
-        }
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-        .footer-brand img {
-            height: 40px;
-            margin-bottom: 16px;
-        }
-        .footer h4 {
-            margin-bottom: 16px;
-        }
-        .footer-links p {
-            margin-bottom: 8px;
-        }
-        .footer-bottom {
-            text-align: center;
-            padding-top: 24px;
-            border-top: 1px solid var(--border);
-            color: var(--text-muted);
-            font-size: 0.9rem;
+        footer { background: var(--brand-primary); color: #fff; padding: 80px 0 40px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 60px; }
+        .footer-brand p { color: rgba(255,255,255,0.7); margin-top: 16px; max-width: 300px; }
+        .footer h4 { color: #fff; margin-bottom: 24px; font-size: 1.1rem; }
+        .footer-links a { display: block; color: rgba(255,255,255,0.7); margin-bottom: 12px; }
+        .footer-links a:hover { color: #fff; padding-left: 4px; }
+        .footer-bottom { text-align: center; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); font-size: 0.9rem; }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 992px) {
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero-content p { margin: 24px auto 40px; }
+            .hero-ctas { justify-content: center; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
         }
 
-        /* General responsive */
-        @media (max-width: 640px) {
-            .hero-ctas {
-                flex-direction: column;
-                align-items: center;
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .hamburger { display: block; }
+            .nav-menu {
+                position: fixed; top: 76px; left: -100%; width: 100%; height: calc(100vh - 76px);
+                background: var(--bg-primary); flex-direction: column; padding: 40px 24px;
+                transition: var(--transition); align-items: flex-start;
             }
+            .nav-menu.active { left: 0; }
+            .nav-links { flex-direction: column; align-items: flex-start; width: 100%; gap: 32px; }
+            .nav-links a { font-size: 1.2rem; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
         }
     </style>
 </head>
 <body>
-    <!-- Preloader -->
+
     <div id="preloader">
-        <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="Loading" class="breathing">
+        <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="Loading" class="breathing-logo">
     </div>
 
-    <!-- Navbar -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="container">
-            <a href="/" class="navbar-brand">
-                <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="Triangletech Logo">
-                Triangletech <span style="color: var(--primary);">Learn</span>
+            <a href="/" class="nav-brand">
+                <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="Logo">
+                Triangletech <span style="color: var(--brand-accent);">Learn</span>
             </a>
-            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">☰</button>
-            <div class="navbar-links" id="navbarLinks">
-                <button class="menu-close" onclick="toggleMenu()" aria-label="Close">✕</button>
-                <a href="#courses" data-i18n="nav_courses" onclick="closeMenu()">Courses</a>
-                <a href="#about" data-i18n="nav_about" onclick="closeMenu()">About</a>
-                <a href="#faq" data-i18n="nav_faq" onclick="closeMenu()">FAQ</a>
-                <a href="#contact" data-i18n="nav_contact" onclick="closeMenu()">Contact</a>
-                <div class="lang-switch">
-                    <select id="lang-select" onchange="switchLanguage(this.value)">
+            
+            <button class="hamburger" id="mobile-toggle">☰</button>
+
+            <div class="nav-menu" id="nav-menu">
+                <div class="nav-links">
+                    <a href="#courses" data-i18n="nav_courses">Courses</a>
+                    <a href="#why-us" data-i18n="nav_about">Why Us</a>
+                    <select id="lang-select" class="lang-select" onchange="switchLanguage(this.value)">
                         <option value="en">🇬🇧 EN</option>
                         <option value="fr">🇫🇷 FR</option>
-                        <option value="de">🇩🇪 DE</option>
-                        <option value="yo">🇳🇬 YO</option>
-                        <option value="ha">🇳🇬 HA</option>
-                        <option value="ig">🇳🇬 IG</option>
                     </select>
                 </div>
-                <a href="auth.html" class="btn btn-accent" data-i18n="take_course">Take a Course</a>
-                <a href="#courses" class="btn btn-primary" data-i18n="cta_get_started">Get Started</a>
+                <a href="auth.html" class="btn btn-primary" data-i18n="cta_take_course">Take Course</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-logo floating">
-                <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="Triangletech Learn Logo">
-            </div>
+    <section class="hero container">
+        <div class="hero-grid">
             <div class="hero-content">
-                <h1 data-i18n="hero_title">Master In-Demand Skills.<br>Become <span style="color: var(--primary);">Self-Reliant</span>.</h1>
-                <p data-i18n="hero_sub">From Elementary to Professional Mentorship — earn certificates, build real projects, and unlock global job opportunities.</p>
+                <h1 data-i18n="hero_title">Future-Proof Your Career in Tech.</h1>
+                <p data-i18n="hero_sub">Master in-demand skills through world-class mentorship. Build real projects, earn your certification, and secure your place in the global tech economy.</p>
                 <div class="hero-ctas">
-                    <a href="#courses" class="btn btn-primary" data-i18n="cta_explore">Explore Courses</a>
-                    <a href="auth.html" class="btn btn-accent" data-i18n="take_course">Take a Course</a>
-                    <a href="#contact" class="btn btn-outline" data-i18n="cta_whatsapp">💬 Chat on WhatsApp</a>
+                    <a href="auth.html" class="btn btn-primary" data-i18n="cta_start">Start Learning Now</a>
+                    <a href="#contact" class="btn btn-outline" data-i18n="cta_advisor">Talk to an Advisor</a>
                 </div>
             </div>
+            <div class="hero-visual skeleton" id="hero-slider-container">
+                <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/website-template_1346434-683_gbkoiw.jpg" class="slide active" alt="Tech Environment" onload="removeSkeleton(this)">
+                <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/two-data-analysts-working-on-data-analysis-dashboard-for-business-strategy_vn9wrl.jpg" class="slide" alt="Data Analysis" onload="removeSkeleton(this)">
+                <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347737/2VJjjoup_9_B1IiDcjYLW7Vqcv49xXV9nEn5l6F3IefBq1bCVmeFCWYccD4EF62AEiVQvxpZ356Pgi5HDsup56Afcoeb1Ej6bBTwiad4EQaNSeqb9hBmp_TnIs8ZnVno_yvfgvo.png" class="slide" alt="Software Dev" onload="removeSkeleton(this)">
+            </div>
+        </div>
+    </section>
 
-            <!-- Carousel with 3 images rotating -->
-            <div class="carousel-container" id="carouselContainer">
-                <div class="carousel" id="carousel">
-                    <!-- dynamically filled -->
+    <section class="py-120 bg-gray" id="courses">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-i18n="courses_heading">Premium Tech Programs</h2>
+                <p data-i18n="courses_sub">Designed by industry experts to take you from absolute beginner to employable professional.</p>
+            </div>
+            
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-img-wrapper skeleton">
+                        <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347737/2VJjjoup_9_B1IiDcjYLW7Vqcv49xXV9nEn5l6F3IefBq1bCVmeFCWYccD4EF62AEiVQvxpZ356Pgi5HDsup56Afcoeb1Ej6bBTwiad4EQaNSeqb9hBmp_TnIs8ZnVno_yvfgvo.png" alt="Software Dev" onload="removeSkeleton(this)">
+                    </div>
+                    <div class="card-body">
+                        <span class="badge">Full Stack</span>
+                        <h3>Software Engineering</h3>
+                        <p>Master Front-end, Back-end, Node.js, databases, and modern deployment pipelines. Build enterprise-grade applications.</p>
+                        <a href="auth.html" class="btn btn-outline" style="width: 100%;">Enroll Now</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-img-wrapper skeleton">
+                        <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/cyber-security-and-security-password-login-online-concept-hands-typing-and-touch-id-username-and-password-of-social-media-log-in-with-computer-to-online-important-information-data-protection-hacker-photo_v4hioy.jpg" alt="Cybersecurity" onload="removeSkeleton(this)">
+                    </div>
+                    <div class="card-body">
+                        <span class="badge">Security</span>
+                        <h3>Cybersecurity</h3>
+                        <p>Learn ethical hacking, network defense, and security operations. Protect digital assets in real-world scenarios.</p>
+                        <a href="auth.html" class="btn btn-outline" style="width: 100%;">Enroll Now</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-img-wrapper skeleton">
+                        <img src="https://placehold.co/600x400/0A2540/FFFFFF?text=AI+Automation" alt="AI Automation" onload="removeSkeleton(this)">
+                    </div>
+                    <div class="card-body">
+                        <span class="badge">Trending</span>
+                        <h3>AI Automation & Logic</h3>
+                        <p>Implement intelligent automations, integrate APIs, and master prompt engineering to 10x business efficiency.</p>
+                        <a href="auth.html" class="btn btn-outline" style="width: 100%;">Enroll Now</a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Three Stage Path -->
-    <section class="container" id="about">
-        <h2 data-i18n="stages_heading">Your Learning Journey</h2>
-        <div class="stage-grid">
-            <div class="card stage-card">
-                <div class="stage-number">1</div>
-                <h3 data-i18n="stage1_title">Elementary</h3>
-                <p data-i18n="stage1_desc">Master the fundamentals, tools, and build your first mini-project.</p>
+    <section class="py-120" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Have Questions?</h2>
+                <p>Our admission mentors are available to help you choose the right path.</p>
             </div>
-            <div class="card stage-card">
-                <div class="stage-number">2</div>
-                <h3 data-i18n="stage2_title">Advanced</h3>
-                <p data-i18n="stage2_desc">Deep dives, complex projects, and regular tests to solidify expertise.</p>
-            </div>
-            <div class="card stage-card">
-                <div class="stage-number">3</div>
-                <h3 data-i18n="stage3_title">Professional Mentorship</h3>
-                <p data-i18n="stage3_desc">Direct mentorship, final projects, job pipeline, and global certification.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Courses Section with skeleton loading -->
-    <section class="container" id="courses">
-        <h2 data-i18n="courses_heading">Courses That Make You <span style="color: var(--primary);">Employable</span></h2>
-        <!-- Skeleton grid -->
-        <div class="course-grid" id="skeletonGrid">
-            <!-- 7 skeleton cards -->
-            <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-body"><div class="skeleton skeleton-line medium"></div><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line"></div></div></div>
-            <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-body"><div class="skeleton skeleton-line medium"></div><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line"></div></div></div>
-            <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-body"><div class="skeleton skeleton-line medium"></div><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line"></div></div></div>
-            <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-body"><div class="skeleton skeleton-line medium"></div><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line"></div></div></div>
-            <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-body"><div class="skeleton skeleton-line medium"></div><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line"></div></div></div>
-            <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-body"><div class="skeleton skeleton-line medium"></div><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line"></div></div></div>
-            <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-body"><div class="skeleton skeleton-line medium"></div><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line"></div></div></div>
-        </div>
-        <!-- Real content hidden initially -->
-        <div class="course-grid hidden-content" id="realCourses">
-            <div class="course-card">
-                <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/website-template_1346434-683_gbkoiw.jpg" alt="Website Design">
-                <div class="course-body">
-                    <span class="badge" data-i18n="course1_badge">Design</span>
-                    <h3 data-i18n="course1">Website Design</h3>
-                    <p data-i18n="course1_desc">UI/UX, responsive design, front-end tools. Build a portfolio of live sites.</p>
+            
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <h3>Admissions Desk 1</h3>
+                    <p>Fastest response for course inquiries and enrollment procedures.</p>
+                    <a href="https://wa.me/2348161345210?text=Hello%20Triangletech,%20I%20want%20to%20enroll." target="_blank" class="btn btn-whatsapp" style="width:100%">💬 Chat with Advisor</a>
                 </div>
-            </div>
-            <div class="course-card">
-                <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347737/2VJjjoup_9_B1IiDcjYLW7Vqcv49xXV9nEn5l6F3IefBq1bCVmeFCWYccD4EF62AEiVQvxpZ356Pgi5HDsup56Afcoeb1Ej6bBTwiad4EQaNSeqb9hBmp_TnIs8ZnVno_yvfgvo.png" alt="Software Development">
-                <div class="course-body">
-                    <span class="badge" data-i18n="course2_badge">Full Stack</span>
-                    <h3 data-i18n="course2">Software Development</h3>
-                    <p data-i18n="course2_desc">Front-end, back-end, databases, and deployment. From code to production.</p>
-                </div>
-            </div>
-            <div class="course-card">
-                <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/cyber-security-and-security-password-login-online-concept-hands-typing-and-touch-id-username-and-password-of-social-media-log-in-with-computer-to-online-important-information-data-protection-hacker-photo_v4hioy.jpg" alt="Cybersecurity">
-                <div class="course-body">
-                    <span class="badge" data-i18n="course3_badge">Security</span>
-                    <h3 data-i18n="course3">Cybersecurity</h3>
-                    <p data-i18n="course3_desc">Ethical hacking, network defense, security operations. Protect digital assets.</p>
-                </div>
-            </div>
-            <div class="course-card">
-                <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/two-data-analysts-working-on-data-analysis-dashboard-for-business-strategy_vn9wrl.jpg" alt="Data Analysis">
-                <div class="course-body">
-                    <span class="badge" data-i18n="course4_badge">Data</span>
-                    <h3 data-i18n="course4">Data Analysis</h3>
-                    <p data-i18n="course4_desc">Python, SQL, visualization, and ML basics. Turn data into decisions.</p>
-                </div>
-            </div>
-            <div class="course-card">
-                <img src="https://placehold.co/600x400/E8F0FE/0066FF?text=Prompt+Engineering" alt="Prompt Engineering">
-                <div class="course-body">
-                    <span class="badge" data-i18n="course5_badge">AI</span>
-                    <h3 data-i18n="course5">Prompt Engineering</h3>
-                    <p data-i18n="course5_desc">Craft effective prompts for AI models. Automate workflows with generative AI.</p>
-                </div>
-            </div>
-            <div class="course-card">
-                <img src="https://placehold.co/600x400/E8F0FE/0066FF?text=Vibe+Coding" alt="Vibe Coding">
-                <div class="course-body">
-                    <span class="badge" data-i18n="course6_badge">Trending</span>
-                    <h3 data-i18n="course6">Vibe Coding</h3>
-                    <p data-i18n="course6_desc">Modern AI-assisted development: build apps by describing them.</p>
-                </div>
-            </div>
-            <div class="course-card">
-                <img src="https://placehold.co/600x400/E8F0FE/0066FF?text=AI+Automation" alt="AI Automation">
-                <div class="course-body">
-                    <span class="badge" data-i18n="course7_badge">Automation</span>
-                    <h3 data-i18n="course7">AI Automation</h3>
-                    <p data-i18n="course7_desc">No-code/low-code AI agents, Zapier, Make, and custom automations for business.</p>
+                <div class="contact-card">
+                    <h3>Admissions Desk 2</h3>
+                    <p>Technical support, payment inquiries, and student assistance.</p>
+                    <a href="https://wa.me/2348139529405?text=Hello%20Triangletech,%20I%20need%20assistance." target="_blank" class="btn btn-whatsapp" style="width:100%">💬 Chat with Advisor</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Stats / Social Proof -->
-    <section class="container">
-        <div class="stats-grid">
-            <div class="card stat-item">
-                <div class="stat-number" data-count="500">0</div>
-                <p>Students Trained</p>
-            </div>
-            <div class="card stat-item">
-                <div class="stat-number" data-count="95">0</div>
-                <p>% Job Placement Rate</p>
-            </div>
-            <div class="card stat-item">
-                <div class="stat-number" data-count="7">0</div>
-                <p>Expert Courses</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Why Triangletech -->
-    <section class="container" id="why">
-        <h2 data-i18n="why_heading">Why Triangletech <span style="color: var(--primary);">Learn</span>?</h2>
-        <div class="why-grid">
-            <div class="card why-card">
-                <div class="why-icon">🧑‍🏫</div>
-                <h3 data-i18n="why1_title">Direct Mentorship</h3>
-                <p data-i18n="why1_desc">Okewunmi Timileyin and Joshua Ofoesuwa personally guide you through every stage.</p>
-            </div>
-            <div class="card why-card">
-                <div class="why-icon">💬</div>
-                <h3 data-i18n="why2_title">Classroom & Discussions</h3>
-                <p data-i18n="why2_desc">Live Q&A, community discussions, and peer review — never learn alone.</p>
-            </div>
-            <div class="card why-card">
-                <div class="why-icon">🛠️</div>
-                <h3 data-i18n="why3_title">Real-World Projects</h3>
-                <p data-i18n="why3_desc">Multiple projects per course. Your final project gets published on our pages.</p>
-            </div>
-            <div class="card why-card">
-                <div class="why-icon">🌍</div>
-                <h3 data-i18n="why4_title">Job Pipeline</h3>
-                <p data-i18n="why4_desc">Top graduates are connected to global opportunities in fintech, tech, and more.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- WhatsApp Contact Cards -->
-    <section class="container" id="contact">
-        <h2 data-i18n="contact_heading">Contact Us on WhatsApp</h2>
-        <div class="whatsapp-cards">
-            <div class="card whatsapp-card">
-                <h3>📱 0816 134 5210</h3>
-                <p class="phone">+234 816 134 5210</p>
-                <a href="https://wa.me/2348161345210?text=Hello%2C%20I%27m%20%5BYour%20Name%5D.%20I%20want%20to%20enroll%20in%20a%20course%20at%20Triangletech%20Learn." target="_blank" class="btn btn-outline" style="width:100%; color:#25D366; border-color:#25D366;">
-                    💬 Chat on WhatsApp
-                </a>
-            </div>
-            <div class="card whatsapp-card">
-                <h3>📱 0813 952 9405</h3>
-                <p class="phone">+234 813 952 9405</p>
-                <a href="https://wa.me/2348139529405?text=Hello%2C%20I%27m%20%5BYour%20Name%5D.%20I%20want%20to%20enroll%20in%20a%20course%20at%20Triangletech%20Learn." target="_blank" class="btn btn-outline" style="width:100%; color:#25D366; border-color:#25D366;">
-                    💬 Chat on WhatsApp
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="container" id="faq">
-        <h2 data-i18n="faq_heading">Frequently Asked Questions</h2>
-        <div class="faq-list" id="faqList">
-            <div class="faq-item">
-                <div class="faq-question" data-i18n="faq1_q">What is Triangletech Learn?</div>
-                <div class="faq-answer" data-i18n="faq1_a">Triangletech Learn is a tech teaching platform based in Nigeria, founded by Okewunmi Timileyin and Joshua Ofoesuwa. We offer structured courses in cybersecurity, data analysis, website design, fintech, and more.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question" data-i18n="faq2_q">Is Triangletech a registered tech company in Nigeria?</div>
-                <div class="faq-answer" data-i18n="faq2_a">Yes, Triangletech operates as a tech education company in Nigeria, providing direct mentorship and hands-on training.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question" data-i18n="faq3_q">Who are Okewunmi Timileyin and Joshua Ofoesuwa?</div>
-                <div class="faq-answer" data-i18n="faq3_a">They are the founders and lead mentors. Okewunmi's LinkedIn: <a href="https://www.linkedin.com/in/okewunmi-timileyin-0632b0328" target="_blank">linkedin.com/in/okewunmi-timileyin-0632b0328</a>.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question" data-i18n="faq4_q">How do I get a certificate?</div>
-                <div class="faq-answer" data-i18n="faq4_a">Pass all module tests, the final exam, and complete the required projects. Certificates are verifiable online.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question" data-i18n="faq5_q">Does Triangletech help with job placement?</div>
-                <div class="faq-answer" data-i18n="faq5_a">Absolutely. Our Professional Mentorship stage connects graduates with opportunities in fintech, web design, and more.</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="Triangletech Logo">
-                    <p data-i18n="footer_tagline">Tech school in Lagos. Self-reliance through mentorship.</p>
+                    <h2 style="color: white; font-size: 1.5rem;">Triangletech <span style="color: var(--brand-accent);">Learn</span></h2>
+                    <p>Empowering the next generation of African tech talent with world-class mentorship and practical skills.</p>
                 </div>
                 <div class="footer-links">
-                    <h4 data-i18n="footer_quick_links">Quick Links</h4>
-                    <p><a href="#courses" data-i18n="nav_courses">Courses</a></p>
-                    <p><a href="#faq" data-i18n="nav_faq">FAQ</a></p>
-                    <p><a href="#contact" data-i18n="nav_contact">Contact</a></p>
+                    <h4>Platform</h4>
+                    <a href="#courses">All Courses</a>
+                    <a href="auth.html">Student Portal</a>
+                    <a href="auth.html">Instructor Login</a>
                 </div>
                 <div class="footer-links">
-                    <h4 data-i18n="footer_contact">Contact</h4>
-                    <p>📧 triangleofscholars@gmail.com</p>
-                    <p>📱 +234 816 134 5210</p>
-                    <p>📱 +234 813 952 9405</p>
-                    <p><a href="https://www.linkedin.com/in/okewunmi-timileyin-0632b0328" target="_blank">LinkedIn: Okewunmi Timileyin</a></p>
+                    <h4>Company</h4>
+                    <a href="#why-us">About Us</a>
+                    <a href="#contact">Contact</a>
                 </div>
                 <div class="footer-links">
-                    <h4 data-i18n="footer_languages">Languages</h4>
-                    <p><a href="#" onclick="switchLanguage('en'); return false;">English</a></p>
-                    <p><a href="#" onclick="switchLanguage('fr'); return false;">Français</a></p>
-                    <p><a href="#" onclick="switchLanguage('de'); return false;">Deutsch</a></p>
-                    <p><a href="#" onclick="switchLanguage('yo'); return false;">Yorùbá</a></p>
-                    <p><a href="#" onclick="switchLanguage('ha'); return false;">Hausa</a></p>
-                    <p><a href="#" onclick="switchLanguage('ig'); return false;">Igbo</a></p>
+                    <h4>Legal</h4>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Triangletech Learn. All rights reserved.</p>
+                &copy; 2026 Triangletech Learn. Engineered for Excellence.
             </div>
         </div>
     </footer>
 
-    <!-- Structured Data (unchanged) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Triangletech Learn",
-      "url": "https://triangletechlearn.com",
-      "logo": "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png",
-      "founders": [
-        { "@type": "Person", "name": "Okewunmi Timileyin", "sameAs": "https://www.linkedin.com/in/okewunmi-timileyin-0632b0328" },
-        { "@type": "Person", "name": "Joshua Ofoesuwa" }
-      ],
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+2348161345210",
-        "contactType": "customer service",
-        "availableLanguage": ["English", "French", "German", "Yoruba", "Hausa", "Igbo"]
-      },
-      "sameAs": [
-        "https://www.linkedin.com/in/okewunmi-timileyin-0632b0328"
-      ]
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        { "@type": "Question", "name": "What is Triangletech Learn?", "acceptedAnswer": { "@type": "Answer", "text": "Triangletech Learn is a tech teaching platform based in Nigeria, founded by Okewunmi Timileyin and Joshua Ofoesuwa. We offer courses in cybersecurity, data analysis, website design, fintech, and more." } },
-        { "@type": "Question", "name": "Is Triangletech a registered tech company in Nigeria?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, Triangletech operates as a tech education company in Nigeria, providing direct mentorship and hands-on training." } },
-        { "@type": "Question", "name": "Who are Okewunmi Timileyin and Joshua Ofoesuwa?", "acceptedAnswer": { "@type": "Answer", "text": "They are the founders and lead mentors. Okewunmi's LinkedIn: https://www.linkedin.com/in/okewunmi-timileyin-0632b0328" } },
-        { "@type": "Question", "name": "How do I get a certificate on Triangletech?", "acceptedAnswer": { "@type": "Answer", "text": "Pass all tests and the final exam, and complete the required projects. Certificates are awarded at the end of the Professional Mentorship stage." } },
-        { "@type": "Question", "name": "Does Triangletech help with job placement?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, our Professional Mentorship stage connects top graduates with global job opportunities, especially in fintech, web design, and data analysis." } }
-      ]
-    }
-    </script>
-
     <script>
-        // Carousel Images (using 3 images for cleaner rotation)
-        const carouselImages = [
-            "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/website-template_1346434-683_gbkoiw.jpg",
-            "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347737/2VJjjoup_9_B1IiDcjYLW7Vqcv49xXV9nEn5l6F3IefBq1bCVmeFCWYccD4EF62AEiVQvxpZ356Pgi5HDsup56Afcoeb1Ej6bBTwiad4EQaNSeqb9hBmp_TnIs8ZnVno_yvfgvo.png",
-            "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/cyber-security-and-security-password-login-online-concept-hands-typing-and-touch-id-username-and-password-of-social-media-log-in-with-computer-to-online-important-information-data-protection-hacker-photo_v4hioy.jpg"
-        ];
-
-        function buildCarousel() {
-            const carousel = document.getElementById('carousel');
-            carousel.innerHTML = '';
-            carouselImages.forEach((src, index) => {
-                const div = document.createElement('div');
-                div.className = 'carousel-slide' + (index === 1 ? ' active' : '');
-                div.innerHTML = `<img src="${src}" alt="Course image ${index+1}">`;
-                carousel.appendChild(div);
-            });
-        }
-        function rotateCarousel() {
-            const slides = document.querySelectorAll('.carousel-slide');
-            if (slides.length === 0) return;
-            let activeIndex = 0;
-            slides.forEach((s, i) => { if (s.classList.contains('active')) activeIndex = i; });
-            slides.forEach(s => s.classList.remove('active'));
-            const nextIndex = (activeIndex + 1) % slides.length;
-            slides[nextIndex].classList.add('active');
-        }
-        buildCarousel();
-        setInterval(rotateCarousel, 4000);
-
-        // Skeleton Loading: after window load, swap real content and hide skeletons
+        // 1. Preloader Logic
         window.addEventListener('load', () => {
-            // Simulate slight delay to show skeleton
+            const preloader = document.getElementById('preloader');
             setTimeout(() => {
-                document.getElementById('skeletonGrid').style.display = 'none';
-                document.getElementById('realCourses').style.display = 'grid';
-                // Animate stats counters
-                document.querySelectorAll('.stat-number').forEach(el => {
-                    const target = +el.getAttribute('data-count');
-                    let count = 0;
-                    const duration = 1500;
-                    const step = target / (duration / 30);
-                    const interval = setInterval(() => {
-                        count += step;
-                        if (count >= target) {
-                            el.textContent = target + (target === 95 ? '%' : '+');
-                            clearInterval(interval);
-                        } else {
-                            el.textContent = Math.floor(count) + '+';
-                        }
-                    }, 30);
-                });
-            }, 1200);
+                preloader.style.opacity = '0';
+                preloader.style.visibility = 'hidden';
+            }, 500); // 0.5s artificial delay to show off the breathing animation smoothly
         });
 
-        // Preloader fade out
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('preloader').classList.add('hidden');
-            }, 800);
-        });
-
-        // FAQ toggle
-        document.getElementById('faqList').addEventListener('click', (e) => {
-            if (e.target.classList.contains('faq-question')) {
-                e.target.parentElement.classList.toggle('open');
-            }
-        });
-
-        // Mobile menu toggle
-        function toggleMenu() {
-            document.getElementById('navbarLinks').classList.toggle('active');
-        }
-        function closeMenu() {
-            document.getElementById('navbarLinks').classList.remove('active');
+        // 2. Remove Skeleton Class on Load
+        function removeSkeleton(imgElement) {
+            imgElement.parentElement.classList.remove('skeleton');
         }
 
-        // Multi-language translations (same as before but with added 'take_course' key)
+        // 3. Mobile Hamburger Menu
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        
+        mobileToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            mobileToggle.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+        });
+
+        // 4. Hero Slider Logic
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+        
+        if(slides.length > 0) {
+            setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, 4000);
+        }
+
+        // 5. Basic i18n Translation Logic
         const translations = {
             en: {
-                nav_courses: 'Courses',
-                nav_about: 'About',
-                nav_faq: 'FAQ',
-                nav_contact: 'Contact',
-                take_course: 'Take a Course',
-                cta_get_started: 'Get Started',
-                hero_title: 'Master In-Demand Skills.<br>Become <span style="color: var(--primary);">Self-Reliant</span>.',
-                hero_sub: 'From Elementary to Professional Mentorship — earn certificates, build real projects, and unlock global job opportunities.',
-                cta_explore: 'Explore Courses',
-                cta_whatsapp: '💬 Chat on WhatsApp',
-                stages_heading: 'Your Learning Journey',
-                stage1_title: 'Elementary',
-                stage1_desc: 'Master the fundamentals, tools, and build your first mini-project.',
-                stage2_title: 'Advanced',
-                stage2_desc: 'Deep dives, complex projects, and regular tests to solidify expertise.',
-                stage3_title: 'Professional Mentorship',
-                stage3_desc: 'Direct mentorship, final projects, job pipeline, and global certification.',
-                courses_heading: 'Courses That Make You <span style="color: var(--primary);">Employable</span>',
-                course1_badge: 'Design',
-                course1: 'Website Design',
-                course1_desc: 'UI/UX, responsive design, front-end tools. Build a portfolio of live sites.',
-                course2_badge: 'Full Stack',
-                course2: 'Software Development',
-                course2_desc: 'Front-end, back-end, databases, and deployment. From code to production.',
-                course3_badge: 'Security',
-                course3: 'Cybersecurity',
-                course3_desc: 'Ethical hacking, network defense, security operations. Protect digital assets.',
-                course4_badge: 'Data',
-                course4: 'Data Analysis',
-                course4_desc: 'Python, SQL, visualization, and ML basics. Turn data into decisions.',
-                course5_badge: 'AI',
-                course5: 'Prompt Engineering',
-                course5_desc: 'Craft effective prompts for AI models. Automate workflows with generative AI.',
-                course6_badge: 'Trending',
-                course6: 'Vibe Coding',
-                course6_desc: 'Modern AI-assisted development: build apps by describing them.',
-                course7_badge: 'Automation',
-                course7: 'AI Automation',
-                course7_desc: 'No-code/low-code AI agents, Zapier, Make, and custom automations for business.',
-                why_heading: 'Why Triangletech <span style="color: var(--primary);">Learn</span>?',
-                why1_title: 'Direct Mentorship',
-                why1_desc: 'Okewunmi Timileyin and Joshua Ofoesuwa personally guide you through every stage.',
-                why2_title: 'Classroom & Discussions',
-                why2_desc: 'Live Q&A, community discussions, and peer review — never learn alone.',
-                why3_title: 'Real-World Projects',
-                why3_desc: 'Multiple projects per course. Your final project gets published on our pages.',
-                why4_title: 'Job Pipeline',
-                why4_desc: 'Top graduates are connected to global opportunities in fintech, tech, and more.',
-                contact_heading: 'Contact Us on WhatsApp',
-                faq_heading: 'Frequently Asked Questions',
-                faq1_q: 'What is Triangletech Learn?',
-                faq1_a: 'Triangletech Learn is a tech teaching platform based in Nigeria, founded by Okewunmi Timileyin and Joshua Ofoesuwa. We offer structured courses in cybersecurity, data analysis, website design, fintech, and more.',
-                faq2_q: 'Is Triangletech a registered tech company in Nigeria?',
-                faq2_a: 'Yes, Triangletech operates as a tech education company in Nigeria, providing direct mentorship and hands-on training.',
-                faq3_q: 'Who are Okewunmi Timileyin and Joshua Ofoesuwa?',
-                faq3_a: 'They are the founders and lead mentors. Okewunmi\'s LinkedIn: <a href="https://www.linkedin.com/in/okewunmi-timileyin-0632b0328" target="_blank">linkedin.com/in/okewunmi-timileyin-0632b0328</a>.',
-                faq4_q: 'How do I get a certificate?',
-                faq4_a: 'Pass all module tests, the final exam, and complete the required projects. Certificates are verifiable online.',
-                faq5_q: 'Does Triangletech help with job placement?',
-                faq5_a: 'Absolutely. Our Professional Mentorship stage connects graduates with opportunities in fintech, web design, and more.',
-                footer_tagline: 'Tech school in Lagos. Self-reliance through mentorship.',
-                footer_quick_links: 'Quick Links',
-                footer_contact: 'Contact',
-                footer_languages: 'Languages'
+                nav_courses: "Courses", nav_about: "Why Us", cta_take_course: "Take Course",
+                hero_title: "Future-Proof Your Career in Tech.",
+                hero_sub: "Master in-demand skills through world-class mentorship. Build real projects, earn your certification, and secure your place in the global tech economy.",
+                cta_start: "Start Learning Now", cta_advisor: "Talk to an Advisor",
+                courses_heading: "Premium Tech Programs", courses_sub: "Designed by industry experts to take you from absolute beginner to employable professional."
             },
             fr: {
-                nav_courses: 'Cours',
-                nav_about: 'À propos',
-                nav_faq: 'FAQ',
-                nav_contact: 'Contact',
-                take_course: 'Suivre un cours',
-                cta_get_started: 'Commencer',
-                hero_title: 'Maîtrisez les compétences recherchées.<br>Devenez <span style="color: var(--primary);">Autonome</span>.',
-                hero_sub: 'Du mentorat élémentaire au professionnel — obtenez des certificats, réalisez de vrais projets et accédez à des opportunités mondiales.',
-                cta_explore: 'Explorer les cours',
-                cta_whatsapp: '💬 Discuter sur WhatsApp',
-                stages_heading: 'Votre parcours d\'apprentissage',
-                stage1_title: 'Élémentaire',
-                stage1_desc: 'Maîtrisez les fondamentaux, les outils et réalisez votre premier mini-projet.',
-                stage2_title: 'Avancé',
-                stage2_desc: 'Approfondissements, projets complexes et tests réguliers pour consolider l\'expertise.',
-                stage3_title: 'Mentorat Professionnel',
-                stage3_desc: 'Mentorat direct, projets finaux, pipeline d\'emploi et certification mondiale.',
-                courses_heading: 'Des cours qui vous rendent <span style="color: var(--primary);">Employable</span>',
-                course1_badge: 'Design',
-                course1: 'Conception Web',
-                course1_desc: 'UI/UX, responsive design, outils front-end. Construisez un portfolio de sites en ligne.',
-                course2_badge: 'Full Stack',
-                course2: 'Développement Logiciel',
-                course2_desc: 'Front-end, back-end, bases de données et déploiement. Du code à la production.',
-                course3_badge: 'Sécurité',
-                course3: 'Cybersécurité',
-                course3_desc: 'Hacking éthique, défense réseau, opérations de sécurité. Protégez les actifs numériques.',
-                course4_badge: 'Données',
-                course4: 'Analyse de Données',
-                course4_desc: 'Python, SQL, visualisation et bases du ML. Transformez les données en décisions.',
-                course5_badge: 'IA',
-                course5: 'Ingénierie de Prompt',
-                course5_desc: 'Créez des invites efficaces pour les modèles d\'IA. Automatisez les flux avec l\'IA générative.',
-                course6_badge: 'Tendance',
-                course6: 'Vibe Coding',
-                course6_desc: 'Développement assisté par IA : créez des applications en les décrivant.',
-                course7_badge: 'Automatisation',
-                course7: 'Automatisation IA',
-                course7_desc: 'Agents IA no-code/low-code, Zapier, Make et automatisations personnalisées pour les entreprises.',
-                why_heading: 'Pourquoi Triangletech <span style="color: var(--primary);">Learn</span>?',
-                why1_title: 'Mentorat Direct',
-                why1_desc: 'Okewunmi Timileyin et Joshua Ofoesuwa vous guident personnellement à chaque étape.',
-                why2_title: 'Classe & Discussions',
-                why2_desc: 'Q&R en direct, discussions communautaires et évaluation par les pairs — n\'apprenez jamais seul.',
-                why3_title: 'Projets Réels',
-                why3_desc: 'Plusieurs projets par cours. Votre projet final est publié sur nos pages.',
-                why4_title: 'Pipeline d\'Emploi',
-                why4_desc: 'Les meilleurs diplômés sont connectés à des opportunités mondiales dans la fintech et la tech.',
-                contact_heading: 'Contactez-nous sur WhatsApp',
-                faq_heading: 'Questions Fréquemment Posées',
-                faq1_q: 'Qu\'est-ce que Triangletech Learn?',
-                faq1_a: 'Triangletech Learn est une plateforme d\'enseignement technologique basée au Nigeria, fondée par Okewunmi Timileyin et Joshua Ofoesuwa. Nous proposons des cours structurés en cybersécurité, analyse de données, conception web, fintech, etc.',
-                faq2_q: 'Triangletech est-il une entreprise technologique enregistrée au Nigeria?',
-                faq2_a: 'Oui, Triangletech opère en tant qu\'entreprise d\'éducation technologique au Nigeria, offrant un mentorat direct et une formation pratique.',
-                faq3_q: 'Qui sont Okewunmi Timileyin et Joshua Ofoesuwa?',
-                faq3_a: 'Ils sont les fondateurs et mentors principaux. LinkedIn d\'Okewunmi: <a href="https://www.linkedin.com/in/okewunmi-timileyin-0632b0328" target="_blank">linkedin.com/in/okewunmi-timileyin-0632b0328</a>.',
-                faq4_q: 'Comment obtenir un certificat?',
-                faq4_a: 'Réussissez tous les tests, l\'examen final et terminez les projets requis. Les certificats sont vérifiables en ligne.',
-                faq5_q: 'Triangletech aide-t-il au placement professionnel?',
-                faq5_a: 'Absolument. Notre étape de mentorat professionnel connecte les diplômés à des opportunités dans la fintech, la conception web, etc.',
-                footer_tagline: 'École de technologie à Lagos. Autonomie par le mentorat.',
-                footer_quick_links: 'Liens rapides',
-                footer_contact: 'Contact',
-                footer_languages: 'Langues'
-            },
-            de: {
-                nav_courses: 'Kurse',
-                nav_about: 'Über uns',
-                nav_faq: 'FAQ',
-                nav_contact: 'Kontakt',
-                take_course: 'Kurs belegen',
-                cta_get_started: 'Loslegen',
-                hero_title: 'Meistern Sie gefragte Fähigkeiten.<br>Werden Sie <span style="color: var(--primary);">Selbstständig</span>.',
-                hero_sub: 'Von der Grundausbildung zum professionellen Mentoring — erhalten Sie Zertifikate, arbeiten Sie an realen Projekten und erschließen Sie globale Jobchancen.',
-                cta_explore: 'Kurse entdecken',
-                cta_whatsapp: '💬 WhatsApp-Chat',
-                stages_heading: 'Ihr Lernweg',
-                stage1_title: 'Elementar',
-                stage1_desc: 'Meistern Sie die Grundlagen, Werkzeuge und erstellen Sie Ihr erstes Miniprojekt.',
-                stage2_title: 'Fortgeschritten',
-                stage2_desc: 'Vertiefungen, komplexe Projekte und regelmäßige Tests zur Festigung der Expertise.',
-                stage3_title: 'Professionelles Mentoring',
-                stage3_desc: 'Direktes Mentoring, Abschlussprojekte, Job-Pipeline und globale Zertifizierung.',
-                courses_heading: 'Kurse, die Sie <span style="color: var(--primary);">beschäftigungsfähig</span> machen',
-                course1_badge: 'Design',
-                course1: 'Webdesign',
-                course1_desc: 'UI/UX, Responsive Design, Frontend-Tools. Erstellen Sie ein Portfolio live geschalteter Websites.',
-                course2_badge: 'Full Stack',
-                course2: 'Softwareentwicklung',
-                course2_desc: 'Frontend, Backend, Datenbanken und Deployment. Vom Code zur Produktion.',
-                course3_badge: 'Sicherheit',
-                course3: 'Cybersicherheit',
-                course3_desc: 'Ethisches Hacking, Netzwerkverteidigung, Sicherheitsoperationen. Schützen Sie digitale Vermögenswerte.',
-                course4_badge: 'Daten',
-                course4: 'Datenanalyse',
-                course4_desc: 'Python, SQL, Visualisierung und ML-Grundlagen. Wandeln Sie Daten in Entscheidungen um.',
-                course5_badge: 'KI',
-                course5: 'Prompt Engineering',
-                course5_desc: 'Erstellen Sie effektive Prompts für KI-Modelle. Automatisieren Sie Workflows mit generativer KI.',
-                course6_badge: 'Trend',
-                course6: 'Vibe Coding',
-                course6_desc: 'Moderne KI-unterstützte Entwicklung: Erstellen Sie Apps durch Beschreibung.',
-                course7_badge: 'Automatisierung',
-                course7: 'KI-Automatisierung',
-                course7_desc: 'No-Code/Low-Code KI-Agenten, Zapier, Make und maßgeschneiderte Automatisierungen für Unternehmen.',
-                why_heading: 'Warum Triangletech <span style="color: var(--primary);">Learn</span>?',
-                why1_title: 'Direktes Mentoring',
-                why1_desc: 'Okewunmi Timileyin und Joshua Ofoesuwa begleiten Sie persönlich durch jede Phase.',
-                why2_title: 'Klassenzimmer & Diskussionen',
-                why2_desc: 'Live-Q&A, Community-Diskussionen und Peer-Review — lernen Sie nie allein.',
-                why3_title: 'Reale Projekte',
-                why3_desc: 'Mehrere Projekte pro Kurs. Ihr Abschlussprojekt wird auf unseren Seiten veröffentlicht.',
-                why4_title: 'Job-Pipeline',
-                why4_desc: 'Top-Absolventen werden mit globalen Möglichkeiten in Fintech und Technik verbunden.',
-                contact_heading: 'Kontaktieren Sie uns auf WhatsApp',
-                faq_heading: 'Häufig gestellte Fragen',
-                faq1_q: 'Was ist Triangletech Learn?',
-                faq1_a: 'Triangletech Learn ist eine Tech-Lehrplattform mit Sitz in Nigeria, gegründet von Okewunmi Timileyin und Joshua Ofoesuwa. Wir bieten strukturierte Kurse in Cybersicherheit, Datenanalyse, Webdesign, Fintech und mehr.',
-                faq2_q: 'Ist Triangletech ein registriertes Technologieunternehmen in Nigeria?',
-                faq2_a: 'Ja, Triangletech agiert als Tech-Bildungsunternehmen in Nigeria und bietet direktes Mentoring und praktische Ausbildung.',
-                faq3_q: 'Wer sind Okewunmi Timileyin und Joshua Ofoesuwa?',
-                faq3_a: 'Sie sind die Gründer und leitenden Mentoren. Okewunmis LinkedIn: <a href="https://www.linkedin.com/in/okewunmi-timileyin-0632b0328" target="_blank">linkedin.com/in/okewunmi-timileyin-0632b0328</a>.',
-                faq4_q: 'Wie erhalte ich ein Zertifikat?',
-                faq4_a: 'Bestehen Sie alle Modultests, die Abschlussprüfung und schließen Sie die erforderlichen Projekte ab. Zertifikate sind online überprüfbar.',
-                faq5_q: 'Hilft Triangletech bei der Jobvermittlung?',
-                faq5_a: 'Auf jeden Fall. Unsere professionelle Mentoring-Phase verbindet Absolventen mit Möglichkeiten in Fintech, Webdesign und mehr.',
-                footer_tagline: 'Tech-Schule in Lagos. Selbstständigkeit durch Mentoring.',
-                footer_quick_links: 'Schnelllinks',
-                footer_contact: 'Kontakt',
-                footer_languages: 'Sprachen'
-            },
-            yo: {
-                nav_courses: 'Àwọn Ẹkọ',
-                nav_about: 'Nípa',
-                nav_faq: 'Àwọn Ìbéèrè',
-                nav_contact: 'Ìbánisọ̀rọ̀',
-                take_course: 'Gba Ẹkọ',
-                cta_get_started: 'Bẹ̀rẹ̀',
-                hero_title: 'Kọ Ẹkọ Tó Ń Béèrè.<br>Di <span style="color: var(--primary);">Alágbára</span>.',
-                hero_sub: 'Láti Ìbẹ̀rẹ̀ sí Ìdánilẹ́kọ̀ọ́ Ọ̀jọ̀gbọ́n — gba ìwé ẹ̀rí, ṣe àwọn iṣẹ́ àkànṣe gidi, kí o sì ṣí àwọn ànfàní iṣẹ́ kárí ayé.',
-                cta_explore: 'Ṣàwárí Àwọn Ẹkọ',
-                cta_whatsapp: '💬 Sọ̀rọ̀ lórí WhatsApp',
-                stages_heading: 'Ìrìn-àjò Ẹkọ Rẹ',
-                stage1_title: 'Ìbẹ̀rẹ̀',
-                stage1_desc: 'Kọ́ àwọn ìpilẹ̀, irinṣẹ́, kí o sì ṣe iṣẹ́ àkànṣe kékeré àkọ́kọ́ rẹ.',
-                stage2_title: 'Ìtẹ̀síwájú',
-                stage2_desc: 'Ìlọsíwájú pípọ̀, àwọn iṣẹ́ àkànṣe tó ní agbára, àti àwọn ìdánwò lọ́pọ̀ ìgbà.',
-                stage3_title: 'Ìdánilẹ́kọ̀ọ́ Ọ̀jọ̀gbọ́n',
-                stage3_desc: 'Ìtọ́sọ́nà tààrà, àwọn iṣẹ́ àkànṣe ìparí, ọ̀nà iṣẹ́, àti ìwé ẹ̀rí kárí ayé.',
-                courses_heading: 'Àwọn Ẹkọ Tó Ń Jẹ́ Kí O <span style="color: var(--primary);">Ṣeé Gbàṣe</span>',
-                course1_badge: 'Àwòrán',
-                course1: 'Àwòrán Ojú-ewé',
-                course1_desc: 'UI/UX, àwòrán tí ó ń fèsì, àwọn irinṣẹ́ iwájú. Ṣe àkójọpọ̀ àwọn ojú-ewé.',
-                course2_badge: 'Full Stack',
-                course2: 'Ìdàgbàsókè Software',
-                course2_desc: 'Iwájú, ẹ̀yìn, àwọn ibi ìpamọ́ dátà, àti ìfilọ́lẹ̀. Láti kóòdù sí ìgbéjáde.',
-                course3_badge: 'Ààbò',
-                course3: 'Ààbò Cyber',
-                course3_desc: 'Hacking tí ó tọ́, ìdáàbò nẹ́tíwọ́kì, àti àwọn iṣẹ́ ààbò. Dáàbò àwọn ohun-ìní oní-nọ́ńbà.',
-                course4_badge: 'Dátà',
-                course4: 'Ìtúpalẹ̀ Dátà',
-                course4_desc: 'Python, SQL, ìṣàfihàn, àti àwọn ìpilẹ̀ ẹ̀kọ́ ẹ̀rọ. Yí dátà padà sí ìpinnu.',
-                course5_badge: 'AI',
-                course5: 'Ìmọ̀ Ẹ̀rọ Prompt',
-                course5_desc: 'Ṣẹ̀dá àwọn àṣẹ tí ó munádóko fún àwọn àwòṣe AI. Ṣàdàkọ àwọn ìṣiṣẹ́ pẹ̀lú AI.',
-                course6_badge: 'Gbajúmọ̀',
-                course6: 'Vibe Coding',
-                course6_desc: 'Ìdàgbàsókè ìrànlọ́wọ́ AI: kọ́ àwọn ohun-èlò nípa ṣíṣe àpèjúwe wọn.',
-                course7_badge: 'Ìṣàdàkọ',
-                course7: 'AI Automation',
-                course7_desc: 'Àwọn aṣojú AI kò-sí-kóòdù, Zapier, Make, àti àwọn àdàkọ àdáṣe fún ìṣòwò.',
-                why_heading: 'Kí Nìdí Tí Triangletech <span style="color: var(--primary);">Learn</span> Fi Yàtọ̀?',
-                why1_title: 'Ìtọ́sọ́nà Tààrà',
-                why1_desc: 'Okewunmi Timileyin àti Joshua Ofoesuwa fúnra wọn ń tọ́ ọ sí ọ̀nà ní gbogbo ìpele.',
-                why2_title: 'Yàrá Ìkẹ́kọ̀ọ́ & Ìjíròrò',
-                why2_desc: 'Ìbéèrè àti Ìdáhùn lásìkò, àwọn ìjíròrò àgbègbè, àti àtúnyẹ̀wò ẹlẹgbẹ́.',
-                why3_title: 'Àwọn Iṣẹ́ Àkànṣe Gidi',
-                why3_desc: 'Ọ̀pọ̀ iṣẹ́ àkànṣe fún ẹkọ kọ̀ọ̀kan. Iṣẹ́ àkànṣe ìparí rẹ ni a ó gbé jáde.',
-                why4_title: 'Ọ̀nà Iṣẹ́',
-                why4_desc: 'Àwọn tí ó ṣe dáradára jùlọ ni a ń so pọ̀ mọ́ àwọn ànfàní kárí ayé.',
-                contact_heading: 'Kàn sí wa lórí WhatsApp',
-                faq_heading: 'Àwọn Ìbéèrè Tí A Sábà Ń Béèrè',
-                faq1_q: 'Kí Ni Triangletech Learn?',
-                faq1_a: 'Triangletech Learn jẹ́ pẹpẹ ìkọ́nilẹ́kọ̀ọ́ ìmọ̀ ẹ̀rọ ní Nàìjíríà, tí Okewunmi Timileyin àti Joshua Ofoesuwa dá sílẹ̀.',
-                faq2_q: 'Ṣé Triangletech Jẹ́ Ilé-iṣẹ́ Ìmọ̀ Ẹ̀rọ Tí A Forúkọsílẹ̀?',
-                faq2_a: 'Bẹ́ẹ̀ ni, Triangletech ń ṣiṣẹ́ gẹ́gẹ́ bí ilé-iṣẹ́ ẹ̀kọ́ ìmọ̀ ẹ̀rọ ní Nàìjíríà.',
-                faq3_q: 'Àwọn Wo Ni Okewunmi Timileyin àti Joshua Ofoesuwa?',
-                faq3_a: 'Àwọn ni olùdásílẹ̀ àti olùkọ́ àgbà. LinkedIn Okewunmi: <a href="https://www.linkedin.com/in/okewunmi-timileyin-0632b0328" target="_blank">linkedin.com/in/okewunmi-timileyin-0632b0328</a>.',
-                faq4_q: 'Báwo Ni Mo Ṣe Lè Gba Ìwé Ẹ̀rí?',
-                faq4_a: 'Kọjá gbogbo àwọn ìdánwò àti ìdánwò ìparí, kí o sì parí àwọn iṣẹ́ àkànṣe tí a béèrè.',
-                faq5_q: 'Ṣé Triangletech Ń Ṣèrànwọ́ fún Rírí Iṣẹ́?',
-                faq5_a: 'Dájúdájú. Ìpele Ìdánilẹ́kọ̀ọ́ Ọ̀jọ̀gbọ́n wa so àwọn akẹ́kọ̀ọ́ tí ó jáfáfá pọ̀ mọ́ àwọn ànfàní iṣẹ́.',
-                footer_tagline: 'Ilé-ìwé ìmọ̀ ẹ̀rọ ní Èkó. Àdáṣe nípasẹ̀ ìtọ́sọ́nà.',
-                footer_quick_links: 'Àwọn Ìjápọ̀ Yára',
-                footer_contact: 'Ìbánisọ̀rọ̀',
-                footer_languages: 'Àwọn Èdè'
-            },
-            ha: {
-                nav_courses: 'Darussai',
-                nav_about: 'Game da',
-                nav_faq: 'Tambayoyi',
-                nav_contact: 'Tuntuɓe',
-                take_course: 'Dauki Darasi',
-                cta_get_started: 'Fara',
-                hero_title: 'Koyi Ƙwarewar da ake Buƙata.<br>Zama <span style="color: var(--primary);">Mai Dogaro da Kai</span>.',
-                hero_sub: 'Daga Elementary zuwa Professional Mentorship — sami takaddun shaida, gina ainihin ayyukan, kuma buɗe damar aiki na duniya.',
-                cta_explore: 'Bincika Darussai',
-                cta_whatsapp: '💬 Yi Hira a WhatsApp',
-                stages_heading: 'Tafiyar Koyon Ku',
-                stage1_title: 'Elementary',
-                stage1_desc: 'Koyi tushe, kayan aiki, da gina ƙaramin aikin ku na farko.',
-                stage2_title: 'Advanced',
-                stage2_desc: 'Zurfafa zurfafa, ayyuka masu rikitarwa, da gwaje-gwaje na yau da kullum.',
-                stage3_title: 'Ƙwararrun Horarwa',
-                stage3_desc: 'Horar da kai tsaye, ayyukan ƙarshe, bututun aiki, da takaddun shaida na duniya.',
-                courses_heading: 'Darussan da Suka Sa Ku <span style="color: var(--primary);">Yin Aiki</span>',
-                course1_badge: 'Zane',
-                course1: 'Zane Yanar Gizo',
-                course1_desc: 'UI/UX, zane mai amsawa, kayan aikin gaba. Gina fayil ɗin shafukan yanar gizo masu rai.',
-                course2_badge: 'Cikakken',
-                course2: 'Ci Gaban Software',
-                course2_desc: 'Gaba, baya, ma’ajin bayanai, da turawa. Daga lamba zuwa samarwa.',
-                course3_badge: 'Tsaro',
-                course3: 'Tsaro na Intanet',
-                course3_desc: 'Hacking na da’a, tsaron hanyar sadarwa, ayyukan tsaro. Kare kadarorin dijital.',
-                course4_badge: 'Bayanai',
-                course4: 'Nazarin Bayanai',
-                course4_desc: 'Python, SQL, gani, da tushen ML. Juya bayanai zuwa yanke shawara.',
-                course5_badge: 'AI',
-                course5: 'Injiniyanci na Prompt',
-                course5_desc: 'Ƙirƙira ingantattun umarni don samfuran AI. Sarrafa kansa da AI mai ƙirƙira.',
-                course6_badge: 'Trend',
-                course6: 'Vibe Coding',
-                course6_desc: 'Ci gaba na zamani tare da taimakon AI: gina apps ta hanyar siffanta su.',
-                course7_badge: 'Sarrafa Kansa',
-                course7: 'AI Automation',
-                course7_desc: 'Wakilan AI marasa lamba/ƙananan lamba, Zapier, Make, da ayyukan sarrafa kansa na kasuwanci.',
-                why_heading: 'Me Yasa Triangletech <span style="color: var(--primary);">Learn</span>?',
-                why1_title: 'Horarwa Kai Tsaye',
-                why1_desc: 'Okewunmi Timileyin da Joshua Ofoesuwa suna jagorantar ku ta kowane mataki.',
-                why2_title: 'Aji & Tattaunawa',
-                why2_desc: 'Tambaya da Amsa kai tsaye, tattaunawar al’umma, da bitar takwarorinsu.',
-                why3_title: 'Ayyuka na Gaskiya',
-                why3_desc: 'Ayyuka da yawa a kowane darasi. Ana buga aikin ku na ƙarshe a shafukanmu.',
-                why4_title: 'Bututun Aiki',
-                why4_desc: 'Ana haɗa manyan waɗanda suka kammala da damar aiki na duniya.',
-                contact_heading: 'Tuntuɓe Mu a WhatsApp',
-                faq_heading: 'Tambayoyin da ake yawan yi',
-                faq1_q: 'Menene Triangletech Learn?',
-                faq1_a: 'Triangletech Learn dandamali ne na koyar da fasaha a Najeriya, wanda Okewunmi Timileyin da Joshua Ofoesuwa suka kafa.',
-                faq2_q: 'Shin Triangletech kamfani ne na fasaha mai rijista a Najeriya?',
-                faq2_a: 'Ee, Triangletech yana aiki a matsayin kamfanin ilimin fasaha a Najeriya, yana ba da horo kai tsaye.',
-                faq3_q: 'Su wane ne Okewunmi Timileyin da Joshua Ofoesuwa?',
-                faq3_a: 'Su ne masu kafa da manyan masu ba da horo. LinkedIn na Okewunmi: <a href="https://www.linkedin.com/in/okewunmi-timileyin-0632b0328" target="_blank">linkedin.com/in/okewunmi-timileyin-0632b0328</a>.',
-                faq4_q: 'Yaya zan sami takardar shaida?',
-                faq4_a: 'Ku ci dukkan gwaje-gwaje, jarrabawar ƙarshe, kuma ku kammala ayyukan da ake buƙata.',
-                faq5_q: 'Shin Triangletech yana taimakawa wurin samun aiki?',
-                faq5_a: 'Tabbas. Matakin Ƙwararrun Horarwa yana haɗa waɗanda suka kammala da dama a fannonin fasaha.',
-                footer_tagline: 'Makarantar fasaha a Legas. Dogaro da kai ta hanyar horarwa.',
-                footer_quick_links: 'Hanyoyin Gaggawa',
-                footer_contact: 'Tuntuɓe',
-                footer_languages: 'Harsuna'
-            },
-            ig: {
-                nav_courses: 'Ọmụmụ ihe',
-                nav_about: 'Ihe gbasara',
-                nav_faq: 'Ajụjụ',
-                nav_contact: 'Kpọtụrụ',
-                take_course: 'Were Ọmụmụ ihe',
-                cta_get_started: 'Bido',
-                hero_title: 'Mụta nka ndị a na-achọsi ike.<br>Bụrụ <span style="color: var(--primary);">Onye nwere onwe</span>.',
-                hero_sub: 'Site na Elementary ruo Ọzụzụ Ọkachamara — nweta asambodo, rụọ ezigbo ọrụ, ma nweta ohere ọrụ zuru ụwa ọnụ.',
-                cta_explore: 'Chọgharịa Ọmụmụ ihe',
-                cta_whatsapp: '💬 Kparịta na WhatsApp',
-                stages_heading: 'Njem mmụta gị',
-                stage1_title: 'Elementary',
-                stage1_desc: 'Mụta ihe ndị bụ isi, ngwaọrụ, ma rụọ obere ọrụ mbụ gị.',
-                stage2_title: 'Advanced',
-                stage2_desc: 'Mikpuru onwe gị, ọrụ ndị siri ike, na ule oge niile.',
-                stage3_title: 'Ọzụzụ Ọkachamara',
-                stage3_desc: 'Ndụmọdụ kpọmkwem, ọrụ ikpeazụ, pipeline ọrụ, na asambodo zuru ụwa ọnụ.',
-                courses_heading: 'Ọmụmụ ihe na-eme gị <span style="color: var(--primary);">Onye a ga-ewe n’ọrụ</span>',
-                course1_badge: 'Nhazi',
-                course1: 'Nhazi Weebụ',
-                course1_desc: 'UI/UX, nhazi na-anabata, ngwaọrụ ihu. Wuo pọtụfoliyo nke saịtị ndụ.',
-                course2_badge: 'Full Stack',
-                course2: 'Mmepe Ngwanrọ',
-                course2_desc: 'Ihu, azụ, nchekwa data, na mbugharị. Site na koodu ruo mmepụta.',
-                course3_badge: 'Nchekwa',
-                course3: 'Nchekwa Cyber',
-                course3_desc: 'Hacking ziri ezi, nchekwa netwọkụ, ọrụ nchekwa. Chekwaa akụ dijitalụ.',
-                course4_badge: 'Data',
-                course4: 'Nyocha Data',
-                course4_desc: 'Python, SQL, nhụta, na ntọala ML. Tụgharịa data ka ọ bụrụ mkpebi.',
-                course5_badge: 'AI',
-                course5: 'Injinia Prompt',
-                course5_desc: 'Mepụta nkwalite dị irè maka ụdị AI. Megharịa usoro ọrụ na AI.',
-                course6_badge: 'Na-ewu ewu',
-                course6: 'Vibe Coding',
-                course6_desc: 'Mmepe nke AI na-enyere aka: wuo ngwa site na ịkọwa ha.',
-                course7_badge: 'Akpaaka',
-                course7: 'AI Automation',
-                course7_desc: 'Ndị nnọchi anya AI enweghị koodu/obere koodu, Zapier, Make, na akpaaka ahaziri maka azụmahịa.',
-                why_heading: 'Gịnị mere Triangletech <span style="color: var(--primary);">Learn</span>?',
-                why1_title: 'Ndụmọdụ Kpọmkwem',
-                why1_desc: 'Okewunmi Timileyin na Joshua Ofoesuwa na-eduzi gị n’onwe gị site na ọkwa ọ bụla.',
-                why2_title: 'Klaasị & Mkparịta ụka',
-                why2_desc: 'Ajụjụ & Azịza ndụ, mkparịta ụka obodo, na nleba anya ndị ọgbọ.',
-                why3_title: 'Ezigbo Ọrụ',
-                why3_desc: 'Ọtụtụ ọrụ n’otu nkuzi. A na-ebipụta ọrụ ikpeazụ gị na ibe anyị.',
-                why4_title: 'Pipeline Ọrụ',
-                why4_desc: 'A na-ejikọ ndị gụsịrị akwụkwọ kacha mma na ohere zuru ụwa ọnụ.',
-                contact_heading: 'Kpọtụrụ anyị na WhatsApp',
-                faq_heading: 'Ajụjụ A Na-ajụkarị',
-                faq1_q: 'Gịnị bụ Triangletech Learn?',
-                faq1_a: 'Triangletech Learn bụ ikpo okwu nkuzi teknụzụ dị na Naịjirịa, nke Okewunmi Timileyin na Joshua Ofoesuwa tọrọ ntọala.',
-                faq2_q: 'Triangletech ọ bụ ụlọ ọrụ teknụzụ edebanyere aha na Naịjirịa?',
-                faq2_a: 'Ee, Triangletech na-arụ ọrụ dị ka ụlọ ọrụ agụmakwụkwọ teknụzụ na Naịjirịa, na-enye ndụmọdụ kpọmkwem na ọzụzụ aka.',
-                faq3_q: 'Ndị bụ Okewunmi Timileyin na Joshua Ofoesuwa?',
-                faq3_a: 'Ha bụ ndị tọrọ ntọala na ndị ndụmọdụ isi. LinkedIn Okewunmi: <a href="https://www.linkedin.com/in/okewunmi-timileyin-0632b0328" target="_blank">linkedin.com/in/okewunmi-timileyin-0632b0328</a>.',
-                faq4_q: 'Kedu ka m ga-esi nweta asambodo?',
-                faq4_a: 'Gafee ule niile, ule ikpeazụ, ma rụchaa ọrụ ndị achọrọ.',
-                faq5_q: 'Triangletech ọ na-enyere aka n’ịchọta ọrụ?',
-                faq5_a: 'N’ezie. Ọkwa Ọzụzụ Ọkachamara anyị na-ejikọ ndị gụsịrị akwụkwọ na ohere na fintech, nhazi weebụ, na ndị ọzọ.',
-                footer_tagline: 'Ụlọ akwụkwọ teknụzụ na Lagos. Onwe site na ndụmọdụ.',
-                footer_quick_links: 'Njikọ Ọsọ',
-                footer_contact: 'Kpọtụrụ',
-                footer_languages: 'Asụsụ'
+                nav_courses: "Cours", nav_about: "Pourquoi Nous", cta_take_course: "Suivre le Cours",
+                hero_title: "Assurez l'Avenir de Votre Carrière.",
+                hero_sub: "Maîtrisez les compétences très demandées grâce à un mentorat de classe mondiale. Réalisez des projets, obtenez votre certification et sécurisez votre place.",
+                cta_start: "Commencer à Apprendre", cta_advisor: "Parler à un Conseiller",
+                courses_heading: "Programmes Technologiques Premium", courses_sub: "Conçu par des experts pour vous faire passer de débutant à professionnel employable."
             }
         };
 
@@ -1476,20 +374,11 @@
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (translations[lang] && translations[lang][key]) {
-                    if (key.includes('_title') || key.includes('_heading') || key.includes('hero_') || key.includes('faq3_a') || key.includes('faq1_a') || key.includes('faq2_a') || key.includes('faq4_a') || key.includes('faq5_a')) {
-                        el.innerHTML = translations[lang][key];
-                    } else {
-                        el.textContent = translations[lang][key];
-                    }
+                    el.textContent = translations[lang][key];
                 }
             });
             document.documentElement.lang = lang;
-            document.getElementById('lang-select').value = lang;
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            switchLanguage('en');
-        });
     </script>
 </body>
 </html>
