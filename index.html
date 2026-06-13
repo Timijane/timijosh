@@ -337,7 +337,7 @@
             height: 100vh;
             min-height: 700px;
             overflow: hidden;
-            background: var(--deep-black);
+            background: var(--off-white);
         }
         .hero-slider {
             position: absolute;
@@ -362,7 +362,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            filter: brightness(0.35);
+            filter: brightness(1.05);
             transform: scale(1.05);
             transition: transform 8s ease;
         }
@@ -372,7 +372,7 @@
         .hero-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(180deg, rgba(10, 10, 10, 0.7) 0%, rgba(10, 10, 10, 0.4) 50%, rgba(10, 10, 10, 0.85) 100%);
+            background: linear-gradient(180deg, rgba(248, 249, 250, 0.75) 0%, rgba(248, 249, 250, 0.9) 100%);
             z-index: 2;
         }
         .hero-content {
@@ -386,7 +386,7 @@
             font-family: var(--font-heading);
             font-size: clamp(2.8rem, 6vw, 4.5rem);
             font-weight: 800;
-            color: var(--white);
+            color: var(--deep-black);
             line-height: 1.1;
             margin-bottom: 1.2rem;
             letter-spacing: -0.04em;
@@ -394,7 +394,7 @@
         }
         .hero-content p {
             font-size: clamp(1.05rem, 1.8vw, 1.3rem);
-            color: rgba(255, 255, 255, 0.85);
+            color: var(--dark-gray);
             margin-bottom: 2.2rem;
             max-width: 600px;
             margin-left: auto;
@@ -448,12 +448,13 @@
         }
         .btn-outline {
             background: transparent;
-            color: var(--white);
-            border: 2px solid rgba(255, 255, 255, 0.6);
+            color: var(--deep-black);
+            border: 2px solid var(--deep-black);
         }
         .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--white);
+            background: rgba(0, 0, 0, 0.05);
+            border-color: var(--red);
+            color: var(--red);
             transform: translateY(-3px);
         }
         .btn-dark {
@@ -479,7 +480,7 @@
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(0, 0, 0, 0.2);
             cursor: pointer;
             transition: var(--transition-smooth);
             border: none;
@@ -499,7 +500,7 @@
             cursor: pointer;
             background: none;
             border: none;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(0, 0, 0, 0.5);
             font-size: 2rem;
         }
         @keyframes bounceDown {
@@ -560,7 +561,7 @@
             margin: 0 auto;
         }
         .bg-dark {
-            background: var(--deep-black);
+            background: #1A1A1A;
             padding: 6rem 2rem;
             margin: 0;
             max-width: 100%;
@@ -637,42 +638,6 @@
             background: var(--gradient-red);
             border-radius: 50%;
             flex-shrink: 0;
-        }
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-        .stat-card {
-            text-align: center;
-            padding: 2rem 1rem;
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            transition: var(--transition-smooth);
-            border: 1px solid rgba(0, 0, 0, 0.04);
-        }
-        .stat-card:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-xl);
-            border-color: rgba(220, 38, 38, 0.15);
-        }
-        .stat-number {
-            font-family: var(--font-heading);
-            font-size: 2.8rem;
-            font-weight: 800;
-            background: var(--gradient-red);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.03em;
-        }
-        .stat-label {
-            color: var(--dark-gray);
-            font-weight: 500;
-            font-size: 0.9rem;
-            margin-top: 0.3rem;
         }
 
         /* ============ SERVICES ============ */
@@ -757,79 +722,69 @@
             color: var(--dark-red);
         }
 
-        /* ============ TRAINING ACADEMY ============ */
-        .training-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.8rem;
-        }
-        .training-card {
+        /* ============ TRAINING OFFER (artistic compact) ============ */
+        .training-offer {
             background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: 2.2rem;
-            box-shadow: var(--shadow-md);
-            border: 1px solid rgba(0, 0, 0, 0.04);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem 3rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(0,0,0,0.04);
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
             transition: var(--transition-smooth);
             position: relative;
+            overflow: hidden;
         }
-        .training-card:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-xl);
-        }
-        .training-badge {
+        .training-offer::before {
+            content: '';
             position: absolute;
-            top: 16px;
-            right: 16px;
-            padding: 5px 14px;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.03em;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(220,38,38,0.06) 0%, transparent 60%);
+            pointer-events: none;
         }
-        .badge-beginner {
-            background: #ecfdf5;
-            color: #059669;
+        .training-offer:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+            border-color: rgba(220,38,38,0.2);
         }
-        .badge-intermediate {
-            background: #fffbeb;
-            color: #d97706;
-        }
-        .badge-advanced {
-            background: #fef2f2;
-            color: #dc2626;
-        }
-        .training-card h4 {
+        .training-offer h3 {
             font-family: var(--font-heading);
+            font-size: 2rem;
             font-weight: 700;
-            font-size: 1.2rem;
-            margin-bottom: 0.8rem;
-            letter-spacing: -0.02em;
-            padding-right: 80px;
+            margin-bottom: 0.5rem;
+            color: var(--deep-black);
+            letter-spacing: -0.03em;
         }
-        .training-card .tech-tags {
+        .training-offer .offer-sub {
+            color: var(--dark-gray);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .offer-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 1rem;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
         }
-        .tech-tag {
+        .offer-tag {
             background: var(--light-gray);
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 0.78rem;
-            font-weight: 500;
             color: var(--deep-black);
-        }
-        .training-card .outcome {
-            color: var(--dark-gray);
-            font-size: 0.9rem;
-            margin-bottom: 1.2rem;
-        }
-        .training-card .duration {
-            font-weight: 600;
+            padding: 6px 16px;
+            border-radius: 50px;
             font-size: 0.85rem;
-            color: var(--red);
-            margin-bottom: 1rem;
+            font-weight: 500;
+            transition: var(--transition-fast);
+        }
+        .offer-tag:hover {
+            background: var(--gradient-red);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-red);
         }
 
         /* ============ CYBERSECURITY & AI SECTION ============ */
@@ -868,7 +823,7 @@
             font-size: 1.05rem;
         }
 
-        /* ============ PORTFOLIO ============ */
+        /* ============ FOCUS / PORTFOLIO SECTION ============ */
         .portfolio-filter {
             display: flex;
             flex-wrap: wrap;
@@ -1023,43 +978,42 @@
             font-size: 0.9rem;
         }
 
-        /* ============ CONTACT SECTION ============ */
+        /* ============ CONTACT SECTION (compact artistic) ============ */
         .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 1.2rem;
         }
         .contact-card {
             background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: 2rem 1.5rem;
-            text-align: center;
-            box-shadow: var(--shadow-md);
-            border: 1px solid rgba(0, 0, 0, 0.04);
+            border-radius: 50px;
+            padding: 0.9rem 1.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(0,0,0,0.06);
             transition: var(--transition-smooth);
             text-decoration: none;
             color: var(--deep-black);
-            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
         }
         .contact-card:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-xl);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
             background: var(--gradient-red);
             color: var(--white);
             border-color: transparent;
         }
         .contact-card .contact-icon {
-            font-size: 2.2rem;
-            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
             transition: var(--transition-smooth);
         }
         .contact-card:hover .contact-icon {
-            transform: scale(1.2);
-        }
-        .contact-card h4 {
-            font-family: var(--font-heading);
-            font-weight: 700;
-            font-size: 0.95rem;
+            transform: scale(1.15);
         }
 
         /* ============ FAQ ============ */
@@ -1101,7 +1055,7 @@
 
         /* ============ FOOTER ============ */
         .site-footer {
-            background: var(--deep-black);
+            background: #1A1A1A;
             color: var(--white);
             padding: 5rem 2rem 2rem;
             position: relative;
@@ -1114,7 +1068,7 @@
             background-size: 350px;
             background-position: center;
             background-repeat: no-repeat;
-            opacity: 0.04;
+            opacity: 0.06;
             pointer-events: none;
         }
         .footer-grid {
@@ -1206,16 +1160,12 @@
         /* ============ MOBILE ============ */
         @media (max-width: 1024px) {
             .services-grid,
-            .training-grid,
             .portfolio-grid,
             .resources-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-            .stats-row {
-                grid-template-columns: repeat(3, 1fr);
-            }
             .contact-grid {
-                grid-template-columns: repeat(3, 1fr);
+                justify-content: center;
             }
             .footer-grid {
                 grid-template-columns: repeat(3, 1fr);
@@ -1247,16 +1197,13 @@
                 display: flex;
             }
             .services-grid,
-            .training-grid,
             .portfolio-grid,
             .resources-grid {
                 grid-template-columns: 1fr;
             }
-            .stats-row {
-                grid-template-columns: repeat(2, 1fr);
-            }
             .contact-grid {
-                grid-template-columns: repeat(2, 1fr);
+                flex-direction: column;
+                align-items: center;
             }
             .footer-grid {
                 grid-template-columns: 1fr 1fr;
@@ -1274,14 +1221,11 @@
             .bg-dark {
                 padding: 3rem 1.2rem;
             }
+            .training-offer {
+                padding: 2rem 1.5rem;
+            }
         }
         @media (max-width: 480px) {
-            .stats-row {
-                grid-template-columns: 1fr 1fr;
-            }
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
             .footer-grid {
                 grid-template-columns: 1fr;
             }
@@ -1292,6 +1236,10 @@
             .btn {
                 width: 100%;
                 justify-content: center;
+            }
+            .contact-card {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -1328,9 +1276,9 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#services">Services</a></li>
                 <li><a href="#training">Training</a></li>
-                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#focus">Our Focus</a></li>
                 <li><a href="#resources">Resources</a></li>
-                <li><a href="#contact" class="nav-cta">Get Started</a></li>
+                <li><a href="auth.html" class="nav-cta">Get Started</a></li>
             </ul>
             <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu" aria-expanded="false">
                 <span></span><span></span><span></span>
@@ -1349,8 +1297,8 @@
                     <h1>Transform Your Future Through Technology</h1>
                     <p>Build valuable digital skills and unlock endless opportunities in the tech industry with Triangletech's world-class training and solutions.</p>
                     <div class="hero-btns">
-                        <a href="#training" class="btn btn-primary">Get Started</a>
-                        <a href="#services" class="btn btn-outline">Explore Services</a>
+                        <a href="auth.html" class="btn btn-primary">Get Started</a>
+                        <a href="auth.html" class="btn btn-outline">Explore Services</a>
                     </div>
                 </div>
             </div>
@@ -1362,8 +1310,8 @@
                     <h1>Learn From Anywhere</h1>
                     <p>Access practical technology training from the comfort of your home. Flexible, hands-on, and career-focused learning designed for real-world success.</p>
                     <div class="hero-btns">
-                        <a href="#training" class="btn btn-primary">Start Learning</a>
-                        <a href="#contact" class="btn btn-outline">Contact Us</a>
+                        <a href="auth.html" class="btn btn-primary">Start Learning</a>
+                        <a href="auth.html" class="btn btn-outline">Contact Us</a>
                     </div>
                 </div>
             </div>
@@ -1375,8 +1323,8 @@
                     <h1>Innovative Digital Solutions</h1>
                     <p>Helping businesses grow through modern software, digital transformation, and cutting-edge technology solutions tailored to your needs.</p>
                     <div class="hero-btns">
-                        <a href="#services" class="btn btn-primary">Our Solutions</a>
-                        <a href="#portfolio" class="btn btn-outline">View Portfolio</a>
+                        <a href="auth.html" class="btn btn-primary">Our Solutions</a>
+                        <a href="auth.html" class="btn btn-outline">View Portfolio</a>
                     </div>
                 </div>
             </div>
@@ -1388,8 +1336,8 @@
                     <h1>Build, Learn, Grow</h1>
                     <p>From beginners to professionals, we provide the tools, mentorship, and real-world experience needed for lasting success in technology.</p>
                     <div class="hero-btns">
-                        <a href="#about" class="btn btn-primary">Discover More</a>
-                        <a href="#contact" class="btn btn-outline">Get In Touch</a>
+                        <a href="auth.html" class="btn btn-primary">Discover More</a>
+                        <a href="auth.html" class="btn btn-outline">Get In Touch</a>
                     </div>
                 </div>
             </div>
@@ -1433,29 +1381,7 @@
                     <li>Modern technologies & tools</li>
                     <li>Continuous support & guidance</li>
                 </ul>
-                <a href="#contact" class="btn btn-primary">Learn More About Us</a>
-            </div>
-        </div>
-        <div class="stats-row reveal">
-            <div class="stat-card">
-                <div class="stat-number" data-target="5000">0</div>
-                <div class="stat-label">Students Trained</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" data-target="350">0</div>
-                <div class="stat-label">Projects Completed</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" data-target="200">0</div>
-                <div class="stat-label">Happy Clients</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" data-target="50">0</div>
-                <div class="stat-label">Technologies Covered</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" data-target="120">0</div>
-                <div class="stat-label">Success Stories</div>
+                <a href="auth.html" class="btn btn-primary">Learn More About Us</a>
             </div>
         </div>
     </section>
@@ -1473,128 +1399,79 @@
                     <div class="service-icon">🌐</div>
                     <h4>Website Development</h4>
                     <p>Professional, responsive, and high-performance websites built with the latest technologies to elevate your online presence.</p>
-                    <a href="#contact" class="service-link">Learn More →</a>
+                    <a href="auth.html" class="service-link">Learn More →</a>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">📱</div>
                     <h4>Mobile App Development</h4>
                     <p>Native and cross-platform mobile applications for Android and iOS that deliver exceptional user experiences.</p>
-                    <a href="#contact" class="service-link">Learn More →</a>
+                    <a href="auth.html" class="service-link">Learn More →</a>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">⚙️</div>
                     <h4>Custom Software Development</h4>
                     <p>Tailored software solutions that automate processes, increase efficiency, and drive business growth.</p>
-                    <a href="#contact" class="service-link">Learn More →</a>
+                    <a href="auth.html" class="service-link">Learn More →</a>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">🤖</div>
                     <h4>AI Solutions</h4>
                     <p>Harness the power of artificial intelligence with intelligent automation, machine learning, and AI-powered tools.</p>
-                    <a href="#contact" class="service-link">Learn More →</a>
+                    <a href="auth.html" class="service-link">Learn More →</a>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">🔒</div>
                     <h4>Cybersecurity</h4>
                     <p>Protect your digital assets with enterprise-grade security solutions, vulnerability assessments, and threat monitoring.</p>
-                    <a href="#contact" class="service-link">Learn More →</a>
+                    <a href="auth.html" class="service-link">Learn More →</a>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">☁️</div>
                     <h4>Cloud Solutions</h4>
                     <p>Scalable cloud infrastructure, migration services, and cloud-native development for modern businesses.</p>
-                    <a href="#contact" class="service-link">Learn More →</a>
+                    <a href="auth.html" class="service-link">Learn More →</a>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">🔍</div>
                     <h4>SEO Optimization</h4>
                     <p>Data-driven SEO strategies that improve search rankings, drive organic traffic, and increase online visibility.</p>
-                    <a href="#contact" class="service-link">Learn More →</a>
+                    <a href="auth.html" class="service-link">Learn More →</a>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">📊</div>
                     <h4>Digital Marketing</h4>
                     <p>Comprehensive digital marketing solutions including social media, content marketing, and online advertising.</p>
-                    <a href="#contact" class="service-link">Learn More →</a>
+                    <a href="auth.html" class="service-link">Learn More →</a>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">💡</div>
                     <h4>Technology Consulting</h4>
                     <p>Expert technology advisory services to help you make informed decisions and implement the right solutions.</p>
-                    <a href="#contact" class="service-link">Learn More →</a>
+                    <a href="auth.html" class="service-link">Learn More →</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ============ TRAINING ACADEMY SECTION ============ -->
+    <!-- ============ TRAINING ACADEMY (compact artistic) ============ -->
     <section class="section" id="training">
         <div class="section-header reveal">
             <span class="section-label">Training Academy</span>
-            <h2>Learn Today's Skills for Tomorrow's Opportunities</h2>
-            <p>Comprehensive, practical training programs designed to launch and advance your technology career.</p>
+            <h2>What We Offer</h2>
+            <p>Practical, career-focused programs designed to equip you with in‑demand technology skills.</p>
         </div>
-        <div class="training-grid reveal">
-            <div class="training-card">
-                <span class="training-badge badge-beginner">Beginner</span>
-                <h4>Web Development</h4>
-                <div class="tech-tags">
-                    <span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">JavaScript</span><span class="tech-tag">React</span><span class="tech-tag">Next.js</span>
-                </div>
-                <p class="outcome">Build professional business websites, portfolios, blogs, and e-commerce platforms from scratch.</p>
-                <p class="duration">⏱ 12 Weeks • Certificate</p>
-                <a href="#contact" class="btn btn-primary" style="width:100%;text-align:center;justify-content:center;">Enroll Now</a>
+        <div class="training-offer reveal">
+            <h3>Start Your Learning Journey</h3>
+            <p class="offer-sub">Our comprehensive training covers the most relevant tech fields today.</p>
+            <div class="offer-tags">
+                <span class="offer-tag">Web Development</span>
+                <span class="offer-tag">Mobile Apps</span>
+                <span class="offer-tag">Cybersecurity</span>
+                <span class="offer-tag">Data Analysis</span>
+                <span class="offer-tag">AI & Automation</span>
+                <span class="offer-tag">UI/UX Design</span>
             </div>
-            <div class="training-card">
-                <span class="training-badge badge-intermediate">Intermediate</span>
-                <h4>Mobile App Development</h4>
-                <div class="tech-tags">
-                    <span class="tech-tag">Flutter</span><span class="tech-tag">React Native</span><span class="tech-tag">API Integration</span>
-                </div>
-                <p class="outcome">Develop and publish real mobile applications for Android and iOS devices.</p>
-                <p class="duration">⏱ 14 Weeks • Certificate</p>
-                <a href="#contact" class="btn btn-primary" style="width:100%;text-align:center;justify-content:center;">Enroll Now</a>
-            </div>
-            <div class="training-card">
-                <span class="training-badge badge-advanced">Advanced</span>
-                <h4>Cybersecurity</h4>
-                <div class="tech-tags">
-                    <span class="tech-tag">Ethical Hacking</span><span class="tech-tag">Network Security</span><span class="tech-tag">Penetration Testing</span>
-                </div>
-                <p class="outcome">Gain practical knowledge of cybersecurity principles and learn to secure digital environments.</p>
-                <p class="duration">⏱ 16 Weeks • Certificate</p>
-                <a href="#contact" class="btn btn-primary" style="width:100%;text-align:center;justify-content:center;">Enroll Now</a>
-            </div>
-            <div class="training-card">
-                <span class="training-badge badge-beginner">Beginner</span>
-                <h4>Data Analysis</h4>
-                <div class="tech-tags">
-                    <span class="tech-tag">Excel</span><span class="tech-tag">SQL</span><span class="tech-tag">Power BI</span>
-                </div>
-                <p class="outcome">Turn raw data into valuable business insights and support better decision-making.</p>
-                <p class="duration">⏱ 10 Weeks • Certificate</p>
-                <a href="#contact" class="btn btn-primary" style="width:100%;text-align:center;justify-content:center;">Enroll Now</a>
-            </div>
-            <div class="training-card">
-                <span class="training-badge badge-intermediate">Intermediate</span>
-                <h4>AI & Automation</h4>
-                <div class="tech-tags">
-                    <span class="tech-tag">ChatGPT</span><span class="tech-tag">Prompt Engineering</span><span class="tech-tag">AI Tools</span>
-                </div>
-                <p class="outcome">Use AI technologies to improve productivity, automate tasks, and create innovative solutions.</p>
-                <p class="duration">⏱ 8 Weeks • Certificate</p>
-                <a href="#contact" class="btn btn-primary" style="width:100%;text-align:center;justify-content:center;">Enroll Now</a>
-            </div>
-            <div class="training-card">
-                <span class="training-badge badge-beginner">Beginner</span>
-                <h4>UI/UX Design</h4>
-                <div class="tech-tags">
-                    <span class="tech-tag">Figma</span><span class="tech-tag">Wireframing</span><span class="tech-tag">Prototyping</span>
-                </div>
-                <p class="outcome">Design professional user interfaces and experiences for modern digital products.</p>
-                <p class="duration">⏱ 10 Weeks • Certificate</p>
-                <a href="#contact" class="btn btn-primary" style="width:100%;text-align:center;justify-content:center;">Enroll Now</a>
-            </div>
+            <a href="auth.html" class="btn btn-primary" style="padding: 16px 40px; font-size: 1.1rem;">Enroll Now</a>
         </div>
     </section>
 
@@ -1615,7 +1492,7 @@
                     <span class="section-label">Cybersecurity</span>
                     <h3>Protect Your Digital World</h3>
                     <p>In an era of increasing cyber threats, Triangletech provides robust cybersecurity solutions and training. From ethical hacking to network security, we equip businesses and individuals with the knowledge and tools to stay secure.</p>
-                    <a href="#contact" class="btn btn-primary">Secure Your Business</a>
+                    <a href="auth.html" class="btn btn-primary">Secure Your Business</a>
                 </div>
             </div>
         </div>
@@ -1635,26 +1512,26 @@
                 <span class="section-label">AI & Innovation</span>
                 <h3>Embrace the Future with AI</h3>
                 <p>Artificial intelligence is transforming industries. Learn how to leverage AI tools, prompt engineering, and intelligent automation to boost productivity and drive innovation in your organization.</p>
-                <a href="#training" class="btn btn-primary">Explore AI Training</a>
+                <a href="auth.html" class="btn btn-primary">Explore AI Training</a>
             </div>
         </div>
     </div>
 
-    <!-- ============ PORTFOLIO SECTION ============ -->
-    <div class="bg-off-white" id="portfolio">
+    <!-- ============ OUR FOCUS SECTION (formerly portfolio) ============ -->
+    <div class="bg-off-white" id="focus">
         <div class="section">
             <div class="section-header reveal">
-                <span class="section-label">Portfolio</span>
-                <h2>Our Work Speaks for Itself</h2>
-                <p>Explore our portfolio of successful projects across websites, mobile apps, software systems, and more.</p>
+                <span class="section-label">Our Focus</span>
+                <h2>Core Technology Domains</h2>
+                <p>We concentrate on delivering excellence in key areas that drive digital transformation and business growth.</p>
             </div>
             <div class="portfolio-filter reveal" id="portfolioFilter">
-                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn active" data-filter="all">All</button>
                 <button class="filter-btn" data-filter="websites">Websites</button>
                 <button class="filter-btn" data-filter="mobile">Mobile Apps</button>
                 <button class="filter-btn" data-filter="software">Software Systems</button>
                 <button class="filter-btn" data-filter="ecommerce">E-commerce</button>
-                <button class="filter-btn" data-filter="education">Educational Platforms</button>
+                <button class="filter-btn" data-filter="education">Education</button>
             </div>
             <div class="portfolio-grid reveal" id="portfolioGrid">
                 <div class="portfolio-card" data-category="websites">
@@ -1664,7 +1541,6 @@
                     <div class="port-info">
                         <h4>Enterprise Corporate Website</h4>
                         <span class="port-cat">Website Development</span>
-                        <p style="font-size:0.85rem;color:var(--dark-gray);">React • Next.js • Tailwind CSS</p>
                     </div>
                 </div>
                 <div class="portfolio-card" data-category="mobile">
@@ -1674,7 +1550,6 @@
                     <div class="port-info">
                         <h4>FinTech Mobile Application</h4>
                         <span class="port-cat">Mobile App Development</span>
-                        <p style="font-size:0.85rem;color:var(--dark-gray);">Flutter • Firebase • REST APIs</p>
                     </div>
                 </div>
                 <div class="portfolio-card" data-category="ecommerce">
@@ -1684,7 +1559,6 @@
                     <div class="port-info">
                         <h4>E-Commerce Platform</h4>
                         <span class="port-cat">E-commerce</span>
-                        <p style="font-size:0.85rem;color:var(--dark-gray);">Shopify • Stripe • React</p>
                     </div>
                 </div>
                 <div class="portfolio-card" data-category="education">
@@ -1694,7 +1568,6 @@
                     <div class="port-info">
                         <h4>Online Learning Platform</h4>
                         <span class="port-cat">Educational Platforms</span>
-                        <p style="font-size:0.85rem;color:var(--dark-gray);">Node.js • MongoDB • React</p>
                     </div>
                 </div>
                 <div class="portfolio-card" data-category="software">
@@ -1704,7 +1577,6 @@
                     <div class="port-info">
                         <h4>Inventory Management System</h4>
                         <span class="port-cat">Software Systems</span>
-                        <p style="font-size:0.85rem;color:var(--dark-gray);">Python • Django • PostgreSQL</p>
                     </div>
                 </div>
                 <div class="portfolio-card" data-category="websites">
@@ -1714,7 +1586,6 @@
                     <div class="port-info">
                         <h4>Security Analytics Dashboard</h4>
                         <span class="port-cat">Website Development</span>
-                        <p style="font-size:0.85rem;color:var(--dark-gray);">Vue.js • D3.js • Node.js</p>
                     </div>
                 </div>
             </div>
@@ -1752,12 +1623,6 @@
                 <p class="quote">"Triangletech's mobile app solution for our startup was top-notch. They delivered on time and the app is flawless. Highly recommended!"</p>
                 <p class="author">Grace E.</p>
                 <p class="role">Startup Founder</p>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-stars">★★★★★</div>
-                <p class="quote">"I never thought I could learn data analysis so quickly. The Power BI training was practical and immediately applicable to my job."</p>
-                <p class="author">Ibrahim S.</p>
-                <p class="role">Data Analysis Graduate</p>
             </div>
         </div>
     </section>
@@ -1853,7 +1718,7 @@
         <p style="text-align:center;color:var(--dark-gray);font-size:0.9rem;" id="langMessage">Select a language to experience Triangletech in your preferred language.</p>
     </section>
 
-    <!-- ============ CONTACT SECTION ============ -->
+    <!-- ============ CONTACT SECTION (compact artistic) ============ -->
     <div class="bg-dark" id="contact">
         <div class="section">
             <div class="section-header reveal">
@@ -1863,24 +1728,19 @@
             </div>
             <div class="contact-grid reveal">
                 <a href="https://wa.me/2348139529405" target="_blank" rel="noopener noreferrer" class="contact-card" aria-label="WhatsApp Chat">
-                    <div class="contact-icon">💬</div>
-                    <h4>WhatsApp Chat</h4>
+                    <span class="contact-icon">💬</span> WhatsApp
                 </a>
                 <a href="https://wa.me/2348161345210" target="_blank" rel="noopener noreferrer" class="contact-card" aria-label="WhatsApp Chat 2">
-                    <div class="contact-icon">📲</div>
-                    <h4>WhatsApp Chat 2</h4>
+                    <span class="contact-icon">📲</span> WhatsApp 2
                 </a>
                 <a href="mailto:contact@triangletech.com" class="contact-card" aria-label="Email Us">
-                    <div class="contact-icon">✉️</div>
-                    <h4>Email Us</h4>
+                    <span class="contact-icon">✉️</span> Email
                 </a>
-                <a href="https://www.linkedin.com/in/okewunmi-timileyin-0632b0328" target="_blank" rel="noopener noreferrer" class="contact-card" aria-label="Connect With Us on LinkedIn">
-                    <div class="contact-icon">🔗</div>
-                    <h4>Connect With Us</h4>
+                <a href="https://www.linkedin.com/in/okewunmi-timileyin-0632b0328" target="_blank" rel="noopener noreferrer" class="contact-card" aria-label="Connect on LinkedIn">
+                    <span class="contact-icon">🔗</span> LinkedIn
                 </a>
-                <a href="#contact" class="contact-card" id="scheduleConsultation" aria-label="Schedule Consultation">
-                    <div class="contact-icon">📅</div>
-                    <h4>Schedule Consultation</h4>
+                <a href="auth.html" class="contact-card" aria-label="Schedule Consultation">
+                    <span class="contact-icon">📅</span> Consultation
                 </a>
             </div>
         </div>
@@ -1915,19 +1775,18 @@
             <div class="footer-col">
                 <h4>Training</h4>
                 <ul>
-                    <li><a href="#training">Courses</a></li>
-                    <li><a href="#training">Programs</a></li>
-                    <li><a href="#training">Certifications</a></li>
+                    <li><a href="#training">What We Offer</a></li>
+                    <li><a href="auth.html">Enroll Now</a></li>
                     <li><a href="#resources">Resources</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>Contact</h4>
                 <ul>
-                    <li><a href="https://wa.me/2348139529405" target="_blank" rel="noopener">WhatsApp Chat</a></li>
-                    <li><a href="mailto:contact@triangletech.com">Email Us</a></li>
+                    <li><a href="https://wa.me/2348139529405" target="_blank" rel="noopener">WhatsApp</a></li>
+                    <li><a href="mailto:contact@triangletech.com">Email</a></li>
                     <li><a href="https://www.linkedin.com/in/okewunmi-timileyin-0632b0328" target="_blank" rel="noopener">LinkedIn</a></li>
-                    <li><a href="#contact">Schedule Call</a></li>
+                    <li><a href="auth.html">Schedule Call</a></li>
                 </ul>
             </div>
         </div>
@@ -1947,7 +1806,6 @@
                 }, 1800);
             });
             document.body.style.overflow = 'hidden';
-            // Fallback in case load event fires late
             setTimeout(function() {
                 if (!splashLoader.classList.contains('hidden')) {
                     splashLoader.classList.add('hidden');
@@ -1972,8 +1830,7 @@
             hamburgerBtn.addEventListener('click', function() {
                 hamburgerBtn.classList.toggle('active');
                 navLinks.classList.toggle('open');
-                const expanded = hamburgerBtn.classList.contains('active');
-                hamburgerBtn.setAttribute('aria-expanded', expanded);
+                hamburgerBtn.setAttribute('aria-expanded', hamburgerBtn.classList.contains('active'));
             });
 
             allNavLinks.forEach(function(link) {
@@ -2006,14 +1863,12 @@
             }
 
             function nextSlide() {
-                const next = (currentSlide + 1) % totalSlides;
-                goToSlide(next);
+                goToSlide((currentSlide + 1) % totalSlides);
             }
 
             function startSlider() {
                 slideInterval = setInterval(nextSlide, 5000);
             }
-
             function stopSlider() {
                 clearInterval(slideInterval);
             }
@@ -2034,35 +1889,23 @@
                 if (bgUrl && !bg.style.backgroundImage.includes(bgUrl)) {
                     const img = new Image();
                     img.src = bgUrl;
-                    img.onload = function() {
-                        bg.style.backgroundImage = "url('" + bgUrl + "')";
-                    };
+                    img.onload = function() { bg.style.backgroundImage = "url('" + bgUrl + "')"; };
                 }
             });
 
             startSlider();
-
-            // Pause on hover
             const heroSection = document.getElementById('hero');
             heroSection.addEventListener('mouseenter', stopSlider);
             heroSection.addEventListener('mouseleave', startSlider);
 
-            // Touch swipe support
             let touchStartX = 0;
-            let touchEndX = 0;
-            heroSection.addEventListener('touchstart', function(e) {
-                touchStartX = e.changedTouches[0].screenX;
-            });
+            heroSection.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].screenX; });
             heroSection.addEventListener('touchend', function(e) {
-                touchEndX = e.changedTouches[0].screenX;
-                const diff = touchStartX - touchEndX;
+                const diff = touchStartX - e.changedTouches[0].screenX;
                 if (Math.abs(diff) > 60) {
                     stopSlider();
-                    if (diff > 0) {
-                        goToSlide((currentSlide + 1) % totalSlides);
-                    } else {
-                        goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
-                    }
+                    if (diff > 0) goToSlide((currentSlide + 1) % totalSlides);
+                    else goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
                     startSlider();
                 }
             });
@@ -2077,47 +1920,11 @@
                     }
                 });
             }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
-            revealElements.forEach(function(el) {
-                revealObserver.observe(el);
-            });
-
-            // ============ COUNT-UP ANIMATION ============
-            const statNumbers = document.querySelectorAll('.stat-number[data-target]');
-            const countObserver = new IntersectionObserver(function(entries) {
-                entries.forEach(function(entry) {
-                    if (entry.isIntersecting) {
-                        const el = entry.target;
-                        const target = parseInt(el.getAttribute('data-target'));
-                        const duration = 2000;
-                        const startTime = performance.now();
-
-                        function updateCount(timestamp) {
-                            const elapsed = timestamp - startTime;
-                            const progress = Math.min(elapsed / duration, 1);
-                            const eased = 1 - Math.pow(1 - progress, 3);
-                            const current = Math.floor(eased * target);
-                            el.textContent = current.toLocaleString() + '+';
-                            if (progress < 1) {
-                                requestAnimationFrame(updateCount);
-                            } else {
-                                el.textContent = target.toLocaleString() + '+';
-                            }
-                        }
-                        requestAnimationFrame(updateCount);
-                        countObserver.unobserve(el);
-                    }
-                });
-            }, { threshold: 0.5 });
-
-            statNumbers.forEach(function(el) {
-                countObserver.observe(el);
-            });
+            revealElements.forEach(el => revealObserver.observe(el));
 
             // ============ PORTFOLIO FILTER ============
             const filterBtns = document.querySelectorAll('#portfolioFilter .filter-btn');
             const portfolioCards = document.querySelectorAll('#portfolioGrid .portfolio-card');
-
             filterBtns.forEach(function(btn) {
                 btn.addEventListener('click', function() {
                     filterBtns.forEach(b => b.classList.remove('active'));
@@ -2127,7 +1934,6 @@
                         const category = card.getAttribute('data-category');
                         if (filter === 'all' || category === filter) {
                             card.style.display = '';
-                            card.style.animation = 'slideUpFade 0.4s ease forwards';
                         } else {
                             card.style.display = 'none';
                         }
@@ -2150,10 +1956,7 @@
                     }
                 });
                 question.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        question.click();
-                    }
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); question.click(); }
                 });
             });
 
@@ -2168,16 +1971,12 @@
                 fr: 'Sélectionnez une langue pour découvrir Triangletech dans votre langue préférée.',
                 de: 'Wählen Sie eine Sprache, um Triangletech in Ihrer bevorzugten Sprache zu erleben.'
             };
-
             langBtns.forEach(function(btn) {
                 btn.addEventListener('click', function() {
                     langBtns.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                     const lang = btn.getAttribute('data-lang');
-                    if (translations[lang]) {
-                        langMessage.textContent = translations[lang];
-                    }
-                    // Update html lang attribute
+                    if (translations[lang]) langMessage.textContent = translations[lang];
                     document.documentElement.lang = lang;
                 });
             });
@@ -2185,7 +1984,7 @@
             // ============ FOOTER YEAR ============
             document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-            // ============ SMOOTH ACTIVE NAV LINK ON SCROLL ============
+            // ============ SMOOTH ACTIVE NAV LINK ============
             const sections = document.querySelectorAll('section[id], div[id]');
             window.addEventListener('scroll', function() {
                 let scrollPos = window.scrollY + 150;
@@ -2197,31 +1996,13 @@
                     if (scrollPos >= top && scrollPos < top + height) {
                         allNavLinks.forEach(function(link) {
                             link.classList.remove('active');
-                            if (link.getAttribute('href') === '#' + id) {
-                                link.classList.add('active');
-                            }
+                            if (link.getAttribute('href') === '#' + id) link.classList.add('active');
                         });
                     }
                 });
             });
 
-            // ============ SCHEDULE CONSULTATION ============
-            const scheduleBtn = document.getElementById('scheduleConsultation');
-            if (scheduleBtn) {
-                scheduleBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    alert(
-                        'Thank you for your interest! Please reach out via WhatsApp or Email to schedule a consultation with our team. We look forward to connecting with you.');
-                });
-            }
-
-            console.log('%c🚀 Triangletech Website %cLoaded Successfully',
-                'font-size:1.2rem;font-weight:bold;color:#DC2626;',
-                'font-size:1rem;color:#0A0A0A;');
-            console.log('%cBuilt with excellence • Professional Grade • SEO Optimized',
-                'color:#6B7280;font-style:italic;');
-            console.log('%c✨ Trust • Professionalism • Innovation • Authority • Excellence',
-                'color:#F97316;font-weight:500;');
+            console.log('%c🚀 Triangletech Website %cLoaded Successfully', 'font-size:1.2rem;font-weight:bold;color:#DC2626;', 'font-size:1rem;color:#0A0A0A;');
         })();
     </script>
 </body>
