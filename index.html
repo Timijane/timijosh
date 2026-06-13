@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Master In-Demand Tech Skills with Mentorship & Get Certified | Triangletech Learn</title>
-    <meta name="description" content="Triangletech Learn is a tech school in Lagos offering courses in web design, software development, cybersecurity, data analysis, and AI automation. Get direct mentorship, earn certificates, and access global job opportunities. Chat on WhatsApp: 0816 134 5210.">
+    <meta name="description" content="Triangletech Learn is a world-class tech school in Lagos offering courses in web design, software development, cybersecurity, data analysis, AI automation, and more. Get direct mentorship, earn certificates, and unlock global job opportunities. Chat on WhatsApp: +234 816 134 5210.">
+    <meta name="keywords" content="tech school Lagos, web design course, software development, cybersecurity Nigeria, data analysis, AI automation, Triangletech Learn">
     <link rel="canonical" href="https://triangletechlearn.com/">
     <!-- hreflang tags for multilingual SEO -->
     <link rel="alternate" hreflang="en" href="https://triangletechlearn.com/en/">
@@ -14,26 +15,34 @@
     <link rel="alternate" hreflang="ha" href="https://triangletechlearn.com/ha/">
     <link rel="alternate" hreflang="ig" href="https://triangletechlearn.com/ig/">
     <link rel="alternate" hreflang="x-default" href="https://triangletechlearn.com/">
-    <link rel="icon" href="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" type="image/png">
-    
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Triangletech Learn - Master Tech Skills & Get Certified">
+    <meta property="og:description" content="World-class tech education in Lagos with direct mentorship. Start your journey today.">
+    <meta property="og:image" content="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
+    <meta property="og:url" content="https://triangletechlearn.com">
+    <meta name="twitter:card" content="summary_large_image">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg: #FFFFFF;
-            --surface: #F8FAFC;
-            --primary: #0056D2;
-            --primary-hover: #003D99;
-            --accent: #FF6B00;
-            --accent-hover: #E55D00;
-            --text: #1E293B;
+            --primary: #0066FF;
+            --primary-dark: #0047B3;
+            --primary-light: #E6F0FF;
+            --accent: #FF6B35;
+            --accent-dark: #E55D20;
+            --text: #1A1A2E;
             --text-muted: #64748B;
+            --bg: #F5F7FA;
+            --surface: #FFFFFF;
             --border: #E2E8F0;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
             --shadow: 0 4px 20px rgba(0,0,0,0.08);
-            --shadow-hover: 0 8px 30px rgba(0,0,0,0.12);
+            --shadow-hover: 0 12px 30px rgba(0,0,0,0.12);
             --radius: 12px;
             --radius-lg: 20px;
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -47,7 +56,7 @@
             background-color: var(--bg);
             color: var(--text);
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
+            line-height: 1.7;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
@@ -57,31 +66,41 @@
             transition: color 0.2s;
         }
         a:hover {
-            color: var(--primary-hover);
+            color: var(--primary-dark);
         }
         .container {
             max-width: 1280px;
             margin: 0 auto;
             padding: 0 24px;
         }
-        /* Typography */
         h1, h2, h3, h4 {
             font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
             font-weight: 700;
             line-height: 1.2;
         }
         h1 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-size: clamp(2.8rem, 6vw, 4.5rem);
+            margin-bottom: 1.5rem;
         }
         h2 {
             font-size: clamp(2rem, 4vw, 2.8rem);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 5px;
         }
         h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
         }
-        /* Buttons */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -97,14 +116,13 @@
             white-space: nowrap;
         }
         .btn-primary {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), #5C6BC0);
             color: #fff;
-            box-shadow: 0 4px 12px rgba(0,86,210,0.2);
+            box-shadow: 0 4px 14px rgba(0,102,255,0.3);
         }
         .btn-primary:hover {
-            background: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,86,210,0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,102,255,0.4);
             color: #fff;
         }
         .btn-outline {
@@ -113,44 +131,111 @@
             background: transparent;
         }
         .btn-outline:hover {
-            background: rgba(0,86,210,0.05);
-            transform: translateY(-2px);
+            background: rgba(0,102,255,0.05);
+            transform: translateY(-3px);
         }
-        .btn-whatsapp {
-            border-color: #25D366;
-            color: #25D366;
+        .btn-accent {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(255,107,53,0.3);
         }
-        .btn-whatsapp:hover {
-            background: rgba(37,211,102,0.05);
-            color: #1DA851;
+        .btn-accent:hover {
+            background: var(--accent-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255,107,53,0.4);
         }
-        /* Cards */
         .card {
             background: var(--surface);
-            border: 1px solid var(--border);
             border-radius: var(--radius-lg);
             padding: 32px;
             box-shadow: var(--shadow);
             transition: var(--transition);
+            border: 1px solid var(--border);
         }
         .card:hover {
             box-shadow: var(--shadow-hover);
-            transform: translateY(-4px);
+            transform: translateY(-5px);
         }
-        /* Floating Animation */
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-12px); }
         }
         .floating {
-            animation: float 4s ease-in-out infinite;
+            animation: float 5s ease-in-out infinite;
         }
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+        .breathing {
+            animation: breathe 2s ease-in-out infinite;
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--surface);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        #preloader img {
+            width: 120px;
+            height: auto;
+        }
+
+        /* Skeleton Loading */
+        .skeleton {
+            background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: var(--radius-lg);
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .skeleton-card {
+            height: 380px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .skeleton-img {
+            width: 100%;
+            height: 200px;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+        .skeleton-body {
+            padding: 20px;
+            flex: 1;
+        }
+        .skeleton-line {
+            height: 14px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            background: #e0e0e0;
+        }
+        .skeleton-line.short { width: 60%; }
+        .skeleton-line.medium { width: 80%; }
+        .hidden-content { display: none; }
 
         /* Navbar */
         .navbar {
             position: sticky;
             top: 0;
-            background: rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.85);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
             z-index: 1000;
@@ -161,7 +246,6 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 16px;
         }
         .navbar-brand {
             display: flex;
@@ -177,7 +261,7 @@
         }
         .navbar-links {
             display: flex;
-            gap: 32px;
+            gap: 28px;
             align-items: center;
         }
         .navbar-links a {
@@ -196,33 +280,102 @@
             color: var(--text);
             cursor: pointer;
         }
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text);
+            padding: 5px;
+        }
+        @media (max-width: 992px) {
+            .menu-toggle {
+                display: block;
+            }
+            .navbar-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 400px;
+                height: 100vh;
+                background: var(--surface);
+                flex-direction: column;
+                padding: 80px 30px 30px;
+                gap: 24px;
+                transition: right 0.3s ease;
+                box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+                z-index: 1001;
+                align-items: flex-start;
+            }
+            .navbar-links.active {
+                right: 0;
+            }
+            .menu-close {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: none;
+                border: none;
+                font-size: 2rem;
+                cursor: pointer;
+                color: var(--text);
+            }
+            .lang-switch {
+                width: 100%;
+            }
+            .lang-switch select {
+                width: 100%;
+                padding: 12px;
+            }
+        }
 
         /* Hero */
         .hero {
+            background: linear-gradient(135deg, #F5F7FA 0%, #E6F0FF 100%);
             padding: 80px 0 40px;
             text-align: center;
             position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(0,102,255,0.08) 0%, transparent 70%);
+            border-radius: 50%;
         }
         .hero-logo {
-            margin-bottom: 32px;
+            margin-bottom: 40px;
         }
         .hero-logo img {
-            width: 120px;
+            width: 100px;
             height: auto;
-            filter: drop-shadow(0 8px 16px rgba(0,86,210,0.15));
+            filter: drop-shadow(0 8px 16px rgba(0,102,255,0.2));
         }
         .hero-content {
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
+            position: relative;
+            z-index: 2;
         }
         .hero-content h1 {
-            margin-bottom: 20px;
-            color: var(--text);
+            background: linear-gradient(135deg, var(--text) 0%, var(--primary) 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         .hero-content p {
             font-size: 1.2rem;
             color: var(--text-muted);
             margin-bottom: 32px;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .hero-ctas {
             display: flex;
@@ -232,36 +385,34 @@
             margin-bottom: 60px;
         }
 
-        /* 3D Carousel */
+        /* Carousel */
         .carousel-container {
-            perspective: 1200px;
-            width: 100%;
             max-width: 1000px;
-            margin: 0 auto 60px;
+            margin: 0 auto 80px;
             position: relative;
-            height: 350px;
         }
-        .carousel-track {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+        .carousel {
             display: flex;
             justify-content: center;
             align-items: center;
-            transform-style: preserve-3d;
+            gap: 30px;
+            height: 320px;
         }
         .carousel-slide {
-            position: absolute;
-            width: 70%;
-            max-width: 500px;
-            height: 280px;
+            flex: 0 0 300px;
+            height: 220px;
             border-radius: var(--radius-lg);
             overflow: hidden;
             box-shadow: var(--shadow);
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.5s ease;
             cursor: pointer;
-            background-size: cover;
-            background-position: center;
+            position: relative;
+        }
+        .carousel-slide.active {
+            flex: 0 0 360px;
+            height: 280px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            z-index: 2;
         }
         .carousel-slide img {
             width: 100%;
@@ -269,30 +420,29 @@
             object-fit: cover;
             display: block;
         }
-        .carousel-slide.active {
-            transform: scale(1.1) translateZ(60px);
-            z-index: 3;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        @media (max-width: 768px) {
+            .carousel {
+                gap: 15px;
+                height: 250px;
+            }
+            .carousel-slide {
+                flex: 0 0 200px;
+                height: 150px;
+            }
+            .carousel-slide.active {
+                flex: 0 0 240px;
+                height: 190px;
+            }
         }
-        .carousel-slide.prev {
-            transform: translateX(-45%) scale(0.85);
-            z-index: 2;
-            opacity: 0.9;
-        }
-        .carousel-slide.next {
-            transform: translateX(45%) scale(0.85);
-            z-index: 2;
-            opacity: 0.9;
-        }
-        .carousel-slide.hidden-left {
-            transform: translateX(-80%) scale(0.7);
-            z-index: 1;
-            opacity: 0.4;
-        }
-        .carousel-slide.hidden-right {
-            transform: translateX(80%) scale(0.7);
-            z-index: 1;
-            opacity: 0.4;
+        @media (max-width: 480px) {
+            .carousel-slide {
+                flex: 0 0 150px;
+                height: 120px;
+            }
+            .carousel-slide.active {
+                flex: 0 0 180px;
+                height: 150px;
+            }
         }
 
         /* Three Stage Path */
@@ -310,25 +460,30 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 48px;
-            height: 48px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), #5C6BC0);
             color: #fff;
             font-weight: 700;
-            font-size: 1.4rem;
-            margin-bottom: 20px;
+            font-size: 1.6rem;
+            margin-bottom: 24px;
+        }
+        @media (max-width: 768px) {
+            .stage-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Course Grid */
         .course-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 24px;
             margin: 40px 0 80px;
         }
         .course-card {
-            background: #fff;
+            background: var(--surface);
             border-radius: var(--radius-lg);
             overflow: hidden;
             border: 1px solid var(--border);
@@ -337,7 +492,7 @@
         }
         .course-card:hover {
             box-shadow: var(--shadow-hover);
-            transform: translateY(-6px);
+            transform: translateY(-8px);
         }
         .course-card img {
             width: 100%;
@@ -349,17 +504,17 @@
         }
         .badge {
             display: inline-block;
-            padding: 4px 12px;
-            background: rgba(0,86,210,0.1);
+            padding: 6px 16px;
+            background: var(--primary-light);
             color: var(--primary);
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
         .course-body h3 {
-            font-size: 1.2rem;
-            margin-bottom: 8px;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
         }
         .course-body p {
             color: var(--text-muted);
@@ -369,7 +524,7 @@
         /* Why Triangletech */
         .why-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 24px;
             margin: 40px 0 80px;
         }
@@ -380,7 +535,32 @@
             gap: 16px;
         }
         .why-icon {
-            font-size: 2rem;
+            font-size: 2.5rem;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin: 80px 0;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+        }
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         /* WhatsApp Contact Cards */
@@ -392,7 +572,7 @@
             justify-content: center;
         }
         .whatsapp-card {
-            background: #fff;
+            background: var(--surface);
             border: 2px solid #25D366;
             border-radius: var(--radius-lg);
             padding: 32px;
@@ -403,10 +583,10 @@
             transition: var(--transition);
         }
         .whatsapp-card:hover {
-            box-shadow: 0 12px 30px rgba(37,211,102,0.2);
+            box-shadow: 0 15px 35px rgba(37,211,102,0.2);
         }
         .whatsapp-card .phone {
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             font-weight: 700;
             margin: 16px 0 8px;
         }
@@ -440,6 +620,15 @@
         .faq-item.open .faq-question {
             color: var(--primary);
         }
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            transition: transform 0.2s;
+        }
+        .faq-item.open .faq-question::after {
+            content: '−';
+            transform: rotate(180deg);
+        }
 
         /* Footer */
         footer {
@@ -472,26 +661,20 @@
             font-size: 0.9rem;
         }
 
-        @media (max-width: 768px) {
-            .navbar-links {
-                display: none; /* For brevity; you can add a mobile menu later */
-            }
-            .stage-grid {
-                grid-template-columns: 1fr;
-            }
-            .carousel-container {
-                height: 250px;
-            }
-            .carousel-slide {
-                height: 200px;
-            }
-            .hero {
-                padding-top: 60px;
+        /* General responsive */
+        @media (max-width: 640px) {
+            .hero-ctas {
+                flex-direction: column;
+                align-items: center;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="Loading" class="breathing">
+    </div>
 
     <!-- Navbar -->
     <nav class="navbar">
@@ -500,11 +683,13 @@
                 <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="Triangletech Logo">
                 Triangletech <span style="color: var(--primary);">Learn</span>
             </a>
-            <div class="navbar-links">
-                <a href="#courses" data-i18n="nav_courses">Courses</a>
-                <a href="#about" data-i18n="nav_about">About</a>
-                <a href="#faq" data-i18n="nav_faq">FAQ</a>
-                <a href="#contact" data-i18n="nav_contact">Contact</a>
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">☰</button>
+            <div class="navbar-links" id="navbarLinks">
+                <button class="menu-close" onclick="toggleMenu()" aria-label="Close">✕</button>
+                <a href="#courses" data-i18n="nav_courses" onclick="closeMenu()">Courses</a>
+                <a href="#about" data-i18n="nav_about" onclick="closeMenu()">About</a>
+                <a href="#faq" data-i18n="nav_faq" onclick="closeMenu()">FAQ</a>
+                <a href="#contact" data-i18n="nav_contact" onclick="closeMenu()">Contact</a>
                 <div class="lang-switch">
                     <select id="lang-select" onchange="switchLanguage(this.value)">
                         <option value="en">🇬🇧 EN</option>
@@ -515,6 +700,7 @@
                         <option value="ig">🇳🇬 IG</option>
                     </select>
                 </div>
+                <a href="auth.html" class="btn btn-accent" data-i18n="take_course">Take a Course</a>
                 <a href="#courses" class="btn btn-primary" data-i18n="cta_get_started">Get Started</a>
             </div>
         </div>
@@ -531,14 +717,15 @@
                 <p data-i18n="hero_sub">From Elementary to Professional Mentorship — earn certificates, build real projects, and unlock global job opportunities.</p>
                 <div class="hero-ctas">
                     <a href="#courses" class="btn btn-primary" data-i18n="cta_explore">Explore Courses</a>
-                    <a href="#contact" class="btn btn-outline btn-whatsapp" data-i18n="cta_whatsapp">💬 Chat on WhatsApp</a>
+                    <a href="auth.html" class="btn btn-accent" data-i18n="take_course">Take a Course</a>
+                    <a href="#contact" class="btn btn-outline" data-i18n="cta_whatsapp">💬 Chat on WhatsApp</a>
                 </div>
             </div>
 
-            <!-- 3D Carousel -->
-            <div class="carousel-container" id="carousel">
-                <div class="carousel-track" id="carouselTrack">
-                    <!-- Slides will be inserted by JS -->
+            <!-- Carousel with 3 images rotating -->
+            <div class="carousel-container" id="carouselContainer">
+                <div class="carousel" id="carousel">
+                    <!-- dynamically filled -->
                 </div>
             </div>
         </div>
@@ -546,7 +733,7 @@
 
     <!-- Three Stage Path -->
     <section class="container" id="about">
-        <h2 style="text-align: center;" data-i18n="stages_heading">Your Learning Journey</h2>
+        <h2 data-i18n="stages_heading">Your Learning Journey</h2>
         <div class="stage-grid">
             <div class="card stage-card">
                 <div class="stage-number">1</div>
@@ -566,10 +753,22 @@
         </div>
     </section>
 
-    <!-- Courses Section -->
+    <!-- Courses Section with skeleton loading -->
     <section class="container" id="courses">
-        <h2 style="text-align: center;" data-i18n="courses_heading">Courses That Make You <span style="color: var(--primary);">Employable</span></h2>
-        <div class="course-grid">
+        <h2 data-i18n="courses_heading">Courses That Make You <span style="color: var(--primary);">Employable</span></h2>
+        <!-- Skeleton grid -->
+        <div class="course-grid" id="skeletonGrid">
+            <!-- 7 skeleton cards -->
+            <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-body"><div class="skeleton skeleton-line medium"></div><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line"></div></div></div>
+            <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-body"><div class="skeleton skeleton-line medium"></div><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line"></div></div></div>
+            <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-body"><div class="skeleton skeleton-line medium"></div><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line"></div></div></div>
+            <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-body"><div class="skeleton skeleton-line medium"></div><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line"></div></div></div>
+            <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-body"><div class="skeleton skeleton-line medium"></div><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line"></div></div></div>
+            <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-body"><div class="skeleton skeleton-line medium"></div><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line"></div></div></div>
+            <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-body"><div class="skeleton skeleton-line medium"></div><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line"></div></div></div>
+        </div>
+        <!-- Real content hidden initially -->
+        <div class="course-grid hidden-content" id="realCourses">
             <div class="course-card">
                 <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/website-template_1346434-683_gbkoiw.jpg" alt="Website Design">
                 <div class="course-body">
@@ -603,7 +802,7 @@
                 </div>
             </div>
             <div class="course-card">
-                <img src="https://placehold.co/600x400/E8F0FE/0056D2?text=Prompt+Engineering" alt="Prompt Engineering">
+                <img src="https://placehold.co/600x400/E8F0FE/0066FF?text=Prompt+Engineering" alt="Prompt Engineering">
                 <div class="course-body">
                     <span class="badge" data-i18n="course5_badge">AI</span>
                     <h3 data-i18n="course5">Prompt Engineering</h3>
@@ -611,7 +810,7 @@
                 </div>
             </div>
             <div class="course-card">
-                <img src="https://placehold.co/600x400/E8F0FE/0056D2?text=Vibe+Coding" alt="Vibe Coding">
+                <img src="https://placehold.co/600x400/E8F0FE/0066FF?text=Vibe+Coding" alt="Vibe Coding">
                 <div class="course-body">
                     <span class="badge" data-i18n="course6_badge">Trending</span>
                     <h3 data-i18n="course6">Vibe Coding</h3>
@@ -619,7 +818,7 @@
                 </div>
             </div>
             <div class="course-card">
-                <img src="https://placehold.co/600x400/E8F0FE/0056D2?text=AI+Automation" alt="AI Automation">
+                <img src="https://placehold.co/600x400/E8F0FE/0066FF?text=AI+Automation" alt="AI Automation">
                 <div class="course-body">
                     <span class="badge" data-i18n="course7_badge">Automation</span>
                     <h3 data-i18n="course7">AI Automation</h3>
@@ -629,9 +828,27 @@
         </div>
     </section>
 
+    <!-- Stats / Social Proof -->
+    <section class="container">
+        <div class="stats-grid">
+            <div class="card stat-item">
+                <div class="stat-number" data-count="500">0</div>
+                <p>Students Trained</p>
+            </div>
+            <div class="card stat-item">
+                <div class="stat-number" data-count="95">0</div>
+                <p>% Job Placement Rate</p>
+            </div>
+            <div class="card stat-item">
+                <div class="stat-number" data-count="7">0</div>
+                <p>Expert Courses</p>
+            </div>
+        </div>
+    </section>
+
     <!-- Why Triangletech -->
     <section class="container" id="why">
-        <h2 style="text-align: center;" data-i18n="why_heading">Why Triangletech <span style="color: var(--primary);">Learn</span>?</h2>
+        <h2 data-i18n="why_heading">Why Triangletech <span style="color: var(--primary);">Learn</span>?</h2>
         <div class="why-grid">
             <div class="card why-card">
                 <div class="why-icon">🧑‍🏫</div>
@@ -658,19 +875,19 @@
 
     <!-- WhatsApp Contact Cards -->
     <section class="container" id="contact">
-        <h2 style="text-align: center;" data-i18n="contact_heading">Contact Us on WhatsApp</h2>
+        <h2 data-i18n="contact_heading">Contact Us on WhatsApp</h2>
         <div class="whatsapp-cards">
             <div class="card whatsapp-card">
                 <h3>📱 0816 134 5210</h3>
                 <p class="phone">+234 816 134 5210</p>
-                <a href="https://wa.me/2348161345210?text=Hello%2C%20I%27m%20%5BYour%20Name%5D.%20I%20want%20to%20make%20an%20enquiry%20about%20Triangletech%20Learn." target="_blank" class="btn btn-outline btn-whatsapp" style="width: 100%;">
+                <a href="https://wa.me/2348161345210?text=Hello%2C%20I%27m%20%5BYour%20Name%5D.%20I%20want%20to%20enroll%20in%20a%20course%20at%20Triangletech%20Learn." target="_blank" class="btn btn-outline" style="width:100%; color:#25D366; border-color:#25D366;">
                     💬 Chat on WhatsApp
                 </a>
             </div>
             <div class="card whatsapp-card">
                 <h3>📱 0813 952 9405</h3>
                 <p class="phone">+234 813 952 9405</p>
-                <a href="https://wa.me/2348139529405?text=Hello%2C%20I%27m%20%5BYour%20Name%5D.%20I%20want%20to%20make%20an%20enquiry%20about%20Triangletech%20Learn." target="_blank" class="btn btn-outline btn-whatsapp" style="width: 100%;">
+                <a href="https://wa.me/2348139529405?text=Hello%2C%20I%27m%20%5BYour%20Name%5D.%20I%20want%20to%20enroll%20in%20a%20course%20at%20Triangletech%20Learn." target="_blank" class="btn btn-outline" style="width:100%; color:#25D366; border-color:#25D366;">
                     💬 Chat on WhatsApp
                 </a>
             </div>
@@ -679,7 +896,7 @@
 
     <!-- FAQ -->
     <section class="container" id="faq">
-        <h2 style="text-align: center;" data-i18n="faq_heading">Frequently Asked Questions</h2>
+        <h2 data-i18n="faq_heading">Frequently Asked Questions</h2>
         <div class="faq-list" id="faqList">
             <div class="faq-item">
                 <div class="faq-question" data-i18n="faq1_q">What is Triangletech Learn?</div>
@@ -727,12 +944,12 @@
                 </div>
                 <div class="footer-links">
                     <h4 data-i18n="footer_languages">Languages</h4>
-                    <p><a href="#" onclick="switchLanguage('en')">English</a></p>
-                    <p><a href="#" onclick="switchLanguage('fr')">Français</a></p>
-                    <p><a href="#" onclick="switchLanguage('de')">Deutsch</a></p>
-                    <p><a href="#" onclick="switchLanguage('yo')">Yorùbá</a></p>
-                    <p><a href="#" onclick="switchLanguage('ha')">Hausa</a></p>
-                    <p><a href="#" onclick="switchLanguage('ig')">Igbo</a></p>
+                    <p><a href="#" onclick="switchLanguage('en'); return false;">English</a></p>
+                    <p><a href="#" onclick="switchLanguage('fr'); return false;">Français</a></p>
+                    <p><a href="#" onclick="switchLanguage('de'); return false;">Deutsch</a></p>
+                    <p><a href="#" onclick="switchLanguage('yo'); return false;">Yorùbá</a></p>
+                    <p><a href="#" onclick="switchLanguage('ha'); return false;">Hausa</a></p>
+                    <p><a href="#" onclick="switchLanguage('ig'); return false;">Igbo</a></p>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -741,7 +958,7 @@
         </div>
     </footer>
 
-    <!-- Schema.org Structured Data -->
+    <!-- Structured Data (unchanged) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -778,81 +995,91 @@
     }
     </script>
 
-    <!-- Carousel & Language Script -->
     <script>
-        // Carousel Images
-        const images = [
-            "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/cyber-security-and-security-password-login-online-concept-hands-typing-and-touch-id-username-and-password-of-social-media-log-in-with-computer-to-online-important-information-data-protection-hacker-photo_v4hioy.jpg",
+        // Carousel Images (using 3 images for cleaner rotation)
+        const carouselImages = [
+            "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/website-template_1346434-683_gbkoiw.jpg",
             "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347737/2VJjjoup_9_B1IiDcjYLW7Vqcv49xXV9nEn5l6F3IefBq1bCVmeFCWYccD4EF62AEiVQvxpZ356Pgi5HDsup56Afcoeb1Ej6bBTwiad4EQaNSeqb9hBmp_TnIs8ZnVno_yvfgvo.png",
-            "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/two-data-analysts-working-on-data-analysis-dashboard-for-business-strategy_vn9wrl.jpg",
-            "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/cyber-security-and-security-password-login-online-concept-hands-typing-and-touch-id-username-and-password-of-social-media-log-in-with-computer-to-online-important-information-data-protection-hacker-photo_v4hioy.jpg",
-            "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/website-template_1346434-683_gbkoiw.jpg"
+            "https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/cyber-security-and-security-password-login-online-concept-hands-typing-and-touch-id-username-and-password-of-social-media-log-in-with-computer-to-online-important-information-data-protection-hacker-photo_v4hioy.jpg"
         ];
 
-        const track = document.getElementById('carouselTrack');
-        let slides = [];
-        let currentIndex = 2; // start with middle one active
-
-        function createSlides() {
-            track.innerHTML = '';
-            slides = [];
-            images.forEach((src, i) => {
-                const slide = document.createElement('div');
-                slide.className = 'carousel-slide';
-                slide.innerHTML = `<img src="${src}" alt="Slide ${i+1}">`;
-                slide.addEventListener('click', () => goToSlide(i));
-                track.appendChild(slide);
-                slides.push(slide);
-            });
-            updateCarousel();
-        }
-
-        function updateCarousel() {
-            slides.forEach((slide, idx) => {
-                slide.classList.remove('active', 'prev', 'next', 'hidden-left', 'hidden-right');
-                const offset = idx - currentIndex;
-                if (offset === 0) {
-                    slide.classList.add('active');
-                } else if (offset === -1) {
-                    slide.classList.add('prev');
-                } else if (offset === 1) {
-                    slide.classList.add('next');
-                } else if (offset < -1) {
-                    slide.classList.add('hidden-left');
-                } else if (offset > 1) {
-                    slide.classList.add('hidden-right');
-                }
+        function buildCarousel() {
+            const carousel = document.getElementById('carousel');
+            carousel.innerHTML = '';
+            carouselImages.forEach((src, index) => {
+                const div = document.createElement('div');
+                div.className = 'carousel-slide' + (index === 1 ? ' active' : '');
+                div.innerHTML = `<img src="${src}" alt="Course image ${index+1}">`;
+                carousel.appendChild(div);
             });
         }
-
-        function goToSlide(index) {
-            currentIndex = index;
-            updateCarousel();
+        function rotateCarousel() {
+            const slides = document.querySelectorAll('.carousel-slide');
+            if (slides.length === 0) return;
+            let activeIndex = 0;
+            slides.forEach((s, i) => { if (s.classList.contains('active')) activeIndex = i; });
+            slides.forEach(s => s.classList.remove('active'));
+            const nextIndex = (activeIndex + 1) % slides.length;
+            slides[nextIndex].classList.add('active');
         }
+        buildCarousel();
+        setInterval(rotateCarousel, 4000);
 
-        function nextSlide() {
-            currentIndex = (currentIndex + 1) % slides.length;
-            updateCarousel();
-        }
+        // Skeleton Loading: after window load, swap real content and hide skeletons
+        window.addEventListener('load', () => {
+            // Simulate slight delay to show skeleton
+            setTimeout(() => {
+                document.getElementById('skeletonGrid').style.display = 'none';
+                document.getElementById('realCourses').style.display = 'grid';
+                // Animate stats counters
+                document.querySelectorAll('.stat-number').forEach(el => {
+                    const target = +el.getAttribute('data-count');
+                    let count = 0;
+                    const duration = 1500;
+                    const step = target / (duration / 30);
+                    const interval = setInterval(() => {
+                        count += step;
+                        if (count >= target) {
+                            el.textContent = target + (target === 95 ? '%' : '+');
+                            clearInterval(interval);
+                        } else {
+                            el.textContent = Math.floor(count) + '+';
+                        }
+                    }, 30);
+                });
+            }, 1200);
+        });
 
-        createSlides();
-        setInterval(nextSlide, 4000);
+        // Preloader fade out
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('hidden');
+            }, 800);
+        });
 
         // FAQ toggle
         document.getElementById('faqList').addEventListener('click', (e) => {
             if (e.target.classList.contains('faq-question')) {
-                const item = e.target.parentElement;
-                item.classList.toggle('open');
+                e.target.parentElement.classList.toggle('open');
             }
         });
 
-        // Multi-language translations (EN, FR, DE, YO, HA, IG)
+        // Mobile menu toggle
+        function toggleMenu() {
+            document.getElementById('navbarLinks').classList.toggle('active');
+        }
+        function closeMenu() {
+            document.getElementById('navbarLinks').classList.remove('active');
+        }
+
+        // Multi-language translations (same as before but with added 'take_course' key)
         const translations = {
             en: {
                 nav_courses: 'Courses',
                 nav_about: 'About',
                 nav_faq: 'FAQ',
                 nav_contact: 'Contact',
+                take_course: 'Take a Course',
                 cta_get_started: 'Get Started',
                 hero_title: 'Master In-Demand Skills.<br>Become <span style="color: var(--primary);">Self-Reliant</span>.',
                 hero_sub: 'From Elementary to Professional Mentorship — earn certificates, build real projects, and unlock global job opportunities.',
@@ -918,6 +1145,7 @@
                 nav_about: 'À propos',
                 nav_faq: 'FAQ',
                 nav_contact: 'Contact',
+                take_course: 'Suivre un cours',
                 cta_get_started: 'Commencer',
                 hero_title: 'Maîtrisez les compétences recherchées.<br>Devenez <span style="color: var(--primary);">Autonome</span>.',
                 hero_sub: 'Du mentorat élémentaire au professionnel — obtenez des certificats, réalisez de vrais projets et accédez à des opportunités mondiales.',
@@ -983,6 +1211,7 @@
                 nav_about: 'Über uns',
                 nav_faq: 'FAQ',
                 nav_contact: 'Kontakt',
+                take_course: 'Kurs belegen',
                 cta_get_started: 'Loslegen',
                 hero_title: 'Meistern Sie gefragte Fähigkeiten.<br>Werden Sie <span style="color: var(--primary);">Selbstständig</span>.',
                 hero_sub: 'Von der Grundausbildung zum professionellen Mentoring — erhalten Sie Zertifikate, arbeiten Sie an realen Projekten und erschließen Sie globale Jobchancen.',
@@ -1048,6 +1277,7 @@
                 nav_about: 'Nípa',
                 nav_faq: 'Àwọn Ìbéèrè',
                 nav_contact: 'Ìbánisọ̀rọ̀',
+                take_course: 'Gba Ẹkọ',
                 cta_get_started: 'Bẹ̀rẹ̀',
                 hero_title: 'Kọ Ẹkọ Tó Ń Béèrè.<br>Di <span style="color: var(--primary);">Alágbára</span>.',
                 hero_sub: 'Láti Ìbẹ̀rẹ̀ sí Ìdánilẹ́kọ̀ọ́ Ọ̀jọ̀gbọ́n — gba ìwé ẹ̀rí, ṣe àwọn iṣẹ́ àkànṣe gidi, kí o sì ṣí àwọn ànfàní iṣẹ́ kárí ayé.',
@@ -1113,6 +1343,7 @@
                 nav_about: 'Game da',
                 nav_faq: 'Tambayoyi',
                 nav_contact: 'Tuntuɓe',
+                take_course: 'Dauki Darasi',
                 cta_get_started: 'Fara',
                 hero_title: 'Koyi Ƙwarewar da ake Buƙata.<br>Zama <span style="color: var(--primary);">Mai Dogaro da Kai</span>.',
                 hero_sub: 'Daga Elementary zuwa Professional Mentorship — sami takaddun shaida, gina ainihin ayyukan, kuma buɗe damar aiki na duniya.',
@@ -1178,6 +1409,7 @@
                 nav_about: 'Ihe gbasara',
                 nav_faq: 'Ajụjụ',
                 nav_contact: 'Kpọtụrụ',
+                take_course: 'Were Ọmụmụ ihe',
                 cta_get_started: 'Bido',
                 hero_title: 'Mụta nka ndị a na-achọsi ike.<br>Bụrụ <span style="color: var(--primary);">Onye nwere onwe</span>.',
                 hero_sub: 'Site na Elementary ruo Ọzụzụ Ọkachamara — nweta asambodo, rụọ ezigbo ọrụ, ma nweta ohere ọrụ zuru ụwa ọnụ.',
@@ -1244,7 +1476,7 @@
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (translations[lang] && translations[lang][key]) {
-                    if (key.includes('_title') || key.includes('_heading') || key.includes('hero_')) {
+                    if (key.includes('_title') || key.includes('_heading') || key.includes('hero_') || key.includes('faq3_a') || key.includes('faq1_a') || key.includes('faq2_a') || key.includes('faq4_a') || key.includes('faq5_a')) {
                         el.innerHTML = translations[lang][key];
                     } else {
                         el.textContent = translations[lang][key];
@@ -1255,7 +1487,6 @@
             document.getElementById('lang-select').value = lang;
         }
 
-        // Init English
         document.addEventListener('DOMContentLoaded', () => {
             switchLanguage('en');
         });
