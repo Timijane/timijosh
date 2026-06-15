@@ -31,6 +31,7 @@
             --font-body: 'Plus Jakarta Sans', sans-serif;
             --error: #e84393;
             --success: #0d9488;
+            --admin-accent: #1a1a2e;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { font-size: 16px; -webkit-text-size-adjust: 100%; }
@@ -45,7 +46,9 @@
             justify-content: center;
             padding: 24px;
             -webkit-font-smoothing: antialiased;
+            transition: background 0.4s ease;
         }
+        body.admin-mode { background: #0f0f14; }
 
         .auth-container {
             width: 100%;
@@ -55,23 +58,70 @@
             box-shadow: var(--shadow-lg);
             padding: 40px 32px;
             border: 1px solid var(--border);
+            transition: all 0.4s ease;
+            position: relative;
         }
+        body.admin-mode .auth-container {
+            background: #1a1a24;
+            border-color: #2a2a3a;
+            color: #e0e0e0;
+        }
+        body.admin-mode .auth-container .auth-subtitle,
+        body.admin-mode .auth-container .auth-footer,
+        body.admin-mode .auth-container label,
+        body.admin-mode .auth-container .form-group input {
+            color: #c0c0d0;
+        }
+        body.admin-mode .auth-container .form-group input {
+            background: #12121a;
+            border-color: #2a2a3a;
+            color: #e0e0e0;
+        }
+        body.admin-mode .auth-tabs { background: #12121a; }
+        body.admin-mode .auth-tab { color: #888; }
+        body.admin-mode .auth-tab.active { background: #2a2a3a; color: #fff; }
+        body.admin-mode .auth-logo span { color: #e0e0e0; }
+        body.admin-mode .back-link { color: #888; }
+        body.admin-mode .back-link:hover { color: #fff; }
+        body.admin-mode .btn-google { background: #1a1a24; color: #e0e0e0; border-color: #2a2a3a; }
 
-        .auth-logo {
-            display: flex;
+        .admin-badge {
+            display: none;
+            text-align: center;
+            margin-bottom: 16px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #f0a500;
+            background: rgba(240,165,0,0.1);
+            padding: 6px 14px;
+            border-radius: 20px;
+        }
+        body.admin-mode .admin-badge { display: inline-block; }
+
+        .logo-click-area {
+            cursor: pointer;
+            user-select: none;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 10px;
-            margin-bottom: 8px;
             text-decoration: none;
         }
-        .auth-logo img { height: 44px; width: auto; }
-        .auth-logo span {
+        .logo-click-area img { height: 44px; width: auto; pointer-events: none; }
+        .logo-click-area span {
             font-family: var(--font-heading);
             font-weight: 700;
             font-size: 1.2rem;
             color: var(--text);
             letter-spacing: -0.5px;
+            pointer-events: none;
+        }
+
+        .auth-logo-wrapper {
+            text-align: center;
+            margin-bottom: 8px;
         }
 
         .auth-subtitle {
@@ -79,6 +129,7 @@
             color: var(--text-secondary);
             font-size: 0.88rem;
             margin-bottom: 28px;
+            transition: color 0.4s;
         }
 
         /* Tabs */
@@ -121,7 +172,8 @@
             margin-bottom: 6px;
             color: var(--text);
         }
-        .form-group input {
+        .form-group input,
+        .form-group select {
             width: 100%;
             padding: 12px 16px;
             border: 1.5px solid var(--border);
@@ -132,7 +184,8 @@
             background: #fafbfc;
             color: var(--text);
         }
-        .form-group input:focus {
+        .form-group input:focus,
+        .form-group select:focus {
             outline: none;
             border-color: var(--purple);
             box-shadow: 0 0 0 3px rgba(108,92,231,0.08);
@@ -206,6 +259,15 @@
             background: #fafbfc;
             border-color: #d0d5dd;
         }
+        .btn-admin {
+            background: #1a1a2e;
+            color: #f0a500;
+            border: 1.5px solid #2a2a3a;
+            margin-top: 12px;
+        }
+        .btn-admin:hover {
+            background: #2a2a3a;
+        }
 
         .divider {
             display: flex;
@@ -247,6 +309,7 @@
         .alert.show { display: block; }
         .alert-error { background: #fff0f6; color: #c02660; border: 1px solid #fce4ec; }
         .alert-success { background: #e8f8f0; color: #0d9488; border: 1px solid #d4f5e9; }
+        .alert-info { background: #eff6ff; color: #3b82f6; border: 1px solid #dbeafe; }
 
         .spinner {
             width: 18px;
@@ -257,11 +320,12 @@
             animation: spin 0.7s linear infinite;
             display: none;
         }
-        .btn-primary.loading .spinner { display: inline-block; }
-        .btn-primary.loading .btn-text { display: none; }
+        .btn-primary.loading .spinner,
+        .btn-admin.loading .spinner { display: inline-block; }
+        .btn-primary.loading .btn-text,
+        .btn-admin.loading .btn-text { display: none; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Back link */
         .back-link {
             display: inline-flex;
             align-items: center;
@@ -274,10 +338,21 @@
         }
         .back-link:hover { color: var(--text); }
 
+        /* Admin secret key section */
+        .admin-secret-section {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            background: rgba(240,165,0,0.08);
+            border-radius: var(--radius-sm);
+            border: 1px dashed rgba(240,165,0,0.3);
+        }
+        body.admin-mode .admin-secret-section { display: block; }
+
         @media (max-width: 480px) {
             .auth-container { padding: 28px 20px; border-radius: var(--radius-md); }
-            .auth-logo img { height: 36px; }
-            .auth-logo span { font-size: 1rem; }
+            .logo-click-area img { height: 36px; }
+            .logo-click-area span { font-size: 1rem; }
         }
     </style>
 </head>
@@ -287,15 +362,20 @@
         <!-- Back to Home -->
         <a href="index.html" class="back-link">← Back to Home</a>
 
-        <!-- Logo -->
-        <a href="index.html" class="auth-logo">
-            <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="TRIANGLE LEARN" width="44" height="44">
-            <span>TRIANGLE LEARN</span>
-        </a>
-        <p class="auth-subtitle">Master Tech Skills. Join the Batch.</p>
+        <!-- Admin Badge -->
+        <div class="admin-badge">🔐 Admin Portal</div>
+
+        <!-- Logo (Click 5 times for admin) -->
+        <div class="auth-logo-wrapper">
+            <a class="logo-click-area" id="logoClickArea">
+                <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="TRIANGLE LEARN" width="44" height="44">
+                <span>TRIANGLE LEARN</span>
+            </a>
+        </div>
+        <p class="auth-subtitle" id="authSubtitle">Master Tech Skills. Join the Batch.</p>
 
         <!-- Tabs -->
-        <div class="auth-tabs">
+        <div class="auth-tabs" id="authTabs">
             <button class="auth-tab active" data-tab="login">Login</button>
             <button class="auth-tab" data-tab="signup">Sign Up</button>
         </div>
@@ -324,6 +404,11 @@
             <button type="button" class="btn btn-google" id="googleLoginBtn">
                 🅶 Continue with Google
             </button>
+            <!-- Admin Login Button (only visible in admin mode) -->
+            <button type="submit" class="btn btn-admin" id="adminLoginBtn" style="display:none;">
+                <span class="btn-text">🔐 Login as Admin</span>
+                <span class="spinner"></span>
+            </button>
         </form>
 
         <!-- SIGN UP FORM -->
@@ -347,12 +432,26 @@
                 <label for="signupConfirm">Confirm Password</label>
                 <input type="password" id="signupConfirm" placeholder="Re-enter password" required autocomplete="new-password" minlength="6">
             </div>
+
+            <!-- Admin Secret Section (only visible in admin mode) -->
+            <div class="admin-secret-section" id="adminSecretSection">
+                <div class="form-group">
+                    <label for="adminSecretKey">🔑 Admin Secret Key</label>
+                    <input type="password" id="adminSecretKey" placeholder="Enter secret key to create admin account">
+                </div>
+            </div>
+
             <button type="submit" class="btn btn-primary" id="signupBtn">
                 <span class="btn-text">Create Account</span>
                 <span class="spinner"></span>
             </button>
             <button type="button" class="btn btn-google" id="googleSignupBtn">
                 🅶 Continue with Google
+            </button>
+            <!-- Admin Sign Up Button -->
+            <button type="submit" class="btn btn-admin" id="adminSignupBtn" style="display:none;">
+                <span class="btn-text">🔐 Create Admin Account</span>
+                <span class="spinner"></span>
             </button>
         </form>
 
@@ -369,10 +468,57 @@
     <script src="firebase-config.js"></script>
 
     <script>
+        // ============ CONFIGURATION ============
+        const ADMIN_SECRET_KEY = 'TriangletechAdmin2026!'; // Change this to your own secret key
+        const CLICKS_TO_ACTIVATE = 5;
+        let logoClickCount = 0;
+        let clickTimer = null;
+        let isAdminMode = false;
+
+        // ============ LOGO CLICK — ACTIVATE ADMIN MODE ============
+        const logoClickArea = document.getElementById('logoClickArea');
+
+        logoClickArea.addEventListener('click', (e) => {
+            e.preventDefault();
+            logoClickCount++;
+
+            // Reset counter after 2 seconds of no clicks
+            clearTimeout(clickTimer);
+            clickTimer = setTimeout(() => { logoClickCount = 0; }, 2000);
+
+            if (logoClickCount >= CLICKS_TO_ACTIVATE && !isAdminMode) {
+                activateAdminMode();
+                logoClickCount = 0;
+            }
+        });
+
+        function activateAdminMode() {
+            isAdminMode = true;
+            document.body.classList.add('admin-mode');
+            document.getElementById('authSubtitle').textContent = 'Admin Portal — TRIANGLE LEARN';
+            document.getElementById('adminLoginBtn').style.display = 'block';
+            document.getElementById('adminSignupBtn').style.display = 'block';
+            document.getElementById('googleLoginBtn').style.display = 'none';
+            document.getElementById('googleSignupBtn').style.display = 'none';
+            document.getElementById('adminSecretSection').style.display = 'block';
+            showAlert('🔐 Admin mode activated. Use the secret key to create an admin account or login.', 'info');
+        }
+
+        function deactivateAdminMode() {
+            isAdminMode = false;
+            document.body.classList.remove('admin-mode');
+            document.getElementById('authSubtitle').textContent = 'Master Tech Skills. Join the Batch.';
+            document.getElementById('adminLoginBtn').style.display = 'none';
+            document.getElementById('adminSignupBtn').style.display = 'none';
+            document.getElementById('googleLoginBtn').style.display = 'block';
+            document.getElementById('googleSignupBtn').style.display = 'block';
+            document.getElementById('adminSecretSection').style.display = 'none';
+            hideAlert();
+        }
+
         // ============ TAB SWITCHING ============
         const tabs = document.querySelectorAll('.auth-tab');
         const forms = document.querySelectorAll('.auth-form');
-        const alertEl = document.getElementById('alert');
 
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
@@ -380,7 +526,8 @@
                 tabs.forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
                 forms.forEach(f => f.classList.remove('active'));
-                document.getElementById(target === 'login' ? 'loginForm' : 'signupForm').classList.add('active');
+                document.getElementById(target === 'login' ? 'loginForm' : 'signupForm').classList.add(
+                    'active');
                 hideAlert();
             });
         });
@@ -396,6 +543,8 @@
         });
 
         // ============ ALERT HELPERS ============
+        const alertEl = document.getElementById('alert');
+
         function showAlert(message, type) {
             alertEl.textContent = message;
             alertEl.className = `alert alert-${type} show`;
@@ -417,28 +566,40 @@
             }
         }
 
-        // ============ REDIRECT AFTER AUTH ============
-        function redirectToDashboard() {
-            window.location.href = 'dashboard.html';
+        // ============ REDIRECT BASED ON ROLE ============
+        async function redirectBasedOnRole(user) {
+            try {
+                const userDoc = await db.collection('users').doc(user.uid).get();
+                if (userDoc.exists && userDoc.data().role === 'admin') {
+                    window.location.href = 'admin-dashboard.html';
+                } else {
+                    window.location.href = 'dashboard.html';
+                }
+            } catch (err) {
+                // Fallback to learner dashboard
+                window.location.href = 'dashboard.html';
+            }
         }
 
         // ============ CREATE USER IN FIRESTORE ============
-        async function createUserInFirestore(user, displayName) {
+        async function createUserInFirestore(user, displayName, role = 'learner') {
             try {
                 await db.collection('users').doc(user.uid).set({
                     uid: user.uid,
                     email: user.email,
                     fullName: displayName || user.displayName || '',
                     profilePicture: user.photoURL || '',
-                    role: 'learner',
+                    role: role,
                     referralCode: generateReferralCode(displayName || user.displayName || 'user'),
                     referredBy: null,
                     referralEarnings: 0,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 }, { merge: true });
+                return true;
             } catch (err) {
                 console.error('Error creating user in Firestore:', err);
+                return false;
             }
         }
 
@@ -448,7 +609,7 @@
             return clean + random;
         }
 
-        // ============ LOGIN WITH EMAIL ============
+        // ============ LOGIN WITH EMAIL (REGULAR) ============
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             hideAlert();
@@ -464,14 +625,55 @@
             setLoading(btn, true);
             try {
                 const result = await auth.signInWithEmailAndPassword(email, password);
+                // Check if user is admin trying to login through regular button
+                const userDoc = await db.collection('users').doc(result.user.uid).get();
+                if (userDoc.exists && userDoc.data().role === 'admin' && !isAdminMode) {
+                    // Admin exists but not in admin mode — still let them in, role-based redirect handles it
+                }
                 showAlert('Login successful! Redirecting...', 'success');
-                setTimeout(redirectToDashboard, 800);
+                setTimeout(() => redirectBasedOnRole(result.user), 800);
             } catch (err) {
                 let message = 'Login failed. Please try again.';
                 if (err.code === 'auth/user-not-found') message = 'No account found with this email.';
                 if (err.code === 'auth/wrong-password') message = 'Incorrect password. Please try again.';
                 if (err.code === 'auth/invalid-email') message = 'Please enter a valid email address.';
                 if (err.code === 'auth/too-many-requests') message = 'Too many attempts. Please try again later.';
+                showAlert(message, 'error');
+            } finally {
+                setLoading(btn, false);
+            }
+        });
+
+        // ============ ADMIN LOGIN (CHECKS ROLE) ============
+        document.getElementById('adminLoginBtn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            hideAlert();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const btn = document.getElementById('adminLoginBtn');
+
+            if (!email || !password) {
+                showAlert('Please fill in all fields.', 'error');
+                return;
+            }
+
+            setLoading(btn, true);
+            try {
+                const result = await auth.signInWithEmailAndPassword(email, password);
+                // Verify admin role
+                const userDoc = await db.collection('users').doc(result.user.uid).get();
+                if (!userDoc.exists || userDoc.data().role !== 'admin') {
+                    await auth.signOut();
+                    showAlert('Access denied. This account is not an admin.', 'error');
+                    setLoading(btn, false);
+                    return;
+                }
+                showAlert('Admin login successful! Redirecting...', 'success');
+                setTimeout(() => { window.location.href = 'admin-dashboard.html'; }, 800);
+            } catch (err) {
+                let message = 'Admin login failed.';
+                if (err.code === 'auth/user-not-found') message = 'No admin account found with this email.';
+                if (err.code === 'auth/wrong-password') message = 'Incorrect password.';
                 showAlert(message, 'error');
             } finally {
                 setLoading(btn, false);
@@ -505,12 +707,13 @@
             try {
                 const result = await auth.createUserWithEmailAndPassword(email, password);
                 await result.user.updateProfile({ displayName: name });
-                await createUserInFirestore(result.user, name);
+                await createUserInFirestore(result.user, name, 'learner');
                 showAlert('Account created! Redirecting...', 'success');
-                setTimeout(redirectToDashboard, 800);
+                setTimeout(() => redirectBasedOnRole(result.user), 800);
             } catch (err) {
                 let message = 'Sign up failed. Please try again.';
-                if (err.code === 'auth/email-already-in-use') message = 'An account with this email already exists. Please login instead.';
+                if (err.code === 'auth/email-already-in-use') message =
+                    'An account with this email already exists. Please login instead.';
                 if (err.code === 'auth/invalid-email') message = 'Please enter a valid email address.';
                 if (err.code === 'auth/weak-password') message = 'Password is too weak. Use at least 6 characters.';
                 showAlert(message, 'error');
@@ -519,15 +722,66 @@
             }
         });
 
-        // ============ GOOGLE AUTH ============
+        // ============ ADMIN SIGN UP (WITH SECRET KEY) ============
+        document.getElementById('adminSignupBtn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            hideAlert();
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirm = document.getElementById('signupConfirm').value;
+            const secretKey = document.getElementById('adminSecretKey').value.trim();
+            const btn = document.getElementById('adminSignupBtn');
+
+            if (!name || !email || !password || !confirm) {
+                showAlert('Please fill in all fields.', 'error');
+                return;
+            }
+            if (password !== confirm) {
+                showAlert('Passwords do not match.', 'error');
+                return;
+            }
+            if (password.length < 6) {
+                showAlert('Password must be at least 6 characters.', 'error');
+                return;
+            }
+            if (secretKey !== ADMIN_SECRET_KEY) {
+                showAlert('Invalid admin secret key. Access denied.', 'error');
+                return;
+            }
+
+            setLoading(btn, true);
+            try {
+                const result = await auth.createUserWithEmailAndPassword(email, password);
+                await result.user.updateProfile({ displayName: name });
+                await createUserInFirestore(result.user, name, 'admin');
+                showAlert('Admin account created! Redirecting...', 'success');
+                setTimeout(() => { window.location.href = 'admin-dashboard.html'; }, 800);
+            } catch (err) {
+                let message = 'Admin sign up failed.';
+                if (err.code === 'auth/email-already-in-use') message =
+                    'An account with this email already exists.';
+                if (err.code === 'auth/invalid-email') message = 'Please enter a valid email address.';
+                if (err.code === 'auth/weak-password') message = 'Password is too weak. Use at least 6 characters.';
+                showAlert(message, 'error');
+            } finally {
+                setLoading(btn, false);
+            }
+        });
+
+        // ============ GOOGLE AUTH (REGULAR USERS ONLY) ============
         async function handleGoogleAuth() {
             hideAlert();
             const provider = new firebase.auth.GoogleAuthProvider();
             try {
                 const result = await auth.signInWithPopup(provider);
-                await createUserInFirestore(result.user, result.user.displayName);
+                // Check if user exists — if not, create as learner
+                const userDoc = await db.collection('users').doc(result.user.uid).get();
+                if (!userDoc.exists) {
+                    await createUserInFirestore(result.user, result.user.displayName, 'learner');
+                }
                 showAlert('Success! Redirecting...', 'success');
-                setTimeout(redirectToDashboard, 800);
+                setTimeout(() => redirectBasedOnRole(result.user), 800);
             } catch (err) {
                 if (err.code !== 'auth/popup-closed-by-user') {
                     showAlert('Google sign-in failed. Please try again.', 'error');
@@ -556,14 +810,24 @@
         });
 
         // ============ CHECK IF ALREADY LOGGED IN ============
-        auth.onAuthStateChanged((user) => {
+        auth.onAuthStateChanged(async (user) => {
             if (user && window.location.pathname.includes('auth.html')) {
-                // User is already signed in, redirect to dashboard
-                redirectToDashboard();
+                await redirectBasedOnRole(user);
+            }
+        });
+
+        // ============ KEYBOARD SHORTCUT: ESC TO EXIT ADMIN MODE ============
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && isAdminMode) {
+                deactivateAdminMode();
+                showAlert('Admin mode deactivated.', 'info');
+                setTimeout(hideAlert, 2000);
             }
         });
 
         console.log('🔐 TRIANGLE LEARN — Auth Page Ready');
+        console.log('💡 Click the logo 5 times to access Admin Portal');
+        console.log('🔑 Admin Secret Key:', ADMIN_SECRET_KEY);
     </script>
 </body>
 </html>
