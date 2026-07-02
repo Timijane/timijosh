@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Blog — TRIANGLE LEARN</title>
+    <meta name="description" content="Read the latest updates, articles, and announcements from TRIANGLE LEARN.">
+    <link rel="icon" href="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --bg-alt: #f8f9fc;
+            --text: #1a1a2e;
+            --text-secondary: #5a5a7a;
+            --text-muted: #8a8aa0;
+            --gold: #f0a500;
+            --pink: #e84393;
+            --purple: #6c5ce7;
+            --gradient: linear-gradient(135deg, #f0a500 0%, #e84393 50%, #6c5ce7 100%);
+            --border: #eef0f5;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 8px 30px rgba(0,0,0,0.06);
+            --shadow-lg: 0 20px 50px rgba(0,0,0,0.08);
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 28px;
+            --font-heading: 'Sora', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; -webkit-text-size-adjust: 100%; }
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-alt);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        .header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            padding: 14px 0; background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+        }
+        .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+        .logo-link { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-link img { height: 36px; width: auto; }
+        .logo-link span { font-family: var(--font-heading); font-weight: 700; font-size: 1.05rem; color: var(--text); letter-spacing: -0.5px; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px;
+            border-radius: 25px; font-weight: 600; font-size: 0.85rem; cursor: pointer;
+            transition: all 0.3s ease; border: none; text-decoration: none; font-family: var(--font-body);
+            white-space: nowrap;
+        }
+        .btn-ghost { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+        .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+        .btn-filled { background: var(--gradient); color: #fff; }
+        .btn-filled:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(232,67,147,0.3); }
+
+        .main-container { max-width: 900px; margin: 0 auto; padding: 100px 24px 60px; }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* BLOG LIST */
+        .post-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .post-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+        .post-card img { width: 100%; height: 220px; object-fit: cover; display: block; }
+        .post-card-body { padding: 24px; }
+        .post-card-body .post-date { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; }
+        .post-card-body h2 { font-family: var(--font-heading); font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+        .post-card-body p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; }
+
+        /* PAGINATION */
+        .pagination {
+            display: flex; justify-content: center; gap: 8px; margin-top: 40px;
+        }
+        .pagination button {
+            padding: 8px 16px; border-radius: 25px; border: 1px solid var(--border);
+            background: #fff; font-family: var(--font-body); font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .pagination button:hover:not(:disabled) { border-color: var(--purple); color: var(--purple); }
+        .pagination button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .pagination button.active { background: var(--purple); color: #fff; border-color: var(--purple); }
+
+        /* SINGLE POST */
+        .single-post { background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--border); overflow: hidden; }
+        .single-post img { width: 100%; max-height: 400px; object-fit: cover; }
+        .single-post-content { padding: 30px; }
+        .single-post-content .post-date { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; }
+        .single-post-content h1 { font-family: var(--font-heading); font-size: 2rem; font-weight: 700; margin-bottom: 20px; }
+        .single-post-content .article-body { color: var(--text-secondary); line-height: 1.8; }
+        .article-body img { max-width: 100%; border-radius: var(--radius-sm); margin: 20px 0; }
+        .article-body h2, .article-body h3 { color: var(--text); margin-top: 24px; margin-bottom: 12px; }
+        .back-link { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 24px; color: var(--purple); text-decoration: none; font-weight: 600; }
+
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+
+        .loading-spinner {
+            width: 30px; height: 30px; border: 3px solid rgba(0,0,0,0.1);
+            border-top-color: var(--purple); border-radius: 50%;
+            animation: spin 0.8s linear infinite; margin: 40px auto;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 480px) {
+            .single-post-content { padding: 20px; }
+            .post-card-body { padding: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-inner">
+            <a href="index.html" class="logo-link">
+                <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="TRIANGLE LEARN">
+                <span>TRIANGLE LEARN</span>
+            </a>
+            <a href="index.html" class="btn btn-ghost">← Home</a>
+        </div>
+    </header>
+
+    <div class="main-container" id="blogContainer"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // ============ FIREBASE CONFIG ============
+        const firebaseConfig = {
+            apiKey: "AIzaSyAvvB3C9SP8tDTqMmqzc6craI4d_0kSVX0",
+            authDomain: "timijosh-b8bee.firebaseapp.com",
+            projectId: "timijosh-b8bee",
+            storageBucket: "timijosh-b8bee.firebasestorage.app",
+            messagingSenderId: "779082784462",
+            appId: "1:779082784462:web:a9e9aca2177c7e343c3a9f",
+            measurementId: "G-ZPS8VP8ZBX"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const POST_ID = urlParams.get('id');
+        const PAGE = parseInt(urlParams.get('page')) || 1;
+        const POSTS_PER_PAGE = 9;
+
+        const container = document.getElementById('blogContainer');
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str || '';
+            return div.innerHTML;
+        }
+        function escapeAttr(str) {
+            return String(str).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        async function fetchPosts(page = 1) {
+            try {
+                const snapshot = await db.collection('blog_posts')
+                    .where('published', '==', true)
+                    .orderBy('createdAt', 'desc')
+                    .get();
+
+                const allPosts = [];
+                snapshot.forEach(doc => allPosts.push({ id: doc.id, ...doc.data() }));
+
+                const totalPosts = allPosts.length;
+                const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
+                const start = (page - 1) * POSTS_PER_PAGE;
+                const posts = allPosts.slice(start, start + POSTS_PER_PAGE);
+
+                renderList(posts, page, totalPages);
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = '<div class="empty-state">Failed to load blog posts. Please try again later.</div>';
+            }
+        }
+
+        async function fetchSinglePost(id) {
+            try {
+                const doc = await db.collection('blog_posts').doc(id).get();
+                if (!doc.exists) {
+                    container.innerHTML = '<div class="empty-state">Post not found.</div>';
+                    return;
+                }
+                const post = doc.data();
+                renderSingle(post);
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = '<div class="empty-state">Failed to load the article.</div>';
+            }
+        }
+
+        function renderList(posts, currentPage, totalPages) {
+            if (posts.length === 0) {
+                container.innerHTML = '<div class="empty-state">No blog posts yet.</div>';
+                return;
+            }
+
+            let html = '<h1 class="section-title">Our Blog</h1>';
+
+            posts.forEach(post => {
+                const date = post.createdAt?.toDate ? post.createdAt.toDate().toDateString() : '';
+                const excerpt = post.excerpt || (post.content ? post.content.replace(/<[^>]*>/g, '').substring(0, 150) + '...' : '');
+                html += `
+                    <a href="blog.html?id=${post.id}" class="post-card">
+                        ${post.imageUrl ? `<img src="${escapeAttr(post.imageUrl)}" alt="${escapeAttr(post.title)}" loading="lazy">` : ''}
+                        <div class="post-card-body">
+                            <div class="post-date">${date}</div>
+                            <h2>${escapeHtml(post.title)}</h2>
+                            <p>${escapeHtml(excerpt)}</p>
+                        </div>
+                    </a>`;
+            });
+
+            // Pagination
+            html += '<div class="pagination">';
+            if (currentPage > 1) {
+                html += `<button onclick="window.location.href='blog.html?page=${currentPage - 1}'">← Previous</button>`;
+            }
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<button class="${i === currentPage ? 'active' : ''}" onclick="window.location.href='blog.html?page=${i}'">${i}</button>`;
+            }
+            if (currentPage < totalPages) {
+                html += `<button onclick="window.location.href='blog.html?page=${currentPage + 1}'">Next →</button>`;
+            }
+            html += '</div>';
+
+            container.innerHTML = html;
+        }
+
+        function renderSingle(post) {
+            const date = post.createdAt?.toDate ? post.createdAt.toDate().toDateString() : '';
+            container.innerHTML = `
+                <a href="blog.html" class="back-link">← Back to Blog</a>
+                <div class="single-post">
+                    ${post.imageUrl ? `<img src="${escapeAttr(post.imageUrl)}" alt="${escapeAttr(post.title)}">` : ''}
+                    <div class="single-post-content">
+                        <div class="post-date">${date}</div>
+                        <h1>${escapeHtml(post.title)}</h1>
+                        <div class="article-body">${post.content || '<p>No content available.</p>'}</div>
+                    </div>
+                </div>`;
+        }
+
+        // Init
+        if (POST_ID) {
+            fetchSinglePost(POST_ID);
+        } else {
+            fetchPosts(PAGE);
+        }
+    })();
+    </script>
+</body>
+</html>
