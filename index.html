@@ -36,7 +36,7 @@
             --font-body: 'Plus Jakarta Sans', sans-serif;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; font-size: 16px; -webkit-text-size-adjust: 100%; }
+        html { scroll-behavior: smooth; font-size: 16px; -webkit-text-size-adjust: 100%; scroll-padding-top: 80px; }
         body {
             font-family: var(--font-body);
             background: var(--bg);
@@ -47,13 +47,25 @@
             max-width: 100vw;
         }
 
+        /* SKELETON LOADING */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f5 25%, #e8e8f0 50%, #f0f0f5 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: var(--radius-md);
+        }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        .skeleton-card { height: 200px; }
+        .skeleton-text { height: 16px; margin-bottom: 8px; border-radius: 8px; }
+        .skeleton-text.short { width: 60%; }
+
         /* PRELOADER */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 99999; display: flex; align-items: center; justify-content: center;
-            background: #fff; overflow: hidden; transition: opacity 0.6s ease, visibility 0.6s ease;
+            background: #fff; transition: opacity 0.5s ease, visibility 0.5s ease;
         }
-        #preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        #preloader.hidden { opacity: 0; visibility: hidden; }
         .aurora {
             position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.65;
             animation: rotateAurora 6s linear infinite;
@@ -88,8 +100,9 @@
         .logo-link img { height: 36px; width: auto; }
         .logo-link span { font-family: var(--font-heading); font-weight: 700; font-size: 1.05rem; color: var(--text); letter-spacing: -0.5px; }
         .nav-links { display: flex; align-items: center; gap: 28px; }
-        .nav-links a { text-decoration: none; color: var(--text-secondary); font-weight: 500; font-size: 0.88rem; transition: color 0.2s; }
-        .nav-links a:hover { color: var(--text); }
+        .nav-links a { text-decoration: none; color: var(--text-secondary); font-weight: 500; font-size: 0.88rem; transition: color 0.2s; position: relative; }
+        .nav-links a:hover, .nav-links a.active { color: var(--text); }
+        .nav-links a.active::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 100%; height: 2px; background: var(--gradient); border-radius: 2px; }
         .header-actions { display: flex; align-items: center; gap: 10px; }
         .btn {
             display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px;
@@ -101,8 +114,26 @@
         .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
         .btn-filled { background: var(--gradient); color: #fff; }
         .btn-filled:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(232,67,147,0.3); }
-        .hamburger { display: none; flex-direction: column; gap: 4px; cursor: pointer; background: none; border: none; padding: 6px; }
-        .hamburger span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
+        .btn-white { background: #fff; color: var(--purple); font-weight: 700; }
+        .btn-white:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .btn-emergency { background: #e84393; }
+        .hamburger { display: none; flex-direction: column; gap: 4px; cursor: pointer; background: none; border: none; padding: 6px; z-index: 1001; }
+        .hamburger span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; display: block; }
+        .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+
+        /* MOBILE NAV */
+        .mobile-nav {
+            position: fixed; top: 0; right: -100%; width: 280px; height: 100vh;
+            background: #fff; z-index: 999; padding: 90px 30px 30px;
+            transition: right 0.35s ease; box-shadow: var(--shadow-lg);
+            display: flex; flex-direction: column; gap: 20px;
+        }
+        .mobile-nav.open { right: 0; }
+        .mobile-nav a { text-decoration: none; color: var(--text); font-weight: 600; font-size: 1.05rem; padding: 10px 0; border-bottom: 1px solid var(--border); }
+        .mobile-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 998; opacity: 0; visibility: hidden; transition: all 0.35s ease; }
+        .mobile-overlay.open { opacity: 1; visibility: visible; }
 
         /* HERO */
         .hero { padding: 130px 24px 50px; max-width: 1200px; margin: 0 auto; }
@@ -140,6 +171,22 @@
         .hero-stats { display: flex; gap: 28px; justify-content: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); flex-wrap: wrap; }
         .hero-stats h3 { font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700; color: var(--purple); }
         .hero-stats p { font-size: 0.75rem; color: var(--text-muted); }
+
+        /* SPOTS LEFT BADGE */
+        .spots-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: #fff3e0; padding: 8px 18px; border-radius: 22px;
+            font-weight: 600; font-size: 0.82rem; color: #e65100;
+            animation: spotsPulse 3s infinite; margin-bottom: 16px;
+        }
+        .spots-badge .fire { font-size: 1rem; }
+        @keyframes spotsPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(240,165,0,0.4); } 50% { box-shadow: 0 0 0 12px rgba(240,165,0,0); } }
+
+        /* ERROR STATE */
+        .error-state {
+            text-align: center; padding: 30px; color: var(--text-muted);
+        }
+        .error-state button { margin-top: 12px; }
 
         /* ANNOUNCEMENTS */
         .announce { background: var(--bg-alt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 14px 24px; }
@@ -212,8 +259,6 @@
         }
         .ref-banner h2 { font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; position: relative; z-index: 1; }
         .ref-banner p { opacity: 0.9; margin-bottom: 20px; position: relative; z-index: 1; font-size: 0.95rem; }
-        .ref-banner .btn-white { background: #fff; color: var(--purple); font-weight: 700; position: relative; z-index: 1; }
-        .ref-banner .btn-white:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
 
         /* FAQ */
         .faq-item { border-bottom: 1px solid var(--border); padding: 18px 0; cursor: pointer; }
@@ -234,9 +279,10 @@
         .footer-bottom { max-width: 1200px; margin: 30px auto 0; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted); flex-wrap: wrap; gap: 10px; }
 
         /* FLOATING CONTACTS */
-        .float-ct { position: fixed; bottom: 22px; right: 22px; z-index: 999; display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+        .float-ct { position: fixed; bottom: 22px; right: 22px; z-index: 997; display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
         .float-bubble { width: 48px; height: 48px; border-radius: 50%; background: #fff; box-shadow: var(--shadow-lg); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; font-size: 1.3rem; border: 1px solid var(--border); position: relative; }
         .float-bubble:hover { transform: scale(1.1); }
+        .float-bubble.emergency { background: #fff0f6; }
         .float-card {
             position: absolute; bottom: 0; right: 58px; background: #fff; border-radius: var(--radius-md);
             padding: 18px 20px; box-shadow: var(--shadow-lg); border: 1px solid var(--border);
@@ -293,6 +339,20 @@
         </div>
     </div>
 
+    <!-- MOBILE OVERLAY -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- MOBILE NAV -->
+    <nav class="mobile-nav" id="mobileNav">
+        <a href="#how" data-nav>How It Works</a>
+        <a href="#courses" data-nav>Courses</a>
+        <a href="#pricing" data-nav>Pricing</a>
+        <a href="#updates" data-nav>Updates</a>
+        <a href="#faq" data-nav>FAQ</a>
+        <a href="auth.html" class="btn btn-ghost" style="text-align:center;margin-top:10px;">Login</a>
+        <a href="enroll.html" class="btn btn-filled" style="text-align:center;">Join Batch</a>
+    </nav>
+
     <!-- HEADER -->
     <header class="header" id="header">
         <div class="header-inner">
@@ -301,12 +361,18 @@
                 <span>TRIANGLE LEARN</span>
             </a>
             <nav class="nav-links" id="navLinks">
-                <a href="#how">How It Works</a><a href="#courses">Courses</a><a href="#pricing">Pricing</a><a href="#updates">Updates</a><a href="#faq">FAQ</a>
+                <a href="#how" data-nav>How It Works</a>
+                <a href="#courses" data-nav>Courses</a>
+                <a href="#pricing" data-nav>Pricing</a>
+                <a href="#updates" data-nav>Updates</a>
+                <a href="#faq" data-nav>FAQ</a>
             </nav>
             <div class="header-actions">
                 <a href="auth.html" class="btn btn-ghost">Login</a>
                 <a href="enroll.html" class="btn btn-filled">Join Batch</a>
-                <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+                <button class="hamburger" id="hamburger" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
             </div>
         </div>
     </header>
@@ -323,6 +389,9 @@
             <div class="hero-caption" id="heroCaption"><span></span></div>
             <div class="hero-text">
                 <div class="hero-badge"><span class="dot"></span> <span id="batchBadge">Batch Enrollment</span></div>
+                <div class="spots-badge" id="spotsBadge" style="display:none;">
+                    <span class="fire">🔥</span> <span id="spotsText">Spots available</span>
+                </div>
                 <h1>Master Tech Skills.<br><span class="hl">Join the Batch.</span><br>Get Certified.</h1>
                 <p>Structured 3-stage cohort-based courses in Vibe Coding, Web Dev, UI/UX Design & Software Engineering. Learn with a community of African builders.</p>
                 <div class="hero-btns">
@@ -376,7 +445,7 @@
             <span class="sec-label">Why Us</span>
             <h2 class="sec-title">What Makes TRIANGLE LEARN Different</h2>
             <p class="sec-desc">We're not just another course platform. We're a structured academy built for real results.</p>
-            <div class="card-grid col3" id="whyGrid">
+            <div class="card-grid col3">
                 <div class="why-card"><span class="wi">🏫</span><div><h4>Batch-Based Learning</h4><p>Learn with a cohort. Stay accountable. Real community, not lonely self-paced videos.</p></div></div>
                 <div class="why-card"><span class="wi">📱</span><div><h4>WhatsApp Community</h4><p>Each batch gets a private group. Peer support, Q&A, networking. <a href="#" id="communityLink" target="_blank" rel="noopener">Join our community →</a></p></div></div>
                 <div class="why-card"><span class="wi">💰</span><div><h4>Refer & Earn</h4><p>Refer friends, earn 20% commission on every enrollment. Withdrawable to your account.</p></div></div>
@@ -423,7 +492,7 @@
         <div class="section-inner">
             <span class="sec-label">Got Questions?</span>
             <h2 class="sec-title">Frequently Asked Questions</h2>
-            <div>
+            <div id="faqContainer">
                 <div class="faq-item"><div class="faq-q">When does the next batch start? <span class="ico">+</span></div><div class="faq-a">Batch enrollment opens periodically. Check the announcements section or join our community for updates.</div></div>
                 <div class="faq-item"><div class="faq-q">Can I join a batch after it has started? <span class="ico">+</span></div><div class="faq-a">No. Batches are cohort-based. Once enrollment closes, you'll need to wait for the next batch.</div></div>
                 <div class="faq-item"><div class="faq-q">How do referrals work? <span class="ico">+</span></div><div class="faq-a">Share your unique link. When someone enrolls, you earn 20% commission. Withdrawable to your bank account.</div></div>
@@ -462,9 +531,9 @@
         <div style="position:relative;">
             <div class="float-card" id="emergencyCard">
                 <h4>🚨 Emergency Chat</h4><p>Need urgent assistance? Reach us now.</p>
-                <a href="https://wa.me/2348139529406" target="_blank" rel="noopener" class="btn btn-filled" style="background:#e84393;">Chat on WhatsApp</a>
+                <a href="https://wa.me/2348139529406" target="_blank" rel="noopener" class="btn btn-filled btn-emergency">Chat on WhatsApp</a>
             </div>
-            <div class="float-bubble" id="emergencyBubble" style="background:#fff0f6;">🚨</div>
+            <div class="float-bubble emergency" id="emergencyBubble">🚨</div>
         </div>
     </div>
 
@@ -474,46 +543,190 @@
     <script src="firebase-config.js"></script>
 
     <script>
+    (function() {
+        'use strict';
+
+        // ============ APP STATE ============
+        const AppState = {
+            firestoreReady: false,
+            db: null,
+            activeListeners: [],
+            retryCount: 0,
+            maxRetries: 3,
+            heroIntervalId: null,
+        };
+
+        // ============ DOM REFS ============
+        const $ = (sel) => document.querySelector(sel);
+        const $$ = (sel) => document.querySelectorAll(sel);
+
+        const DOM = {
+            preloader: $('#preloader'),
+            header: $('#header'),
+            hamburger: $('#hamburger'),
+            mobileNav: $('#mobileNav'),
+            mobileOverlay: $('#mobileOverlay'),
+            navLinks: $('#navLinks'),
+            heroGrid: $('#heroGrid'),
+            heroCaption: $('#heroCaption'),
+            announceTrack: $('#announceTrack'),
+            batchBadge: $('#batchBadge'),
+            spotsBadge: $('#spotsBadge'),
+            spotsText: $('#spotsText'),
+            statLearners: $('#statLearners'),
+            coursesGrid: $('#coursesGrid'),
+            pricingGrid: $('#pricingGrid'),
+            blogGrid: $('#blogGrid'),
+            communityLink: $('#communityLink'),
+            footerCommunity: $('#footerCommunity'),
+            footerLinkedin: $('#footerLinkedin'),
+            enquiryCard: $('#enquiryCard'),
+            emergencyCard: $('#emergencyCard'),
+            enquiryBubble: $('#enquiryBubble'),
+            emergencyBubble: $('#emergencyBubble'),
+        };
+
         // ============ PRELOADER ============
+        function hidePreloader() {
+            DOM.preloader.classList.add('hidden');
+            // Remove from DOM after transition completes
+            setTimeout(() => {
+                if (DOM.preloader.parentNode) {
+                    DOM.preloader.remove();
+                }
+            }, 500);
+        }
+
+        // Hide preloader when page is fully loaded (including images)
         window.addEventListener('load', () => {
-            const preloader = document.getElementById('preloader');
-            setTimeout(() => { preloader.classList.add('hidden'); }, 2000);
-            setTimeout(() => { preloader.style.display = 'none'; }, 2600);
+            // Small delay to ensure smooth visual transition
+            setTimeout(hidePreloader, 1500);
         });
 
-        // ============ HEADER SCROLL ============
-        const header = document.getElementById('header');
-        window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 40); });
+        // Fallback: if load event already fired or takes too long
+        setTimeout(() => {
+            if (!DOM.preloader.classList.contains('hidden')) {
+                hidePreloader();
+            }
+        }, 4000);
 
-        // ============ FAQ ============
-        document.querySelectorAll('.faq-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const was = item.classList.contains('open');
-                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-                if (!was) item.classList.add('open');
+        // ============ MOBILE NAVIGATION ============
+        function openMobileNav() {
+            DOM.mobileNav.classList.add('open');
+            DOM.mobileOverlay.classList.add('open');
+            DOM.hamburger.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileNav() {
+            DOM.mobileNav.classList.remove('open');
+            DOM.mobileOverlay.classList.remove('open');
+            DOM.hamburger.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        DOM.hamburger.addEventListener('click', () => {
+            if (DOM.mobileNav.classList.contains('open')) {
+                closeMobileNav();
+            } else {
+                openMobileNav();
+            }
+        });
+
+        DOM.mobileOverlay.addEventListener('click', closeMobileNav);
+
+        // Close mobile nav when a link is clicked
+        DOM.mobileNav.querySelectorAll('a[data-nav]').forEach(link => {
+            link.addEventListener('click', closeMobileNav);
+        });
+
+        // ============ HEADER SCROLL EFFECT ============
+        let scrollTicking = false;
+        window.addEventListener('scroll', () => {
+            if (!scrollTicking) {
+                requestAnimationFrame(() => {
+                    const scrolled = window.scrollY > 40;
+                    DOM.header.classList.toggle('scrolled', scrolled);
+                    updateActiveNavLink();
+                    scrollTicking = false;
+                });
+                scrollTicking = true;
+            }
+        });
+
+        // ============ ACTIVE NAV LINK HIGHLIGHTING ============
+        function updateActiveNavLink() {
+            const sections = $$('section[id]');
+            const scrollPos = window.scrollY + 100;
+
+            let currentSection = '';
+            sections.forEach(section => {
+                const top = section.offsetTop;
+                if (scrollPos >= top) {
+                    currentSection = section.getAttribute('id');
+                }
             });
-        });
+
+            $$('a[data-nav]').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSection}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // ============ FAQ ACCORDION ============
+        const faqContainer = $('#faqContainer');
+        if (faqContainer) {
+            faqContainer.addEventListener('click', (e) => {
+                const faqItem = e.target.closest('.faq-item');
+                if (!faqItem) return;
+                const wasOpen = faqItem.classList.contains('open');
+                // Close all
+                faqContainer.querySelectorAll('.faq-item').forEach(item => item.classList.remove('open'));
+                // Toggle clicked
+                if (!wasOpen) faqItem.classList.add('open');
+            });
+        }
 
         // ============ FLOATING CONTACTS ============
         let openFloat = null;
-        function closeFloats() {
-            document.getElementById('enquiryCard').classList.remove('show');
-            document.getElementById('emergencyCard').classList.remove('show');
+
+        function closeAllFloats() {
+            DOM.enquiryCard.classList.remove('show');
+            DOM.emergencyCard.classList.remove('show');
             openFloat = null;
         }
-        document.getElementById('enquiryBubble').addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (openFloat === 'enquiry') closeFloats();
-            else { closeFloats(); document.getElementById('enquiryCard').classList.add('show'); openFloat = 'enquiry'; }
-        });
-        document.getElementById('emergencyBubble').addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (openFloat === 'emergency') closeFloats();
-            else { closeFloats(); document.getElementById('emergencyCard').classList.add('show'); openFloat = 'emergency'; }
-        });
-        document.addEventListener('click', (e) => { if (!e.target.closest('.float-ct')) closeFloats(); });
 
-        // ============ HERO ANIMATION ============
+        DOM.enquiryBubble.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (openFloat === 'enquiry') {
+                closeAllFloats();
+            } else {
+                closeAllFloats();
+                DOM.enquiryCard.classList.add('show');
+                openFloat = 'enquiry';
+            }
+        });
+
+        DOM.emergencyBubble.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (openFloat === 'emergency') {
+                closeAllFloats();
+            } else {
+                closeAllFloats();
+                DOM.emergencyCard.classList.add('show');
+                openFloat = 'emergency';
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.float-ct')) {
+                closeAllFloats();
+            }
+        });
+
+        // ============ HERO POPUP ANIMATION ============
         const heroImages = [
             'https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/website-template_1346434-683_gbkoiw.jpg',
             'https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/cyber-security-and-security-password-login-online-concept-hands-typing-and-touch-id-username-and-password-of-social-media-log-in-with-computer-to-online-important-information-data-protection-hacker-photo_v4hioy.jpg',
@@ -521,109 +734,379 @@
             'https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/two-data-analysts-working-on-data-analysis-dashboard-for-business-strategy_vn9wrl.jpg',
             'https://res.cloudinary.com/dmbjrohtn/image/upload/v1781363241/1b5e0d6f-cbe3-4158-a73e-479865da04f9_vuadox.jpg'
         ];
-        const captions = ['Enroll Now — Start Learning', 'Login Now — Continue Your Journey', 'Build Real Projects', 'Earn Shareable Certificates', 'Join a Community of Builders'];
+        const captions = [
+            'Enroll Now — Start Learning',
+            'Login Now — Continue Your Journey',
+            'Build Real Projects',
+            'Earn Shareable Certificates',
+            'Join a Community of Builders'
+        ];
         let capIdx = 0;
-        const heroGrid = document.getElementById('heroGrid');
-        const heroCaption = document.getElementById('heroCaption');
 
         function animateHeroPopup() {
-            const existing = heroGrid.querySelector('.hero-popup');
+            if (!DOM.heroGrid) return;
+            // Remove existing popup
+            const existing = DOM.heroGrid.querySelector('.hero-popup');
             if (existing) existing.remove();
-            const popup = document.createElement('div'); popup.className = 'hero-popup';
-            const img = document.createElement('img'); img.src = heroImages[capIdx]; img.alt = 'Featured'; img.width = 300; img.height = 225;
+
+            const popup = document.createElement('div');
+            popup.className = 'hero-popup';
+            const img = document.createElement('img');
+            img.src = heroImages[capIdx];
+            img.alt = 'Featured';
+            img.width = 300;
+            img.height = 225;
             popup.appendChild(img);
-            popup.style.top = '50%'; popup.style.left = '50%';
-            heroGrid.style.position = 'relative'; heroGrid.appendChild(popup);
-            heroCaption.querySelector('span').textContent = captions[capIdx];
-            heroCaption.style.opacity = '1';
-            setTimeout(() => { heroCaption.style.opacity = '0'; }, 3000);
-            setTimeout(() => { if (popup.parentNode) popup.remove(); }, 4100);
+            popup.style.top = '50%';
+            popup.style.left = '50%';
+            DOM.heroGrid.style.position = 'relative';
+            DOM.heroGrid.appendChild(popup);
+
+            // Update caption
+            DOM.heroCaption.querySelector('span').textContent = captions[capIdx];
+            DOM.heroCaption.style.opacity = '1';
+            setTimeout(() => { DOM.heroCaption.style.opacity = '0'; }, 3000);
+
+            // Remove popup after animation
+            setTimeout(() => {
+                if (popup.parentNode) popup.remove();
+            }, 4100);
+
             capIdx = (capIdx + 1) % heroImages.length;
         }
+
+        // Start hero animation
         animateHeroPopup();
-        setInterval(animateHeroPopup, 4500);
+        AppState.heroIntervalId = setInterval(animateHeroPopup, 4500);
 
-        // ============ FIRESTORE: LOAD DYNAMIC CONTENT ============
-        async function loadDynamicContent() {
-            try {
-                // Announcements
-                const annSnap = await db.collection('announcements').doc('current').get();
-                if (annSnap.exists) {
-                    const ann = annSnap.data();
-                    const track = document.getElementById('announceTrack');
-                    const msgs = ann.messages || ['Welcome to TRIANGLE LEARN!'];
-                    track.innerHTML = msgs.map(m => `<span>${m}</span>`).join('') + msgs.map(m => `<span>${m}</span>`).join('');
-                    document.getElementById('batchBadge').textContent = ann.batchName || 'Batch Enrollment';
+        // ============ SKELETON LOADERS ============
+        function showSkeleton(container, count, type) {
+            if (!container) return;
+            container.innerHTML = '';
+            for (let i = 0; i < count; i++) {
+                const div = document.createElement('div');
+                if (type === 'card') {
+                    div.className = 'skeleton skeleton-card';
+                } else if (type === 'text') {
+                    div.className = 'skeleton skeleton-text';
                 }
-
-                // Courses
-                const courseSnap = await db.collection('courses').where('active', '==', true).get();
-                const coursesGrid = document.getElementById('coursesGrid');
-                coursesGrid.innerHTML = '';
-                courseSnap.forEach(doc => {
-                    const c = doc.data();
-                    const card = document.createElement('div'); card.className = 'card';
-                    card.innerHTML = `<div class="icon">${c.icon || '📘'}</div><h3>${c.name}</h3><p>${c.description || ''}</p><span class="tag">${c.stage || 'Course'}</span>`;
-                    coursesGrid.appendChild(card);
-                });
-                if (courseSnap.empty) coursesGrid.innerHTML = '<p style="color:var(--text-muted);">Courses coming soon — check back shortly.</p>';
-
-                // Pricing
-                const priceSnap = await db.collection('courses').where('active', '==', true).get();
-                const pricingGrid = document.getElementById('pricingGrid');
-                pricingGrid.innerHTML = '';
-                priceSnap.forEach(doc => {
-                    const c = doc.data();
-                    const card = document.createElement('div');
-                    card.className = 'pricing-card' + (c.isFullTrack ? ' featured' : '');
-                    let html = '';
-                    if (c.isFullTrack) html += '<span class="badge-pop">Best Value</span>';
-                    html += `<div class="stage-label">${c.stage || 'Stage'}</div>`;
-                    html += `<div class="price">₦${c.price?.toLocaleString()}<span>/ ${c.isFullTrack ? 'all 3' : 'stage'}</span></div>`;
-                    if (c.savings) html += `<span class="save-tag">Save ₦${c.savings?.toLocaleString()}</span>`;
-                    html += `<div class="dur">${c.durationWeeks} weeks • Certificate included</div>`;
-                    html += `<a href="enroll.html" class="btn btn-filled" style="width:100%;justify-content:center;">Enroll Now</a>`;
-                    card.innerHTML = html;
-                    pricingGrid.appendChild(card);
-                });
-                if (priceSnap.empty) pricingGrid.innerHTML = '<p style="color:var(--text-muted);">Pricing details coming soon.</p>';
-
-                // Blog Posts
-                const blogSnap = await db.collection('blog_posts').where('published', '==', true).orderBy('createdAt', 'desc').limit(3).get();
-                const blogGrid = document.getElementById('blogGrid');
-                blogGrid.innerHTML = '';
-                blogSnap.forEach(doc => {
-                    const b = doc.data();
-                    const card = document.createElement('div'); card.className = 'blog-card';
-                    card.innerHTML = (b.imageUrl ? `<img src="${b.imageUrl}" alt="${b.title}" loading="lazy">` : '') +
-                        `<div class="blog-card-body"><h3>${b.title}</h3><div class="date">${b.createdAt?.toDate?.().toDateString() || ''}</div><p>${b.excerpt || b.content?.replace(/<[^>]*>/g, '').substring(0, 120) + '...'}</p></div>`;
-                    blogGrid.appendChild(card);
-                });
-                if (blogSnap.empty) blogGrid.innerHTML = '<p style="color:var(--text-muted);">No updates yet — stay tuned.</p>';
-
-                // Settings
-                const setSnap = await db.collection('settings').doc('contact').get();
-                if (setSnap.exists) {
-                    const s = setSnap.data();
-                    document.getElementById('communityLink').href = s.communityLink || '#';
-                    document.getElementById('footerCommunity').href = s.communityLink || '#';
-                    document.getElementById('footerLinkedin').href = s.linkedinUrl || '#';
-                }
-            } catch (err) {
-                console.log('Firestore not yet configured. Using static content.', err);
-                document.getElementById('announceTrack').innerHTML = '<span>🚀 Welcome to TRIANGLE LEARN — Courses coming soon!</span><span>🚀 Welcome to TRIANGLE LEARN — Courses coming soon!</span>';
-                document.getElementById('coursesGrid').innerHTML = '<p style="color:var(--text-muted);">Connect Firestore to display courses.</p>';
-                document.getElementById('pricingGrid').innerHTML = '<p style="color:var(--text-muted);">Connect Firestore to display pricing.</p>';
-                document.getElementById('blogGrid').innerHTML = '<p style="color:var(--text-muted);">Connect Firestore to display updates.</p>';
+                container.appendChild(div);
             }
         }
 
-        // Load when Firestore is ready
-        if (typeof db !== 'undefined') {
-            loadDynamicContent();
-        } else {
-            window.addEventListener('load', () => { if (typeof db !== 'undefined') loadDynamicContent(); });
+        function showError(container, message, retryFn) {
+            if (!container) return;
+            container.innerHTML = `
+                <div class="error-state">
+                    <p>${message || 'Failed to load content.'}</p>
+                    ${retryFn ? '<button class="btn btn-ghost" onclick="arguments[0].stopPropagation();(' + retryFn.toString() + ')()">Retry</button>' : ''}
+                </div>`;
         }
+
+        // ============ FIRESTORE: REAL-TIME LISTENERS ============
+        function setupRealTimeListeners() {
+            if (!AppState.firestoreReady || !AppState.db) return;
+
+            // Real-time listener for enrollment stats
+            try {
+                const statsUnsubscribe = AppState.db.collection('settings').doc('stats')
+                    .onSnapshot((doc) => {
+                        if (doc.exists) {
+                            const data = doc.data();
+                            if (DOM.statLearners && data.totalLearners) {
+                                animateNumber(DOM.statLearners, data.totalLearners);
+                            }
+                            if (DOM.spotsBadge && data.spotsLeft !== undefined && data.spotsLeft > 0) {
+                                DOM.spotsBadge.style.display = 'inline-flex';
+                                DOM.spotsText.textContent = `Only ${data.spotsLeft} spots left!`;
+                            } else if (DOM.spotsBadge) {
+                                DOM.spotsBadge.style.display = 'none';
+                            }
+                        }
+                    }, (error) => {
+                        console.warn('Stats listener error (non-critical):', error.message);
+                    });
+                AppState.activeListeners.push(statsUnsubscribe);
+            } catch (e) {
+                console.warn('Could not set up stats listener:', e.message);
+            }
+
+            // Real-time listener for announcements
+            try {
+                const annUnsubscribe = AppState.db.collection('announcements').doc('current')
+                    .onSnapshot((doc) => {
+                        if (doc.exists) {
+                            const ann = doc.data();
+                            updateAnnouncements(ann);
+                            if (DOM.batchBadge && ann.batchName) {
+                                DOM.batchBadge.textContent = ann.batchName;
+                            }
+                        }
+                    }, (error) => {
+                        console.warn('Announcements listener error (non-critical):', error.message);
+                    });
+                AppState.activeListeners.push(annUnsubscribe);
+            } catch (e) {
+                console.warn('Could not set up announcements listener:', e.message);
+            }
+        }
+
+        function updateAnnouncements(annData) {
+            if (!DOM.announceTrack) return;
+            const msgs = annData.messages || ['Welcome to TRIANGLE LEARN!'];
+            // Duplicate for seamless looping
+            const trackContent = msgs.map(m => `<span>${m}</span>`).join('') +
+                                 msgs.map(m => `<span>${m}</span>`).join('');
+            DOM.announceTrack.innerHTML = trackContent;
+        }
+
+        function animateNumber(element, target) {
+            if (!element) return;
+            const current = parseInt(element.textContent.replace(/[^0-9]/g, '')) || 0;
+            if (current === target) {
+                element.textContent = target.toLocaleString() + '+';
+                return;
+            }
+            const duration = 1000;
+            const start = performance.now();
+            const initial = current;
+
+            function step(timestamp) {
+                const elapsed = timestamp - start;
+                const progress = Math.min(elapsed / duration, 1);
+                // Ease out cubic
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const value = Math.floor(initial + (target - initial) * eased);
+                element.textContent = value.toLocaleString() + '+';
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                }
+            }
+            requestAnimationFrame(step);
+        }
+
+        // ============ FIRESTORE: LOAD DYNAMIC CONTENT ============
+        async function loadDynamicContent(retryCount = 0) {
+            if (!AppState.firestoreReady || !AppState.db) {
+                if (retryCount < AppState.maxRetries) {
+                    console.log(`Firestore not ready. Retry ${retryCount + 1}/${AppState.maxRetries}...`);
+                    await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1)));
+                    return loadDynamicContent(retryCount + 1);
+                }
+                loadStaticFallbacks();
+                return;
+            }
+
+            // Show skeletons while loading
+            showSkeleton(DOM.coursesGrid, 4, 'card');
+            showSkeleton(DOM.pricingGrid, 4, 'card');
+            showSkeleton(DOM.blogGrid, 3, 'card');
+
+            try {
+                // Load courses
+                const courseSnap = await AppState.db.collection('courses').where('active', '==', true).get();
+                renderCourses(courseSnap);
+
+                // Load pricing (same collection, different render)
+                renderPricing(courseSnap);
+
+                // Load blog posts
+                const blogSnap = await AppState.db.collection('blog_posts')
+                    .where('published', '==', true)
+                    .orderBy('createdAt', 'desc')
+                    .limit(3)
+                    .get();
+                renderBlogPosts(blogSnap);
+
+                // Load settings
+                const setSnap = await AppState.db.collection('settings').doc('contact').get();
+                if (setSnap.exists) {
+                    applySettings(setSnap.data());
+                }
+
+            } catch (error) {
+                console.error('Firestore load error:', error);
+                if (retryCount < AppState.maxRetries) {
+                    console.log(`Retrying load... (${retryCount + 1}/${AppState.maxRetries})`);
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    return loadDynamicContent(retryCount + 1);
+                }
+                loadStaticFallbacks();
+            }
+        }
+
+        function renderCourses(snapshot) {
+            if (!DOM.coursesGrid) return;
+            DOM.coursesGrid.innerHTML = '';
+
+            if (snapshot.empty) {
+                DOM.coursesGrid.innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center;">Courses coming soon — check back shortly.</p>';
+                return;
+            }
+
+            snapshot.forEach(doc => {
+                const c = doc.data();
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="icon">${c.icon || '📘'}</div>
+                    <h3>${escapeHtml(c.name)}</h3>
+                    <p>${escapeHtml(c.description || '')}</p>
+                    <span class="tag">${escapeHtml(c.stage || 'Course')}</span>`;
+                DOM.coursesGrid.appendChild(card);
+            });
+        }
+
+        function renderPricing(snapshot) {
+            if (!DOM.pricingGrid) return;
+            DOM.pricingGrid.innerHTML = '';
+
+            if (snapshot.empty) {
+                DOM.pricingGrid.innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center;">Pricing details coming soon.</p>';
+                return;
+            }
+
+            snapshot.forEach(doc => {
+                const c = doc.data();
+                const card = document.createElement('div');
+                card.className = 'pricing-card' + (c.isFullTrack ? ' featured' : '');
+                let html = '';
+                if (c.isFullTrack) html += '<span class="badge-pop">Best Value</span>';
+                html += `<div class="stage-label">${escapeHtml(c.stage || 'Stage')}</div>`;
+                html += `<div class="price">₦${(c.price || 0).toLocaleString()}<span>/ ${c.isFullTrack ? 'all 3' : 'stage'}</span></div>`;
+                if (c.savings) html += `<span class="save-tag">Save ₦${c.savings.toLocaleString()}</span>`;
+                html += `<div class="dur">${c.durationWeeks || '?'} weeks • Certificate included</div>`;
+                html += `<a href="enroll.html" class="btn btn-filled" style="width:100%;justify-content:center;">Enroll Now</a>`;
+                card.innerHTML = html;
+                DOM.pricingGrid.appendChild(card);
+            });
+        }
+
+        function renderBlogPosts(snapshot) {
+            if (!DOM.blogGrid) return;
+            DOM.blogGrid.innerHTML = '';
+
+            if (snapshot.empty) {
+                DOM.blogGrid.innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center;">No updates yet — stay tuned.</p>';
+                return;
+            }
+
+            snapshot.forEach(doc => {
+                const b = doc.data();
+                const card = document.createElement('div');
+                card.className = 'blog-card';
+                const dateStr = b.createdAt?.toDate ? b.createdAt.toDate().toDateString() : '';
+                const excerpt = b.excerpt || (b.content ? b.content.replace(/<[^>]*>/g, '').substring(0, 120) + '...' : '');
+                card.innerHTML = `
+                    ${b.imageUrl ? `<img src="${escapeAttr(b.imageUrl)}" alt="${escapeAttr(b.title)}" loading="lazy">` : ''}
+                    <div class="blog-card-body">
+                        <h3>${escapeHtml(b.title)}</h3>
+                        <div class="date">${dateStr}</div>
+                        <p>${escapeHtml(excerpt)}</p>
+                    </div>`;
+                DOM.blogGrid.appendChild(card);
+            });
+        }
+
+        function applySettings(settings) {
+            if (settings.communityLink) {
+                if (DOM.communityLink) DOM.communityLink.href = settings.communityLink;
+                if (DOM.footerCommunity) DOM.footerCommunity.href = settings.communityLink;
+            }
+            if (settings.linkedinUrl && DOM.footerLinkedin) {
+                DOM.footerLinkedin.href = settings.linkedinUrl;
+            }
+        }
+
+        function loadStaticFallbacks() {
+            DOM.announceTrack.innerHTML = '<span>🚀 Welcome to TRIANGLE LEARN — Courses coming soon!</span><span>🚀 Welcome to TRIANGLE LEARN — Courses coming soon!</span>';
+            if (DOM.coursesGrid) DOM.coursesGrid.innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center;">Connect Firestore to display courses. <button class="btn btn-ghost" onclick="window.retryLoad()">Retry</button></p>';
+            if (DOM.pricingGrid) DOM.pricingGrid.innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center;">Connect Firestore to display pricing.</p>';
+            if (DOM.blogGrid) DOM.blogGrid.innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center;">Connect Firestore to display updates.</p>';
+        }
+
+        // Expose retry function globally so inline onclick works
+        window.retryLoad = function() {
+            AppState.retryCount = 0;
+            loadDynamicContent();
+        };
+
+        // ============ UTILITY FUNCTIONS ============
+        function escapeHtml(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function escapeAttr(str) {
+            if (!str) return '';
+            return str.replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        // ============ INITIALIZATION ============
+        function initFirestore() {
+            // Check if Firebase is available (loaded from firebase-config.js)
+            if (typeof firebase !== 'undefined' && typeof db !== 'undefined') {
+                AppState.db = db;
+                AppState.firestoreReady = true;
+                console.log('Firestore initialized successfully.');
+            } else {
+                console.warn('Firebase not available. Check firebase-config.js. Running with static content.');
+                AppState.firestoreReady = false;
+            }
+        }
+
+        function init() {
+            initFirestore();
+
+            if (AppState.firestoreReady) {
+                loadDynamicContent();
+                setupRealTimeListeners();
+            } else {
+                // Poll for Firebase availability (in case config loads late)
+                let checkCount = 0;
+                const checkInterval = setInterval(() => {
+                    if (typeof firebase !== 'undefined' && typeof db !== 'undefined') {
+                        clearInterval(checkInterval);
+                        AppState.db = db;
+                        AppState.firestoreReady = true;
+                        loadDynamicContent();
+                        setupRealTimeListeners();
+                    }
+                    checkCount++;
+                    if (checkCount > 20) { // 10 seconds max
+                        clearInterval(checkInterval);
+                        loadStaticFallbacks();
+                    }
+                }, 500);
+            }
+        }
+
+        // ============ CLEANUP ON PAGE UNLOAD ============
+        window.addEventListener('beforeunload', () => {
+            // Clean up Firestore listeners
+            AppState.activeListeners.forEach(unsubscribe => {
+                if (typeof unsubscribe === 'function') {
+                    try { unsubscribe(); } catch (e) { /* ignore */ }
+                }
+            });
+            AppState.activeListeners = [];
+
+            // Clear hero interval
+            if (AppState.heroIntervalId) {
+                clearInterval(AppState.heroIntervalId);
+            }
+        });
+
+        // ============ START APP ============
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+
+    })();
     </script>
 </body>
 </html>
