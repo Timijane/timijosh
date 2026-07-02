@@ -33,6 +33,8 @@
             --danger-bg: #fff0f0;
             --success: #0d9488;
             --success-bg: #e8f8f0;
+            --warning: #f59e0b;
+            --warning-bg: #fffbeb;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { font-size: 16px; -webkit-text-size-adjust: 100%; }
@@ -48,13 +50,11 @@
             justify-content: center;
             padding: 20px;
         }
-
         .auth-wrapper {
             width: 100%;
             max-width: 460px;
             position: relative;
         }
-
         .back-link {
             display: inline-flex;
             align-items: center;
@@ -68,7 +68,6 @@
         }
         .back-link:hover { color: var(--text); }
         .back-link svg { width: 18px; height: 18px; }
-
         .auth-card {
             background: #fff;
             border-radius: var(--radius-lg);
@@ -87,7 +86,6 @@
             height: 4px;
             background: var(--gradient);
         }
-
         .auth-logo {
             display: flex;
             align-items: center;
@@ -103,7 +101,6 @@
             color: var(--text);
             letter-spacing: -0.5px;
         }
-
         .auth-title {
             font-family: var(--font-heading);
             font-size: 1.5rem;
@@ -118,7 +115,6 @@
             font-size: 0.88rem;
             margin-bottom: 28px;
         }
-
         .form-group {
             margin-bottom: 18px;
             position: relative;
@@ -170,7 +166,6 @@
             transition: color 0.2s;
         }
         .toggle-password:hover { color: var(--text); }
-
         .field-error {
             font-size: 0.72rem;
             color: var(--danger);
@@ -180,7 +175,6 @@
             gap: 4px;
         }
         .field-error.show { display: flex; }
-
         .auth-error {
             background: var(--danger-bg);
             color: var(--danger);
@@ -206,7 +200,6 @@
             opacity: 0.7;
         }
         .auth-error .close-error:hover { opacity: 1; }
-
         .auth-success {
             background: var(--success-bg);
             color: var(--success);
@@ -221,7 +214,20 @@
             border: 1px solid #c8f0e8;
         }
         .auth-success.show { display: flex; }
-
+        .auth-warning {
+            background: var(--warning-bg);
+            color: var(--warning);
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 0.82rem;
+            font-weight: 500;
+            margin-bottom: 18px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #fde68a;
+        }
+        .auth-warning.show { display: flex; }
         .btn-submit {
             width: 100%;
             padding: 13px 20px;
@@ -251,7 +257,6 @@
             transform: none;
             box-shadow: none;
         }
-
         .spinner {
             width: 20px;
             height: 20px;
@@ -264,7 +269,6 @@
         .btn-submit.loading .spinner { display: inline-block; }
         .btn-submit.loading .btn-text { display: none; }
         @keyframes spin { to { transform: rotate(360deg); } }
-
         .divider {
             display: flex;
             align-items: center;
@@ -280,7 +284,6 @@
             height: 1px;
             background: var(--border);
         }
-
         .btn-google {
             width: 100%;
             padding: 12px 20px;
@@ -309,7 +312,6 @@
             transform: none;
         }
         .btn-google svg { width: 20px; height: 20px; flex-shrink: 0; }
-
         .auth-toggle {
             text-align: center;
             margin-top: 22px;
@@ -324,7 +326,6 @@
             transition: color 0.2s;
         }
         .auth-toggle a:hover { color: var(--pink); }
-
         .forgot-link {
             display: block;
             text-align: right;
@@ -337,10 +338,8 @@
             transition: color 0.2s;
         }
         .forgot-link:hover { color: var(--pink); }
-
         .form-section { display: none; }
         .form-section.active { display: block; }
-
         .referral-note {
             background: #fff8e8;
             border: 1px solid #ffe0b2;
@@ -354,7 +353,25 @@
             gap: 6px;
         }
         .referral-note.show { display: flex; }
-
+        .verification-banner {
+            background: var(--warning-bg);
+            border: 1px solid #fde68a;
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .verification-banner.show { display: block; }
+        .verification-banner h4 { font-size: 0.85rem; margin-bottom: 8px; }
+        .verification-banner p { font-size: 0.78rem; margin-bottom: 12px; color: #92400e; }
+        .verification-banner .btn { padding: 8px 16px; font-size: 0.78rem; }
+        .terms-text {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 12px;
+        }
+        .terms-text a { color: var(--purple); }
         @media (max-width: 480px) {
             body { padding: 12px; align-items: flex-start; padding-top: 30px; }
             .auth-card { padding: 28px 20px; border-radius: var(--radius-md); }
@@ -377,6 +394,17 @@
                 <span>TRIANGLE LEARN</span>
             </div>
 
+            <!-- VERIFICATION BANNER (shown when email not verified) -->
+            <div class="verification-banner" id="verificationBanner">
+                <h4>📧 Verify Your Email</h4>
+                <p>We’ve sent a verification link to your email. Please check your inbox (and spam) to activate your account.</p>
+                <button class="btn btn-submit" id="resendVerification" style="width:auto; margin-right:10px;">
+                    <span class="spinner" style="width:16px; height:16px;"></span>
+                    <span class="btn-text">Resend Verification</span>
+                </button>
+                <button class="btn" style="background:none; border:1px solid var(--border); color:var(--text);" id="dismissVerification">I'll do it later</button>
+            </div>
+
             <!-- GLOBAL ERROR -->
             <div class="auth-error" id="authError">
                 <span>⚠️</span>
@@ -388,6 +416,12 @@
             <div class="auth-success" id="authSuccess">
                 <span>✅</span>
                 <span id="authSuccessMessage"></span>
+            </div>
+
+            <!-- GLOBAL WARNING -->
+            <div class="auth-warning" id="authWarning">
+                <span>⏳</span>
+                <span id="authWarningMessage"></span>
             </div>
 
             <!-- REFERRAL NOTE -->
@@ -470,6 +504,10 @@
                         <div class="field-error" id="signupPasswordError"></div>
                     </div>
 
+                    <div class="terms-text">
+                        By creating an account, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+                    </div>
+
                     <button type="submit" class="btn-submit" id="signupSubmit">
                         <span class="spinner"></span>
                         <span class="btn-text">Create Account</span>
@@ -491,7 +529,7 @@
             <!-- ==================== RESET PASSWORD SECTION ==================== -->
             <div class="form-section" id="resetSection">
                 <h2 class="auth-title">Reset Password</h2>
-                <p class="auth-subtitle">Enter your email and we'll send you a reset link</p>
+                <p class="auth-subtitle">Enter your email and we'll send you a secure reset link</p>
 
                 <form id="resetForm" novalidate>
                     <div class="form-group">
@@ -523,7 +561,7 @@
         'use strict';
 
         // ============================================
-        // FIREBASE CONFIG — YOUR ACTUAL CONFIG
+        // FIREBASE CONFIG
         // ============================================
         const firebaseConfig = {
             apiKey: "AIzaSyAvvB3C9SP8tDTqMmqzc6craI4d_0kSVX0",
@@ -546,6 +584,7 @@
             currentSection: 'login',
             isProcessing: false,
             referralFromUrl: null,
+            pendingVerificationUser: null,
         };
 
         // ============================================
@@ -587,9 +626,15 @@
             authErrorMessage: $('#authErrorMessage'),
             authSuccess: $('#authSuccess'),
             authSuccessMessage: $('#authSuccessMessage'),
+            authWarning: $('#authWarning'),
+            authWarningMessage: $('#authWarningMessage'),
 
             referralNote: $('#referralNote'),
             referralNoteText: $('#referralNoteText'),
+
+            verificationBanner: $('#verificationBanner'),
+            resendVerification: $('#resendVerification'),
+            dismissVerification: $('#dismissVerification'),
 
             googleLogin: $('#googleLogin'),
             googleSignup: $('#googleSignup'),
@@ -603,14 +648,9 @@
             const ref = params.get('ref');
             if (ref) {
                 State.referralFromUrl = ref.toUpperCase().trim();
-                // Pre-fill the referral field on signup
-                if (DOM.signupReferral) {
-                    DOM.signupReferral.value = State.referralFromUrl;
-                }
-                // Show referral note
+                if (DOM.signupReferral) DOM.signupReferral.value = State.referralFromUrl;
                 DOM.referralNoteText.textContent = `You've been referred! Code "${State.referralFromUrl}" will be applied when you sign up.`;
                 DOM.referralNote.classList.add('show');
-                // Auto-switch to signup
                 showSection('signup');
             }
         }
@@ -623,20 +663,13 @@
             DOM.loginSection.classList.remove('active');
             DOM.signupSection.classList.remove('active');
             DOM.resetSection.classList.remove('active');
-            hideGlobalError();
-            hideGlobalSuccess();
+            hideGlobalMessages();
             clearAllFieldErrors();
 
             switch (section) {
-                case 'login':
-                    DOM.loginSection.classList.add('active');
-                    break;
-                case 'signup':
-                    DOM.signupSection.classList.add('active');
-                    break;
-                case 'reset':
-                    DOM.resetSection.classList.add('active');
-                    break;
+                case 'login': DOM.loginSection.classList.add('active'); break;
+                case 'signup': DOM.signupSection.classList.add('active'); break;
+                case 'reset': DOM.resetSection.classList.add('active'); break;
             }
         }
 
@@ -660,26 +693,28 @@
         });
 
         // ============================================
-        // ERROR / SUCCESS HANDLING
+        // ERROR / SUCCESS / WARNING HANDLING
         // ============================================
         function showGlobalError(msg) {
             DOM.authErrorMessage.textContent = msg;
             DOM.authError.classList.add('show');
-            DOM.authSuccess.classList.remove('show');
+            hideGlobalSuccess(); hideGlobalWarning();
         }
-
-        function hideGlobalError() {
-            DOM.authError.classList.remove('show');
-        }
-
+        function hideGlobalError() { DOM.authError.classList.remove('show'); }
         function showGlobalSuccess(msg) {
             DOM.authSuccessMessage.textContent = msg;
             DOM.authSuccess.classList.add('show');
-            DOM.authError.classList.remove('show');
+            hideGlobalError(); hideGlobalWarning();
         }
-
-        function hideGlobalSuccess() {
-            DOM.authSuccess.classList.remove('show');
+        function hideGlobalSuccess() { DOM.authSuccess.classList.remove('show'); }
+        function showGlobalWarning(msg) {
+            DOM.authWarningMessage.textContent = msg;
+            DOM.authWarning.classList.add('show');
+            hideGlobalError(); hideGlobalSuccess();
+        }
+        function hideGlobalWarning() { DOM.authWarning.classList.remove('show'); }
+        function hideGlobalMessages() {
+            hideGlobalError(); hideGlobalSuccess(); hideGlobalWarning();
         }
 
         $('#closeError').addEventListener('click', hideGlobalError);
@@ -691,7 +726,6 @@
             const input = el.closest('.form-group')?.querySelector('input');
             if (input) input.classList.add('input-error');
         }
-
         function clearFieldError(el) {
             if (!el) return;
             el.textContent = '';
@@ -699,7 +733,6 @@
             const input = el.closest('.form-group')?.querySelector('input');
             if (input) input.classList.remove('input-error');
         }
-
         function clearAllFieldErrors() {
             document.querySelectorAll('.field-error').forEach(el => clearFieldError(el));
         }
@@ -726,20 +759,61 @@
         // LOADING STATE
         // ============================================
         function setButtonLoading(btn, loading) {
-            if (loading) {
-                btn.classList.add('loading');
-                btn.disabled = true;
-            } else {
-                btn.classList.remove('loading');
-                btn.disabled = false;
-            }
+            if (loading) { btn.classList.add('loading'); btn.disabled = true; }
+            else { btn.classList.remove('loading'); btn.disabled = false; }
         }
-
         function setProcessingState(processing) {
             State.isProcessing = processing;
             [DOM.loginSubmit, DOM.signupSubmit, DOM.resetSubmit, DOM.googleLogin, DOM.googleSignup]
-                .forEach(b => { if (b) { b.disabled = processing; b.style.pointerEvents = processing ? 'none' : ''; } });
+                .forEach(b => { if (b) b.disabled = processing; });
         }
+
+        // ============================================
+        // EMAIL VERIFICATION
+        // ============================================
+        async function sendVerificationEmail(user) {
+            try {
+                await user.sendEmailVerification({
+                    url: window.location.origin + '/auth.html',
+                    handleCodeInApp: true,
+                });
+                return true;
+            } catch (e) {
+                console.warn('Verification email failed:', e);
+                return false;
+            }
+        }
+
+        function showVerificationBanner(user) {
+            State.pendingVerificationUser = user;
+            DOM.verificationBanner.classList.add('show');
+        }
+
+        function hideVerificationBanner() {
+            DOM.verificationBanner.classList.remove('show');
+            State.pendingVerificationUser = null;
+        }
+
+        DOM.resendVerification.addEventListener('click', async function() {
+            if (!State.pendingVerificationUser) return;
+            const btn = DOM.resendVerification;
+            setButtonLoading(btn, true);
+            const sent = await sendVerificationEmail(State.pendingVerificationUser);
+            setButtonLoading(btn, false);
+            if (sent) showGlobalSuccess('Verification email resent!');
+            else showGlobalError('Failed to send. Please try again later.');
+        });
+
+        DOM.dismissVerification.addEventListener('click', function() {
+            hideVerificationBanner();
+            if (State.pendingVerificationUser) {
+                // Allow user to proceed but with warning
+                showGlobalWarning('Some features require a verified email. You can verify later in settings.');
+                setTimeout(() => {
+                    handlePostAuthRedirect(State.pendingVerificationUser, true);
+                }, 1000);
+            }
+        });
 
         // ============================================
         // VALIDATION
@@ -749,13 +823,11 @@
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return 'Please enter a valid email.';
             return null;
         }
-
         function validatePassword(pw) {
             if (!pw) return 'Password is required.';
             if (pw.length < 6) return 'Password must be at least 6 characters.';
             return null;
         }
-
         function validateName(name) {
             if (!name?.trim()) return 'Full name is required.';
             if (name.trim().length < 2) return 'Name must be at least 2 characters.';
@@ -812,6 +884,7 @@
                 referralLink: `${window.location.origin}/auth.html?ref=${referralCode}`,
                 referredBy: extraData.referredBy || null,
                 referredByCode: extraData.referredByCode || null,
+                profileComplete: false,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 enrolledCourses: [],
                 certificates: [],
@@ -819,7 +892,6 @@
 
             await db.collection('users').doc(user.uid).set(userDoc);
 
-            // If referred, create referral record
             if (extraData.referredBy) {
                 await db.collection('referrals').add({
                     referrerUid: extraData.referredBy,
@@ -838,27 +910,44 @@
         // ============================================
         // POST-AUTH: DETECT ROLE & REDIRECT
         // ============================================
-        async function handlePostAuthRedirect(user) {
+        async function handlePostAuthRedirect(user, skipVerification = false) {
             try {
-                const userDoc = await db.collection('users').doc(user.uid).get();
+                // Check email verification
+                if (!skipVerification && !user.emailVerified) {
+                    showVerificationBanner(user);
+                    // Still create user doc if new Google signup
+                    const userDoc = await db.collection('users').doc(user.uid).get();
+                    if (!userDoc.exists) {
+                        await createUserDocument(user);
+                    }
+                    return;
+                }
 
+                const userDoc = await db.collection('users').doc(user.uid).get();
                 if (!userDoc.exists) {
-                    // New Google sign-in — create doc
+                    // New Google sign-in – create doc
                     await createUserDocument(user);
-                    showGlobalSuccess('Account created! Redirecting...');
-                    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
+                    showGlobalSuccess('Account created! Please complete your profile.');
+                    setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 1500);
                     return;
                 }
 
                 const data = userDoc.data();
                 const role = data.role || 'learner';
 
+                // Redirect based on role
                 if (role === 'admin') {
                     showGlobalSuccess('Welcome back, Admin!');
                     setTimeout(() => { window.location.href = 'admin.html'; }, 1000);
                 } else {
-                    showGlobalSuccess('Welcome back!');
-                    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+                    // If profile not complete, redirect to profile page
+                    if (data.profileComplete === false) {
+                        showGlobalSuccess('Please complete your profile to continue.');
+                        setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 1000);
+                    } else {
+                        showGlobalSuccess('Welcome back!');
+                        setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+                    }
                 }
             } catch (e) {
                 console.error('Post-auth error:', e);
@@ -873,7 +962,7 @@
         DOM.loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (State.isProcessing) return;
-            hideGlobalError(); hideGlobalSuccess(); clearAllFieldErrors();
+            hideGlobalMessages(); clearAllFieldErrors();
 
             const email = DOM.loginEmail.value.trim();
             const pw = DOM.loginPassword.value;
@@ -902,7 +991,7 @@
         DOM.signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (State.isProcessing) return;
-            hideGlobalError(); hideGlobalSuccess(); clearAllFieldErrors();
+            hideGlobalMessages(); clearAllFieldErrors();
 
             const name = DOM.signupName.value.trim();
             const email = DOM.signupEmail.value.trim();
@@ -924,7 +1013,6 @@
                 referralData = await validateReferralCode(referralInput);
                 if (referralData && !referralData.valid) {
                     showFieldError(DOM.signupReferralError, 'Invalid referral code. You can still continue.');
-                    // Don't block — just warn
                 }
             }
 
@@ -935,6 +1023,10 @@
                 const cred = await auth.createUserWithEmailAndPassword(email, pw);
                 await cred.user.updateProfile({ displayName: name });
 
+                // Send verification email
+                await sendVerificationEmail(cred.user);
+
+                // Create user document
                 await createUserDocument(cred.user, {
                     fullName: name,
                     phone: phone,
@@ -942,8 +1034,10 @@
                     referredByCode: referralData?.valid ? referralData.code : null,
                 });
 
-                showGlobalSuccess('Account created! Redirecting to enrollment...');
-                setTimeout(() => { window.location.href = 'enroll.html'; }, 1500);
+                showVerificationBanner(cred.user);
+                showGlobalSuccess('Account created! Please check your email to verify your account.');
+                setProcessingState(false);
+                setButtonLoading(DOM.signupSubmit, false);
             } catch (err) {
                 showGlobalError(getFirebaseError(err));
                 setProcessingState(false);
@@ -956,7 +1050,7 @@
         // ============================================
         async function handleGoogleSignIn() {
             if (State.isProcessing) return;
-            hideGlobalError(); hideGlobalSuccess();
+            hideGlobalMessages();
             setProcessingState(true);
 
             try {
@@ -979,7 +1073,7 @@
         DOM.resetForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (State.isProcessing) return;
-            hideGlobalError(); hideGlobalSuccess(); clearAllFieldErrors();
+            hideGlobalMessages(); clearAllFieldErrors();
 
             const email = DOM.resetEmail.value.trim();
             const err = validateEmail(email);
@@ -1034,14 +1128,14 @@
                 if (errEl) clearFieldError(errEl);
                 e.target.classList.remove('input-error');
             }
-            if (DOM.authError.classList.contains('show')) hideGlobalError();
+            hideGlobalError();
         });
 
         // ============================================
         // AUTH STATE LISTENER
         // ============================================
         auth.onAuthStateChanged(async (user) => {
-            if (user && !State.isProcessing) {
+            if (user && !State.isProcessing && !State.pendingVerificationUser) {
                 setProcessingState(true);
                 await handlePostAuthRedirect(user);
             }
@@ -1051,9 +1145,9 @@
         // INIT
         // ============================================
         detectReferralFromUrl();
-        console.log('✅ TRIANGLE LEARN Auth initialized');
+        console.log('✅ TRIANGLE LEARN Auth v2.0 initialized');
+        console.log('   Features: Email verification | Profile completion | Role-based routing');
         console.log('   Project:', firebaseConfig.projectId);
-        console.log('   Referral system: Active');
 
     })();
     </script>
