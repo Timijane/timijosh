@@ -58,6 +58,8 @@
         .skeleton-card { height: 200px; }
         .skeleton-text { height: 16px; margin-bottom: 8px; border-radius: 8px; }
         .skeleton-text.short { width: 60%; }
+        .skeleton-icon { width: 36px; height: 36px; border-radius: 50%; margin: 0 auto 12px; }
+        .skeleton-price { height: 32px; width: 120px; margin: 0 auto 10px; border-radius: 8px; }
 
         /* PRELOADER */
         #preloader {
@@ -436,7 +438,9 @@
             <span class="sec-label">What You'll Learn</span>
             <h2 class="sec-title">Explore Our Tracks</h2>
             <p class="sec-desc">Practical, industry-relevant courses designed to take you from zero to professional.</p>
-            <div class="card-grid col4" id="coursesGrid"></div>
+            <div class="card-grid col4" id="coursesGrid">
+                <!-- Skeleton placeholders will be shown here -->
+            </div>
         </div>
     </section>
 
@@ -463,7 +467,9 @@
             <span class="sec-label">Pricing</span>
             <h2 class="sec-title">One-Time Payment. No Subscriptions.</h2>
             <p class="sec-desc">Pay per stage or save with the full track. Choose what works for you.</p>
-            <div class="card-grid col4" id="pricingGrid"></div>
+            <div class="card-grid col4" id="pricingGrid">
+                <!-- Skeleton placeholders will be shown here -->
+            </div>
         </div>
     </section>
 
@@ -473,7 +479,9 @@
             <span class="sec-label">Latest Updates</span>
             <h2 class="sec-title">From the Admin</h2>
             <p class="sec-desc">Stay informed — batch openings, new courses, and important announcements.</p>
-            <div class="card-grid col3" id="blogGrid"></div>
+            <div class="card-grid col3" id="blogGrid">
+                <!-- Skeleton placeholders will be shown here -->
+            </div>
         </div>
     </section>
 
@@ -593,6 +601,51 @@
             enquiryBubble: $('#enquiryBubble'),
             emergencyBubble: $('#emergencyBubble'),
         };
+
+        // ============ SKELETON LOADING HELPERS ============
+        function showSkeletonsCourses() {
+            DOM.coursesGrid.innerHTML = '';
+            for (let i=0; i<4; i++) {
+                DOM.coursesGrid.innerHTML += `
+                    <div class="card center">
+                        <div class="skeleton skeleton-icon"></div>
+                        <div class="skeleton skeleton-text" style="width:70%; margin:0 auto 10px;"></div>
+                        <div class="skeleton skeleton-text short" style="margin:0 auto;"></div>
+                        <div class="skeleton skeleton-text" style="width:40%; margin:12px auto 0;"></div>
+                    </div>`;
+            }
+        }
+        function showSkeletonsPricing() {
+            DOM.pricingGrid.innerHTML = '';
+            for (let i=0; i<4; i++) {
+                DOM.pricingGrid.innerHTML += `
+                    <div class="pricing-card" style="text-align:center;">
+                        <div class="skeleton skeleton-text" style="width:60%; margin:0 auto 16px;"></div>
+                        <div class="skeleton skeleton-price" style="margin:0 auto 8px;"></div>
+                        <div class="skeleton skeleton-text short" style="margin:0 auto 16px;"></div>
+                        <div class="skeleton" style="height:42px; border-radius:25px;"></div>
+                    </div>`;
+            }
+        }
+        function showSkeletonsBlog() {
+            DOM.blogGrid.innerHTML = '';
+            for (let i=0; i<3; i++) {
+                DOM.blogGrid.innerHTML += `
+                    <div class="blog-card">
+                        <div class="skeleton" style="height:200px;"></div>
+                        <div class="blog-card-body">
+                            <div class="skeleton skeleton-text" style="width:80%;"></div>
+                            <div class="skeleton skeleton-text short" style="width:40%;"></div>
+                            <div class="skeleton skeleton-text" style="width:100%;"></div>
+                        </div>
+                    </div>`;
+            }
+        }
+
+        // Show skeletons immediately
+        showSkeletonsCourses();
+        showSkeletonsPricing();
+        showSkeletonsBlog();
 
         // ============ PRELOADER ============
         function hidePreloader() {
@@ -761,15 +814,25 @@
             requestAnimationFrame(step);
         }
 
-        // ============ LOAD DYNAMIC CONTENT ============
+        // ============ LOAD DYNAMIC CONTENT (replaces skeletons) ============
         async function loadDynamicContent() {
-            const courseSnap = await AppState.db.collection('courses').where('active', '==', true).get();
-            renderCourses(courseSnap);
-            renderPricing(courseSnap);
-            const blogSnap = await AppState.db.collection('blog_posts').where('published', '==', true).orderBy('createdAt', 'desc').limit(3).get();
-            renderBlogPosts(blogSnap);
-            const setSnap = await AppState.db.collection('settings').doc('contact').get();
-            if (setSnap.exists) applySettings(setSnap.data());
+            try {
+                const courseSnap = await AppState.db.collection('courses').where('active', '==', true).get();
+                renderCourses(courseSnap);
+                renderPricing(courseSnap);
+            } catch(e) {
+                console.error('Course load error', e);
+            }
+            try {
+                const blogSnap = await AppState.db.collection('blog_posts').where('published', '==', true).orderBy('createdAt', 'desc').limit(3).get();
+                renderBlogPosts(blogSnap);
+            } catch(e) {
+                console.error('Blog load error', e);
+            }
+            try {
+                const setSnap = await AppState.db.collection('settings').doc('contact').get();
+                if (setSnap.exists) applySettings(setSnap.data());
+            } catch(e) {}
         }
 
         function renderCourses(snapshot) {
