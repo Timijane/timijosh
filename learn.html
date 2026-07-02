@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Learn — TRIANGLE LEARN</title>
+    <link rel="icon" href="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8f9fc;
+            --bg-card: #ffffff;
+            --text: #1a1a2e;
+            --text-secondary: #5a5a7a;
+            --text-muted: #8a8aa0;
+            --gold: #f0a500;
+            --pink: #e84393;
+            --purple: #6c5ce7;
+            --gradient: linear-gradient(135deg, #f0a500 0%, #e84393 50%, #6c5ce7 100%);
+            --border: #eef0f5;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 8px 30px rgba(0,0,0,0.06);
+            --shadow-lg: 0 20px 50px rgba(0,0,0,0.08);
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 28px;
+            --font-heading: 'Sora', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --danger: #e74c3c;
+            --success: #0d9488;
+            --warning: #e65100;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+            position: sticky;
+            top: 0;
+        }
+        .logo-link { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-link img { height: 32px; }
+        .logo-link span { font-family: var(--font-heading); font-weight: 700; font-size: 1rem; color: var(--text); }
+        .user-area { display: flex; align-items: center; gap: 12px; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
+            border-radius: 20px; font-weight: 600; font-size: 0.8rem; cursor: pointer;
+            border: none; text-decoration: none; font-family: var(--font-body);
+            transition: all 0.3s ease; white-space: nowrap;
+        }
+        .btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--text); }
+        .btn-ghost:hover { border-color: var(--purple); color: var(--purple); }
+        .btn-filled { background: var(--gradient); color: #fff; }
+        .btn-filled:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(232,67,147,0.3); }
+        .btn-sm { padding: 5px 12px; font-size: 0.72rem; }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 20px 24px;
+            gap: 24px;
+        }
+
+        /* Sidebar - Lesson List */
+        .sidebar-lessons {
+            width: 300px;
+            flex-shrink: 0;
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            padding: 20px;
+            height: fit-content;
+            position: sticky;
+            top: 80px;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+        .sidebar-lessons h3 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 14px;
+            color: var(--text);
+        }
+        .lesson-list { list-style: none; }
+        .lesson-list li {
+            margin-bottom: 4px;
+        }
+        .lesson-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .lesson-link:hover {
+            background: #f8f7ff;
+            color: var(--purple);
+            border-color: var(--border);
+        }
+        .lesson-link.active {
+            background: #f3f0ff;
+            color: var(--purple);
+            font-weight: 700;
+            border-color: var(--purple);
+        }
+        .lesson-link.completed {
+            color: var(--success);
+        }
+        .lesson-link .status-icon {
+            width: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            padding: 30px;
+            min-height: 60vh;
+        }
+        .course-header {
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        .course-header h1 {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .progress-container { margin-top: 12px; }
+        .progress-label { display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; }
+        .progress-bar {
+            height: 8px; background: var(--bg);
+            border-radius: 10px; overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%; border-radius: 10px;
+            background: var(--gradient); transition: width 0.5s ease;
+        }
+
+        .lesson-content h2 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--radius-sm);
+            margin-bottom: 20px;
+            background: #000;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+        }
+        .lesson-text {
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        .resources-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        .resource-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+        .resource-link:hover { background: #eef0f5; }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+        .empty-state { text-align: center; padding: 40px; color: var(--text-muted); }
+
+        .loading-spinner {
+            display: inline-block; width: 28px; height: 28px;
+            border: 3px solid rgba(0,0,0,0.1); border-top-color: var(--purple);
+            border-radius: 50%; animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 900px) {
+            .main-container { flex-direction: column; }
+            .sidebar-lessons {
+                width: 100%;
+                position: static;
+                max-height: none;
+                order: 2;
+            }
+            .content-area { order: 1; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="dashboard.html" class="logo-link">
+            <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="TRIANGLE LEARN">
+            <span>TRIANGLE LEARN</span>
+        </a>
+        <div class="user-area">
+            <span id="headerUserName">Learner</span>
+            <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar-lessons" id="lessonSidebar">
+            <h3>📖 Lessons</h3>
+            <ul class="lesson-list" id="lessonList">
+                <li><div class="loading-spinner" style="margin:10px auto;"></div></li>
+            </ul>
+        </aside>
+
+        <section class="content-area" id="lessonContentArea">
+            <div class="loading-spinner" style="margin:60px auto;"></div>
+        </section>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script>
+    (function() {
+        // ==================== FIREBASE CONFIG ====================
+        const firebaseConfig = {
+            apiKey: "AIzaSyAvvB3C9SP8tDTqMmqzc6craI4d_0kSVX0",
+            authDomain: "timijosh-b8bee.firebaseapp.com",
+            projectId: "timijosh-b8bee",
+            storageBucket: "timijosh-b8bee.firebasestorage.app",
+            messagingSenderId: "779082784462",
+            appId: "1:779082784462:web:a9e9aca2177c7e343c3a9f",
+            measurementId: "G-ZPS8VP8ZBX"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // ==================== STATE ====================
+        const urlParams = new URLSearchParams(window.location.search);
+        const COURSE_ID = urlParams.get('courseId');
+        const LESSON_ID = urlParams.get('lessonId');
+
+        let currentUser = null;
+        let userData = null;
+        let enrollment = null;
+        let lessons = [];
+        let completedLessons = [];
+        let currentLessonId = LESSON_ID;
+
+        // ==================== AUTH ====================
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) { window.location.href = 'auth.html'; return; }
+            currentUser = user;
+            document.getElementById('headerUserName').textContent = user.displayName || user.email?.split('@')[0] || 'Learner';
+            try {
+                const userDoc = await db.collection('users').doc(user.uid).get();
+                if (!userDoc.exists || userDoc.data().role !== 'learner') {
+                    window.location.href = 'dashboard.html';
+                    return;
+                }
+                userData = userDoc.data();
+                if (!COURSE_ID) {
+                    window.location.href = 'dashboard.html';
+                    return;
+                }
+                await loadCourseAndLessons();
+            } catch (e) {
+                console.error(e);
+                document.getElementById('lessonContentArea').innerHTML = '<div class="empty-state">Error loading course.</div>';
+            }
+        });
+
+        async function loadCourseAndLessons() {
+            // 1. Verify enrollment
+            const enrollSnap = await db.collection('enrollments')
+                .where('userId', '==', currentUser.uid)
+                .where('courseId', '==', COURSE_ID)
+                .where('status', '==', 'active')
+                .limit(1)
+                .get();
+
+            if (enrollSnap.empty) {
+                document.getElementById('lessonContentArea').innerHTML = '<div class="empty-state">You are not enrolled in this course. <a href="enroll.html">Enroll now</a></div>';
+                return;
+            }
+            enrollment = { id: enrollSnap.docs[0].id, ...enrollSnap.docs[0].data() };
+            completedLessons = enrollment.completedLessons || [];
+
+            // 2. Load course info
+            const courseDoc = await db.collection('courses').doc(COURSE_ID).get();
+            if (!courseDoc.exists) {
+                document.getElementById('lessonContentArea').innerHTML = '<div class="empty-state">Course not found.</div>';
+                return;
+            }
+            const courseData = courseDoc.data();
+
+            // 3. Load lessons subcollection
+            const lessonsSnap = await db.collection('courses').doc(COURSE_ID).collection('lessons')
+                .orderBy('order')
+                .get();
+            lessons = [];
+            lessonsSnap.forEach(doc => lessons.push({ id: doc.id, ...doc.data() }));
+
+            if (lessons.length === 0) {
+                document.getElementById('lessonContentArea').innerHTML = '<div class="empty-state">No lessons available yet for this course.</div>';
+                return;
+            }
+
+            // 4. Determine current lesson
+            if (!currentLessonId || !lessons.find(l => l.id === currentLessonId)) {
+                currentLessonId = lessons[0].id;
+            }
+
+            renderSidebar();
+            renderLesson(currentLessonId);
+        }
+
+        function renderSidebar() {
+            const listEl = document.getElementById('lessonList');
+            listEl.innerHTML = lessons.map(lesson => {
+                const isCompleted = completedLessons.includes(lesson.id);
+                const isActive = lesson.id === currentLessonId;
+                let cls = 'lesson-link';
+                if (isActive) cls += ' active';
+                if (isCompleted) cls += ' completed';
+                const icon = isCompleted ? '✅' : (isActive ? '📖' : '⬜');
+                return `<li>
+                    <a class="${cls}" data-lesson-id="${lesson.id}" onclick="switchLesson('${lesson.id}')">
+                        <span class="status-icon">${icon}</span> ${escapeHtml(lesson.title)}
+                    </a>
+                </li>`;
+            }).join('');
+
+            // Update progress display
+            const totalLessons = lessons.length;
+            const completedCount = completedLessons.length;
+            const progressPercent = totalLessons > 0 ? Math.round((completedCount / totalLessons) * 100) : 0;
+
+            const progressContainer = document.getElementById('lessonSidebar');
+            // Insert progress bar at top
+            let progressHTML = `<div class="progress-container" style="margin-bottom:16px;">
+                <div class="progress-label"><span>Progress</span><span>${progressPercent}%</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:${progressPercent}%;"></div></div>
+            </div>`;
+            const existingProgress = progressContainer.querySelector('.progress-container');
+            if (existingProgress) existingProgress.remove();
+            progressContainer.insertAdjacentHTML('afterbegin', progressHTML);
+        }
+
+        async function renderLesson(lessonId) {
+            currentLessonId = lessonId;
+            const lesson = lessons.find(l => l.id === lessonId);
+            if (!lesson) return;
+
+            const isCompleted = completedLessons.includes(lessonId);
+            const currentIndex = lessons.findIndex(l => l.id === lessonId);
+            const prevLesson = currentIndex > 0 ? lessons[currentIndex - 1] : null;
+            const nextLesson = currentIndex < lessons.length - 1 ? lessons[currentIndex + 1] : null;
+
+            let html = `
+                <div class="course-header">
+                    <h1>${escapeHtml(enrollment.courseName)}</h1>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;">${escapeHtml(enrollment.stage || 'Stage')}</p>
+                </div>
+                <div class="lesson-content">
+                    <h2>${escapeHtml(lesson.title)}</h2>`;
+
+            if (lesson.videoUrl) {
+                // Auto-embed YouTube or Vimeo or generic iframe
+                const videoEmbed = getVideoEmbed(lesson.videoUrl);
+                if (videoEmbed) {
+                    html += `<div class="video-container">${videoEmbed}</div>`;
+                } else {
+                    html += `<p><a href="${escapeHtml(lesson.videoUrl)}" target="_blank" class="btn btn-ghost btn-sm">📺 Watch Video</a></p>`;
+                }
+            }
+
+            if (lesson.content) {
+                html += `<div class="lesson-text">${lesson.content}</div>`;
+            }
+
+            if (lesson.resources && lesson.resources.length > 0) {
+                html += `<h3 style="font-family:var(--font-heading);font-weight:600;margin-bottom:10px;">📎 Resources</h3><div class="resources-list">`;
+                lesson.resources.forEach(res => {
+                    html += `<a href="${escapeHtml(res.url)}" class="resource-link" target="_blank" rel="noopener">📄 ${escapeHtml(res.name)}</a>`;
+                });
+                html += `</div>`;
+            }
+
+            if (lesson.quizId) {
+                html += `<a href="quiz.html?id=${escapeHtml(lesson.quizId)}" class="btn btn-filled btn-sm" style="margin-top:8px;">📝 Take Quiz</a>`;
+            }
+
+            html += `</div>`;
+
+            // Navigation buttons
+            html += `<div class="nav-buttons">`;
+            if (prevLesson) {
+                html += `<button class="btn btn-ghost" onclick="switchLesson('${prevLesson.id}')">← ${escapeHtml(prevLesson.title)}</button>`;
+            } else {
+                html += `<span></span>`;
+            }
+            html += `<div style="display:flex;gap:8px;">`;
+            if (!isCompleted) {
+                html += `<button class="btn btn-filled" id="markCompleteBtn" onclick="markComplete('${lessonId}')">✅ Mark Complete</button>`;
+            } else {
+                html += `<span style="color:var(--success);font-weight:600;">✅ Completed</span>`;
+            }
+            if (nextLesson) {
+                html += `<button class="btn btn-ghost" onclick="switchLesson('${nextLesson.id}')">${escapeHtml(nextLesson.title)} →</button>`;
+            }
+            html += `</div></div>`;
+
+            document.getElementById('lessonContentArea').innerHTML = html;
+
+            // Highlight sidebar active
+            document.querySelectorAll('.lesson-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.lessonId === lessonId) link.classList.add('active');
+            });
+
+            // Update progress bar in sidebar
+            const totalLessons = lessons.length;
+            const completedCount = completedLessons.length;
+            const progressPercent = totalLessons > 0 ? Math.round((completedCount / totalLessons) * 100) : 0;
+            const fillBar = document.querySelector('.progress-fill');
+            const label = document.querySelector('.progress-label span:last-child');
+            if (fillBar) fillBar.style.width = progressPercent + '%';
+            if (label) label.textContent = progressPercent + '%';
+        }
+
+        function getVideoEmbed(url) {
+            if (!url) return null;
+            // YouTube
+            const ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([\w-]+)/);
+            if (ytMatch) {
+                return `<iframe src="https://www.youtube.com/embed/${ytMatch[1]}" frameborder="0" allowfullscreen></iframe>`;
+            }
+            // Vimeo
+            const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
+            if (vimeoMatch) {
+                return `<iframe src="https://player.vimeo.com/video/${vimeoMatch[1]}" frameborder="0" allowfullscreen></iframe>`;
+            }
+            // Generic iframe if it's an embed URL
+            if (url.includes('<iframe')) return url;
+            return null;
+        }
+
+        window.switchLesson = (lessonId) => {
+            currentLessonId = lessonId;
+            renderLesson(lessonId);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.markComplete = async (lessonId) => {
+            if (completedLessons.includes(lessonId)) return;
+            const newCompleted = [...completedLessons, lessonId];
+            completedLessons = newCompleted;
+
+            // Update enrollment doc
+            try {
+                await db.collection('enrollments').doc(enrollment.id).update({
+                    completedLessons: newCompleted,
+                    progress: Math.round((newCompleted.length / lessons.length) * 100)
+                });
+            } catch (e) {
+                console.error('Failed to save progress:', e);
+            }
+
+            // Refresh UI
+            renderSidebar();
+            renderLesson(lessonId);
+        };
+
+        function escapeHtml(s) {
+            const d = document.createElement('div');
+            d.textContent = s || '';
+            return d.innerHTML;
+        }
+    })();
+    </script>
+</body>
+</html>
