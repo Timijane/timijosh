@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js for analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <style>
         :root {
             --bg: #f8f9fc;
@@ -44,6 +46,21 @@
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
         }
+
+        /* SKELETON LOADING */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f5 25%, #e8e8f0 50%, #f0f0f5 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: var(--radius-md);
+        }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        .skeleton-text { height: 16px; margin-bottom: 8px; border-radius: 8px; }
+        .skeleton-text.short { width: 60%; }
+        .skeleton-card { height: 80px; border-radius: var(--radius-md); }
+        .skeleton-chart { height: 300px; border-radius: var(--radius-md); }
+        .skeleton-table-row { height: 40px; margin-bottom: 10px; border-radius: var(--radius-sm); }
+
         .sidebar {
             width: var(--sidebar-width);
             background: #fff;
@@ -84,6 +101,7 @@
             font-size: 0.88rem;
             transition: all 0.2s;
             border-left: 3px solid transparent;
+            cursor: pointer;
         }
         .sidebar-nav li a:hover,
         .sidebar-nav li a.active {
@@ -185,27 +203,17 @@
         .form-row { display: flex; gap: 12px; flex-wrap: wrap; }
         .form-row .form-group { flex: 1; min-width: 200px; }
 
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
-            display: none; justify-content: center; align-items: center; z-index: 2000;
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 28px;
         }
-        .modal-overlay.active { display: flex; }
-        .modal {
-            background: #fff; border-radius: var(--radius-lg); padding: 30px;
-            max-width: 600px; width: 90%; box-shadow: var(--shadow-lg);
-            max-height: 80vh; overflow-y: auto;
+        @media (max-width: 900px) {
+            .charts-grid { grid-template-columns: 1fr; }
         }
-        .modal h2 { font-family: var(--font-heading); margin-bottom: 18px; }
 
-        .loading-spinner {
-            display: inline-block; width: 24px; height: 24px;
-            border: 3px solid rgba(0,0,0,0.1); border-top-color: var(--purple);
-            border-radius: 50%; animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
         .empty-state { text-align: center; padding: 40px; color: var(--text-muted); }
-        .hidden { display: none !important; }
         .badge {
             font-size: 0.65rem; font-weight: 700; padding: 3px 10px;
             border-radius: 12px; text-transform: uppercase;
@@ -235,16 +243,17 @@
             <span>Admin Panel</span>
         </div>
         <ul class="sidebar-nav">
-            <li><a href="#" data-section="dashboard" class="active">📊 Dashboard</a></li>
-            <li><a href="#" data-section="courses">📚 Courses</a></li>
-            <li><a href="#" data-section="users">👥 Users</a></li>
-            <li><a href="#" data-section="enrollments">📝 Enrollments</a></li>
-            <li><a href="#" data-section="payments">💳 Payments</a></li>
-            <li><a href="#" data-section="referrals">💰 Referrals</a></li>
-            <li><a href="#" data-section="announcements">📢 Announcements</a></li>
-            <li><a href="#" data-section="blog">📝 Blog Posts</a></li>
-            <li><a href="#" data-section="certificates">📜 Certificates</a></li>
-            <li><a href="#" data-section="settings">⚙️ Settings</a></li>
+            <li><a href="#dashboard" data-section="dashboard">📊 Dashboard</a></li>
+            <li><a href="#courses" data-section="courses">📚 Courses</a></li>
+            <li><a href="#create-course" data-section="create-course">➕ New Course</a></li>
+            <li><a href="#users" data-section="users">👥 Users</a></li>
+            <li><a href="#enrollments" data-section="enrollments">📝 Enrollments</a></li>
+            <li><a href="#payments" data-section="payments">💳 Payments</a></li>
+            <li><a href="#referrals" data-section="referrals">💰 Referrals</a></li>
+            <li><a href="#announcements" data-section="announcements">📢 Announcements</a></li>
+            <li><a href="#blog" data-section="blog">📝 Blog Posts</a></li>
+            <li><a href="#certificates" data-section="certificates">📜 Certificates</a></li>
+            <li><a href="#settings" data-section="settings">⚙️ Settings</a></li>
             <li style="margin-top:auto;"><a href="#" id="logoutBtn" style="color:var(--danger);">🚪 Logout</a></li>
         </ul>
     </aside>
@@ -253,11 +262,6 @@
     <main class="main-content" id="mainContent">
         <!-- Dynamic content loaded by JS -->
     </main>
-
-    <!-- Modals (will be populated by JS) -->
-    <div class="modal-overlay" id="modalOverlay">
-        <div class="modal" id="modalContent"></div>
-    </div>
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -283,12 +287,8 @@
         // ==================== STATE ====================
         let currentUser = null;
         let isAdmin = false;
-        let activeSection = 'dashboard';
 
-        // DOM shortcuts
         const mainContent = document.getElementById('mainContent');
-        const modalOverlay = document.getElementById('modalOverlay');
-        const modalContent = document.getElementById('modalContent');
 
         // ==================== AUTH & ADMIN CHECK ====================
         auth.onAuthStateChanged(async (user) => {
@@ -301,22 +301,34 @@
                 return;
             }
             isAdmin = true;
-            initUI();
-            loadSection('dashboard');
+            initRouting();
+            // Load initial section from hash or default to dashboard
+            const hash = window.location.hash.substring(1) || 'dashboard';
+            loadSection(hash);
         });
 
-        // ==================== NAVIGATION ====================
-        function initUI() {
+        // ==================== HASH ROUTING ====================
+        function initRouting() {
+            // Sidebar clicks
             document.querySelectorAll('.sidebar-nav a[data-section]').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     const section = link.dataset.section;
-                    loadSection(section);
+                    window.location.hash = section;
                 });
             });
-            document.getElementById('logoutBtn').addEventListener('click', async () => {
+
+            // Logout
+            document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+                e.preventDefault();
                 await auth.signOut();
                 window.location.href = 'auth.html';
+            });
+
+            // Listen for hash changes
+            window.addEventListener('hashchange', () => {
+                const section = window.location.hash.substring(1) || 'dashboard';
+                loadSection(section);
             });
         }
 
@@ -326,14 +338,38 @@
             if (activeLink) activeLink.classList.add('active');
         }
 
+        function showSkeleton(type = 'generic') {
+            if (type === 'dashboard') {
+                mainContent.innerHTML = `
+                    <div class="top-bar"><div class="skeleton skeleton-text" style="width:200px;height:28px;"></div></div>
+                    <div class="stats-grid">${Array(5).fill('<div class="skeleton skeleton-card"></div>').join('')}</div>
+                    <div class="charts-grid">
+                        <div class="skeleton skeleton-chart"></div>
+                        <div class="skeleton skeleton-chart"></div>
+                    </div>`;
+            } else if (type === 'table') {
+                mainContent.innerHTML = `
+                    <div class="top-bar"><div class="skeleton skeleton-text" style="width:180px;height:28px;"></div></div>
+                    <div class="card">
+                        <div class="skeleton skeleton-table-row"></div>
+                        <div class="skeleton skeleton-table-row"></div>
+                        <div class="skeleton skeleton-table-row"></div>
+                        <div class="skeleton skeleton-table-row"></div>
+                    </div>`;
+            } else {
+                mainContent.innerHTML = `<div class="card"><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text short"></div></div>`;
+            }
+        }
+
         async function loadSection(section) {
-            activeSection = section;
             setActiveNav(section);
-            mainContent.innerHTML = '<div class="loading-spinner" style="margin:40px auto;"></div>';
+            showSkeleton(section === 'dashboard' ? 'dashboard' : 'table');
+
             try {
                 switch (section) {
                     case 'dashboard': await renderDashboard(); break;
                     case 'courses': await renderCourses(); break;
+                    case 'create-course': renderCreateCourse(); break;
                     case 'users': await renderUsers(); break;
                     case 'enrollments': await renderEnrollments(); break;
                     case 'payments': await renderPayments(); break;
@@ -342,6 +378,7 @@
                     case 'blog': await renderBlogPosts(); break;
                     case 'certificates': await renderCertificates(); break;
                     case 'settings': await renderSettings(); break;
+                    default: await renderDashboard();
                 }
             } catch (error) {
                 mainContent.innerHTML = `<div class="card"><p style="color:var(--danger);">Error loading section: ${error.message}</p></div>`;
@@ -352,10 +389,7 @@
         function formatCurrency(n) { return '₦' + (n || 0).toLocaleString(); }
         function escapeHtml(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
 
-        function closeModal() { modalOverlay.classList.remove('active'); }
-        modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
-
-        // ==================== DASHBOARD ====================
+        // ==================== DASHBOARD (with Charts) ====================
         async function renderDashboard() {
             const [usersSnap, coursesSnap, enrollSnap, paymentsSnap, refSnap] = await Promise.all([
                 db.collection('users').get(),
@@ -364,12 +398,34 @@
                 db.collection('payments').get(),
                 db.collection('referrals').get()
             ]);
+
             const totalUsers = usersSnap.size;
             const totalCourses = coursesSnap.size;
             const totalEnrollments = enrollSnap.size;
             let revenue = 0;
             paymentsSnap.forEach(doc => revenue += (doc.data().amount || 0));
             const totalReferrals = refSnap.size;
+
+            // Enrollment data for chart
+            const enrollmentCounts = {};
+            enrollSnap.forEach(doc => {
+                const course = doc.data().courseName || 'Unknown';
+                enrollmentCounts[course] = (enrollmentCounts[course] || 0) + 1;
+            });
+            const courseLabels = Object.keys(enrollmentCounts);
+            const courseValues = Object.values(enrollmentCounts);
+
+            // Revenue over time (by month)
+            const monthlyRevenue = {};
+            paymentsSnap.forEach(doc => {
+                const d = doc.data().paidAt?.toDate();
+                if (d) {
+                    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+                    monthlyRevenue[key] = (monthlyRevenue[key] || 0) + (doc.data().amount || 0);
+                }
+            });
+            const sortedMonths = Object.keys(monthlyRevenue).sort();
+            const revenueValues = sortedMonths.map(k => monthlyRevenue[k]);
 
             mainContent.innerHTML = `
                 <div class="top-bar"><h1>Admin Dashboard</h1><span style="color:var(--text-muted);">Welcome, ${escapeHtml(currentUser.email)}</span></div>
@@ -380,14 +436,62 @@
                     <div class="stat-card"><div class="stat-icon green">💰</div><div class="stat-info"><h3>${formatCurrency(revenue)}</h3><p>Total Revenue</p></div></div>
                     <div class="stat-card"><div class="stat-icon purple">🔗</div><div class="stat-info"><h3>${totalReferrals}</h3><p>Referral Clicks</p></div></div>
                 </div>
+
+                <div class="charts-grid">
+                    <div class="card">
+                        <h3 style="margin-bottom:12px;">Enrollments per Course</h3>
+                        <canvas id="enrollmentChart" height="250"></canvas>
+                    </div>
+                    <div class="card">
+                        <h3 style="margin-bottom:12px;">Monthly Revenue (₦)</h3>
+                        <canvas id="revenueChart" height="250"></canvas>
+                    </div>
+                </div>
+
                 <div class="card"><h3>Quick Actions</h3><div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
-                    <button class="btn btn-primary" onclick="loadSection('courses')">Manage Courses</button>
-                    <button class="btn btn-outline" onclick="loadSection('announcements')">Update Announcements</button>
-                    <button class="btn btn-outline" onclick="loadSection('settings')">Site Settings</button>
+                    <button class="btn btn-primary" onclick="window.location.hash='courses'">Manage Courses</button>
+                    <button class="btn btn-outline" onclick="window.location.hash='create-course'">+ New Course</button>
+                    <button class="btn btn-outline" onclick="window.location.hash='announcements'">Announcements</button>
+                    <button class="btn btn-outline" onclick="window.location.hash='settings'">Site Settings</button>
                 </div></div>`;
+
+            // Render charts
+            if (courseLabels.length > 0) {
+                new Chart(document.getElementById('enrollmentChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: courseLabels,
+                        datasets: [{
+                            label: 'Students',
+                            data: courseValues,
+                            backgroundColor: 'rgba(108,92,231,0.4)',
+                            borderColor: '#6c5ce7',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+            }
+            if (sortedMonths.length > 0) {
+                new Chart(document.getElementById('revenueChart'), {
+                    type: 'line',
+                    data: {
+                        labels: sortedMonths,
+                        datasets: [{
+                            label: 'Revenue (₦)',
+                            data: revenueValues,
+                            borderColor: '#f0a500',
+                            backgroundColor: 'rgba(240,165,0,0.1)',
+                            tension: 0.2,
+                            fill: true
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+            }
         }
 
-        // ==================== COURSES ====================
+        // ==================== COURSES LIST ====================
         async function renderCourses() {
             const snap = await db.collection('courses').get();
             let rows = '';
@@ -398,67 +502,131 @@
                     <td>${c.isFullTrack ? 'Full Track' : 'Single Stage'}</td>
                     <td><span class="badge ${c.active ? 'badge-active' : 'badge-pending'}">${c.active ? 'Active' : 'Inactive'}</span></td>
                     <td>
-                        <button class="btn btn-outline btn-sm" onclick="editCourse('${doc.id}')">Edit</button>
-                        <button class="btn btn-danger btn-sm" onclick="deleteCourse('${doc.id}')">Delete</button>
+                        <button class="btn btn-outline btn-sm" onclick="window.editCourse('${doc.id}')">Edit</button>
+                        <button class="btn btn-danger btn-sm" onclick="window.deleteCourse('${doc.id}')">Delete</button>
                     </td>
                 </tr>`;
             });
             mainContent.innerHTML = `
-                <div class="top-bar"><h1>Courses</h1><button class="btn btn-primary" onclick="addCourse()">+ Add Course</button></div>
+                <div class="top-bar"><h1>Courses</h1><a href="#create-course" class="btn btn-primary">+ Add Course</a></div>
                 <div class="card">
                     <table><thead><tr><th>Name</th><th>Stage</th><th>Price</th><th>Type</th><th>Status</th><th>Actions</th></tr></thead>
                     <tbody>${rows || '<tr><td colspan="6" class="empty-state">No courses found.</td></tr>'}</tbody></table>
                 </div>`;
         }
 
-        window.addCourse = () => showCourseModal();
-        window.editCourse = (id) => showCourseModal(id);
+        // ==================== CREATE COURSE (Dedicated Full-Page Section) ====================
+        function renderCreateCourse() {
+            mainContent.innerHTML = `
+                <div class="top-bar"><h1>Create New Course</h1></div>
+                <div class="card">
+                    <form id="createCourseForm">
+                        <div class="form-row">
+                            <div class="form-group"><label>Course Name *</label><input id="cName" required></div>
+                            <div class="form-group"><label>Stage (e.g., Elementary)</label><input id="cStage"></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Price (₦) *</label><input type="number" id="cPrice" required></div>
+                            <div class="form-group"><label>Duration (weeks)</label><input type="number" id="cDuration" value="8"></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Savings (if Full Track)</label><input type="number" id="cSavings" value="0"></div>
+                            <div class="form-group"><label>Icon (emoji)</label><input id="cIcon" value="📘"></div>
+                        </div>
+                        <div class="form-group">
+                            <label><input type="checkbox" id="cFullTrack"> Full Track (all 3 stages)</label>
+                        </div>
+                        <div class="form-group">
+                            <label><input type="checkbox" id="cActive" checked> Active</label>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="cDescription" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create Course</button>
+                        <a href="#courses" class="btn btn-outline">Cancel</a>
+                    </form>
+                </div>`;
+
+            document.getElementById('createCourseForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const data = {
+                    name: document.getElementById('cName').value.trim(),
+                    stage: document.getElementById('cStage').value.trim(),
+                    price: Number(document.getElementById('cPrice').value),
+                    durationWeeks: Number(document.getElementById('cDuration').value),
+                    savings: Number(document.getElementById('cSavings').value),
+                    icon: document.getElementById('cIcon').value.trim(),
+                    isFullTrack: document.getElementById('cFullTrack').checked,
+                    active: document.getElementById('cActive').checked,
+                    description: document.getElementById('cDescription').value.trim(),
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                };
+                if (!data.name || isNaN(data.price)) {
+                    alert('Name and Price are required.');
+                    return;
+                }
+                await db.collection('courses').add(data);
+                alert('Course created successfully!');
+                window.location.hash = 'courses'; // go back to list
+            });
+        }
+
+        // Edit course (opens a similar form but we'll reuse the modal approach or inline section)
+        window.editCourse = async (id) => {
+            // Navigate to an edit page, we can implement as a dedicated #edit-course?id=...
+            // For simplicity, we'll open a modal (keeping modal for quick edits)
+            const doc = await db.collection('courses').doc(id).get();
+            if (!doc.exists) return;
+            const course = doc.data();
+            mainContent.innerHTML = `
+                <div class="top-bar"><h1>Edit Course</h1></div>
+                <div class="card">
+                    <form id="editCourseForm">
+                        <div class="form-row">
+                            <div class="form-group"><label>Course Name *</label><input id="ecName" value="${escapeHtml(course.name)}" required></div>
+                            <div class="form-group"><label>Stage</label><input id="ecStage" value="${escapeHtml(course.stage || '')}"></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Price (₦) *</label><input type="number" id="ecPrice" value="${course.price}" required></div>
+                            <div class="form-group"><label>Duration (weeks)</label><input type="number" id="ecDuration" value="${course.durationWeeks || 8}"></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Savings</label><input type="number" id="ecSavings" value="${course.savings || 0}"></div>
+                            <div class="form-group"><label>Icon</label><input id="ecIcon" value="${escapeHtml(course.icon || '📘')}"></div>
+                        </div>
+                        <div class="form-group"><label><input type="checkbox" id="ecFullTrack" ${course.isFullTrack ? 'checked' : ''}> Full Track</label></div>
+                        <div class="form-group"><label><input type="checkbox" id="ecActive" ${course.active ? 'checked' : ''}> Active</label></div>
+                        <div class="form-group"><label>Description</label><textarea id="ecDescription" rows="3">${escapeHtml(course.description || '')}</textarea></div>
+                        <button type="submit" class="btn btn-primary">Update Course</button>
+                        <a href="#courses" class="btn btn-outline">Cancel</a>
+                    </form>
+                </div>`;
+
+            document.getElementById('editCourseForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const data = {
+                    name: document.getElementById('ecName').value.trim(),
+                    stage: document.getElementById('ecStage').value.trim(),
+                    price: Number(document.getElementById('ecPrice').value),
+                    durationWeeks: Number(document.getElementById('ecDuration').value),
+                    savings: Number(document.getElementById('ecSavings').value),
+                    icon: document.getElementById('ecIcon').value.trim(),
+                    isFullTrack: document.getElementById('ecFullTrack').checked,
+                    active: document.getElementById('ecActive').checked,
+                    description: document.getElementById('ecDescription').value.trim(),
+                };
+                await db.collection('courses').doc(id).update(data);
+                alert('Course updated!');
+                window.location.hash = 'courses';
+            });
+        };
+
         window.deleteCourse = async (id) => {
             if (!confirm('Delete this course?')) return;
             await db.collection('courses').doc(id).delete();
             loadSection('courses');
         };
-
-        async function showCourseModal(id = null) {
-            let course = { name: '', stage: '', price: 0, isFullTrack: false, active: true, icon: '📘', durationWeeks: 8, savings: 0 };
-            if (id) {
-                const doc = await db.collection('courses').doc(id).get();
-                if (doc.exists) course = { ...course, ...doc.data() };
-            }
-            modalContent.innerHTML = `
-                <h2>${id ? 'Edit' : 'Add'} Course</h2>
-                <div class="form-row"><div class="form-group"><label>Name</label><input id="cName" value="${escapeHtml(course.name)}"></div>
-                <div class="form-group"><label>Stage</label><input id="cStage" value="${escapeHtml(course.stage || '')}"></div></div>
-                <div class="form-row"><div class="form-group"><label>Price (₦)</label><input type="number" id="cPrice" value="${course.price}"></div>
-                <div class="form-group"><label>Duration (weeks)</label><input type="number" id="cDuration" value="${course.durationWeeks}"></div></div>
-                <div class="form-row"><div class="form-group"><label>Savings</label><input type="number" id="cSavings" value="${course.savings}"></div>
-                <div class="form-group"><label>Icon (emoji)</label><input id="cIcon" value="${course.icon}"></div></div>
-                <div class="form-group"><label><input type="checkbox" id="cFullTrack" ${course.isFullTrack ? 'checked' : ''}> Full Track (all 3 stages)</label></div>
-                <div class="form-group"><label><input type="checkbox" id="cActive" ${course.active ? 'checked' : ''}> Active</label></div>
-                <button class="btn btn-primary" id="saveCourseBtn">Save</button>
-                <button class="btn btn-outline" onclick="closeModal()">Cancel</button>`;
-            modalOverlay.classList.add('active');
-
-            document.getElementById('saveCourseBtn').addEventListener('click', async () => {
-                const data = {
-                    name: document.getElementById('cName').value,
-                    stage: document.getElementById('cStage').value,
-                    price: Number(document.getElementById('cPrice').value),
-                    durationWeeks: Number(document.getElementById('cDuration').value),
-                    savings: Number(document.getElementById('cSavings').value),
-                    icon: document.getElementById('cIcon').value,
-                    isFullTrack: document.getElementById('cFullTrack').checked,
-                    active: document.getElementById('cActive').checked,
-                };
-                if (id) {
-                    await db.collection('courses').doc(id).update(data);
-                } else {
-                    await db.collection('courses').add(data);
-                }
-                closeModal();
-                loadSection('courses');
-            });
-        }
 
         // ==================== USERS ====================
         async function renderUsers() {
@@ -569,20 +737,26 @@
                 rows += `<tr>
                     <td>${escapeHtml(b.title)}</td><td>${b.published ? '✅' : '❌'}</td>
                     <td>${b.createdAt?.toDate?.().toDateString() || '—'}</td>
-                    <td><button class="btn btn-outline btn-sm" onclick="editBlog('${doc.id}')">Edit</button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteBlog('${doc.id}')">Delete</button></td>
+                    <td><button class="btn btn-outline btn-sm" onclick="window.editBlog('${doc.id}')">Edit</button>
+                    <button class="btn btn-danger btn-sm" onclick="window.deleteBlog('${doc.id}')">Delete</button></td>
                 </tr>`;
             });
             mainContent.innerHTML = `
-                <div class="top-bar"><h1>Blog Posts</h1><button class="btn btn-primary" onclick="addBlog()">+ New Post</button></div>
+                <div class="top-bar"><h1>Blog Posts</h1><button class="btn btn-primary" id="addBlogBtn">+ New Post</button></div>
                 <div class="card">
                     <table><thead><tr><th>Title</th><th>Published</th><th>Date</th><th>Actions</th></tr></thead>
                     <tbody>${rows || '<tr><td colspan="4" class="empty-state">No posts yet.</td></tr>'}</tbody></table>
                 </div>`;
+            document.getElementById('addBlogBtn').addEventListener('click', () => showBlogModal());
         }
-        window.addBlog = () => showBlogModal();
+
         window.editBlog = (id) => showBlogModal(id);
-        window.deleteBlog = async (id) => { if (confirm('Delete this post?')) { await db.collection('blog_posts').doc(id).delete(); loadSection('blog'); } };
+        window.deleteBlog = async (id) => {
+            if (confirm('Delete this post?')) {
+                await db.collection('blog_posts').doc(id).delete();
+                loadSection('blog');
+            }
+        };
 
         function showBlogModal(id = null) {
             let post = { title: '', content: '', excerpt: '', imageUrl: '', published: false };
@@ -596,16 +770,17 @@
             }
         }
         function fillBlogModal(post, id) {
-            modalContent.innerHTML = `
-                <h2>${id ? 'Edit' : 'New'} Post</h2>
-                <div class="form-group"><label>Title</label><input id="bTitle" value="${escapeHtml(post.title)}"></div>
-                <div class="form-group"><label>Excerpt</label><input id="bExcerpt" value="${escapeHtml(post.excerpt || '')}"></div>
-                <div class="form-group"><label>Image URL</label><input id="bImage" value="${escapeHtml(post.imageUrl || '')}"></div>
-                <div class="form-group"><label>Content (HTML)</label><textarea id="bContent" rows="8">${escapeHtml(post.content || '')}</textarea></div>
-                <div class="form-group"><label><input type="checkbox" id="bPublished" ${post.published ? 'checked' : ''}> Published</label></div>
-                <button class="btn btn-primary" id="saveBlogBtn">Save</button>
-                <button class="btn btn-outline" onclick="closeModal()">Cancel</button>`;
-            modalOverlay.classList.add('active');
+            mainContent.innerHTML = `
+                <div class="top-bar"><h1>${id ? 'Edit' : 'New'} Blog Post</h1></div>
+                <div class="card">
+                    <div class="form-group"><label>Title</label><input id="bTitle" value="${escapeHtml(post.title)}"></div>
+                    <div class="form-group"><label>Excerpt</label><input id="bExcerpt" value="${escapeHtml(post.excerpt || '')}"></div>
+                    <div class="form-group"><label>Image URL</label><input id="bImage" value="${escapeHtml(post.imageUrl || '')}"></div>
+                    <div class="form-group"><label>Content (HTML)</label><textarea id="bContent" rows="8">${escapeHtml(post.content || '')}</textarea></div>
+                    <div class="form-group"><label><input type="checkbox" id="bPublished" ${post.published ? 'checked' : ''}> Published</label></div>
+                    <button class="btn btn-primary" id="saveBlogBtn">Save</button>
+                    <a href="#blog" class="btn btn-outline">Cancel</a>
+                </div>`;
             document.getElementById('saveBlogBtn').addEventListener('click', async () => {
                 const data = {
                     title: document.getElementById('bTitle').value,
@@ -617,8 +792,7 @@
                 };
                 if (id) await db.collection('blog_posts').doc(id).update(data);
                 else await db.collection('blog_posts').add(data);
-                closeModal();
-                loadSection('blog');
+                window.location.hash = 'blog';
             });
         }
 
@@ -631,33 +805,31 @@
                 rows += `<tr><td>${escapeHtml(c.fullName || '—')}</td><td>${escapeHtml(c.courseName)}</td><td>${c.issuedAt?.toDate?.().toDateString() || '—'}</td></tr>`;
             });
             mainContent.innerHTML = `
-                <div class="top-bar"><h1>Certificates</h1><button class="btn btn-primary" onclick="issueCertificate()">+ Issue Certificate</button></div>
+                <div class="top-bar"><h1>Certificates</h1><button class="btn btn-primary" id="issueCertBtn">+ Issue Certificate</button></div>
                 <div class="card">
                     <table><thead><tr><th>Student</th><th>Course</th><th>Issued</th></tr></thead>
                     <tbody>${rows || '<tr><td colspan="3" class="empty-state">No certificates issued.</td></tr>'}</tbody></table>
                 </div>`;
-        }
-        window.issueCertificate = () => {
-            modalContent.innerHTML = `
-                <h2>Issue Certificate</h2>
-                <div class="form-group"><label>Student User ID</label><input id="certUserId"></div>
-                <div class="form-group"><label>Course Name</label><input id="certCourse"></div>
-                <div class="form-group"><label>Stage</label><input id="certStage"></div>
-                <button class="btn btn-primary" id="issueCertBtn">Issue</button>
-                <button class="btn btn-outline" onclick="closeModal()">Cancel</button>`;
-            modalOverlay.classList.add('active');
-            document.getElementById('issueCertBtn').addEventListener('click', async () => {
-                const userId = document.getElementById('certUserId').value;
-                const courseName = document.getElementById('certCourse').value;
-                const stage = document.getElementById('certStage').value;
-                if (!userId || !courseName) return alert('Missing fields');
-                await db.collection('certificates').add({
-                    userId, courseName, stage, issuedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            document.getElementById('issueCertBtn').addEventListener('click', () => {
+                mainContent.innerHTML = `
+                    <div class="top-bar"><h1>Issue Certificate</h1></div>
+                    <div class="card">
+                        <div class="form-group"><label>Student User ID</label><input id="certUserId"></div>
+                        <div class="form-group"><label>Course Name</label><input id="certCourse"></div>
+                        <div class="form-group"><label>Stage</label><input id="certStage"></div>
+                        <button class="btn btn-primary" id="doIssueCert">Issue</button>
+                        <a href="#certificates" class="btn btn-outline">Cancel</a>
+                    </div>`;
+                document.getElementById('doIssueCert').addEventListener('click', async () => {
+                    const userId = document.getElementById('certUserId').value;
+                    const courseName = document.getElementById('certCourse').value;
+                    const stage = document.getElementById('certStage').value;
+                    if (!userId || !courseName) return alert('Missing fields');
+                    await db.collection('certificates').add({ userId, courseName, stage, issuedAt: firebase.firestore.FieldValue.serverTimestamp() });
+                    window.location.hash = 'certificates';
                 });
-                closeModal();
-                loadSection('certificates');
             });
-        };
+        }
 
         // ==================== SETTINGS ====================
         async function renderSettings() {
@@ -697,11 +869,13 @@
             });
         }
 
-        // Expose loadSection globally for inline onclick
+        // Expose globals for inline onclick
         window.loadSection = loadSection;
-        window.closeModal = closeModal;
+        window.editCourse = window.editCourse; // already defined
+        window.deleteCourse = window.deleteCourse;
+        window.editBlog = window.editBlog;
+        window.deleteBlog = window.deleteBlog;
 
-        // Initial auth check triggers everything
     })();
     </script>
 </body>
