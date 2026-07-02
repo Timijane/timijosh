@@ -19,7 +19,6 @@
             --gold: #f0a500;
             --pink: #e84393;
             --purple: #6c5ce7;
-            --cyan: #00c4cc;
             --gradient: linear-gradient(135deg, #f0a500 0%, #e84393 50%, #6c5ce7 100%);
             --border: #eef0f5;
             --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
@@ -36,13 +35,12 @@
             --success-bg: #e8f8f0;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; font-size: 16px; -webkit-text-size-adjust: 100%; }
+        html { font-size: 16px; -webkit-text-size-adjust: 100%; }
         body {
             font-family: var(--font-body);
             background: var(--bg-alt);
             color: var(--text);
             line-height: 1.6;
-            overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             min-height: 100vh;
             display: flex;
@@ -51,14 +49,12 @@
             padding: 20px;
         }
 
-        /* AUTH CONTAINER */
         .auth-wrapper {
             width: 100%;
             max-width: 460px;
             position: relative;
         }
 
-        /* BACK LINK */
         .back-link {
             display: inline-flex;
             align-items: center;
@@ -73,7 +69,6 @@
         .back-link:hover { color: var(--text); }
         .back-link svg { width: 18px; height: 18px; }
 
-        /* AUTH CARD */
         .auth-card {
             background: #fff;
             border-radius: var(--radius-lg);
@@ -83,8 +78,6 @@
             position: relative;
             overflow: hidden;
         }
-
-        /* DECORATIVE TOP BAR */
         .auth-card::before {
             content: '';
             position: absolute;
@@ -95,7 +88,6 @@
             background: var(--gradient);
         }
 
-        /* LOGO */
         .auth-logo {
             display: flex;
             align-items: center;
@@ -112,7 +104,6 @@
             letter-spacing: -0.5px;
         }
 
-        /* HEADINGS */
         .auth-title {
             font-family: var(--font-heading);
             font-size: 1.5rem;
@@ -128,7 +119,6 @@
             margin-bottom: 28px;
         }
 
-        /* FORM */
         .form-group {
             margin-bottom: 18px;
             position: relative;
@@ -162,12 +152,9 @@
             border-color: var(--purple);
             box-shadow: 0 0 0 3px rgba(108,92,231,0.1);
         }
-        .form-group input.error {
+        .form-group input.input-error {
             border-color: var(--danger);
             box-shadow: 0 0 0 3px rgba(231,76,60,0.08);
-        }
-        .form-group input.success {
-            border-color: var(--success);
         }
         .toggle-password {
             position: absolute;
@@ -184,7 +171,6 @@
         }
         .toggle-password:hover { color: var(--text); }
 
-        /* ERROR MESSAGE */
         .field-error {
             font-size: 0.72rem;
             color: var(--danger);
@@ -195,7 +181,6 @@
         }
         .field-error.show { display: flex; }
 
-        /* GLOBAL ERROR BANNER */
         .auth-error {
             background: var(--danger-bg);
             color: var(--danger);
@@ -222,7 +207,6 @@
         }
         .auth-error .close-error:hover { opacity: 1; }
 
-        /* SUCCESS BANNER */
         .auth-success {
             background: var(--success-bg);
             color: var(--success);
@@ -238,7 +222,6 @@
         }
         .auth-success.show { display: flex; }
 
-        /* SUBMIT BUTTON */
         .btn-submit {
             width: 100%;
             padding: 13px 20px;
@@ -269,7 +252,6 @@
             box-shadow: none;
         }
 
-        /* SPINNER */
         .spinner {
             width: 20px;
             height: 20px;
@@ -283,7 +265,6 @@
         .btn-submit.loading .btn-text { display: none; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* DIVIDER */
         .divider {
             display: flex;
             align-items: center;
@@ -300,7 +281,6 @@
             background: var(--border);
         }
 
-        /* GOOGLE BUTTON */
         .btn-google {
             width: 100%;
             padding: 12px 20px;
@@ -330,7 +310,6 @@
         }
         .btn-google svg { width: 20px; height: 20px; flex-shrink: 0; }
 
-        /* TOGGLE LINK */
         .auth-toggle {
             text-align: center;
             margin-top: 22px;
@@ -346,7 +325,6 @@
         }
         .auth-toggle a:hover { color: var(--pink); }
 
-        /* FORGOT PASSWORD */
         .forgot-link {
             display: block;
             text-align: right;
@@ -360,11 +338,23 @@
         }
         .forgot-link:hover { color: var(--pink); }
 
-        /* FORM SECTIONS (LOGIN vs SIGNUP vs RESET) */
         .form-section { display: none; }
         .form-section.active { display: block; }
 
-        /* RESPONSIVE */
+        .referral-note {
+            background: #fff8e8;
+            border: 1px solid #ffe0b2;
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            font-size: 0.75rem;
+            color: #b45309;
+            margin-bottom: 16px;
+            display: none;
+            align-items: center;
+            gap: 6px;
+        }
+        .referral-note.show { display: flex; }
+
         @media (max-width: 480px) {
             body { padding: 12px; align-items: flex-start; padding-top: 30px; }
             .auth-card { padding: 28px 20px; border-radius: var(--radius-md); }
@@ -376,15 +366,12 @@
 <body>
 
     <div class="auth-wrapper">
-        <!-- BACK TO HOME -->
         <a href="index.html" class="back-link">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
             Back to Home
         </a>
 
-        <!-- AUTH CARD -->
         <div class="auth-card">
-            <!-- LOGO -->
             <div class="auth-logo">
                 <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="TRIANGLE LEARN" width="40" height="40">
                 <span>TRIANGLE LEARN</span>
@@ -394,13 +381,19 @@
             <div class="auth-error" id="authError">
                 <span>⚠️</span>
                 <span id="authErrorMessage"></span>
-                <button class="close-error" id="closeError">×</button>
+                <button class="close-error" id="closeError">&times;</button>
             </div>
 
             <!-- GLOBAL SUCCESS -->
             <div class="auth-success" id="authSuccess">
                 <span>✅</span>
                 <span id="authSuccessMessage"></span>
+            </div>
+
+            <!-- REFERRAL NOTE -->
+            <div class="referral-note" id="referralNote">
+                <span>🎁</span>
+                <span id="referralNoteText"></span>
             </div>
 
             <!-- ==================== LOGIN SECTION ==================== -->
@@ -449,17 +442,27 @@
 
                 <form id="signupForm" novalidate autocomplete="on">
                     <div class="form-group">
-                        <label for="signupName">Full Name</label>
+                        <label for="signupName">Full Name *</label>
                         <input type="text" id="signupName" placeholder="John Doe" required autocomplete="name" minlength="2">
                         <div class="field-error" id="signupNameError"></div>
                     </div>
                     <div class="form-group">
-                        <label for="signupEmail">Email Address</label>
+                        <label for="signupEmail">Email Address *</label>
                         <input type="email" id="signupEmail" placeholder="you@example.com" required autocomplete="email">
                         <div class="field-error" id="signupEmailError"></div>
                     </div>
                     <div class="form-group">
-                        <label for="signupPassword">Password</label>
+                        <label for="signupPhone">Phone Number</label>
+                        <input type="tel" id="signupPhone" placeholder="+234 800 000 0000" autocomplete="tel">
+                        <div class="field-error" id="signupPhoneError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupReferral">Referral Code (Optional)</label>
+                        <input type="text" id="signupReferral" placeholder="Enter referral code if you have one" style="text-transform:uppercase;">
+                        <div class="field-error" id="signupReferralError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password *</label>
                         <div class="input-wrapper">
                             <input type="password" id="signupPassword" placeholder="Min. 6 characters" required autocomplete="new-password" minlength="6">
                             <button type="button" class="toggle-password" data-target="signupPassword" aria-label="Toggle password visibility">👁️</button>
@@ -514,32 +517,47 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
 
     <script>
     (function() {
         'use strict';
 
-        // ============ APP STATE ============
-        const State = {
-            firebaseReady: false,
-            auth: null,
-            db: null,
-            currentSection: 'login', // 'login' | 'signup' | 'reset'
-            isProcessing: false,
+        // ============================================
+        // FIREBASE CONFIG — YOUR ACTUAL CONFIG
+        // ============================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyAvvB3C9SP8tDTqMmqzc6craI4d_0kSVX0",
+            authDomain: "timijosh-b8bee.firebaseapp.com",
+            projectId: "timijosh-b8bee",
+            storageBucket: "timijosh-b8bee.firebasestorage.app",
+            messagingSenderId: "779082784462",
+            appId: "1:779082784462:web:a9e9aca2177c7e343c3a9f",
+            measurementId: "G-ZPS8VP8ZBX"
         };
 
-        // ============ DOM REFS ============
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // ============================================
+        // APP STATE
+        // ============================================
+        const State = {
+            currentSection: 'login',
+            isProcessing: false,
+            referralFromUrl: null,
+        };
+
+        // ============================================
+        // DOM REFS
+        // ============================================
         const $ = (sel) => document.querySelector(sel);
-        const $$ = (sel) => document.querySelectorAll(sel);
 
         const DOM = {
-            // Sections
             loginSection: $('#loginSection'),
             signupSection: $('#signupSection'),
             resetSection: $('#resetSection'),
 
-            // Login form
             loginForm: $('#loginForm'),
             loginEmail: $('#loginEmail'),
             loginPassword: $('#loginPassword'),
@@ -547,34 +565,59 @@
             loginEmailError: $('#loginEmailError'),
             loginPasswordError: $('#loginPasswordError'),
 
-            // Signup form
             signupForm: $('#signupForm'),
             signupName: $('#signupName'),
             signupEmail: $('#signupEmail'),
+            signupPhone: $('#signupPhone'),
+            signupReferral: $('#signupReferral'),
             signupPassword: $('#signupPassword'),
             signupSubmit: $('#signupSubmit'),
             signupNameError: $('#signupNameError'),
             signupEmailError: $('#signupEmailError'),
+            signupPhoneError: $('#signupPhoneError'),
+            signupReferralError: $('#signupReferralError'),
             signupPasswordError: $('#signupPasswordError'),
 
-            // Reset form
             resetForm: $('#resetForm'),
             resetEmail: $('#resetEmail'),
             resetSubmit: $('#resetSubmit'),
             resetEmailError: $('#resetEmailError'),
 
-            // Global
             authError: $('#authError'),
             authErrorMessage: $('#authErrorMessage'),
             authSuccess: $('#authSuccess'),
             authSuccessMessage: $('#authSuccessMessage'),
 
-            // Buttons
+            referralNote: $('#referralNote'),
+            referralNoteText: $('#referralNoteText'),
+
             googleLogin: $('#googleLogin'),
             googleSignup: $('#googleSignup'),
         };
 
-        // ============ SECTION TOGGLING ============
+        // ============================================
+        // URL REFERRAL DETECTION
+        // ============================================
+        function detectReferralFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const ref = params.get('ref');
+            if (ref) {
+                State.referralFromUrl = ref.toUpperCase().trim();
+                // Pre-fill the referral field on signup
+                if (DOM.signupReferral) {
+                    DOM.signupReferral.value = State.referralFromUrl;
+                }
+                // Show referral note
+                DOM.referralNoteText.textContent = `You've been referred! Code "${State.referralFromUrl}" will be applied when you sign up.`;
+                DOM.referralNote.classList.add('show');
+                // Auto-switch to signup
+                showSection('signup');
+            }
+        }
+
+        // ============================================
+        // SECTION TOGGLING
+        // ============================================
         function showSection(section) {
             State.currentSection = section;
             DOM.loginSection.classList.remove('active');
@@ -597,27 +640,30 @@
             }
         }
 
-        // Toggle links
         $('#showSignup').addEventListener('click', (e) => { e.preventDefault(); showSection('signup'); });
         $('#showLogin').addEventListener('click', (e) => { e.preventDefault(); showSection('login'); });
         $('#showReset').addEventListener('click', (e) => { e.preventDefault(); showSection('reset'); });
         $('#showLoginFromReset').addEventListener('click', (e) => { e.preventDefault(); showSection('login'); });
 
-        // ============ PASSWORD TOGGLE ============
+        // ============================================
+        // PASSWORD TOGGLE
+        // ============================================
         document.addEventListener('click', (e) => {
-            const toggleBtn = e.target.closest('.toggle-password');
-            if (!toggleBtn) return;
-            const targetId = toggleBtn.getAttribute('data-target');
+            const btn = e.target.closest('.toggle-password');
+            if (!btn) return;
+            const targetId = btn.getAttribute('data-target');
             const input = document.getElementById(targetId);
             if (!input) return;
-            const isPassword = input.type === 'password';
-            input.type = isPassword ? 'text' : 'password';
-            toggleBtn.textContent = isPassword ? '🙈' : '👁️';
+            const isPass = input.type === 'password';
+            input.type = isPass ? 'text' : 'password';
+            btn.textContent = isPass ? '🙈' : '👁️';
         });
 
-        // ============ ERROR HANDLING ============
-        function showGlobalError(message) {
-            DOM.authErrorMessage.textContent = message;
+        // ============================================
+        // ERROR / SUCCESS HANDLING
+        // ============================================
+        function showGlobalError(msg) {
+            DOM.authErrorMessage.textContent = msg;
             DOM.authError.classList.add('show');
             DOM.authSuccess.classList.remove('show');
         }
@@ -626,8 +672,8 @@
             DOM.authError.classList.remove('show');
         }
 
-        function showGlobalSuccess(message) {
-            DOM.authSuccessMessage.textContent = message;
+        function showGlobalSuccess(msg) {
+            DOM.authSuccessMessage.textContent = msg;
             DOM.authSuccess.classList.add('show');
             DOM.authError.classList.remove('show');
         }
@@ -638,328 +684,288 @@
 
         $('#closeError').addEventListener('click', hideGlobalError);
 
-        function showFieldError(errorEl, message) {
-            if (!errorEl) return;
-            errorEl.textContent = '⚠ ' + message;
-            errorEl.classList.add('show');
-            // Also mark the input in the same form group
-            const formGroup = errorEl.closest('.form-group');
-            if (formGroup) {
-                const input = formGroup.querySelector('input');
-                if (input) input.classList.add('error');
-            }
+        function showFieldError(el, msg) {
+            if (!el) return;
+            el.textContent = '⚠ ' + msg;
+            el.classList.add('show');
+            const input = el.closest('.form-group')?.querySelector('input');
+            if (input) input.classList.add('input-error');
         }
 
-        function clearFieldError(errorEl) {
-            if (!errorEl) return;
-            errorEl.textContent = '';
-            errorEl.classList.remove('show');
-            const formGroup = errorEl.closest('.form-group');
-            if (formGroup) {
-                const input = formGroup.querySelector('input');
-                if (input) input.classList.remove('error', 'success');
-            }
+        function clearFieldError(el) {
+            if (!el) return;
+            el.textContent = '';
+            el.classList.remove('show');
+            const input = el.closest('.form-group')?.querySelector('input');
+            if (input) input.classList.remove('input-error');
         }
 
         function clearAllFieldErrors() {
-            $$('.field-error').forEach(el => clearFieldError(el));
+            document.querySelectorAll('.field-error').forEach(el => clearFieldError(el));
         }
 
-        function getFirebaseErrorMessage(error) {
-            if (!error || !error.code) return 'An unexpected error occurred. Please try again.';
-
-            const errorMap = {
+        function getFirebaseError(error) {
+            const map = {
                 'auth/email-already-in-use': 'This email is already registered. Please sign in instead.',
                 'auth/invalid-email': 'Please enter a valid email address.',
                 'auth/operation-not-allowed': 'This sign-in method is not enabled. Contact support.',
                 'auth/weak-password': 'Password must be at least 6 characters.',
                 'auth/user-disabled': 'This account has been disabled. Contact support.',
                 'auth/user-not-found': 'No account found with this email. Please sign up first.',
-                'auth/wrong-password': 'Incorrect password. Please try again or reset your password.',
+                'auth/wrong-password': 'Incorrect password. Please try again.',
                 'auth/invalid-credential': 'Invalid email or password. Please check and try again.',
-                'auth/too-many-requests': 'Too many attempts. Please wait a moment and try again.',
-                'auth/network-request-failed': 'Network error. Check your internet connection and try again.',
+                'auth/too-many-requests': 'Too many attempts. Please wait and try again.',
+                'auth/network-request-failed': 'Network error. Check your connection.',
                 'auth/popup-closed-by-user': 'Sign-in popup was closed. Please try again.',
-                'auth/popup-blocked': 'Pop-up was blocked by your browser. Please allow pop-ups.',
-                'auth/requires-recent-login': 'For security, please sign in again before retrying.',
-                'auth/invalid-action-code': 'This reset link is invalid or has expired. Request a new one.',
-                'auth/expired-action-code': 'This reset link has expired. Please request a new one.',
+                'auth/requires-recent-login': 'Please sign in again for security.',
             };
-
-            return errorMap[error.code] || error.message || 'An unexpected error occurred. Please try again.';
+            return map[error?.code] || error?.message || 'An unexpected error occurred.';
         }
 
-        // ============ LOADING STATE ============
-        function setButtonLoading(button, isLoading) {
-            if (isLoading) {
-                button.classList.add('loading');
-                button.disabled = true;
+        // ============================================
+        // LOADING STATE
+        // ============================================
+        function setButtonLoading(btn, loading) {
+            if (loading) {
+                btn.classList.add('loading');
+                btn.disabled = true;
             } else {
-                button.classList.remove('loading');
-                button.disabled = false;
+                btn.classList.remove('loading');
+                btn.disabled = false;
             }
         }
 
         function setProcessingState(processing) {
             State.isProcessing = processing;
-            // Disable all submit buttons and Google buttons
-            const allButtons = [
-                DOM.loginSubmit, DOM.signupSubmit, DOM.resetSubmit,
-                DOM.googleLogin, DOM.googleSignup,
-            ];
-            allButtons.forEach(btn => {
-                if (btn) {
-                    if (processing) {
-                        btn.disabled = true;
-                        btn.style.pointerEvents = 'none';
-                    } else {
-                        btn.disabled = false;
-                        btn.style.pointerEvents = '';
-                        btn.classList.remove('loading');
-                    }
-                }
-            });
+            [DOM.loginSubmit, DOM.signupSubmit, DOM.resetSubmit, DOM.googleLogin, DOM.googleSignup]
+                .forEach(b => { if (b) { b.disabled = processing; b.style.pointerEvents = processing ? 'none' : ''; } });
         }
 
-        // ============ VALIDATION ============
+        // ============================================
+        // VALIDATION
+        // ============================================
         function validateEmail(email) {
-            if (!email || !email.trim()) return 'Email is required.';
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email.trim())) return 'Please enter a valid email address.';
+            if (!email?.trim()) return 'Email is required.';
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return 'Please enter a valid email.';
             return null;
         }
 
-        function validatePassword(password) {
-            if (!password) return 'Password is required.';
-            if (password.length < 6) return 'Password must be at least 6 characters.';
+        function validatePassword(pw) {
+            if (!pw) return 'Password is required.';
+            if (pw.length < 6) return 'Password must be at least 6 characters.';
             return null;
         }
 
         function validateName(name) {
-            if (!name || !name.trim()) return 'Full name is required.';
+            if (!name?.trim()) return 'Full name is required.';
             if (name.trim().length < 2) return 'Name must be at least 2 characters.';
             return null;
         }
 
-        // ============ FIREBASE INIT ============
-        function initFirebase() {
+        // ============================================
+        // REFERRAL CODE GENERATION
+        // ============================================
+        function generateReferralCode(name) {
+            const base = (name || 'user')
+                .replace(/[^a-zA-Z0-9]/g, '')
+                .substring(0, 6)
+                .toUpperCase();
+            const random = Math.random().toString(36).substring(2, 6).toUpperCase();
+            return (base + random).substring(0, 10);
+        }
+
+        // ============================================
+        // VALIDATE REFERRAL CODE
+        // ============================================
+        async function validateReferralCode(code) {
+            if (!code?.trim()) return null;
+            const cleanCode = code.trim().toUpperCase();
             try {
-                if (typeof firebase === 'undefined') {
-                    throw new Error('Firebase SDK not loaded. Check your internet connection.');
+                const snap = await db.collection('users')
+                    .where('referralCode', '==', cleanCode)
+                    .limit(1)
+                    .get();
+                if (!snap.empty) {
+                    return { valid: true, referrerUid: snap.docs[0].id, code: cleanCode };
                 }
-                if (typeof db === 'undefined') {
-                    throw new Error('Firebase config not found. Check firebase-config.js.');
-                }
-
-                State.auth = firebase.auth();
-                State.db = db;
-                State.firebaseReady = true;
-
-                // Listen for auth state changes (persistent sessions)
-                State.auth.onAuthStateChanged(async (user) => {
-                    if (user && !State.isProcessing) {
-                        // User is already signed in — redirect based on role
-                        setProcessingState(true);
-                        try {
-                            await handlePostAuthRedirect(user);
-                        } catch (err) {
-                            console.warn('Auto-redirect failed:', err.message);
-                            setProcessingState(false);
-                        }
-                    }
-                });
-
-                console.log('Firebase Auth initialized successfully.');
-            } catch (error) {
-                console.error('Firebase init error:', error);
-                showGlobalError(error.message || 'Failed to initialize authentication. Please refresh the page.');
-                State.firebaseReady = false;
+                return { valid: false, code: cleanCode };
+            } catch (e) {
+                console.warn('Referral validation error:', e);
+                return null;
             }
         }
 
-        // ============ POST-AUTH: DETECT ROLE & REDIRECT ============
-        async function handlePostAuthRedirect(user) {
-            if (!State.db || !user) return;
+        // ============================================
+        // CREATE USER DOCUMENT IN FIRESTORE
+        // ============================================
+        async function createUserDocument(user, extraData = {}) {
+            const name = extraData.fullName || user.displayName || user.email?.split('@')[0] || 'Learner';
+            const referralCode = generateReferralCode(name);
+            const phone = extraData.phone || user.phoneNumber || '';
 
+            const userDoc = {
+                fullName: name,
+                email: user.email,
+                phone: phone,
+                role: 'learner',
+                referralCode: referralCode,
+                referralLink: `${window.location.origin}/auth.html?ref=${referralCode}`,
+                referredBy: extraData.referredBy || null,
+                referredByCode: extraData.referredByCode || null,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                enrolledCourses: [],
+                certificates: [],
+            };
+
+            await db.collection('users').doc(user.uid).set(userDoc);
+
+            // If referred, create referral record
+            if (extraData.referredBy) {
+                await db.collection('referrals').add({
+                    referrerUid: extraData.referredBy,
+                    referredUid: user.uid,
+                    referredName: name,
+                    referredEmail: user.email,
+                    referralCode: extraData.referredByCode,
+                    status: 'registered',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                });
+            }
+
+            return userDoc;
+        }
+
+        // ============================================
+        // POST-AUTH: DETECT ROLE & REDIRECT
+        // ============================================
+        async function handlePostAuthRedirect(user) {
             try {
-                const userDoc = await State.db.collection('users').doc(user.uid).get();
+                const userDoc = await db.collection('users').doc(user.uid).get();
 
                 if (!userDoc.exists) {
-                    // New user (from Google sign-in maybe) — create learner doc
-                    await State.db.collection('users').doc(user.uid).set({
-                        fullName: user.displayName || 'Learner',
-                        email: user.email,
-                        role: 'learner',
-                        phone: user.phoneNumber || '',
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        enrolledCourses: [],
-                        referralCode: generateReferralCode(user.displayName || user.email),
-                    }, { merge: true });
-
+                    // New Google sign-in — create doc
+                    await createUserDocument(user);
                     showGlobalSuccess('Account created! Redirecting...');
-                    setTimeout(() => {
-                        window.location.href = 'enroll.html';
-                    }, 1200);
+                    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
                     return;
                 }
 
-                const userData = userDoc.data();
-                const role = userData.role;
-
-                if (!role) {
-                    // User doc exists but no role — set default learner role
-                    await State.db.collection('users').doc(user.uid).update({
-                        role: 'learner',
-                    });
-                    showGlobalSuccess('Welcome! Redirecting to enrollment...');
-                    setTimeout(() => {
-                        window.location.href = 'enroll.html';
-                    }, 1200);
-                    return;
-                }
+                const data = userDoc.data();
+                const role = data.role || 'learner';
 
                 if (role === 'admin') {
-                    showGlobalSuccess('Welcome back, Admin! Redirecting...');
-                    setTimeout(() => {
-                        window.location.href = 'admin.html';
-                    }, 1000);
-                } else if (role === 'learner') {
-                    showGlobalSuccess('Welcome back! Redirecting to your dashboard...');
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1000);
+                    showGlobalSuccess('Welcome back, Admin!');
+                    setTimeout(() => { window.location.href = 'admin.html'; }, 1000);
                 } else {
-                    showGlobalError('Unknown account type. Please contact support.');
-                    setProcessingState(false);
-                    await State.auth.signOut();
+                    showGlobalSuccess('Welcome back!');
+                    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
                 }
-            } catch (error) {
-                console.error('Post-auth redirect error:', error);
-                showGlobalError('Failed to load your account. Please try again.');
+            } catch (e) {
+                console.error('Post-auth error:', e);
+                showGlobalError('Failed to load account. Please try again.');
                 setProcessingState(false);
-                await State.auth.signOut();
             }
         }
 
-        function generateReferralCode(seed) {
-            const base = (seed || 'user').replace(/[^a-zA-Z0-9]/g, '').substring(0, 6).toUpperCase();
-            const random = Math.random().toString(36).substring(2, 6).toUpperCase();
-            return base + random;
-        }
-
-        // ============ EMAIL/PASSWORD LOGIN ============
+        // ============================================
+        // LOGIN
+        // ============================================
         DOM.loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (State.isProcessing) return;
-
-            hideGlobalError();
-            hideGlobalSuccess();
-            clearAllFieldErrors();
+            hideGlobalError(); hideGlobalSuccess(); clearAllFieldErrors();
 
             const email = DOM.loginEmail.value.trim();
-            const password = DOM.loginPassword.value;
-
-            // Validate
-            const emailError = validateEmail(email);
-            const passwordError = validatePassword(password);
-
-            if (emailError) { showFieldError(DOM.loginEmailError, emailError); }
-            if (passwordError) { showFieldError(DOM.loginPasswordError, passwordError); }
-            if (emailError || passwordError) return;
+            const pw = DOM.loginPassword.value;
+            const emailErr = validateEmail(email);
+            const pwErr = validatePassword(pw);
+            if (emailErr) showFieldError(DOM.loginEmailError, emailErr);
+            if (pwErr) showFieldError(DOM.loginPasswordError, pwErr);
+            if (emailErr || pwErr) return;
 
             setProcessingState(true);
             setButtonLoading(DOM.loginSubmit, true);
 
             try {
-                if (!State.firebaseReady) throw new Error('Authentication not ready. Please refresh.');
-
-                const userCredential = await State.auth.signInWithEmailAndPassword(email, password);
-                await handlePostAuthRedirect(userCredential.user);
-            } catch (error) {
-                console.error('Login error:', error);
-                showGlobalError(getFirebaseErrorMessage(error));
+                const cred = await auth.signInWithEmailAndPassword(email, pw);
+                await handlePostAuthRedirect(cred.user);
+            } catch (err) {
+                showGlobalError(getFirebaseError(err));
                 setProcessingState(false);
                 setButtonLoading(DOM.loginSubmit, false);
             }
         });
 
-        // ============ EMAIL/PASSWORD SIGNUP ============
+        // ============================================
+        // SIGNUP
+        // ============================================
         DOM.signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (State.isProcessing) return;
-
-            hideGlobalError();
-            hideGlobalSuccess();
-            clearAllFieldErrors();
+            hideGlobalError(); hideGlobalSuccess(); clearAllFieldErrors();
 
             const name = DOM.signupName.value.trim();
             const email = DOM.signupEmail.value.trim();
-            const password = DOM.signupPassword.value;
+            const phone = DOM.signupPhone.value.trim();
+            const referralInput = DOM.signupReferral.value.trim();
+            const pw = DOM.signupPassword.value;
 
-            // Validate
-            const nameError = validateName(name);
-            const emailError = validateEmail(email);
-            const passwordError = validatePassword(password);
+            const nameErr = validateName(name);
+            const emailErr = validateEmail(email);
+            const pwErr = validatePassword(pw);
+            if (nameErr) showFieldError(DOM.signupNameError, nameErr);
+            if (emailErr) showFieldError(DOM.signupEmailError, emailErr);
+            if (pwErr) showFieldError(DOM.signupPasswordError, pwErr);
+            if (nameErr || emailErr || pwErr) return;
 
-            if (nameError) { showFieldError(DOM.signupNameError, nameError); }
-            if (emailError) { showFieldError(DOM.signupEmailError, emailError); }
-            if (passwordError) { showFieldError(DOM.signupPasswordError, passwordError); }
-            if (nameError || emailError || passwordError) return;
+            // Validate referral if provided
+            let referralData = null;
+            if (referralInput) {
+                referralData = await validateReferralCode(referralInput);
+                if (referralData && !referralData.valid) {
+                    showFieldError(DOM.signupReferralError, 'Invalid referral code. You can still continue.');
+                    // Don't block — just warn
+                }
+            }
 
             setProcessingState(true);
             setButtonLoading(DOM.signupSubmit, true);
 
             try {
-                if (!State.firebaseReady) throw new Error('Authentication not ready. Please refresh.');
+                const cred = await auth.createUserWithEmailAndPassword(email, pw);
+                await cred.user.updateProfile({ displayName: name });
 
-                // Create auth user
-                const userCredential = await State.auth.createUserWithEmailAndPassword(email, password);
-                const user = userCredential.user;
-
-                // Update display name
-                await user.updateProfile({ displayName: name });
-
-                // Create Firestore user doc with learner role
-                await State.db.collection('users').doc(user.uid).set({
+                await createUserDocument(cred.user, {
                     fullName: name,
-                    email: email,
-                    role: 'learner',
-                    phone: '',
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    enrolledCourses: [],
-                    referralCode: generateReferralCode(name),
+                    phone: phone,
+                    referredBy: referralData?.valid ? referralData.referrerUid : null,
+                    referredByCode: referralData?.valid ? referralData.code : null,
                 });
 
                 showGlobalSuccess('Account created! Redirecting to enrollment...');
-                setTimeout(() => {
-                    window.location.href = 'enroll.html';
-                }, 1500);
-            } catch (error) {
-                console.error('Signup error:', error);
-                showGlobalError(getFirebaseErrorMessage(error));
+                setTimeout(() => { window.location.href = 'enroll.html'; }, 1500);
+            } catch (err) {
+                showGlobalError(getFirebaseError(err));
                 setProcessingState(false);
                 setButtonLoading(DOM.signupSubmit, false);
             }
         });
 
-        // ============ GOOGLE AUTH ============
+        // ============================================
+        // GOOGLE AUTH
+        // ============================================
         async function handleGoogleSignIn() {
             if (State.isProcessing) return;
-            hideGlobalError();
-            hideGlobalSuccess();
+            hideGlobalError(); hideGlobalSuccess();
             setProcessingState(true);
 
             try {
-                if (!State.firebaseReady) throw new Error('Authentication not ready. Please refresh.');
-
                 const provider = new firebase.auth.GoogleAuthProvider();
                 provider.setCustomParameters({ prompt: 'select_account' });
-
-                const result = await State.auth.signInWithPopup(provider);
+                const result = await auth.signInWithPopup(provider);
                 await handlePostAuthRedirect(result.user);
-            } catch (error) {
-                console.error('Google sign-in error:', error);
-                showGlobalError(getFirebaseErrorMessage(error));
+            } catch (err) {
+                showGlobalError(getFirebaseError(err));
                 setProcessingState(false);
             }
         }
@@ -967,139 +973,87 @@
         DOM.googleLogin.addEventListener('click', handleGoogleSignIn);
         DOM.googleSignup.addEventListener('click', handleGoogleSignIn);
 
-        // ============ PASSWORD RESET ============
+        // ============================================
+        // PASSWORD RESET
+        // ============================================
         DOM.resetForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (State.isProcessing) return;
-
-            hideGlobalError();
-            hideGlobalSuccess();
-            clearAllFieldErrors();
+            hideGlobalError(); hideGlobalSuccess(); clearAllFieldErrors();
 
             const email = DOM.resetEmail.value.trim();
-            const emailError = validateEmail(email);
-
-            if (emailError) {
-                showFieldError(DOM.resetEmailError, emailError);
-                return;
-            }
+            const err = validateEmail(email);
+            if (err) { showFieldError(DOM.resetEmailError, err); return; }
 
             setProcessingState(true);
             setButtonLoading(DOM.resetSubmit, true);
 
             try {
-                if (!State.firebaseReady) throw new Error('Authentication not ready. Please refresh.');
-
-                await State.auth.sendPasswordResetEmail(email, {
+                await auth.sendPasswordResetEmail(email, {
                     url: window.location.origin + '/auth.html',
                     handleCodeInApp: false,
                 });
-
-                showGlobalSuccess('Password reset link sent! Check your email inbox (and spam folder).');
+                showGlobalSuccess('Reset link sent! Check your inbox (and spam).');
                 DOM.resetEmail.value = '';
                 setProcessingState(false);
                 setButtonLoading(DOM.resetSubmit, false);
-
-                // Auto-switch back to login after 3 seconds
-                setTimeout(() => {
-                    if (State.currentSection === 'reset') {
-                        showSection('login');
-                    }
-                }, 3000);
-            } catch (error) {
-                console.error('Password reset error:', error);
-                showGlobalError(getFirebaseErrorMessage(error));
+                setTimeout(() => { if (State.currentSection === 'reset') showSection('login'); }, 3000);
+            } catch (err) {
+                showGlobalError(getFirebaseError(err));
                 setProcessingState(false);
                 setButtonLoading(DOM.resetSubmit, false);
             }
         });
 
-        // ============ REAL-TIME FIELD VALIDATION ============
-        DOM.loginEmail.addEventListener('blur', () => {
-            const error = validateEmail(DOM.loginEmail.value);
-            if (error) showFieldError(DOM.loginEmailError, error);
-            else clearFieldError(DOM.loginEmailError);
+        // ============================================
+        // REAL-TIME FIELD VALIDATION
+        // ============================================
+        const blurValidators = [
+            { input: DOM.loginEmail, error: DOM.loginEmailError, fn: validateEmail },
+            { input: DOM.loginPassword, error: DOM.loginPasswordError, fn: validatePassword },
+            { input: DOM.signupName, error: DOM.signupNameError, fn: validateName },
+            { input: DOM.signupEmail, error: DOM.signupEmailError, fn: validateEmail },
+            { input: DOM.signupPassword, error: DOM.signupPasswordError, fn: validatePassword },
+            { input: DOM.resetEmail, error: DOM.resetEmailError, fn: validateEmail },
+        ];
+
+        blurValidators.forEach(({ input, error, fn }) => {
+            if (!input) return;
+            input.addEventListener('blur', () => {
+                const msg = fn(input.value);
+                if (msg) showFieldError(error, msg);
+                else clearFieldError(error);
+            });
         });
 
-        DOM.loginPassword.addEventListener('blur', () => {
-            const error = validatePassword(DOM.loginPassword.value);
-            if (error) showFieldError(DOM.loginPasswordError, error);
-            else clearFieldError(DOM.loginPasswordError);
-        });
-
-        DOM.signupName.addEventListener('blur', () => {
-            const error = validateName(DOM.signupName.value);
-            if (error) showFieldError(DOM.signupNameError, error);
-            else clearFieldError(DOM.signupNameError);
-        });
-
-        DOM.signupEmail.addEventListener('blur', () => {
-            const error = validateEmail(DOM.signupEmail.value);
-            if (error) showFieldError(DOM.signupEmailError, error);
-            else clearFieldError(DOM.signupEmailError);
-        });
-
-        DOM.signupPassword.addEventListener('blur', () => {
-            const error = validatePassword(DOM.signupPassword.value);
-            if (error) showFieldError(DOM.signupPasswordError, error);
-            else clearFieldError(DOM.signupPasswordError);
-        });
-
-        DOM.resetEmail.addEventListener('blur', () => {
-            const error = validateEmail(DOM.resetEmail.value);
-            if (error) showFieldError(DOM.resetEmailError, error);
-            else clearFieldError(DOM.resetEmailError);
-        });
-
-        // Clear errors on input
         document.addEventListener('input', (e) => {
             if (!e.target.closest('input')) return;
-            const formGroup = e.target.closest('.form-group');
-            if (formGroup) {
-                const errorEl = formGroup.querySelector('.field-error');
-                if (errorEl && errorEl.classList.contains('show')) {
-                    clearFieldError(errorEl);
-                }
-                e.target.classList.remove('error');
+            const fg = e.target.closest('.form-group');
+            if (fg) {
+                const errEl = fg.querySelector('.field-error');
+                if (errEl) clearFieldError(errEl);
+                e.target.classList.remove('input-error');
             }
-            // Also hide global error when user starts typing
-            if (DOM.authError.classList.contains('show')) {
-                hideGlobalError();
+            if (DOM.authError.classList.contains('show')) hideGlobalError();
+        });
+
+        // ============================================
+        // AUTH STATE LISTENER
+        // ============================================
+        auth.onAuthStateChanged(async (user) => {
+            if (user && !State.isProcessing) {
+                setProcessingState(true);
+                await handlePostAuthRedirect(user);
             }
         });
 
-        // ============ INITIALIZATION ============
-        function init() {
-            initFirebase();
-
-            // If Firebase fails to load after 5 seconds, show error
-            setTimeout(() => {
-                if (!State.firebaseReady) {
-                    showGlobalError('Authentication is taking longer than expected. Please check your connection and refresh the page.');
-                }
-            }, 5000);
-        }
-
-        // Start when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
-        } else {
-            init();
-        }
-
-        // ============ KEYBOARD SHORTCUT (ENTER TO SUBMIT) ============
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !State.isProcessing) {
-                const activeSection = State.currentSection;
-                if (activeSection === 'login' && document.activeElement && document.activeElement.closest('#loginSection')) {
-                    DOM.loginForm.dispatchEvent(new Event('submit', { cancelable: true }));
-                } else if (activeSection === 'signup' && document.activeElement && document.activeElement.closest('#signupSection')) {
-                    DOM.signupForm.dispatchEvent(new Event('submit', { cancelable: true }));
-                } else if (activeSection === 'reset' && document.activeElement && document.activeElement.closest('#resetSection')) {
-                    DOM.resetForm.dispatchEvent(new Event('submit', { cancelable: true }));
-                }
-            }
-        });
+        // ============================================
+        // INIT
+        // ============================================
+        detectReferralFromUrl();
+        console.log('✅ TRIANGLE LEARN Auth initialized');
+        console.log('   Project:', firebaseConfig.projectId);
+        console.log('   Referral system: Active');
 
     })();
     </script>
