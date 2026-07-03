@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chart.js for analytics -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <style>
         :root {
@@ -47,7 +46,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* SKELETON LOADING */
         .skeleton {
             background: linear-gradient(90deg, #f0f0f5 25%, #e8e8f0 50%, #f0f0f5 75%);
             background-size: 200% 100%;
@@ -245,7 +243,7 @@
         <ul class="sidebar-nav">
             <li><a href="#dashboard" data-section="dashboard">📊 Dashboard</a></li>
             <li><a href="#courses" data-section="courses">📚 Courses</a></li>
-            <li><a href="#create-course" data-section="create-course">➕ New Course</a></li>
+            <li><a href="create-course.html" style="color:var(--purple);font-weight:700;">➕ New Course</a></li>
             <li><a href="#users" data-section="users">👥 Users</a></li>
             <li><a href="#enrollments" data-section="enrollments">📝 Enrollments</a></li>
             <li><a href="#payments" data-section="payments">💳 Payments</a></li>
@@ -284,13 +282,11 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // ==================== STATE ====================
         let currentUser = null;
         let isAdmin = false;
-
         const mainContent = document.getElementById('mainContent');
 
-        // ==================== AUTH & ADMIN CHECK ====================
+        // ==================== AUTH ====================
         auth.onAuthStateChanged(async (user) => {
             if (!user) { window.location.href = 'auth.html'; return; }
             currentUser = user;
@@ -302,14 +298,12 @@
             }
             isAdmin = true;
             initRouting();
-            // Load initial section from hash or default to dashboard
             const hash = window.location.hash.substring(1) || 'dashboard';
             loadSection(hash);
         });
 
-        // ==================== HASH ROUTING ====================
+        // ==================== ROUTING ====================
         function initRouting() {
-            // Sidebar clicks
             document.querySelectorAll('.sidebar-nav a[data-section]').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -318,14 +312,12 @@
                 });
             });
 
-            // Logout
             document.getElementById('logoutBtn').addEventListener('click', async (e) => {
                 e.preventDefault();
                 await auth.signOut();
                 window.location.href = 'auth.html';
             });
 
-            // Listen for hash changes
             window.addEventListener('hashchange', () => {
                 const section = window.location.hash.substring(1) || 'dashboard';
                 loadSection(section);
@@ -369,7 +361,6 @@
                 switch (section) {
                     case 'dashboard': await renderDashboard(); break;
                     case 'courses': await renderCourses(); break;
-                    case 'create-course': renderCreateCourse(); break;
                     case 'users': await renderUsers(); break;
                     case 'enrollments': await renderEnrollments(); break;
                     case 'payments': await renderPayments(); break;
@@ -381,7 +372,7 @@
                     default: await renderDashboard();
                 }
             } catch (error) {
-                mainContent.innerHTML = `<div class="card"><p style="color:var(--danger);">Error loading section: ${error.message}</p></div>`;
+                mainContent.innerHTML = `<div class="card"><p style="color:var(--danger);">Error: ${error.message}</p></div>`;
             }
         }
 
@@ -389,7 +380,7 @@
         function formatCurrency(n) { return '₦' + (n || 0).toLocaleString(); }
         function escapeHtml(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
 
-        // ==================== DASHBOARD (with Charts) ====================
+        // ==================== DASHBOARD ====================
         async function renderDashboard() {
             const [usersSnap, coursesSnap, enrollSnap, paymentsSnap, refSnap] = await Promise.all([
                 db.collection('users').get(),
@@ -406,7 +397,6 @@
             paymentsSnap.forEach(doc => revenue += (doc.data().amount || 0));
             const totalReferrals = refSnap.size;
 
-            // Enrollment data for chart
             const enrollmentCounts = {};
             enrollSnap.forEach(doc => {
                 const course = doc.data().courseName || 'Unknown';
@@ -415,7 +405,6 @@
             const courseLabels = Object.keys(enrollmentCounts);
             const courseValues = Object.values(enrollmentCounts);
 
-            // Revenue over time (by month)
             const monthlyRevenue = {};
             paymentsSnap.forEach(doc => {
                 const d = doc.data().paidAt?.toDate();
@@ -436,7 +425,6 @@
                     <div class="stat-card"><div class="stat-icon green">💰</div><div class="stat-info"><h3>${formatCurrency(revenue)}</h3><p>Total Revenue</p></div></div>
                     <div class="stat-card"><div class="stat-icon purple">🔗</div><div class="stat-info"><h3>${totalReferrals}</h3><p>Referral Clicks</p></div></div>
                 </div>
-
                 <div class="charts-grid">
                     <div class="card">
                         <h3 style="margin-bottom:12px;">Enrollments per Course</h3>
@@ -447,15 +435,13 @@
                         <canvas id="revenueChart" height="250"></canvas>
                     </div>
                 </div>
-
                 <div class="card"><h3>Quick Actions</h3><div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
                     <button class="btn btn-primary" onclick="window.location.hash='courses'">Manage Courses</button>
-                    <button class="btn btn-outline" onclick="window.location.hash='create-course'">+ New Course</button>
+                    <button class="btn btn-outline" onclick="window.location.href='create-course.html'">+ New Course</button>
                     <button class="btn btn-outline" onclick="window.location.hash='announcements'">Announcements</button>
                     <button class="btn btn-outline" onclick="window.location.hash='settings'">Site Settings</button>
                 </div></div>`;
 
-            // Render charts
             if (courseLabels.length > 0) {
                 new Chart(document.getElementById('enrollmentChart'), {
                     type: 'bar',
@@ -491,7 +477,7 @@
             }
         }
 
-        // ==================== COURSES LIST ====================
+        // ==================== COURSES ====================
         async function renderCourses() {
             const snap = await db.collection('courses').get();
             let rows = '';
@@ -508,74 +494,15 @@
                 </tr>`;
             });
             mainContent.innerHTML = `
-                <div class="top-bar"><h1>Courses</h1><a href="#create-course" class="btn btn-primary">+ Add Course</a></div>
+                <div class="top-bar"><h1>Courses</h1><a href="create-course.html" class="btn btn-primary">+ Add Course</a></div>
                 <div class="card">
                     <table><thead><tr><th>Name</th><th>Stage</th><th>Price</th><th>Type</th><th>Status</th><th>Actions</th></tr></thead>
                     <tbody>${rows || '<tr><td colspan="6" class="empty-state">No courses found.</td></tr>'}</tbody></table>
                 </div>`;
         }
 
-        // ==================== CREATE COURSE (Dedicated Full-Page Section) ====================
-        function renderCreateCourse() {
-            mainContent.innerHTML = `
-                <div class="top-bar"><h1>Create New Course</h1></div>
-                <div class="card">
-                    <form id="createCourseForm">
-                        <div class="form-row">
-                            <div class="form-group"><label>Course Name *</label><input id="cName" required></div>
-                            <div class="form-group"><label>Stage (e.g., Elementary)</label><input id="cStage"></div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group"><label>Price (₦) *</label><input type="number" id="cPrice" required></div>
-                            <div class="form-group"><label>Duration (weeks)</label><input type="number" id="cDuration" value="8"></div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group"><label>Savings (if Full Track)</label><input type="number" id="cSavings" value="0"></div>
-                            <div class="form-group"><label>Icon (emoji)</label><input id="cIcon" value="📘"></div>
-                        </div>
-                        <div class="form-group">
-                            <label><input type="checkbox" id="cFullTrack"> Full Track (all 3 stages)</label>
-                        </div>
-                        <div class="form-group">
-                            <label><input type="checkbox" id="cActive" checked> Active</label>
-                        </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea id="cDescription" rows="3"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Create Course</button>
-                        <a href="#courses" class="btn btn-outline">Cancel</a>
-                    </form>
-                </div>`;
-
-            document.getElementById('createCourseForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const data = {
-                    name: document.getElementById('cName').value.trim(),
-                    stage: document.getElementById('cStage').value.trim(),
-                    price: Number(document.getElementById('cPrice').value),
-                    durationWeeks: Number(document.getElementById('cDuration').value),
-                    savings: Number(document.getElementById('cSavings').value),
-                    icon: document.getElementById('cIcon').value.trim(),
-                    isFullTrack: document.getElementById('cFullTrack').checked,
-                    active: document.getElementById('cActive').checked,
-                    description: document.getElementById('cDescription').value.trim(),
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                };
-                if (!data.name || isNaN(data.price)) {
-                    alert('Name and Price are required.');
-                    return;
-                }
-                await db.collection('courses').add(data);
-                alert('Course created successfully!');
-                window.location.hash = 'courses'; // go back to list
-            });
-        }
-
-        // Edit course (opens a similar form but we'll reuse the modal approach or inline section)
+        // Edit course (inline form)
         window.editCourse = async (id) => {
-            // Navigate to an edit page, we can implement as a dedicated #edit-course?id=...
-            // For simplicity, we'll open a modal (keeping modal for quick edits)
             const doc = await db.collection('courses').doc(id).get();
             if (!doc.exists) return;
             const course = doc.data();
@@ -602,7 +529,6 @@
                         <a href="#courses" class="btn btn-outline">Cancel</a>
                     </form>
                 </div>`;
-
             document.getElementById('editCourseForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const data = {
@@ -869,13 +795,7 @@
             });
         }
 
-        // Expose globals for inline onclick
         window.loadSection = loadSection;
-        window.editCourse = window.editCourse; // already defined
-        window.deleteCourse = window.deleteCourse;
-        window.editBlog = window.editBlog;
-        window.deleteBlog = window.deleteBlog;
-
     })();
     </script>
 </body>
