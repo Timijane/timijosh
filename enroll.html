@@ -38,7 +38,7 @@
             --warning-bg: #fff3e0;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; font-size: 16px; -webkit-text-size-adjust: 100%; scroll-padding-top: 80px; }
+        html { scroll-behavior: smooth; font-size: 16px; -webkit-text-size-adjust: 100%; }
         body {
             font-family: var(--font-body);
             background: var(--bg-alt);
@@ -49,6 +49,18 @@
             min-height: 100vh;
         }
 
+        /* Skeleton Loading */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f5 25%, #e8e8f0 50%, #f0f0f5 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: var(--radius-md);
+        }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        .skeleton-text { height: 16px; margin-bottom: 8px; border-radius: 8px; }
+        .skeleton-card { height: 160px; border-radius: var(--radius-md); }
+
+        /* Header */
         .header {
             position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
             padding: 14px 0; background: rgba(255,255,255,0.85);
@@ -83,8 +95,10 @@
         .btn-danger { background: transparent; color: var(--danger); border: 1.5px solid #fdd; }
         .btn-danger:hover { background: var(--danger-bg); }
 
+        /* Main Container */
         .main-container { max-width: 900px; margin: 0 auto; padding: 100px 24px 60px; }
 
+        /* Steps */
         .steps {
             display: flex; align-items: center; justify-content: center;
             gap: 0; margin-bottom: 36px; flex-wrap: wrap;
@@ -110,6 +124,7 @@
         }
         .step-line.completed { background: var(--success); }
 
+        /* Enroll Sections */
         .enroll-section { display: none; }
         .enroll-section.active { display: block; }
 
@@ -118,7 +133,6 @@
             border-radius: var(--radius-lg); padding: 32px;
             box-shadow: var(--shadow-sm);
         }
-
         .section-header { margin-bottom: 24px; }
         .section-header h2 {
             font-family: var(--font-heading); font-size: 1.4rem;
@@ -154,10 +168,7 @@
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .form-group { margin-bottom: 16px; }
         .form-group.full { grid-column: 1 / -1; }
-        .form-group label {
-            display: block; font-size: 0.78rem; font-weight: 600;
-            color: var(--text); margin-bottom: 5px;
-        }
+        .form-group label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--text); margin-bottom: 5px; }
         .form-group input, .form-group select {
             width: 100%; padding: 11px 14px;
             border: 1.5px solid var(--border); border-radius: var(--radius-sm);
@@ -166,32 +177,20 @@
             transition: all 0.25s ease; outline: none;
         }
         .form-group input:focus, .form-group select:focus {
-            border-color: var(--purple);
-            box-shadow: 0 0 0 3px rgba(108,92,231,0.08);
+            border-color: var(--purple); box-shadow: 0 0 0 3px rgba(108,92,231,0.08);
         }
         .form-group input.input-error { border-color: var(--danger); box-shadow: 0 0 0 3px rgba(231,76,60,0.06); }
-        .field-error {
-            font-size: 0.7rem; color: var(--danger); margin-top: 3px;
-            display: none; align-items: center; gap: 4px;
-        }
+        .field-error { font-size: 0.7rem; color: var(--danger); margin-top: 3px; display: none; align-items: center; gap: 4px; }
         .field-error.show { display: flex; }
 
-        .error-banner {
-            background: var(--danger-bg); color: var(--danger);
+        .error-banner, .success-banner {
             padding: 12px 16px; border-radius: var(--radius-sm);
             font-size: 0.82rem; font-weight: 500; margin-bottom: 18px;
             display: none; align-items: center; gap: 8px;
-            border: 1px solid #fdd;
         }
-        .error-banner.show { display: flex; }
-        .success-banner {
-            background: var(--success-bg); color: var(--success);
-            padding: 12px 16px; border-radius: var(--radius-sm);
-            font-size: 0.82rem; font-weight: 500; margin-bottom: 18px;
-            display: none; align-items: center; gap: 8px;
-            border: 1px solid #c8f0e8;
-        }
-        .success-banner.show { display: flex; }
+        .error-banner.show, .success-banner.show { display: flex; }
+        .error-banner { background: var(--danger-bg); color: var(--danger); border: 1px solid #fdd; }
+        .success-banner { background: var(--success-bg); color: var(--success); border: 1px solid #c8f0e8; }
 
         .summary-box {
             background: var(--bg-alt); border-radius: var(--radius-md);
@@ -207,15 +206,11 @@
         }
         .summary-row .label { color: var(--text-secondary); }
         .summary-row .value { color: var(--text); font-weight: 600; }
-        .summary-row.total .value { color: var(--purple); font-size: 1.1rem; }
 
         .ref-input-group { display: flex; gap: 8px; }
         .ref-input-group input { flex: 1; }
         .ref-input-group button { flex-shrink: 0; }
-        .ref-status {
-            font-size: 0.72rem; margin-top: 4px; display: none;
-            align-items: center; gap: 4px;
-        }
+        .ref-status { font-size: 0.72rem; margin-top: 4px; display: none; align-items: center; gap: 4px; }
         .ref-status.show { display: flex; }
         .ref-status.valid { color: var(--success); }
         .ref-status.invalid { color: var(--danger); }
@@ -246,20 +241,10 @@
         .btn.loading .btn-text { display: none; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .success-icon {
-            width: 80px; height: 80px; border-radius: 50%;
-            background: var(--success-bg); display: flex;
-            align-items: center; justify-content: center;
-            font-size: 2.5rem; margin: 0 auto 20px;
-        }
+        .success-icon { width: 80px; height: 80px; border-radius: 50%; background: var(--success-bg); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 20px; }
         .success-details { text-align: center; }
         .success-details h2 { font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 8px; }
         .success-details p { color: var(--text-secondary); margin-bottom: 20px; font-size: 0.9rem; }
-        .next-steps { text-align: left; background: var(--bg-alt); border-radius: var(--radius-md); padding: 20px 24px; margin-bottom: 20px; }
-        .next-steps h4 { font-family: var(--font-heading); font-weight: 700; margin-bottom: 10px; font-size: 0.85rem; }
-        .next-steps ul { list-style: none; padding: 0; }
-        .next-steps ul li { padding: 6px 0; font-size: 0.82rem; color: var(--text-secondary); display: flex; align-items: center; gap: 8px; }
-        .next-steps ul li::before { content: '✅'; font-size: 0.9rem; }
 
         @media (max-width: 768px) {
             .main-container { padding: 90px 16px 40px; }
@@ -308,13 +293,15 @@
             <div class="card">
                 <div class="section-header">
                     <h2>Choose Your Course & Stage</h2>
-                    <p>Select one course. You'll pay once and get full access for the stage duration.</p>
+                    <p>Select one course. Pay once, get full access for the stage duration.</p>
                 </div>
                 <div class="spots-alert" id="spotsAlert" style="display:none;">
                     <span class="pulse-dot"></span>
                     <span id="spotsMessage">Spots are limited</span>
                 </div>
-                <div class="course-grid" id="courseGrid"></div>
+                <div class="course-grid" id="courseGrid">
+                    <!-- Skeleton loaders inserted by JS -->
+                </div>
                 <div style="margin-top:12px;color:var(--text-muted);font-size:0.78rem;text-align:center;" id="courseLoadingMsg">Loading available courses...</div>
                 <div class="btn-row">
                     <button class="btn btn-filled" id="goToStep2" disabled>Continue to Details →</button>
@@ -331,30 +318,14 @@
                 </div>
                 <form id="detailsForm" novalidate autocomplete="on">
                     <div class="form-grid">
-                        <div class="form-group">
-                            <label for="fullName">Full Name *</label>
-                            <input type="text" id="fullName" placeholder="John Doe" required autocomplete="name">
-                            <div class="field-error" id="fullNameError"></div>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email Address *</label>
-                            <input type="email" id="email" placeholder="you@example.com" required autocomplete="email">
-                            <div class="field-error" id="emailError"></div>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone Number *</label>
-                            <input type="tel" id="phone" placeholder="+234 800 000 0000" required autocomplete="tel">
-                            <div class="field-error" id="phoneError"></div>
-                        </div>
-                        <div class="form-group">
-                            <label for="whatsapp">WhatsApp Number</label>
-                            <input type="tel" id="whatsapp" placeholder="Same as phone or different" autocomplete="tel">
-                            <div class="field-error" id="whatsappError"></div>
-                        </div>
+                        <div class="form-group"><label for="fullName">Full Name *</label><input type="text" id="fullName" placeholder="John Doe" required autocomplete="name"><div class="field-error" id="fullNameError"></div></div>
+                        <div class="form-group"><label for="email">Email Address *</label><input type="email" id="email" placeholder="you@example.com" required autocomplete="email"><div class="field-error" id="emailError"></div></div>
+                        <div class="form-group"><label for="phone">Phone Number *</label><input type="tel" id="phone" placeholder="+234 800 000 0000" required autocomplete="tel"><div class="field-error" id="phoneError"></div></div>
+                        <div class="form-group"><label for="whatsapp">WhatsApp Number</label><input type="tel" id="whatsapp" placeholder="Same as phone or different" autocomplete="tel"><div class="field-error" id="whatsappError"></div></div>
                         <div class="form-group full">
                             <label for="referralCode">Referral Code (Optional)</label>
                             <div class="ref-input-group">
-                                <input type="text" id="referralCode" placeholder="Enter referral code if you have one" style="text-transform:uppercase;">
+                                <input type="text" id="referralCode" placeholder="Enter referral code" style="text-transform:uppercase;">
                                 <button type="button" class="btn btn-ghost" id="validateRefBtn">Apply</button>
                             </div>
                             <div class="ref-status" id="refStatus"></div>
@@ -373,12 +344,12 @@
             <div class="card">
                 <div class="section-header">
                     <h2>Review & Pay</h2>
-                    <p>Confirm your selection and complete payment.</p>
+                    <p>Confirm your selection and complete payment securely.</p>
                 </div>
                 <div class="summary-box" id="orderSummary"></div>
                 <div style="background:var(--bg-alt);border-radius:var(--radius-sm);padding:16px;margin-bottom:16px;font-size:0.82rem;color:var(--text-secondary);text-align:center;border:1px solid var(--border);">
                     💳 <strong>Secure Payment via Paystack</strong><br>
-                    <span style="font-size:0.72rem;">You'll be redirected to Paystack to complete your payment securely. We accept cards, bank transfer, and USSD.</span>
+                    <span style="font-size:0.72rem;">Cards, bank transfer, USSD accepted. You'll be redirected to Paystack.</span>
                 </div>
                 <div class="btn-row">
                     <button class="btn btn-ghost" id="backToStep2">← Back</button>
@@ -398,13 +369,13 @@
                     <h2>Enrollment Successful!</h2>
                     <p>You're now enrolled. Welcome to TRIANGLE LEARN.</p>
                 </div>
-                <div class="next-steps">
-                    <h4>📋 Next Steps</h4>
-                    <ul>
-                        <li>Check your email for enrollment confirmation</li>
-                        <li>You'll be added to the batch WhatsApp group shortly</li>
-                        <li>Your course materials will be available when the batch starts</li>
-                        <li>Save your dashboard link to track progress</li>
+                <div class="next-steps" style="background:var(--bg-alt);border-radius:var(--radius-md);padding:20px 24px;margin-bottom:20px;text-align:left;">
+                    <h4 style="font-family:var(--font-heading);font-weight:700;margin-bottom:10px;font-size:0.85rem;">📋 Next Steps</h4>
+                    <ul style="list-style:none;padding:0;">
+                        <li style="padding:6px 0;font-size:0.82rem;color:var(--text-secondary);display:flex;align-items:center;gap:8px;"><span>✅</span> Check your email for enrollment confirmation</li>
+                        <li style="padding:6px 0;font-size:0.82rem;color:var(--text-secondary);display:flex;align-items:center;gap:8px;"><span>✅</span> You'll be added to the batch WhatsApp group</li>
+                        <li style="padding:6px 0;font-size:0.82rem;color:var(--text-secondary);display:flex;align-items:center;gap:8px;"><span>✅</span> Course materials available when batch starts</li>
+                        <li style="padding:6px 0;font-size:0.82rem;color:var(--text-secondary);display:flex;align-items:center;gap:8px;"><span>✅</span> Save your dashboard to track progress</li>
                     </ul>
                 </div>
                 <div class="summary-box" id="confirmationSummary"></div>
@@ -441,9 +412,6 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // ============================================
-        // CONFIG
-        // ============================================
         const PAYSTACK_PUBLIC_KEY = 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxx'; // REPLACE WITH YOUR REAL KEY
 
         // ============================================
@@ -461,53 +429,26 @@
             courses: [],
         };
 
-        // ============================================
-        // DOM REFS
-        // ============================================
         const $ = (sel) => document.querySelector(sel);
         const $$ = (sel) => document.querySelectorAll(sel);
 
         const DOM = {
-            userBadge: $('#userBadge'),
-            userAvatar: $('#userAvatar'),
-            userName: $('#userName'),
+            userBadge: $('#userBadge'), userAvatar: $('#userAvatar'), userName: $('#userName'),
             stepIndicator: $('#stepIndicator'),
-            step1Section: $('#step1Section'),
-            step2Section: $('#step2Section'),
-            step3Section: $('#step3Section'),
-            step4Section: $('#step4Section'),
-            errorBanner: $('#errorBanner'),
-            errorMessage: $('#errorMessage'),
-            successBanner: $('#successBanner'),
-            successMessage: $('#successMessage'),
-            courseGrid: $('#courseGrid'),
-            courseLoadingMsg: $('#courseLoadingMsg'),
-            spotsAlert: $('#spotsAlert'),
-            spotsMessage: $('#spotsMessage'),
+            step1Section: $('#step1Section'), step2Section: $('#step2Section'), step3Section: $('#step3Section'), step4Section: $('#step4Section'),
+            errorBanner: $('#errorBanner'), errorMessage: $('#errorMessage'),
+            successBanner: $('#successBanner'), successMessage: $('#successMessage'),
+            courseGrid: $('#courseGrid'), courseLoadingMsg: $('#courseLoadingMsg'),
+            spotsAlert: $('#spotsAlert'), spotsMessage: $('#spotsMessage'),
             goToStep2: $('#goToStep2'),
-            detailsForm: $('#detailsForm'),
-            fullName: $('#fullName'),
-            email: $('#email'),
-            phone: $('#phone'),
-            whatsapp: $('#whatsapp'),
-            referralCode: $('#referralCode'),
-            validateRefBtn: $('#validateRefBtn'),
-            refStatus: $('#refStatus'),
-            fullNameError: $('#fullNameError'),
-            emailError: $('#emailError'),
-            phoneError: $('#phoneError'),
-            whatsappError: $('#whatsappError'),
-            backToStep1: $('#backToStep1'),
-            goToStep3: $('#goToStep3'),
-            orderSummary: $('#orderSummary'),
-            backToStep2: $('#backToStep2'),
-            payNow: $('#payNow'),
+            detailsForm: $('#detailsForm'), fullName: $('#fullName'), email: $('#email'), phone: $('#phone'), whatsapp: $('#whatsapp'),
+            referralCode: $('#referralCode'), validateRefBtn: $('#validateRefBtn'), refStatus: $('#refStatus'),
+            fullNameError: $('#fullNameError'), emailError: $('#emailError'), phoneError: $('#phoneError'), whatsappError: $('#whatsappError'),
+            backToStep1: $('#backToStep1'), goToStep3: $('#goToStep3'),
+            orderSummary: $('#orderSummary'), backToStep2: $('#backToStep2'), payNow: $('#payNow'),
             confirmationSummary: $('#confirmationSummary'),
         };
 
-        // ============================================
-        // UTILS
-        // ============================================
         function escapeHtml(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
         function formatCurrency(n) { return '₦' + (n || 0).toLocaleString(); }
         function generateId() { return 'enr_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 8); }
@@ -518,14 +459,12 @@
             DOM.successBanner.classList.remove('show');
             clearTimeout(State._errT); State._errT = setTimeout(() => DOM.errorBanner.classList.remove('show'), 6000);
         }
-
         function showSuccess(msg) {
             DOM.successMessage.textContent = msg;
             DOM.successBanner.classList.add('show');
             DOM.errorBanner.classList.remove('show');
             clearTimeout(State._sucT); State._sucT = setTimeout(() => DOM.successBanner.classList.remove('show'), 5000);
         }
-
         function showFieldError(el, msg) {
             if (!el) return;
             el.textContent = '⚠ ' + msg;
@@ -533,20 +472,15 @@
             const inp = el.closest('.form-group')?.querySelector('input');
             if (inp) inp.classList.add('input-error');
         }
-
         function clearFieldError(el) {
             if (!el) return;
-            el.textContent = '';
-            el.classList.remove('show');
+            el.textContent = ''; el.classList.remove('show');
             const inp = el.closest('.form-group')?.querySelector('input');
             if (inp) inp.classList.remove('input-error');
         }
-
         function clearAllFieldErrors() { $$('.field-error').forEach(e => clearFieldError(e)); }
 
-        // ============================================
-        // STEP NAVIGATION
-        // ============================================
+        // ==================== STEP NAVIGATION ====================
         function goToStep(n) {
             State.currentStep = n;
             [DOM.step1Section, DOM.step2Section, DOM.step3Section, DOM.step4Section].forEach(s => s.classList.remove('active'));
@@ -564,14 +498,10 @@
                 if (i + 1 === State.currentStep) s.classList.add('active');
                 else if (i + 1 < State.currentStep) s.classList.add('completed');
             });
-            DOM.stepIndicator.querySelectorAll('.step-line').forEach((l, i) => {
-                l.classList.toggle('completed', i + 1 < State.currentStep);
-            });
+            DOM.stepIndicator.querySelectorAll('.step-line').forEach((l, i) => l.classList.toggle('completed', i + 1 < State.currentStep));
         }
 
-        // ============================================
-        // AUTH
-        // ============================================
+        // ==================== AUTH ====================
         auth.onAuthStateChanged(async (user) => {
             if (!user) { window.location.href = 'auth.html'; return; }
             State.currentUser = user;
@@ -596,22 +526,28 @@
                     if (d.phone) DOM.phone.value = d.phone;
                     if (d.whatsapp) DOM.whatsapp.value = d.whatsapp;
                 }
-            } catch (e) { /* ignore */ }
+            } catch (e) {}
         }
 
-        // ============================================
-        // COURSES
-        // ============================================
+        // ==================== COURSES (with skeletons) ====================
+        function showCourseSkeletons() {
+            DOM.courseGrid.innerHTML = '';
+            for (let i = 0; i < 3; i++) {
+                DOM.courseGrid.innerHTML += `<div class="skeleton skeleton-card"></div>`;
+            }
+        }
+        showCourseSkeletons();
+
         async function loadCourses() {
             try {
                 const snap = await db.collection('courses').where('active', '==', true).get();
                 DOM.courseLoadingMsg.style.display = 'none';
+                DOM.courseGrid.innerHTML = '';
                 if (snap.empty) {
                     DOM.courseGrid.innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center;padding:20px;">No courses available at the moment.</p>';
                     return;
                 }
                 State.courses = [];
-                DOM.courseGrid.innerHTML = '';
                 snap.forEach(doc => {
                     const c = { id: doc.id, ...doc.data() };
                     State.courses.push(c);
@@ -642,9 +578,7 @@
             DOM.goToStep2.disabled = false;
         }
 
-        // ============================================
-        // SPOTS LISTENER
-        // ============================================
+        // ==================== SPOTS LISTENER ====================
         function setupSpotsListener() {
             try {
                 const unsub = db.collection('settings').doc('stats').onSnapshot(doc => {
@@ -655,7 +589,7 @@
                             DOM.spotsMessage.textContent = `Only ${spots} spot${spots === 1 ? '' : 's'} left!`;
                         } else if (spots === 0) {
                             DOM.spotsAlert.style.display = 'flex';
-                            DOM.spotsMessage.textContent = 'Batch is full. Wait for next batch.';
+                            DOM.spotsMessage.textContent = 'Batch is full. Please wait for the next batch.';
                             DOM.goToStep2.disabled = true;
                         } else {
                             DOM.spotsAlert.style.display = 'none';
@@ -663,12 +597,10 @@
                     }
                 });
                 State.activeListeners.push(unsub);
-            } catch (e) { /* ignore */ }
+            } catch (e) {}
         }
 
-        // ============================================
-        // VALIDATION
-        // ============================================
+        // ==================== VALIDATION ====================
         function validateDetails() {
             clearAllFieldErrors();
             let ok = true;
@@ -678,9 +610,7 @@
             return ok;
         }
 
-        // ============================================
-        // REFERRAL VALIDATION
-        // ============================================
+        // ==================== REFERRAL ====================
         async function validateReferral() {
             const code = DOM.referralCode.value.trim().toUpperCase();
             if (!code) { State.validatedReferral = null; DOM.refStatus.classList.remove('show', 'valid', 'invalid'); return; }
@@ -706,9 +636,7 @@
             }
         }
 
-        // ============================================
-        // PAYMENT
-        // ============================================
+        // ==================== PAYMENT ====================
         function calcAmount() {
             if (!State.selectedCourse) return 0;
             let amt = State.selectedCourse.price || 0;
@@ -731,6 +659,8 @@
                 <div class="summary-row total"><span class="label">Total</span><span class="value">${formatCurrency(final)}</span></div>
                 ${State.validatedReferral?.isValid ? `<div style="font-size:0.7rem;color:var(--success);margin-top:4px;">💡 Code applied: ${escapeHtml(State.validatedReferral.code)}</div>` : ''}`;
         }
+
+        function setBtnLoading(btn, loading) { btn.classList.toggle('loading', loading); btn.disabled = loading; }
 
         function initializePaystack() {
             if (!State.selectedCourse) { showError('Select a course first.'); return; }
@@ -757,7 +687,8 @@
                 label: 'TRIANGLE LEARN',
                 onClose: () => {
                     setBtnLoading(DOM.payNow, false);
-                    showError('Payment cancelled. Try again when ready.');
+                    State.isProcessing = false;
+                    showError('Payment cancelled. You can try again.');
                 },
                 callback: (res) => verifyAndEnroll(res),
             });
@@ -768,7 +699,7 @@
             setBtnLoading(DOM.payNow, true);
             try {
                 const paymentData = {
-                    reference: res.reference, status: res.status, transaction: res.trans, trxref: res.trxref,
+                    reference: res.reference, status: res.status, transaction: res.transaction, trxref: res.trxref,
                     amount: calcAmount(), courseId: State.selectedCourse.id, courseName: State.selectedCourse.name,
                     courseStage: State.selectedCourse.stage, userEmail: DOM.email.value.trim(),
                     userFullName: DOM.fullName.value.trim(), userPhone: DOM.phone.value.trim(),
@@ -781,7 +712,6 @@
                 };
 
                 await db.collection('payments').doc(res.reference).set(paymentData);
-
                 await db.collection('enrollments').doc(State.enrollmentId).set({
                     userId: State.currentUser?.uid || 'unknown',
                     courseId: State.selectedCourse.id, courseName: State.selectedCourse.name,
@@ -819,23 +749,21 @@
                     <div class="summary-row"><span class="label">Amount Paid</span><span class="value">${formatCurrency(calcAmount())}</span></div>`;
                 goToStep(4);
                 setBtnLoading(DOM.payNow, false);
+                State.isProcessing = false;
             } catch (e) {
                 console.error(e);
                 showError('Payment received but enrollment failed. Contact support with ref: ' + res.reference);
                 setBtnLoading(DOM.payNow, false);
+                State.isProcessing = false;
             }
         }
 
-        function setBtnLoading(btn, loading) { btn.classList.toggle('loading', loading); btn.disabled = loading; }
-
-        // ============================================
-        // EVENT LISTENERS
-        // ============================================
+        // ==================== EVENT LISTENERS ====================
         DOM.goToStep2.addEventListener('click', () => { if (!State.selectedCourse) showError('Select a course first.'); else goToStep(2); });
         DOM.backToStep1.addEventListener('click', () => goToStep(1));
         DOM.goToStep3.addEventListener('click', () => { if (!validateDetails()) { showError('Fix the errors above.'); return; } DOM.orderSummary.innerHTML = buildSummary(); goToStep(3); });
         DOM.backToStep2.addEventListener('click', () => goToStep(2));
-        DOM.payNow.addEventListener('click', () => { if (State.isProcessing) return; State.isProcessing = true; setBtnLoading(DOM.payNow, true); initializePaystack(); setTimeout(() => { State.isProcessing = false; }, 2000); });
+        DOM.payNow.addEventListener('click', () => { if (State.isProcessing) return; State.isProcessing = true; setBtnLoading(DOM.payNow, true); initializePaystack(); });
         DOM.validateRefBtn.addEventListener('click', validateReferral);
         DOM.referralCode.addEventListener('input', () => { State.validatedReferral = null; DOM.refStatus.classList.remove('show', 'valid', 'invalid'); });
 
