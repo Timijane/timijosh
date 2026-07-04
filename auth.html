@@ -33,8 +33,6 @@
             --danger-bg: #fff0f0;
             --success: #0d9488;
             --success-bg: #e8f8f0;
-            --warning: #f59e0b;
-            --warning-bg: #fffbeb;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { font-size: 16px; -webkit-text-size-adjust: 100%; }
@@ -50,24 +48,18 @@
             justify-content: center;
             padding: 20px;
         }
-        .auth-wrapper {
-            width: 100%;
-            max-width: 460px;
-            position: relative;
-        }
+
+        .auth-wrapper { width: 100%; max-width: 460px; }
+
         .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-bottom: 24px;
+            display: inline-flex; align-items: center; gap: 6px;
+            color: var(--text-secondary); text-decoration: none;
+            font-size: 0.85rem; font-weight: 500; margin-bottom: 24px;
             transition: color 0.2s;
         }
         .back-link:hover { color: var(--text); }
         .back-link svg { width: 18px; height: 18px; }
+
         .auth-card {
             background: #fff;
             border-radius: var(--radius-lg);
@@ -80,69 +72,42 @@
         .auth-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
+            top: 0; left: 0; width: 100%; height: 4px;
             background: var(--gradient);
         }
+
         .auth-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 28px;
+            display: flex; align-items: center; gap: 10px;
+            justify-content: center; margin-bottom: 28px;
         }
         .auth-logo img { height: 40px; width: auto; }
         .auth-logo span {
-            font-family: var(--font-heading);
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--text);
-            letter-spacing: -0.5px;
+            font-family: var(--font-heading); font-weight: 700;
+            font-size: 1.1rem; color: var(--text); letter-spacing: -0.5px;
         }
+
         .auth-title {
-            font-family: var(--font-heading);
-            font-size: 1.5rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 6px;
+            font-family: var(--font-heading); font-size: 1.5rem;
+            font-weight: 700; text-align: center; margin-bottom: 6px;
             letter-spacing: -0.5px;
         }
         .auth-subtitle {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.88rem;
-            margin-bottom: 28px;
+            text-align: center; color: var(--text-secondary);
+            font-size: 0.88rem; margin-bottom: 28px;
         }
-        .form-group {
-            margin-bottom: 18px;
-            position: relative;
-        }
+
+        .form-group { margin-bottom: 18px; position: relative; }
         .form-group label {
-            display: block;
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 6px;
-            letter-spacing: 0.3px;
+            display: block; font-size: 0.78rem; font-weight: 600;
+            color: var(--text); margin-bottom: 6px; letter-spacing: 0.3px;
         }
-        .form-group .input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
+        .form-group .input-wrapper { position: relative; display: flex; align-items: center; }
         .form-group input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            color: var(--text);
-            background: #fff;
-            transition: all 0.25s ease;
-            outline: none;
+            width: 100%; padding: 12px 16px;
+            border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+            font-family: var(--font-body); font-size: 0.9rem;
+            color: var(--text); background: #fff;
+            transition: all 0.25s ease; outline: none;
         }
         .form-group input:focus {
             border-color: var(--purple);
@@ -153,97 +118,51 @@
             box-shadow: 0 0 0 3px rgba(231,76,60,0.08);
         }
         .toggle-password {
-            position: absolute;
-            right: 12px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-muted);
-            padding: 4px;
-            display: flex;
-            align-items: center;
-            font-size: 1.1rem;
-            transition: color 0.2s;
+            position: absolute; right: 12px; background: none;
+            border: none; cursor: pointer; color: var(--text-muted);
+            padding: 4px; display: flex; align-items: center;
+            font-size: 1.1rem; transition: color 0.2s;
         }
         .toggle-password:hover { color: var(--text); }
+
         .field-error {
-            font-size: 0.72rem;
-            color: var(--danger);
-            margin-top: 4px;
-            display: none;
-            align-items: center;
-            gap: 4px;
+            font-size: 0.72rem; color: var(--danger); margin-top: 4px;
+            display: none; align-items: center; gap: 4px;
         }
         .field-error.show { display: flex; }
+
         .auth-error {
-            background: var(--danger-bg);
-            color: var(--danger);
-            padding: 12px 16px;
-            border-radius: var(--radius-sm);
-            font-size: 0.82rem;
-            font-weight: 500;
-            margin-bottom: 18px;
-            display: none;
-            align-items: center;
-            gap: 8px;
+            background: var(--danger-bg); color: var(--danger);
+            padding: 12px 16px; border-radius: var(--radius-sm);
+            font-size: 0.82rem; font-weight: 500; margin-bottom: 18px;
+            display: none; align-items: center; gap: 8px;
             border: 1px solid #fdd;
         }
         .auth-error.show { display: flex; }
         .auth-error .close-error {
-            margin-left: auto;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-            color: var(--danger);
-            padding: 0 4px;
-            opacity: 0.7;
+            margin-left: auto; background: none; border: none;
+            cursor: pointer; font-size: 1.1rem; color: var(--danger);
+            padding: 0 4px; opacity: 0.7;
         }
         .auth-error .close-error:hover { opacity: 1; }
+
         .auth-success {
-            background: var(--success-bg);
-            color: var(--success);
-            padding: 12px 16px;
-            border-radius: var(--radius-sm);
-            font-size: 0.82rem;
-            font-weight: 500;
-            margin-bottom: 18px;
-            display: none;
-            align-items: center;
-            gap: 8px;
+            background: var(--success-bg); color: var(--success);
+            padding: 12px 16px; border-radius: var(--radius-sm);
+            font-size: 0.82rem; font-weight: 500; margin-bottom: 18px;
+            display: none; align-items: center; gap: 8px;
             border: 1px solid #c8f0e8;
         }
         .auth-success.show { display: flex; }
-        .auth-warning {
-            background: var(--warning-bg);
-            color: var(--warning);
-            padding: 12px 16px;
-            border-radius: var(--radius-sm);
-            font-size: 0.82rem;
-            font-weight: 500;
-            margin-bottom: 18px;
-            display: none;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid #fde68a;
-        }
-        .auth-warning.show { display: flex; }
+
         .btn-submit {
-            width: 100%;
-            padding: 13px 20px;
-            background: var(--gradient);
-            color: #fff;
-            border: none;
-            border-radius: 25px;
-            font-family: var(--font-body);
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            width: 100%; padding: 13px 20px;
+            background: var(--gradient); color: #fff;
+            border: none; border-radius: 25px;
+            font-family: var(--font-body); font-weight: 600;
+            font-size: 0.9rem; cursor: pointer;
+            transition: all 0.3s ease; display: flex;
+            align-items: center; justify-content: center; gap: 8px;
             margin-top: 4px;
         }
         .btn-submit:hover {
@@ -252,126 +171,80 @@
         }
         .btn-submit:active { transform: translateY(0); }
         .btn-submit:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+            opacity: 0.7; cursor: not-allowed;
+            transform: none; box-shadow: none;
         }
+
         .spinner {
-            width: 20px;
-            height: 20px;
+            width: 20px; height: 20px;
             border: 2.5px solid rgba(255,255,255,0.3);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-            display: none;
+            border-top-color: #fff; border-radius: 50%;
+            animation: spin 0.7s linear infinite; display: none;
         }
         .btn-submit.loading .spinner { display: inline-block; }
         .btn-submit.loading .btn-text { display: none; }
         @keyframes spin { to { transform: rotate(360deg); } }
+
         .divider {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin: 24px 0;
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            font-weight: 500;
+            display: flex; align-items: center; gap: 14px;
+            margin: 24px 0; color: var(--text-muted);
+            font-size: 0.75rem; font-weight: 500;
         }
         .divider::before, .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
+            content: ''; flex: 1; height: 1px; background: var(--border);
         }
+
         .btn-google {
-            width: 100%;
-            padding: 12px 20px;
-            background: #fff;
-            color: var(--text);
-            border: 1.5px solid var(--border);
-            border-radius: 25px;
-            font-family: var(--font-body);
-            font-weight: 600;
-            font-size: 0.88rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            width: 100%; padding: 12px 20px;
+            background: #fff; color: var(--text);
+            border: 1.5px solid var(--border); border-radius: 25px;
+            font-family: var(--font-body); font-weight: 600;
+            font-size: 0.88rem; cursor: pointer;
+            transition: all 0.3s ease; display: flex;
+            align-items: center; justify-content: center; gap: 10px;
         }
         .btn-google:hover {
             border-color: var(--purple);
-            box-shadow: var(--shadow-sm);
-            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm); transform: translateY(-1px);
         }
-        .btn-google:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
+        .btn-google:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
         .btn-google svg { width: 20px; height: 20px; flex-shrink: 0; }
+
         .auth-toggle {
-            text-align: center;
-            margin-top: 22px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
+            text-align: center; margin-top: 22px;
+            font-size: 0.85rem; color: var(--text-secondary);
         }
         .auth-toggle a {
-            color: var(--purple);
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            transition: color 0.2s;
+            color: var(--purple); font-weight: 600;
+            text-decoration: none; cursor: pointer; transition: color 0.2s;
         }
         .auth-toggle a:hover { color: var(--pink); }
+
         .forgot-link {
-            display: block;
-            text-align: right;
-            font-size: 0.78rem;
-            color: var(--purple);
-            text-decoration: none;
-            font-weight: 500;
-            margin-top: 4px;
-            cursor: pointer;
+            display: block; text-align: right; font-size: 0.78rem;
+            color: var(--purple); text-decoration: none;
+            font-weight: 500; margin-top: 4px; cursor: pointer;
             transition: color 0.2s;
         }
         .forgot-link:hover { color: var(--pink); }
+
         .form-section { display: none; }
         .form-section.active { display: block; }
+
         .referral-note {
-            background: #fff8e8;
-            border: 1px solid #ffe0b2;
-            border-radius: var(--radius-sm);
-            padding: 10px 14px;
-            font-size: 0.75rem;
-            color: #b45309;
-            margin-bottom: 16px;
-            display: none;
-            align-items: center;
-            gap: 6px;
+            background: #fff8e8; border: 1px solid #ffe0b2;
+            border-radius: var(--radius-sm); padding: 10px 14px;
+            font-size: 0.75rem; color: #b45309; margin-bottom: 16px;
+            display: none; align-items: center; gap: 6px;
         }
         .referral-note.show { display: flex; }
-        .verification-banner {
-            background: var(--warning-bg);
-            border: 1px solid #fde68a;
-            border-radius: var(--radius-sm);
-            padding: 16px;
-            margin-bottom: 20px;
-            display: none;
-        }
-        .verification-banner.show { display: block; }
-        .verification-banner h4 { font-size: 0.85rem; margin-bottom: 8px; }
-        .verification-banner p { font-size: 0.78rem; margin-bottom: 12px; color: #92400e; }
-        .verification-banner .btn { padding: 8px 16px; font-size: 0.78rem; }
+
         .terms-text {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            text-align: center;
-            margin-top: 12px;
+            font-size: 0.72rem; color: var(--text-muted);
+            text-align: center; margin-top: 12px;
         }
         .terms-text a { color: var(--purple); }
+
         @media (max-width: 480px) {
             body { padding: 12px; align-items: flex-start; padding-top: 30px; }
             .auth-card { padding: 28px 20px; border-radius: var(--radius-md); }
@@ -394,17 +267,6 @@
                 <span>TRIANGLE LEARN</span>
             </div>
 
-            <!-- VERIFICATION BANNER (shown when email not verified for non‑admins) -->
-            <div class="verification-banner" id="verificationBanner">
-                <h4>📧 Verify Your Email</h4>
-                <p>We’ve sent a verification link to your email. Please check your inbox (and spam) to activate your account.</p>
-                <button class="btn btn-submit" id="resendVerification" style="width:auto; margin-right:10px;">
-                    <span class="spinner" style="width:16px; height:16px;"></span>
-                    <span class="btn-text">Resend Verification</span>
-                </button>
-                <button class="btn" style="background:none; border:1px solid var(--border); color:var(--text);" id="dismissVerification">I'll do it later</button>
-            </div>
-
             <!-- GLOBAL ERROR -->
             <div class="auth-error" id="authError">
                 <span>⚠️</span>
@@ -416,12 +278,6 @@
             <div class="auth-success" id="authSuccess">
                 <span>✅</span>
                 <span id="authSuccessMessage"></span>
-            </div>
-
-            <!-- GLOBAL WARNING -->
-            <div class="auth-warning" id="authWarning">
-                <span>⏳</span>
-                <span id="authWarningMessage"></span>
             </div>
 
             <!-- REFERRAL NOTE -->
@@ -584,7 +440,6 @@
             currentSection: 'login',
             isProcessing: false,
             referralFromUrl: null,
-            pendingVerificationUser: null,
             redirectScheduled: false,
         };
 
@@ -627,15 +482,9 @@
             authErrorMessage: $('#authErrorMessage'),
             authSuccess: $('#authSuccess'),
             authSuccessMessage: $('#authSuccessMessage'),
-            authWarning: $('#authWarning'),
-            authWarningMessage: $('#authWarningMessage'),
 
             referralNote: $('#referralNote'),
             referralNoteText: $('#referralNoteText'),
-
-            verificationBanner: $('#verificationBanner'),
-            resendVerification: $('#resendVerification'),
-            dismissVerification: $('#dismissVerification'),
 
             googleLogin: $('#googleLogin'),
             googleSignup: $('#googleSignup'),
@@ -694,28 +543,22 @@
         });
 
         // ============================================
-        // ERROR / SUCCESS / WARNING HANDLING
+        // ERROR / SUCCESS HANDLING
         // ============================================
         function showGlobalError(msg) {
             DOM.authErrorMessage.textContent = msg;
             DOM.authError.classList.add('show');
-            hideGlobalSuccess(); hideGlobalWarning();
+            DOM.authSuccess.classList.remove('show');
         }
         function hideGlobalError() { DOM.authError.classList.remove('show'); }
         function showGlobalSuccess(msg) {
             DOM.authSuccessMessage.textContent = msg;
             DOM.authSuccess.classList.add('show');
-            hideGlobalError(); hideGlobalWarning();
+            DOM.authError.classList.remove('show');
         }
         function hideGlobalSuccess() { DOM.authSuccess.classList.remove('show'); }
-        function showGlobalWarning(msg) {
-            DOM.authWarningMessage.textContent = msg;
-            DOM.authWarning.classList.add('show');
-            hideGlobalError(); hideGlobalSuccess();
-        }
-        function hideGlobalWarning() { DOM.authWarning.classList.remove('show'); }
         function hideGlobalMessages() {
-            hideGlobalError(); hideGlobalSuccess(); hideGlobalWarning();
+            hideGlobalError(); hideGlobalSuccess();
         }
 
         $('#closeError').addEventListener('click', hideGlobalError);
@@ -742,18 +585,18 @@
             const map = {
                 'auth/email-already-in-use': 'This email is already registered. Please sign in instead.',
                 'auth/invalid-email': 'Please enter a valid email address.',
-                'auth/operation-not-allowed': 'This sign-in method is not enabled. Contact support.',
+                'auth/operation-not-allowed': 'This sign-in method is not enabled.',
                 'auth/weak-password': 'Password must be at least 6 characters.',
-                'auth/user-disabled': 'This account has been disabled. Contact support.',
-                'auth/user-not-found': 'No account found with this email. Please sign up first.',
-                'auth/wrong-password': 'Incorrect password. Please try again.',
-                'auth/invalid-credential': 'Invalid email or password. Please check and try again.',
-                'auth/too-many-requests': 'Too many attempts. Please wait and try again.',
-                'auth/network-request-failed': 'Network error. Check your connection.',
-                'auth/popup-closed-by-user': 'Sign-in popup was closed. Please try again.',
-                'auth/requires-recent-login': 'Please sign in again for security.',
+                'auth/user-disabled': 'This account has been disabled.',
+                'auth/user-not-found': 'No account found with this email.',
+                'auth/wrong-password': 'Incorrect password.',
+                'auth/invalid-credential': 'Invalid email or password.',
+                'auth/too-many-requests': 'Too many attempts. Wait a moment.',
+                'auth/network-request-failed': 'Network error.',
+                'auth/popup-closed-by-user': 'Popup closed.',
+                'auth/requires-recent-login': 'Please sign in again.',
             };
-            return map[error?.code] || error?.message || 'An unexpected error occurred.';
+            return map[error?.code] || error?.message || 'An error occurred.';
         }
 
         // ============================================
@@ -770,67 +613,21 @@
         }
 
         // ============================================
-        // EMAIL VERIFICATION
-        // ============================================
-        async function sendVerificationEmail(user) {
-            try {
-                await user.sendEmailVerification({
-                    url: window.location.origin + '/auth.html',
-                    handleCodeInApp: true,
-                });
-                return true;
-            } catch (e) {
-                console.warn('Verification email failed:', e);
-                return false;
-            }
-        }
-
-        function showVerificationBanner(user) {
-            State.pendingVerificationUser = user;
-            DOM.verificationBanner.classList.add('show');
-        }
-
-        function hideVerificationBanner() {
-            DOM.verificationBanner.classList.remove('show');
-            State.pendingVerificationUser = null;
-        }
-
-        DOM.resendVerification.addEventListener('click', async function() {
-            if (!State.pendingVerificationUser) return;
-            const btn = DOM.resendVerification;
-            setButtonLoading(btn, true);
-            const sent = await sendVerificationEmail(State.pendingVerificationUser);
-            setButtonLoading(btn, false);
-            if (sent) showGlobalSuccess('Verification email resent!');
-            else showGlobalError('Failed to send. Please try again later.');
-        });
-
-        DOM.dismissVerification.addEventListener('click', function() {
-            hideVerificationBanner();
-            if (State.pendingVerificationUser) {
-                showGlobalWarning('Some features require a verified email. You can verify later in settings.');
-                setTimeout(() => {
-                    handlePostAuthRedirect(State.pendingVerificationUser, true);
-                }, 1000);
-            }
-        });
-
-        // ============================================
         // VALIDATION
         // ============================================
         function validateEmail(email) {
             if (!email?.trim()) return 'Email is required.';
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return 'Please enter a valid email.';
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return 'Invalid email.';
             return null;
         }
         function validatePassword(pw) {
             if (!pw) return 'Password is required.';
-            if (pw.length < 6) return 'Password must be at least 6 characters.';
+            if (pw.length < 6) return 'Minimum 6 characters.';
             return null;
         }
         function validateName(name) {
             if (!name?.trim()) return 'Full name is required.';
-            if (name.trim().length < 2) return 'Name must be at least 2 characters.';
+            if (name.trim().length < 2) return 'Minimum 2 characters.';
             return null;
         }
 
@@ -861,10 +658,7 @@
                     return { valid: true, referrerUid: snap.docs[0].id, code: cleanCode };
                 }
                 return { valid: false, code: cleanCode };
-            } catch (e) {
-                console.warn('Referral validation error:', e);
-                return null;
-            }
+            } catch (e) { return null; }
         }
 
         // ============================================
@@ -910,23 +704,16 @@
         // ============================================
         // POST-AUTH: DETECT ROLE & REDIRECT
         // ============================================
-        async function handlePostAuthRedirect(user, skipVerification = false) {
+        async function handlePostAuthRedirect(user) {
             if (State.redirectScheduled) return;
             State.redirectScheduled = true;
 
             try {
-                // Fetch the user document once
                 const userDocSnap = await db.collection('users').doc(user.uid).get();
                 const data = userDocSnap.exists ? userDocSnap.data() : {};
                 const role = data.role || 'learner';
 
-                // Email verification – admins skip this check
-                if (!skipVerification && !user.emailVerified && role !== 'admin') {
-                    showVerificationBanner(user);
-                    State.redirectScheduled = false;
-                    return;
-                }
-
+                // If user doc doesn't exist (new Google sign-in), create one
                 if (!userDocSnap.exists) {
                     await createUserDocument(user);
                     showGlobalSuccess('Account created! Please complete your profile.');
@@ -934,22 +721,24 @@
                     return;
                 }
 
+                // Admin redirect
                 if (role === 'admin') {
                     showGlobalSuccess('Welcome back, Admin!');
                     setTimeout(() => { window.location.href = 'admin.html'; }, 1000);
+                    return;
+                }
+
+                // Learner redirect
+                if (data.profileComplete === false) {
+                    showGlobalSuccess('Please complete your profile to continue.');
+                    setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 1000);
                 } else {
-                    if (data.profileComplete === false) {
-                        showGlobalSuccess('Please complete your profile to continue.');
-                        setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 1000);
-                    } else {
-                        showGlobalSuccess('Welcome back!');
-                        setTimeout(() => { window.location.href = 'student-dashboard.html'; }, 1000);
-                    }
+                    showGlobalSuccess('Welcome back!');
+                    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
                 }
             } catch (e) {
                 State.redirectScheduled = false;
                 setProcessingState(false);
-                console.error('Post-auth error:', e);
                 showGlobalError('Failed to load account. Please try again.');
             }
         }
@@ -1019,7 +808,6 @@
             try {
                 const cred = await auth.createUserWithEmailAndPassword(email, pw);
                 await cred.user.updateProfile({ displayName: name });
-                await sendVerificationEmail(cred.user);
                 await createUserDocument(cred.user, {
                     fullName: name,
                     phone: phone,
@@ -1027,10 +815,9 @@
                     referredByCode: referralData?.valid ? referralData.code : null,
                 });
 
-                showVerificationBanner(cred.user);
-                showGlobalSuccess('Account created! Please check your email to verify your account.');
-                setProcessingState(false);
-                setButtonLoading(DOM.signupSubmit, false);
+                // Directly redirect after signup – no verification step
+                showGlobalSuccess('Account created! Redirecting...');
+                setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 1500);
             } catch (err) {
                 showGlobalError(getFirebaseError(err));
                 setProcessingState(false);
@@ -1128,7 +915,7 @@
         // AUTH STATE LISTENER
         // ============================================
         auth.onAuthStateChanged(async (user) => {
-            if (user && !State.isProcessing && !State.pendingVerificationUser && !State.redirectScheduled) {
+            if (user && !State.isProcessing && !State.redirectScheduled) {
                 setProcessingState(true);
                 await handlePostAuthRedirect(user);
             }
@@ -1138,7 +925,7 @@
         // INIT
         // ============================================
         detectReferralFromUrl();
-        console.log('✅ TRIANGLE LEARN Auth v2.2 (admin verification skip)');
+        console.log('✅ TRIANGLE LEARN Auth – Verification removed');
     })();
     </script>
 </body>
