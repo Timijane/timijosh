@@ -10,7 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* (all existing CSS unchanged) */
         :root {
             --bg: #ffffff;
             --bg-alt: #f8f9fc;
@@ -49,10 +48,259 @@
             min-height: 100vh;
         }
 
-        /* ... all existing styles (header, cards, sidebar etc.) ... */
+        .header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            padding: 12px 0; background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+        }
+        .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+        .logo-link { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-link img { height: 32px; width: auto; }
+        .logo-link span { font-family: var(--font-heading); font-weight: 700; font-size: 0.95rem; color: var(--text); letter-spacing: -0.5px; }
+        .header-right { display: flex; align-items: center; gap: 12px; }
+        .user-menu {
+            display: flex; align-items: center; gap: 10px; cursor: pointer;
+            background: #fff; padding: 6px 14px 6px 6px; border-radius: 25px;
+            border: 1px solid var(--border); position: relative;
+            transition: box-shadow 0.2s;
+        }
+        .user-menu:hover { box-shadow: var(--shadow-sm); }
+        .user-menu .avatar {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: var(--gradient); display: flex; align-items: center;
+            justify-content: center; color: #fff; font-weight: 700; font-size: 0.78rem;
+        }
+        .user-menu .name { font-weight: 600; font-size: 0.82rem; color: var(--text); }
+        .dropdown {
+            position: absolute; top: 48px; right: 0; background: #fff;
+            border-radius: var(--radius-sm); box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border); min-width: 200px; padding: 8px 0;
+            opacity: 0; visibility: hidden; transform: translateY(-8px);
+            transition: all 0.25s ease; z-index: 100;
+        }
+        .dropdown.open { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown a, .dropdown button {
+            display: flex; align-items: center; gap: 8px; padding: 10px 16px;
+            text-decoration: none; color: var(--text); font-size: 0.82rem;
+            font-weight: 500; width: 100%; text-align: left; background: none;
+            border: none; cursor: pointer; font-family: var(--font-body);
+            transition: background 0.15s;
+        }
+        .dropdown a:hover, .dropdown button:hover { background: var(--bg-alt); }
+        .dropdown .divider { height: 1px; background: var(--border); margin: 4px 0; }
+        .dropdown .logout { color: var(--danger); }
+
+        .btn {
+            display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px;
+            border-radius: 22px; font-weight: 600; font-size: 0.82rem; cursor: pointer;
+            transition: all 0.3s ease; border: none; text-decoration: none; font-family: var(--font-body);
+            white-space: nowrap;
+        }
+        .btn-ghost { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+        .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+        .btn-filled { background: var(--gradient); color: #fff; }
+        .btn-filled:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(232,67,147,0.3); }
+        .btn-sm { padding: 6px 14px; font-size: 0.75rem; }
+        .btn-debug {
+            background: var(--warning-bg);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+            margin-top: 8px;
+        }
+        .btn-debug:hover { background: #ffe0b2; }
+
+        .dashboard-container { max-width: 1100px; margin: 0 auto; padding: 90px 24px 50px; }
+
+        .welcome-section { margin-bottom: 28px; }
+        .welcome-section h1 { font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700; letter-spacing: -0.5px; }
+        .welcome-section p { color: var(--text-secondary); font-size: 0.88rem; }
+
+        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 28px; }
+        .stat-card {
+            background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md);
+            padding: 20px; display: flex; align-items: center; gap: 14px;
+            transition: all 0.3s;
+        }
+        .stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+        .stat-icon {
+            width: 46px; height: 46px; border-radius: var(--radius-sm);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; flex-shrink: 0;
+        }
+        .stat-icon.purple { background: #f3f0ff; }
+        .stat-icon.gold { background: #fff8e8; }
+        .stat-icon.pink { background: #fff0f6; }
+        .stat-icon.green { background: #e8f8f0; }
+        .stat-info h3 { font-family: var(--font-heading); font-weight: 700; font-size: 1.3rem; }
+        .stat-info p { font-size: 0.72rem; color: var(--text-muted); }
+
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 340px; gap: 20px; }
+        .main-content { display: flex; flex-direction: column; gap: 20px; }
+
+        .card {
+            background: #fff; border: 1px solid var(--border);
+            border-radius: var(--radius-md); padding: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+        .card-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 8px;
+        }
+        .card-header h2 { font-family: var(--font-heading); font-weight: 700; font-size: 1.05rem; letter-spacing: -0.3px; }
+        .badge {
+            font-size: 0.65rem; font-weight: 700; padding: 4px 10px;
+            border-radius: 12px; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .badge-active { background: #e8f8f0; color: var(--success); }
+        .badge-upcoming { background: #f3f0ff; color: var(--purple); }
+        .badge-completed { background: #eef0f5; color: var(--text-muted); }
+
+        .progress-container { margin-bottom: 14px; }
+        .progress-label { display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 600; margin-bottom: 6px; }
+        .progress-bar {
+            width: 100%; height: 10px; background: var(--bg-alt);
+            border-radius: 10px; overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%; border-radius: 10px;
+            background: var(--gradient); transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stage-list { display: flex; flex-direction: column; gap: 10px; }
+        .stage-item {
+            display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+            border-radius: var(--radius-sm); border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+        .stage-item:hover { background: var(--bg-alt); }
+        .stage-status {
+            width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem; flex-shrink: 0;
+        }
+        .stage-status.done { background: var(--success-bg); }
+        .stage-status.current { background: #f3f0ff; border: 2px solid var(--purple); }
+        .stage-status.locked { background: #eef0f5; opacity: 0.5; }
+        .stage-info { flex: 1; }
+        .stage-info h4 { font-weight: 600; font-size: 0.85rem; }
+        .stage-info p { font-size: 0.7rem; color: var(--text-muted); }
+
+        .cert-card {
+            display: flex; align-items: center; gap: 14px; padding: 14px;
+            border: 1px solid var(--border); border-radius: var(--radius-sm);
+            transition: all 0.2s; text-decoration: none; color: var(--text);
+        }
+        .cert-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+        .cert-icon { font-size: 1.8rem; }
+        .cert-info h4 { font-weight: 600; font-size: 0.85rem; }
+        .cert-info p { font-size: 0.7rem; color: var(--text-muted); }
+        .cert-download { margin-left: auto; color: var(--purple); font-weight: 600; font-size: 0.75rem; }
+
+        .sidebar { display: flex; flex-direction: column; gap: 20px; }
+
+        .referral-box {
+            background: var(--gradient); color: #fff; border-radius: var(--radius-md);
+            padding: 24px; text-align: center; position: relative; overflow: hidden;
+        }
+        .referral-box h3 { font-family: var(--font-heading); font-weight: 700; font-size: 1.1rem; margin-bottom: 6px; }
+        .referral-box p { font-size: 0.8rem; opacity: 0.9; margin-bottom: 14px; }
+        .ref-link-box {
+            display: flex; gap: 6px; background: rgba(255,255,255,0.2);
+            border-radius: 25px; padding: 4px; margin-bottom: 10px;
+        }
+        .ref-link-box input {
+            flex: 1; background: transparent; border: none; color: #fff;
+            padding: 6px 12px; font-size: 0.78rem; font-family: var(--font-body);
+            outline: none; min-width: 0;
+        }
+        .ref-link-box input::placeholder { color: rgba(255,255,255,0.6); }
+        .ref-link-box button {
+            background: #fff; color: var(--purple); border: none;
+            border-radius: 22px; padding: 8px 16px; font-weight: 700;
+            font-size: 0.75rem; cursor: pointer; font-family: var(--font-body);
+            transition: all 0.2s; white-space: nowrap;
+        }
+        .ref-link-box button:hover { transform: scale(1.04); }
+        .ref-earnings { font-size: 0.75rem; opacity: 0.85; }
+
+        .announce-list { display: flex; flex-direction: column; gap: 8px; max-height: 260px; overflow-y: auto; }
+        .announce-item {
+            padding: 10px 12px; border-radius: var(--radius-sm);
+            background: var(--bg-alt); border-left: 3px solid var(--purple);
+            font-size: 0.78rem; line-height: 1.4;
+        }
+
+        .quick-links { display: flex; flex-direction: column; gap: 6px; }
+        .quick-link {
+            display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+            border-radius: var(--radius-sm); text-decoration: none; color: var(--text);
+            font-size: 0.82rem; font-weight: 500; transition: all 0.2s;
+        }
+        .quick-link:hover { background: var(--bg-alt); color: var(--purple); }
+
+        .empty-state { text-align: center; padding: 30px 20px; color: var(--text-muted); }
+        .empty-state .empty-icon { font-size: 2.5rem; margin-bottom: 10px; }
+        .empty-state h3 { font-family: var(--font-heading); font-weight: 600; font-size: 0.95rem; color: var(--text); margin-bottom: 4px; }
+        .empty-state p { font-size: 0.8rem; margin-bottom: 14px; }
+
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f5 25%, #e8e8f0 50%, #f0f0f5 75%);
+            background-size: 200% 100%; animation: shimmer 1.5s infinite;
+            border-radius: var(--radius-sm);
+        }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        .skeleton-text { height: 14px; margin-bottom: 8px; }
+        .skeleton-text.short { width: 60%; }
+
+        .error-banner {
+            background: var(--danger-bg); color: var(--danger);
+            padding: 12px 16px; border-radius: var(--radius-sm);
+            font-size: 0.82rem; margin-bottom: 18px;
+            display: none; align-items: center; gap: 8px;
+            border: 1px solid #fdd;
+        }
+        .error-banner.show { display: flex; }
+
+        .debug-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+            display: none; justify-content: center; align-items: center; z-index: 2000;
+        }
+        .debug-modal.open { display: flex; }
+        .debug-content {
+            background: #fff; border-radius: var(--radius-lg); padding: 24px;
+            max-width: 500px; width: 90%; box-shadow: var(--shadow-lg);
+            max-height: 70vh; overflow-y: auto;
+        }
+        .debug-content h3 { font-family: var(--font-heading); margin-bottom: 12px; }
+        .debug-content pre {
+            background: #1e293b; color: #f8fafc; padding: 12px;
+            border-radius: 8px; overflow-x: auto; font-size: 0.8rem; line-height: 1.5;
+        }
+        .debug-content .close-debug {
+            float: right; background: none; border: none; font-size: 1.2rem; cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .sidebar { order: -1; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .user-menu .name { display: none; }
+        }
+        @media (max-width: 480px) {
+            .dashboard-container { padding: 80px 14px 40px; }
+            .stats-row { grid-template-columns: 1fr 1fr; gap: 8px; }
+            .stat-card { padding: 14px; gap: 8px; }
+            .stat-icon { width: 36px; height: 36px; font-size: 1.1rem; }
+            .stat-info h3 { font-size: 1.1rem; }
+            .card { padding: 16px; }
+        }
     </style>
 </head>
 <body>
+
     <header class="header">
         <div class="header-inner">
             <a href="index.html" class="logo-link">
@@ -83,7 +331,7 @@
 
         <div class="welcome-section">
             <h1>Welcome back, <span id="welcomeName">Learner</span> 👋</h1>
-            <p>Here's your learning progress and updates.</p>
+            <p>Here's your learning progress and updates. <button class="btn btn-debug btn-sm" id="debugBtn" style="display:none;">🔍 Debug Info</button></p>
         </div>
 
         <div class="stats-row" id="statsRow">
@@ -158,6 +406,19 @@
         </div>
     </div>
 
+    <!-- Debug Modal -->
+    <div class="debug-modal" id="debugModal">
+        <div class="debug-content">
+            <button class="close-debug" id="closeDebug">&times;</button>
+            <h3>🔍 Debug Information</h3>
+            <p>Last error details:</p>
+            <pre id="debugErrorText">No errors recorded yet.</pre>
+            <p style="font-size:0.8rem; margin-top:12px;">If you see a 'missing index' error, click the link below (from the browser console) to create the required Firestore composite index automatically.</p>
+            <button class="btn btn-ghost btn-sm" id="closeDebugBtn">Close</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -166,6 +427,7 @@
     (function() {
         'use strict';
 
+        // ========== FIREBASE CONFIG ==========
         const firebaseConfig = {
             apiKey: "AIzaSyAvvB3C9SP8tDTqMmqzc6craI4d_0kSVX0",
             authDomain: "timijosh-b8bee.firebaseapp.com",
@@ -179,6 +441,7 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
+        // ========== STATE ==========
         const State = {
             currentUser: null,
             userData: null,
@@ -188,8 +451,11 @@
             announcements: [],
             activeListeners: [],
             settings: {},
+            lastError: null,
+            lastErrorTime: null
         };
 
+        // ========== DOM ==========
         const $ = (sel) => document.querySelector(sel);
         const DOM = {
             userMenu: $('#userMenu'),
@@ -216,8 +482,14 @@
             quickCommunity: $('#quickCommunity'),
             errorBanner: $('#errorBanner'),
             errorMessage: $('#errorMessage'),
+            debugBtn: $('#debugBtn'),
+            debugModal: $('#debugModal'),
+            debugErrorText: $('#debugErrorText'),
+            closeDebug: $('#closeDebug'),
+            closeDebugBtn: $('#closeDebugBtn')
         };
 
+        // ========== UTILS ==========
         function escapeHtml(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
         function formatCurrency(n) { return '₦' + (n || 0).toLocaleString(); }
         function timeAgo(ts) {
@@ -230,7 +502,13 @@
             if (diff < 604800) return Math.floor(diff / 86400) + 'd ago';
             return d.toDateString();
         }
-        function showError(m) { DOM.errorMessage.textContent = m; DOM.errorBanner.classList.add('show'); setTimeout(() => DOM.errorBanner.classList.remove('show'), 5000); }
+        function showError(msg) {
+            DOM.errorMessage.textContent = msg;
+            DOM.errorBanner.classList.add('show');
+            DOM.debugBtn.style.display = 'inline-flex';
+            setTimeout(() => DOM.errorBanner.classList.remove('show'), 8000);
+        }
+        function hideError() { DOM.errorBanner.classList.remove('show'); }
 
         // ========== AUTH ==========
         auth.onAuthStateChanged(async (user) => {
@@ -254,14 +532,16 @@
                     } else {
                         DOM.refLinkInput.value = 'Complete enrollment to get your referral link';
                     }
-                    // Set community link
                     const communityLink = State.userData.communityLink || State.settings?.communityLink || 'https://chat.whatsapp.com/yourInviteLink';
                     DOM.navCommunity.href = communityLink;
                     DOM.quickCommunity.href = communityLink;
                 }
-            } catch (e) {}
+            } catch (e) {
+                recordError('Failed to load user data: ' + e.message);
+            }
         }
 
+        // ========== DATA LOADING ==========
         async function loadDashboardData() {
             if (!State.currentUser) return;
             const uid = State.currentUser.uid;
@@ -276,10 +556,11 @@
                 State.certificates = []; certSnap.forEach(d => State.certificates.push({ id: d.id, ...d.data() }));
                 State.referrals = []; refSnap.forEach(d => State.referrals.push({ id: d.id, ...d.data() }));
                 if (setSnap.exists) State.settings = setSnap.data();
+                hideError();
                 renderAll();
             } catch (e) {
-                console.error(e);
-                showError('Failed to load dashboard data. Please check your internet connection and try refreshing. If the problem persists, ensure you have created the required Firestore indexes (see console for details).');
+                recordError('Dashboard data load failed: ' + e.message);
+                showError('Failed to load dashboard data. Click "Debug Info" for details and fix.');
             }
         }
 
@@ -298,9 +579,19 @@
                     renderStats(); renderCertificates();
                 });
                 State.activeListeners.push(u1, u2, u3);
-            } catch (e) {}
+            } catch (e) {
+                recordError('Real-time listeners setup error: ' + e.message);
+            }
         }
 
+        function recordError(message) {
+            State.lastError = message;
+            State.lastErrorTime = new Date().toLocaleTimeString();
+            console.error('Dashboard Error:', message);
+            DOM.debugBtn.style.display = 'inline-flex';
+        }
+
+        // ========== RENDER ==========
         function renderAll() { renderStats(); renderProgress(); renderCourses(); renderCertificates(); renderReferrals(); renderAnnouncements(); }
 
         function renderStats() {
@@ -364,7 +655,6 @@
         function renderCertificates() {
             if (State.certificates.length === 0) {
                 DOM.certificatesContent.innerHTML = `<div class="empty-state"><div class="empty-icon">📜</div><h3>No Certificates Yet</h3><p>Complete a stage to earn your first certificate.</p></div>`;
-                // Set the dropdown link to first certificate if any
                 DOM.navCertificates.href = '#';
                 return;
             }
@@ -375,7 +665,6 @@
                     <span class="cert-download">View →</span>
                 </a>
             `).join('');
-            // Update the dropdown link to the latest certificate
             DOM.navCertificates.href = `certificate.html?certId=${State.certificates[0].id}`;
         }
 
@@ -399,6 +688,24 @@
             if (!inp.value || inp.value.includes('Complete enrollment')) { showError('Complete enrollment to get your referral link.'); return; }
             inp.select(); document.execCommand('copy'); DOM.copyRefBtn.textContent = 'Copied!'; setTimeout(() => { DOM.copyRefBtn.textContent = 'Copy'; }, 2000);
         });
+
+        // Debug button & modal
+        DOM.debugBtn.addEventListener('click', () => {
+            let info = 'No errors recorded.';
+            if (State.lastError) {
+                info = `[${State.lastErrorTime}] ${State.lastError}`;
+            }
+            info += '\n\nUser ID: ' + (State.currentUser?.uid || 'Not logged in');
+            info += '\nEnrollments loaded: ' + State.enrollments.length;
+            info += '\nCertificates loaded: ' + State.certificates.length;
+            info += '\nReferrals loaded: ' + State.referrals.length;
+            info += '\n\nCommon fixes:\n- Ensure Firestore composite index for enrollments (userId + enrolledAt DESC) exists.\n- Check browser console for a clickable index creation link.';
+            DOM.debugErrorText.textContent = info;
+            DOM.debugModal.classList.add('open');
+        });
+        DOM.closeDebug.addEventListener('click', () => DOM.debugModal.classList.remove('open'));
+        DOM.closeDebugBtn.addEventListener('click', () => DOM.debugModal.classList.remove('open'));
+        DOM.debugModal.addEventListener('click', (e) => { if (e.target === DOM.debugModal) DOM.debugModal.classList.remove('open'); });
 
         window.addEventListener('beforeunload', () => { State.activeListeners.forEach(f => { try { f(); } catch (e) {} }); });
     })();
