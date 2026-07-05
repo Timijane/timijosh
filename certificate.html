@@ -5,168 +5,319 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Certificate — TRIANGLE LEARN</title>
     <link rel="icon" href="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Sora:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --gold: #c8963e;
-            --dark: #1e293b;
-            --purple: #6c5ce7;
-            --border: #e8d5b0;
-            --bg: #f8f9fc;
-            --radius: 16px;
+            --cert-cream: #fdfdfc;
+            --cert-gold: #b8860b;
+            --cert-navy: #1a2332;
+            --cert-slate: #4a5568;
+            --cert-light-gray: #e8ecf1;
+            --cert-accent: #2b6cb0;
+            --cert-white: #ffffff;
         }
-        * { margin:0; padding:0; box-sizing:border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--bg);
+            background: #eef1f5;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 30px 20px;
+            justify-content: center;
             min-height: 100vh;
+            padding: 40px 20px;
+            font-family: 'Inter', sans-serif;
         }
-        .certificate-container {
-            max-width: 1000px;
+
+        /* Certificate Card - Landscape */
+        .certificate-wrapper {
             width: 100%;
-            background: #fff;
-            border: 2px solid var(--gold);
-            border-radius: 8px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+            max-width: 1100px;
+            aspect-ratio: 1.414 / 1;
+            max-height: 90vh;
+            background: var(--cert-white);
             position: relative;
-            padding: 60px 50px 50px;
-            margin-bottom: 30px;
-            page-break-inside: avoid;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.15), 0 10px 30px rgba(0,0,0,0.08);
+            overflow: hidden;
         }
-        .certificate-border {
+
+        /* Subtle background pattern */
+        .certificate-wrapper::before {
+            content: '';
             position: absolute;
-            top: 15px; left: 15px; right: 15px; bottom: 15px;
-            border: 1px solid var(--border);
-            border-radius: 4px;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(circle at 5% 95%, rgba(184,134,11,0.04) 0%, transparent 50%),
+                radial-gradient(circle at 95% 5%, rgba(43,108,176,0.04) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(184,134,11,0.02) 0%, transparent 70%);
             pointer-events: none;
         }
-        .cert-header {
-            text-align: center;
-            margin-bottom: 30px;
+
+        /* Gold border accents */
+        .certificate-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border: 1px solid rgba(184,134,11,0.3);
+            margin: 20px;
+            pointer-events: none;
         }
-        .org-name {
-            font-family: 'Sora', sans-serif;
+
+        /* Inner content */
+        .cert-content {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 40px 50px;
+        }
+
+        /* Top bar with logo and branding */
+        .cert-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .cert-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .cert-logo img {
+            height: 42px;
+            width: auto;
+        }
+        .cert-logo-text {
+            font-family: 'Inter', sans-serif;
             font-weight: 700;
-            font-size: 1.3rem;
-            letter-spacing: 4px;
+            font-size: 1.1rem;
+            color: var(--cert-navy);
+            letter-spacing: 1px;
             text-transform: uppercase;
-            color: var(--dark);
-            margin-bottom: 8px;
         }
+        .cert-issuer {
+            text-align: right;
+            font-size: 0.65rem;
+            color: var(--cert-slate);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        /* Main content area */
+        .cert-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        /* Subtle top decorative line */
+        .cert-rule-top {
+            width: 80px;
+            height: 2px;
+            background: var(--cert-gold);
+            margin-bottom: 30px;
+            opacity: 0.6;
+        }
+
+        /* Course provider line */
+        .cert-provider {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--cert-slate);
+            margin-bottom: 20px;
+        }
+
+        /* Main title */
         .cert-title {
             font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #0A2540;
-            margin: 10px 0;
+            font-weight: 700;
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--cert-navy);
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
         }
-        .divider {
-            width: 120px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--gold), var(--purple));
+
+        /* "This is to certify that" */
+        .cert-pre-line {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 0.9rem;
+            color: var(--cert-slate);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        /* Student name */
+        .cert-student-name {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+            color: var(--cert-navy);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        /* Decorative underline */
+        .cert-name-underline {
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--cert-gold), transparent);
             margin: 0 auto 20px;
         }
-        .cert-body {
-            text-align: center;
-            font-size: 1.1rem;
-            color: #555;
-            line-height: 1.8;
-            margin: 20px 0;
+
+        /* "has successfully completed" */
+        .cert-post-line {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 0.9rem;
+            color: var(--cert-slate);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
         }
-        .student-name {
+
+        /* Course name */
+        .cert-course-name {
             font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #0A2540;
-            margin: 10px 0;
-        }
-        .course-name {
-            font-weight: 700;
-            font-size: 1.3rem;
-            color: var(--purple);
-            margin: 8px 0 5px;
-        }
-        .stage {
-            font-size: 1rem;
-            color: #666;
-            margin-bottom: 25px;
-        }
-        .signatures {
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            gap: 80px;
-            margin-top: 40px;
-            border-top: 1px solid var(--border);
-            padding-top: 25px;
-        }
-        .sig-block {
-            text-align: center;
-            min-width: 160px;
-        }
-        .sig-line {
-            width: 180px;
-            height: 1px;
-            background: #333;
-            margin: 0 auto 6px;
-            opacity: 0.4;
-        }
-        .sig-label {
-            font-size: 0.8rem;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #555;
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            color: var(--cert-accent);
+            font-style: italic;
+            margin-bottom: 6px;
         }
-        .seal {
-            position: absolute;
-            bottom: 40px;
-            right: 60px;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 3px solid var(--gold);
+
+        /* Stage badge */
+        .cert-stage-badge {
+            display: inline-block;
+            padding: 6px 18px;
+            border: 1px solid rgba(184,134,11,0.4);
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--cert-gold);
+            margin-top: 5px;
+        }
+
+        /* Bottom section */
+        .cert-bottom {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Sora', sans-serif;
-            font-weight: 800;
-            font-size: 0.65rem;
-            color: var(--gold);
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 30px;
+        }
+
+        /* Date and ID */
+        .cert-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .cert-date {
+            font-size: 0.7rem;
+            color: var(--cert-slate);
             text-transform: uppercase;
             letter-spacing: 1px;
-            opacity: 0.8;
-            transform: rotate(-15deg);
-            pointer-events: none;
         }
-        .qr-container {
+        .cert-id {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            color: #999;
+            letter-spacing: 0.5px;
+        }
+
+        /* Signature area */
+        .cert-signatures {
+            display: flex;
+            gap: 60px;
+            align-items: flex-end;
+        }
+        .cert-sig-block {
+            text-align: center;
+        }
+        .cert-sig-line {
+            width: 140px;
+            height: 1px;
+            background: var(--cert-navy);
+            margin-bottom: 6px;
+            opacity: 0.5;
+        }
+        .cert-sig-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.75rem;
+            font-style: italic;
+            color: var(--cert-navy);
+        }
+        .cert-sig-title {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--cert-slate);
+            margin-top: 2px;
+        }
+
+        /* QR Code */
+        .cert-qr {
             position: absolute;
-            bottom: 20px;
-            left: 30px;
+            bottom: 30px;
+            left: 50px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 4px;
         }
-        .qr-container canvas {
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            padding: 4px;
+        .cert-qr canvas {
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 3px;
             background: white;
         }
-        .qr-label {
-            font-size: 0.7rem;
-            margin-top: 4px;
-            color: #888;
+        .cert-qr-label {
+            font-size: 0.55rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        .cert-date {
+
+        /* Seal */
+        .cert-seal {
+            position: absolute;
+            bottom: 30px;
+            right: 50px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid var(--cert-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            margin-top: 20px;
-            font-size: 0.9rem;
-            color: #777;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 0.55rem;
+            color: var(--cert-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            transform: rotate(-10deg);
+        }
+
+        /* Action buttons */
+        .cert-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         .btn {
             display: inline-flex;
@@ -175,77 +326,114 @@
             padding: 10px 20px;
             border-radius: 25px;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             cursor: pointer;
             border: none;
             text-decoration: none;
-            font-family: inherit;
-            transition: 0.2s;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
         }
         .btn-primary {
-            background: linear-gradient(135deg, #f0a500, #e84393, #6c5ce7);
+            background: var(--cert-navy);
             color: #fff;
         }
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(232,67,147,0.3);
+            background: #2c3e50;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(26,35,50,0.25);
         }
         .btn-outline {
             background: transparent;
-            border: 1.5px solid #eef0f5;
-            color: #333;
+            border: 1.5px solid #d0d5dd;
+            color: var(--cert-navy);
         }
         .btn-outline:hover {
-            border-color: var(--gold);
-            color: var(--gold);
+            border-color: var(--cert-gold);
+            color: var(--cert-gold);
         }
-        .actions {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 20px;
-        }
+
         .error-state {
             text-align: center;
             padding: 40px;
             color: #666;
         }
         .error-state h3 {
-            font-family: 'Sora', sans-serif;
+            font-family: 'Playfair Display', serif;
             margin-bottom: 10px;
         }
-        @media (max-width: 768px) {
-            .certificate-container {
-                padding: 30px 20px;
-            }
-            .signatures {
-                flex-direction: column;
-                align-items: center;
-                gap: 40px;
-            }
-            .seal {
-                bottom: 20px;
-                right: 20px;
-                width: 70px;
-                height: 70px;
-                font-size: 0.55rem;
-            }
-        }
+
+        /* Print styles */
         @media print {
             body { background: white; padding: 0; }
-            .actions, .btn { display: none !important; }
-            .certificate-container {
+            .cert-actions { display: none !important; }
+            .certificate-wrapper {
                 box-shadow: none;
-                border: 2px solid #c8963e;
-                padding: 40px;
+                max-width: 100%;
+                aspect-ratio: 1.414 / 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .certificate-wrapper {
+                aspect-ratio: auto;
+                max-height: none;
+                min-height: 600px;
+            }
+            .cert-content {
+                padding: 30px 24px;
+            }
+            .cert-signatures {
+                gap: 30px;
+            }
+            .cert-sig-line {
+                width: 100px;
+            }
+            .cert-seal {
+                width: 60px;
+                height: 60px;
+                font-size: 0.45rem;
+                bottom: 20px;
+                right: 20px;
+            }
+            .cert-qr {
+                bottom: 20px;
+                left: 20px;
+            }
+        }
+        @media (max-width: 500px) {
+            .certificate-wrapper {
+                min-height: 500px;
+            }
+            .cert-content {
+                padding: 20px 16px;
+            }
+            .cert-title {
+                font-size: 1.5rem;
+            }
+            .cert-student-name {
+                font-size: 1.5rem;
+            }
+            .cert-course-name {
+                font-size: 1rem;
+            }
+            .cert-signatures {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+            }
+            .cert-bottom {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
             }
         }
     </style>
 </head>
 <body>
 
-    <div id="certificateWrapper"></div>
-    <div class="actions" id="certActions" style="display:none;">
+    <div id="certificateContainer"></div>
+    <div class="cert-actions" id="certActions" style="display:none;">
         <button class="btn btn-primary" onclick="window.print()">📥 Download / Print</button>
         <button class="btn btn-outline" onclick="shareCert()">🔗 Share</button>
     </div>
@@ -267,60 +455,28 @@
             measurementId: "G-ZPS8VP8ZBX"
         };
         firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
         const db = firebase.firestore();
-
         const urlParams = new URLSearchParams(window.location.search);
         const CERT_ID = urlParams.get('certId') || urlParams.get('id');
-        const wrapper = document.getElementById('certificateWrapper');
+        const container = document.getElementById('certificateContainer');
         const actionsBar = document.getElementById('certActions');
 
         function escapeHtml(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
 
         async function loadCertificate() {
             if (!CERT_ID) {
-                wrapper.innerHTML = `
-                    <div class="error-state">
-                        <h3>No Certificate ID</h3>
-                        <p>Please provide a valid certificate ID in the URL (e.g., ?certId=abc123).</p>
-                        <a href="dashboard.html" class="btn btn-primary" style="margin-top:15px;">Go to Dashboard</a>
-                    </div>`;
+                container.innerHTML = '<div class="error-state"><h3>No Certificate ID</h3><p>Missing certificate ID in URL.</p></div>';
                 return;
             }
-
             try {
-                console.log('Loading certificate:', CERT_ID);
                 const doc = await db.collection('certificates').doc(CERT_ID).get();
-                
                 if (!doc.exists) {
-                    wrapper.innerHTML = `
-                        <div class="error-state">
-                            <h3>Certificate Not Found</h3>
-                            <p>The certificate with ID <strong>${CERT_ID}</strong> could not be found.</p>
-                            <p style="font-size:0.8rem;margin-top:8px;">This may happen if:</p>
-                            <ul style="text-align:left;max-width:400px;margin:10px auto;font-size:0.8rem;">
-                                <li>The certificate hasn't been generated yet</li>
-                                <li>The ID in the URL is incorrect</li>
-                                <li>The certificate was deleted</li>
-                            </ul>
-                            <a href="dashboard.html" class="btn btn-primary" style="margin-top:15px;">Go to Dashboard</a>
-                        </div>`;
+                    container.innerHTML = '<div class="error-state"><h3>Certificate Not Found</h3><p>This certificate could not be found.</p></div>';
                     return;
                 }
-
-                const cert = doc.data();
-                console.log('Certificate data:', cert);
-                renderCertificate(cert);
-            } catch (e) {
-                console.error('Certificate load error:', e);
-                wrapper.innerHTML = `
-                    <div class="error-state">
-                        <h3>Error Loading Certificate</h3>
-                        <p>${e.message || 'An unexpected error occurred.'}</p>
-                        <p style="font-size:0.8rem;margin-top:8px;">Check your internet connection and try refreshing.</p>
-                        <button class="btn btn-primary" onclick="location.reload()" style="margin-top:15px;">🔄 Retry</button>
-                        <a href="dashboard.html" class="btn btn-outline" style="margin-top:10px;display:block;">Go to Dashboard</a>
-                    </div>`;
+                renderCertificate(doc.data());
+            } catch(e) {
+                container.innerHTML = `<div class="error-state"><h3>Error</h3><p>${e.message}</p></div>`;
             }
         }
 
@@ -330,66 +486,67 @@
             const stage = cert.stage || 'Completed';
             const issueDate = cert.issuedAt?.toDate?.() || new Date();
             const dateStr = issueDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-            const certIdShort = CERT_ID.substring(0, 8);
+            const certIdShort = CERT_ID.substring(0, 8).toUpperCase();
+            const qrData = JSON.stringify({ id: CERT_ID, student: studentName, course: courseName, stage });
 
-            const qrData = JSON.stringify({
-                certId: CERT_ID,
-                student: studentName,
-                course: courseName,
-                stage: stage,
-                date: dateStr
-            });
-
-            wrapper.innerHTML = `
-                <div class="certificate-container" id="printableCert">
-                    <div class="certificate-border"></div>
-                    <div class="seal">TRIANGLE<br>LEARN<br>CERTIFIED</div>
-                    <div class="qr-container" id="qrContainer">
+            container.innerHTML = `
+                <div class="certificate-wrapper" id="printableCert">
+                    <div class="cert-content">
+                        <div class="cert-top-bar">
+                            <div class="cert-logo">
+                                <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="TRIANGLE LEARN" height="42">
+                                <span class="cert-logo-text">TRIANGLE LEARN</span>
+                            </div>
+                            <div class="cert-issuer">Certificate of Completion</div>
+                        </div>
+                        <div class="cert-main">
+                            <div class="cert-rule-top"></div>
+                            <div class="cert-provider">TRIANGLE LEARN</div>
+                            <div class="cert-title">Certificate of Completion</div>
+                            <div class="cert-pre-line">This is to certify that</div>
+                            <div class="cert-student-name">${escapeHtml(studentName)}</div>
+                            <div class="cert-name-underline"></div>
+                            <div class="cert-post-line">has successfully completed</div>
+                            <div class="cert-course-name">${escapeHtml(courseName)}</div>
+                            <div class="cert-stage-badge">${escapeHtml(stage)}</div>
+                        </div>
+                        <div class="cert-bottom">
+                            <div class="cert-meta">
+                                <span class="cert-date">Issued ${dateStr}</span>
+                                <span class="cert-id">CERT-${certIdShort}</span>
+                            </div>
+                            <div class="cert-signatures">
+                                <div class="cert-sig-block">
+                                    <div class="cert-sig-line"></div>
+                                    <div class="cert-sig-name">TRIANGLE LEARN</div>
+                                    <div class="cert-sig-title">Institution</div>
+                                </div>
+                                <div class="cert-sig-block">
+                                    <div class="cert-sig-line"></div>
+                                    <div class="cert-sig-name">${escapeHtml(studentName)}</div>
+                                    <div class="cert-sig-title">Learner</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cert-seal">TRIANGLE<br>LEARN<br>VERIFIED</div>
+                    <div class="cert-qr">
                         <div id="qrcode"></div>
-                        <div class="qr-label">Scan to verify</div>
-                    </div>
-                    <div class="cert-header">
-                        <div class="org-name">TRIANGLE LEARN</div>
-                        <div class="cert-title">Certificate of Completion</div>
-                        <div class="divider"></div>
-                    </div>
-                    <div class="cert-body">
-                        This is to certify that
-                        <div class="student-name">${escapeHtml(studentName)}</div>
-                        has successfully completed
-                        <div class="course-name">${escapeHtml(courseName)}</div>
-                        <div class="stage">${escapeHtml(stage)} Stage</div>
-                        with dedication and excellence.
-                    </div>
-                    <div class="signatures">
-                        <div class="sig-block">
-                            <div class="sig-line"></div>
-                            <div class="sig-label">Instructor / Course Creator</div>
-                        </div>
-                        <div class="sig-block">
-                            <div class="sig-line"></div>
-                            <div class="sig-label">Learner</div>
-                        </div>
-                    </div>
-                    <div class="cert-date">
-                        Issued on ${dateStr} | Certificate ID: ${certIdShort}
+                        <span class="cert-qr-label">Verify</span>
                     </div>
                 </div>`;
 
             actionsBar.style.display = 'flex';
 
-            // Generate QR code
             try {
                 new QRCode(document.getElementById('qrcode'), {
                     text: qrData,
-                    width: 80,
-                    height: 80,
-                    colorDark: "#1e293b",
+                    width: 60,
+                    height: 60,
+                    colorDark: "#1a2332",
                     colorLight: "#ffffff"
                 });
-            } catch(e) {
-                console.warn('QR generation failed:', e);
-            }
+            } catch(e) {}
         }
 
         window.shareCert = () => {
@@ -397,13 +554,10 @@
             if (navigator.share) {
                 navigator.share({ title: 'My TRIANGLE LEARN Certificate', url });
             } else {
-                navigator.clipboard.writeText(url).then(() => {
-                    alert('Certificate link copied to clipboard!');
-                });
+                navigator.clipboard.writeText(url).then(() => alert('Link copied!'));
             }
         };
 
-        // Load certificate on page load (no auth required for public viewing)
         loadCertificate();
     })();
     </script>
