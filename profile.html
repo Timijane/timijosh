@@ -2,17 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Profile — TRIANGLE LEARN</title>
-    <meta name="description" content="Manage your TRIANGLE LEARN profile, referral code, and earnings.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Complete Profile — TRIANGLE LEARN</title>
+    <meta name="description" content="Complete your TRIANGLE LEARN profile. Add your professional information, skills, experience, and more.">
     <link rel="icon" href="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Cloudinary Widget SDK -->
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+    
     <style>
         :root {
-            --bg: #f8f9fc;
-            --bg-card: #ffffff;
+            --bg: #ffffff;
+            --bg-alt: #f8f9fc;
             --text: #1a1a2e;
             --text-secondary: #5a5a7a;
             --text-muted: #8a8aa0;
@@ -29,55 +33,293 @@
             --radius-lg: 28px;
             --font-heading: 'Sora', sans-serif;
             --font-body: 'Plus Jakarta Sans', sans-serif;
-            --success: #0d9488;
-            --success-bg: #e8f8f0;
             --danger: #e74c3c;
             --danger-bg: #fff0f0;
+            --success: #0d9488;
+            --success-bg: #e8f8f0;
             --warning: #e65100;
             --warning-bg: #fff3e0;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; -webkit-text-size-adjust: 100%; }
         body {
             font-family: var(--font-body);
-            background: var(--bg);
+            background: var(--bg-alt);
             color: var(--text);
-            line-height: 1.5;
-            min-height: 100vh;
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
         }
+
+        /* HEADER */
         .header {
-            padding: 12px 24px;
-            background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(18px);
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            padding: 12px 0; background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
             border-bottom: 1px solid var(--border);
+        }
+        .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+        .logo-link { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-link img { height: 32px; width: auto; }
+        .logo-link span { font-family: var(--font-heading); font-weight: 700; font-size: 0.95rem; color: var(--text); letter-spacing: -0.5px; }
+        .header-right { display: flex; align-items: center; gap: 12px; }
+
+        .profile-container { max-width: 1000px; margin: 0 auto; padding: 100px 24px 60px; }
+
+        /* TOAST */
+        .toast-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 99999;
+            width: 90%;
+            max-width: 440px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none;
+        }
+        .toast {
+            padding: 14px 20px;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            font-size: 0.88rem;
+            box-shadow: var(--shadow-lg);
+            animation: toastIn 0.4s ease, toastOut 0.4s ease 3.6s forwards;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 10px;
+            pointer-events: auto;
+            border: 1px solid transparent;
         }
-        .logo-link { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        .logo-link img { height: 32px; }
-        .logo-link span { font-family: var(--font-heading); font-weight: 700; font-size: 1rem; color: var(--text); }
-        .btn {
-            display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px;
-            border-radius: 22px; font-weight: 600; font-size: 0.82rem; cursor: pointer;
-            border: none; text-decoration: none; font-family: var(--font-body);
-            transition: all 0.3s ease; white-space: nowrap;
+        .toast-success { background: #0d9488; color: #fff; border-color: #0f766e; }
+        .toast-error { background: var(--danger); color: #fff; border-color: #c0392b; }
+        .toast-info { background: var(--purple); color: #fff; border-color: #5a4bd1; }
+        .toast-warning { background: var(--warning); color: #fff; border-color: #bf5000; }
+        .toast .toast-emoji { font-size: 1.2rem; }
+        .toast .toast-close {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 0 4px;
+            transition: color 0.2s;
         }
-        .btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--text); }
-        .btn-ghost:hover { border-color: var(--purple); color: var(--purple); }
-        .btn-filled { background: var(--gradient); color: #fff; }
-        .btn-filled:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(232,67,147,0.3); }
-        .btn-sm { padding: 5px 12px; font-size: 0.72rem; }
+        .toast .toast-close:hover { color: #fff; }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes toastOut {
+            from { opacity: 1; transform: translateY(0) scale(1); }
+            to { opacity: 0; transform: translateY(20px) scale(0.95); }
+        }
 
-        .main-container { max-width: 800px; margin: 30px auto; padding: 0 20px; }
+        /* PROFILE HEADER */
+        .profile-header {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+        }
+        .profile-cover {
+            width: 100%;
+            height: 200px;
+            background: var(--gradient);
+            position: relative;
+            overflow: hidden;
+        }
+        .profile-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-cover .cover-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 24px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.5));
+            display: flex;
+            align-items: flex-end;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .profile-avatar-wrapper {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: var(--bg-alt);
+            box-shadow: var(--shadow-sm);
+        }
+        .profile-avatar-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-avatar-wrapper .avatar-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            background: var(--bg-alt);
+        }
+        .profile-avatar-wrapper .upload-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--gradient);
+            border: 2px solid #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .profile-avatar-wrapper .upload-badge:hover {
+            transform: scale(1.1);
+        }
+        .profile-name-info {
+            color: #fff;
+            flex: 1;
+        }
+        .profile-name-info h1 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.4rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .profile-name-info p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .profile-name-info .role-badge {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 3px 12px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(4px);
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .profile-actions {
+            display: flex;
+            gap: 8px;
+            margin-left: auto;
+            flex-wrap: wrap;
+        }
+        .profile-actions .btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.78rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-outline-white {
+            background: transparent;
+            color: #fff;
+            border: 1.5px solid rgba(255,255,255,0.4);
+        }
+        .btn-outline-white:hover {
+            background: rgba(255,255,255,0.15);
+            border-color: #fff;
+        }
+        .btn-white {
+            background: #fff;
+            color: var(--purple);
+        }
+        .btn-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        /* PROGRESS BAR */
+        .completion-bar {
+            background: #fff;
+            border-radius: var(--radius-sm);
+            padding: 16px 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .completion-bar .label {
+            font-weight: 600;
+            font-size: 0.82rem;
+            white-space: nowrap;
+        }
+        .completion-bar .progress-track {
+            flex: 1;
+            min-width: 120px;
+            height: 8px;
+            background: var(--bg-alt);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .completion-bar .progress-track .fill {
+            height: 100%;
+            border-radius: 10px;
+            background: var(--gradient);
+            transition: width 0.8s ease;
+        }
+        .completion-bar .percentage {
+            font-weight: 700;
+            font-size: 1.1rem;
+            min-width: 50px;
+            text-align: right;
+            color: var(--purple);
+        }
+        .completion-bar .status-msg {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        /* PROFILE FORM */
+        .profile-form {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 20px;
+        }
+        .main-form { display: flex; flex-direction: column; gap: 20px; }
+        .sidebar-form { display: flex; flex-direction: column; gap: 20px; }
 
         .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
+            background: #fff;
             border-radius: var(--radius-md);
             padding: 24px;
+            border: 1px solid var(--border);
             box-shadow: var(--shadow-sm);
-            margin-bottom: 20px;
         }
         .card-header {
             display: flex;
@@ -90,100 +332,573 @@
         .card-header h2 {
             font-family: var(--font-heading);
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
+        .card-header .card-badge {
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .card-badge.optional { background: var(--bg-alt); color: var(--text-muted); }
+        .card-badge.required { background: var(--danger-bg); color: var(--danger); }
 
         .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; }
-        .form-group input {
-            width: 100%; padding: 10px 14px;
-            border: 1.5px solid var(--border); border-radius: var(--radius-sm);
-            font-family: var(--font-body); font-size: 0.9rem;
-            outline: none; transition: border 0.2s;
+        .form-group label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 4px;
         }
-        .form-group input:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(108,92,231,0.08); }
-        .form-group input:disabled { background: #f0f0f5; color: var(--text-muted); }
+        .form-group label .required-star {
+            color: var(--danger);
+            margin-left: 2px;
+        }
+        .form-group label .optional-tag {
+            font-weight: 400;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+        }
+        .form-group .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 0.88rem;
+            color: var(--text);
+            background: #fff;
+            transition: all 0.25s ease;
+            outline: none;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--purple);
+            box-shadow: 0 0 0 3px rgba(108,92,231,0.1);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        .form-group .field-hint {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .form-group .field-error {
+            font-size: 0.72rem;
+            color: var(--danger);
+            margin-top: 4px;
+            display: none;
+        }
+        .form-group .field-error.show { display: block; }
 
-        .ref-box {
+        /* SKILLS TAGS */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 8px 4px;
+            min-height: 44px;
+            border: 1.5px dashed var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg-alt);
+        }
+        .skill-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
             background: var(--gradient);
             color: #fff;
+            border-radius: 16px;
+            font-size: 0.78rem;
+            font-weight: 500;
+        }
+        .skill-tag .remove {
+            cursor: pointer;
+            opacity: 0.7;
+            font-size: 0.8rem;
+            transition: opacity 0.2s;
+        }
+        .skill-tag .remove:hover { opacity: 1; }
+        .skills-input-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .skills-input-group input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            outline: none;
+        }
+        .skills-input-group input:focus {
+            border-color: var(--purple);
+            box-shadow: 0 0 0 3px rgba(108,92,231,0.1);
+        }
+        .skills-input-group select {
+            padding: 8px 12px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            outline: none;
+            background: #fff;
+            cursor: pointer;
+        }
+        .skills-input-group select:focus {
+            border-color: var(--purple);
+            box-shadow: 0 0 0 3px rgba(108,92,231,0.1);
+        }
+        .skills-input-group .btn-add {
+            padding: 8px 16px;
+            border: none;
+            border-radius: var(--radius-sm);
+            background: var(--gradient);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .skills-input-group .btn-add:hover {
+            transform: scale(1.04);
+        }
+
+        /* EXPERIENCE / EDUCATION ITEMS */
+        .entry-item {
+            background: var(--bg-alt);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+        .entry-item .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .entry-item .entry-header h4 {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .entry-item .entry-header .entry-actions {
+            display: flex;
+            gap: 6px;
+        }
+        .entry-item .entry-header .entry-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .entry-item .entry-header .entry-actions .edit-btn:hover { background: var(--border); }
+        .entry-item .entry-header .entry-actions .delete-btn:hover { background: var(--danger-bg); color: var(--danger); }
+        .entry-item .entry-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .entry-item .entry-body .full-width { grid-column: 1 / -1; }
+        .entry-item .entry-body .form-group { margin-bottom: 0; }
+
+        /* SIDEBAR */
+        .sidebar-section {
+            background: #fff;
             border-radius: var(--radius-md);
             padding: 20px;
+            border: 1px solid var(--border);
+        }
+        .sidebar-section h3 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+        .sidebar-section .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.82rem;
+        }
+        .sidebar-section .info-row:last-child { border-bottom: none; }
+        .sidebar-section .info-row .label { color: var(--text-muted); }
+        .sidebar-section .info-row .value { font-weight: 600; }
+
+        /* SOCIAL LINKS */
+        .social-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        .social-input .social-icon {
+            font-size: 1.2rem;
+            width: 30px;
             text-align: center;
         }
-        .ref-box h3 { font-family: var(--font-heading); font-weight: 700; font-size: 1.1rem; margin-bottom: 6px; }
-        .ref-box p { font-size: 0.8rem; opacity: 0.9; margin-bottom: 12px; }
-        .ref-link-copy {
-            display: flex; gap: 6px; background: rgba(255,255,255,0.2);
-            border-radius: 25px; padding: 4px; margin-bottom: 8px;
+        .social-input input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            outline: none;
         }
-        .ref-link-copy input {
-            flex: 1; background: transparent; border: none; color: #fff;
-            padding: 6px 12px; font-size: 0.78rem; font-family: var(--font-body);
-            outline: none; min-width: 0;
+        .social-input input:focus {
+            border-color: var(--purple);
+            box-shadow: 0 0 0 3px rgba(108,92,231,0.1);
         }
-        .ref-link-copy input::placeholder { color: rgba(255,255,255,0.6); }
-        .ref-link-copy button {
-            background: #fff; color: var(--purple); border: none;
-            border-radius: 22px; padding: 8px 16px; font-weight: 700;
-            font-size: 0.75rem; cursor: pointer; font-family: var(--font-body);
-            transition: all 0.2s; white-space: nowrap;
-        }
-        .ref-link-copy button:hover { transform: scale(1.04); }
-        .earnings { font-size: 0.85rem; opacity: 0.9; }
 
-        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-        th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
-        th { font-weight: 600; color: var(--text-secondary); font-size: 0.75rem; text-transform: uppercase; }
-        .badge {
-            font-size: 0.65rem; font-weight: 700; padding: 2px 8px;
-            border-radius: 10px; text-transform: uppercase;
+        /* BUTTONS */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 20px;
+            border-radius: 22px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            font-family: var(--font-body);
+            white-space: nowrap;
         }
-        .badge-paid { background: var(--success-bg); color: var(--success); }
-        .badge-pending { background: var(--warning-bg); color: var(--warning); }
-        .empty-state { text-align: center; padding: 30px; color: var(--text-muted); }
-
-        .loading-spinner {
-            display: inline-block; width: 24px; height: 24px;
-            border: 3px solid rgba(0,0,0,0.1); border-top-color: var(--purple);
-            border-radius: 50%; animation: spin 0.8s linear infinite;
+        .btn-filled {
+            background: var(--gradient);
+            color: #fff;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .alert {
-            padding: 12px 16px; border-radius: var(--radius-sm);
-            font-size: 0.82rem; margin-bottom: 16px; display: none;
+        .btn-filled:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(232,67,147,0.3);
         }
-        .alert-success { background: var(--success-bg); color: var(--success); display: block; }
-        .alert-error { background: var(--danger-bg); color: var(--danger); display: block; }
+        .btn-ghost {
+            background: transparent;
+            color: var(--text);
+            border: 1.5px solid var(--border);
+        }
+        .btn-ghost:hover {
+            border-color: var(--purple);
+            color: var(--purple);
+        }
+        .btn-success {
+            background: var(--success);
+            color: #fff;
+        }
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(13,148,136,0.3);
+        }
+        .btn-sm { padding: 6px 14px; font-size: 0.75rem; }
+        .btn-block { width: 100%; justify-content: center; }
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
 
-        @media (max-width: 600px) {
-            .header { padding: 10px 16px; }
-            .main-container { padding: 0 12px; }
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .profile-form { grid-template-columns: 1fr; }
+            .profile-cover { height: 150px; }
+            .profile-avatar-wrapper { width: 80px; height: 80px; }
+            .profile-name-info h1 { font-size: 1.2rem; }
+            .profile-actions { margin-left: 0; width: 100%; }
+            .entry-item .entry-body { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            .profile-container { padding: 90px 14px 40px; }
+            .profile-cover { height: 120px; }
+            .profile-cover .cover-overlay { padding: 12px 16px; flex-direction: column; align-items: center; text-align: center; }
+            .profile-avatar-wrapper { width: 70px; height: 70px; }
+            .profile-name-info h1 { font-size: 1rem; }
+            .card { padding: 16px; }
+            .completion-bar { flex-direction: column; text-align: center; }
+            .skills-input-group { flex-wrap: wrap; }
+            .skills-input-group input { flex: 1 1 100%; }
+            .social-input { flex-wrap: wrap; }
+            .form-actions { flex-direction: column; }
+            .form-actions .btn { width: 100%; justify-content: center; }
         }
     </style>
 </head>
 <body>
+
+    <!-- HEADER -->
     <header class="header">
-        <a href="dashboard.html" class="logo-link">
-            <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="Logo">
-            <span>TRIANGLE LEARN</span>
-        </a>
-        <a href="dashboard.html" class="btn btn-ghost btn-sm">← Dashboard</a>
+        <div class="header-inner">
+            <a href="index.html" class="logo-link">
+                <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="TRIANGLE LEARN" width="32" height="32">
+                <span>TRIANGLE LEARN</span>
+            </a>
+            <div class="header-right">
+                <span style="font-size:0.75rem;color:var(--text-muted);" id="headerRole">Learner</span>
+            </div>
+        </div>
     </header>
 
-    <div class="main-container" id="profileContainer">
-        <div class="card" style="text-align:center;"><div class="loading-spinner" style="margin:40px auto;"></div></div>
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <div class="profile-container">
+        
+        <!-- PROFILE HEADER -->
+        <div class="profile-header">
+            <div class="profile-cover" id="coverArea">
+                <img id="coverImage" src="" alt="Cover" style="display:none;">
+                <div class="cover-overlay">
+                    <div class="profile-avatar-wrapper" id="avatarWrapper">
+                        <img id="avatarImage" src="" alt="Profile" style="display:none;">
+                        <div class="avatar-placeholder" id="avatarPlaceholder">?</div>
+                        <div class="upload-badge" id="uploadAvatarBtn" title="Upload Profile Picture">📷</div>
+                    </div>
+                    <div class="profile-name-info">
+                        <h1 id="profileName">Your Name</h1>
+                        <p id="profileTitle">Job Title • Company</p>
+                        <span class="role-badge" id="roleBadge">Learner</span>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="btn btn-outline-white btn-sm" id="uploadCoverBtn">🖼️ Change Cover</button>
+                        <button class="btn btn-white btn-sm" id="saveProfileBtn">💾 Save Profile</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COMPLETION BAR -->
+        <div class="completion-bar">
+            <span class="label">📊 Profile Completion</span>
+            <div class="progress-track">
+                <div class="fill" id="completionFill" style="width:0%;"></div>
+            </div>
+            <span class="percentage" id="completionPercent">0%</span>
+            <span class="status-msg" id="completionMsg">Complete your profile to unlock all features</span>
+        </div>
+
+        <!-- PROFILE FORM -->
+        <div class="profile-form">
+
+            <!-- MAIN FORM -->
+            <div class="main-form">
+
+                <!-- BASIC INFO -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>👤 Basic Information</h2>
+                        <span class="card-badge required">Required</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Full Name <span class="required-star">*</span></label>
+                        <input type="text" id="fullName" placeholder="John Doe">
+                        <div class="field-error" id="fullNameError">Full name is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Job Title <span class="optional-tag">(Optional)</span></label>
+                        <input type="text" id="jobTitle" placeholder="Software Engineer">
+                    </div>
+                    <div class="form-group">
+                        <label>Company/Organization <span class="optional-tag">(Optional)</span></label>
+                        <input type="text" id="company" placeholder="Google">
+                    </div>
+                    <div class="form-group">
+                        <label>Location <span class="optional-tag">(Optional)</span></label>
+                        <input type="text" id="location" placeholder="Lagos, Nigeria">
+                    </div>
+                    <div class="form-group">
+                        <label>Bio / About You <span class="optional-tag">(Optional)</span></label>
+                        <textarea id="bio" rows="3" placeholder="Tell us about yourself, your expertise, and what you're passionate about..."></textarea>
+                    </div>
+                </div>
+
+                <!-- SKILLS -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>🛠️ Skills</h2>
+                        <span class="card-badge optional">Min 3 for completion</span>
+                    </div>
+                    <div class="skills-container" id="skillsContainer"></div>
+                    <div class="skills-input-group">
+                        <input type="text" id="skillInput" placeholder="Type a skill and press Enter..." onkeydown="if(event.key==='Enter'){event.preventDefault();addSkill();}">
+                        <select id="skillDropdown" onchange="if(this.value){addSkillFromDropdown(this.value);this.value='';}">
+                            <option value="">Or select from list...</option>
+                        </select>
+                        <button class="btn-add" onclick="addSkill()">+ Add</button>
+                    </div>
+                    <div class="field-error" id="skillError">Please add at least 3 skills</div>
+                </div>
+
+                <!-- SOCIAL LINKS -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>🔗 Social Links</h2>
+                        <span class="card-badge optional">Min 2 for completion</span>
+                    </div>
+                    <div class="social-input">
+                        <span class="social-icon">🔗</span>
+                        <input type="url" id="socialWebsite" placeholder="Personal Website (https://yourwebsite.com)">
+                    </div>
+                    <div class="social-input">
+                        <span class="social-icon">💼</span>
+                        <input type="url" id="socialLinkedin" placeholder="LinkedIn (https://linkedin.com/in/yourname)">
+                    </div>
+                    <div class="social-input">
+                        <span class="social-icon">🐦</span>
+                        <input type="url" id="socialX" placeholder="X / Twitter (https://x.com/yourhandle)">
+                    </div>
+                    <div class="social-input">
+                        <span class="social-icon">🐙</span>
+                        <input type="url" id="socialGithub" placeholder="GitHub (https://github.com/yourusername)">
+                    </div>
+                    <div class="social-input">
+                        <span class="social-icon">📘</span>
+                        <input type="url" id="socialFacebook" placeholder="Facebook (https://facebook.com/yourprofile)">
+                    </div>
+                    <div class="social-input">
+                        <span class="social-icon">📸</span>
+                        <input type="url" id="socialInstagram" placeholder="Instagram (https://instagram.com/yourhandle)">
+                    </div>
+                    <div class="field-error" id="socialError">Please add at least 2 social links</div>
+                </div>
+
+                <!-- WORK EXPERIENCE (All Roles) -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>💼 Work Experience</h2>
+                        <span class="card-badge optional">Up to 10 entries</span>
+                    </div>
+                    <div id="experienceContainer"></div>
+                    <button class="btn btn-ghost btn-sm" onclick="addExperience()">+ Add Experience</button>
+                </div>
+
+                <!-- EDUCATION (All Roles) -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>🎓 Education & Certifications</h2>
+                        <span class="card-badge optional">Optional</span>
+                    </div>
+                    <div id="educationContainer"></div>
+                    <button class="btn btn-ghost btn-sm" onclick="addEducation()">+ Add Education</button>
+                </div>
+
+                <!-- RESUME UPLOAD -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📄 Resume / CV</h2>
+                        <span class="card-badge optional">Optional</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Upload your resume <span class="optional-tag">(PDF, DOC, DOCX, TXT)</span></label>
+                        <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx,.txt" onchange="uploadResume(this)">
+                        <div class="field-hint" id="resumeStatus">No resume uploaded</div>
+                    </div>
+                </div>
+
+                <!-- ROLE-SPECIFIC FIELDS -->
+                <div id="roleSpecificFields"></div>
+
+                <!-- FORM ACTIONS -->
+                <div class="card">
+                    <div class="form-actions">
+                        <button class="btn btn-filled btn-block" id="saveProfileBtn2">💾 Save Profile & Continue</button>
+                        <button class="btn btn-ghost" onclick="window.location.href='dashboard.html'">Skip for now</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SIDEBAR -->
+            <div class="sidebar-form">
+                <!-- Profile Summary -->
+                <div class="sidebar-section">
+                    <h3>📋 Profile Summary</h3>
+                    <div class="info-row"><span class="label">Role</span><span class="value" id="sidebarRole">Learner</span></div>
+                    <div class="info-row"><span class="label">Email</span><span class="value" id="sidebarEmail">-</span></div>
+                    <div class="info-row"><span class="label">Member Since</span><span class="value" id="sidebarSince">-</span></div>
+                    <div class="info-row"><span class="label">Profile Views</span><span class="value" id="sidebarViews">0</span></div>
+                    <div class="info-row"><span class="label">Employer Contacts</span><span class="value" id="sidebarContacts">0</span></div>
+                </div>
+
+                <!-- Privacy Settings -->
+                <div class="sidebar-section">
+                    <h3>🔒 Privacy Settings</h3>
+                    <div class="form-group">
+                        <label>Profile Visibility</label>
+                        <select id="privacyLevel">
+                            <option value="public">🌍 Public - Anyone can see</option>
+                            <option value="loggedin">🔐 Logged-in users only</option>
+                            <option value="private">🔒 Private - Only me</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Show email on profile</label>
+                        <select id="showEmail">
+                            <option value="yes">✅ Yes</option>
+                            <option value="no">❌ No</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Quick Tips -->
+                <div class="sidebar-section">
+                    <h3>💡 Profile Tips</h3>
+                    <ul style="font-size:0.78rem;color:var(--text-secondary);list-style:none;padding:0;">
+                        <li style="padding:4px 0;">📸 Add a professional photo</li>
+                        <li style="padding:4px 0;">📝 Write a compelling bio</li>
+                        <li style="padding:4px 0;">🛠️ Add at least 3 skills</li>
+                        <li style="padding:4px 0;">🔗 Connect your social profiles</li>
+                        <li style="padding:4px 0;">📄 Upload your resume</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Firebase SDK -->
+    <!-- FIREBASE SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
     <script>
     (function() {
-        // ==================== FIREBASE CONFIG ====================
+        'use strict';
+
+        // ============================================
+        // FIREBASE CONFIG
+        // ============================================
         const firebaseConfig = {
             apiKey: "AIzaSyAvvB3C9SP8tDTqMmqzc6craI4d_0kSVX0",
             authDomain: "timijosh-b8bee.firebaseapp.com",
@@ -193,172 +908,975 @@
             appId: "1:779082784462:web:a9e9aca2177c7e343c3a9f",
             measurementId: "G-ZPS8VP8ZBX"
         };
+
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        let currentUser = null;
-        let userData = null;
+        // ============================================
+        // CLOUDINARY CONFIG
+        // ============================================
+        const CLOUDINARY = {
+            cloudName: 'dmbjrohtn',
+            uploadPreset: 'pelumi',
+            folder: 'triangle_learn',
+        };
 
+        // ============================================
+        // STATE
+        // ============================================
+        const State = {
+            user: null,
+            userData: null,
+            userRole: 'learner',
+            skills: [],
+            experience: [],
+            education: [],
+            profileComplete: 0,
+            isSaving: false,
+            avatarUrl: null,
+            coverUrl: null,
+            resumeUrl: null,
+        };
+
+        // ============================================
+        // DOM REFS
+        // ============================================
+        const $ = (sel) => document.querySelector(sel);
+        const $$ = (sel) => document.querySelectorAll(sel);
+
+        const DOM = {
+            // Header
+            headerRole: $('#headerRole'),
+            profileName: $('#profileName'),
+            profileTitle: $('#profileTitle'),
+            roleBadge: $('#roleBadge'),
+
+            // Avatar & Cover
+            avatarImage: $('#avatarImage'),
+            avatarPlaceholder: $('#avatarPlaceholder'),
+            uploadAvatarBtn: $('#uploadAvatarBtn'),
+            coverImage: $('#coverImage'),
+            uploadCoverBtn: $('#uploadCoverBtn'),
+
+            // Completion
+            completionFill: $('#completionFill'),
+            completionPercent: $('#completionPercent'),
+            completionMsg: $('#completionMsg'),
+
+            // Basic Info
+            fullName: $('#fullName'),
+            fullNameError: $('#fullNameError'),
+            jobTitle: $('#jobTitle'),
+            company: $('#company'),
+            location: $('#location'),
+            bio: $('#bio'),
+
+            // Skills
+            skillsContainer: $('#skillsContainer'),
+            skillInput: $('#skillInput'),
+            skillDropdown: $('#skillDropdown'),
+            skillError: $('#skillError'),
+
+            // Social
+            socialWebsite: $('#socialWebsite'),
+            socialLinkedin: $('#socialLinkedin'),
+            socialX: $('#socialX'),
+            socialGithub: $('#socialGithub'),
+            socialFacebook: $('#socialFacebook'),
+            socialInstagram: $('#socialInstagram'),
+            socialError: $('#socialError'),
+
+            // Experience
+            experienceContainer: $('#experienceContainer'),
+
+            // Education
+            educationContainer: $('#educationContainer'),
+
+            // Resume
+            resumeUpload: $('#resumeUpload'),
+            resumeStatus: $('#resumeStatus'),
+
+            // Role-specific
+            roleSpecificFields: $('#roleSpecificFields'),
+
+            // Sidebar
+            sidebarRole: $('#sidebarRole'),
+            sidebarEmail: $('#sidebarEmail'),
+            sidebarSince: $('#sidebarSince'),
+            sidebarViews: $('#sidebarViews'),
+            sidebarContacts: $('#sidebarContacts'),
+
+            // Privacy
+            privacyLevel: $('#privacyLevel'),
+            showEmail: $('#showEmail'),
+
+            // Actions
+            saveProfileBtn: $('#saveProfileBtn'),
+            saveProfileBtn2: $('#saveProfileBtn2'),
+            toastContainer: $('#toastContainer'),
+        };
+
+        // ============================================
+        // TOAST SYSTEM
+        // ============================================
+        function showToast(message, type = 'success', emoji = '🎉') {
+            const container = DOM.toastContainer;
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                <span class="toast-emoji">${emoji}</span>
+                <span>${message}</span>
+                <button class="toast-close" onclick="this.closest('.toast').remove()">✕</button>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                if (toast.parentNode) toast.remove();
+            }, 4000);
+        }
+
+        // ============================================
+        // AUTH CHECK
+        // ============================================
         auth.onAuthStateChanged(async (user) => {
-            if (!user) { window.location.href = 'auth.html'; return; }
-            currentUser = user;
+            if (!user) {
+                window.location.href = 'auth.html';
+                return;
+            }
+            State.user = user;
+            DOM.sidebarEmail.textContent = user.email;
+            await loadUserData(user.uid);
+        });
+
+        // ============================================
+        // LOAD USER DATA
+        // ============================================
+        async function loadUserData(uid) {
             try {
-                const userDoc = await db.collection('users').doc(user.uid).get();
-                if (!userDoc.exists) {
-                    window.location.href = 'dashboard.html';
+                const doc = await db.collection('users').doc(uid).get();
+                if (!doc.exists) {
+                    showToast('User data not found. Please try again.', 'error', '❌');
                     return;
                 }
-                userData = { id: userDoc.id, ...userDoc.data() };
-                renderProfile();
-                loadReferralDetails();
-            } catch (e) {
-                document.getElementById('profileContainer').innerHTML =
-                    '<div class="card"><p style="color:var(--danger);">Failed to load profile.</p></div>';
+
+                State.userData = doc.data();
+                State.userRole = State.userData.role || 'learner';
+                State.skills = State.userData.skills || [];
+                State.experience = State.userData.workExperience || [];
+                State.education = State.userData.education || [];
+
+                // Populate form
+                populateForm(State.userData);
+                renderRoleSpecificFields(State.userRole);
+                renderSkills();
+                renderExperience();
+                renderEducation();
+                updateCompletion();
+
+                // Update header
+                DOM.headerRole.textContent = State.userRole.charAt(0).toUpperCase() + State.userRole.slice(1);
+                DOM.roleBadge.textContent = State.userRole.charAt(0).toUpperCase() + State.userRole.slice(1);
+                DOM.sidebarRole.textContent = State.userRole.charAt(0).toUpperCase() + State.userRole.slice(1);
+
+                // Update sidebar stats
+                DOM.sidebarViews.textContent = State.userData.profileViews || 0;
+                DOM.sidebarContacts.textContent = State.userData.contacts || 0;
+                if (State.userData.createdAt?.toDate) {
+                    DOM.sidebarSince.textContent = State.userData.createdAt.toDate().toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                }
+
+                // Populate skill dropdown
+                populateSkillDropdown();
+
+            } catch (error) {
+                console.error('Load user error:', error);
+                showToast('Failed to load profile data', 'error', '❌');
+            }
+        }
+
+        // ============================================
+        // POPULATE FORM
+        // ============================================
+        function populateForm(data) {
+            DOM.fullName.value = data.fullName || '';
+            DOM.jobTitle.value = data.jobTitle || '';
+            DOM.company.value = data.company || '';
+            DOM.location.value = data.location || '';
+            DOM.bio.value = data.bio || '';
+
+            // Social links
+            const social = data.socialLinks || {};
+            DOM.socialWebsite.value = social.website || '';
+            DOM.socialLinkedin.value = social.linkedin || '';
+            DOM.socialX.value = social.x || '';
+            DOM.socialGithub.value = social.github || '';
+            DOM.socialFacebook.value = social.facebook || '';
+            DOM.socialInstagram.value = social.instagram || '';
+
+            // Profile picture
+            if (data.profilePicture) {
+                DOM.avatarImage.src = data.profilePicture;
+                DOM.avatarImage.style.display = 'block';
+                DOM.avatarPlaceholder.style.display = 'none';
+                State.avatarUrl = data.profilePicture;
+            }
+
+            // Cover image
+            if (data.coverImage) {
+                DOM.coverImage.src = data.coverImage;
+                DOM.coverImage.style.display = 'block';
+                State.coverUrl = data.coverImage;
+            }
+
+            // Resume
+            if (data.resumeUrl) {
+                DOM.resumeStatus.textContent = `✅ Resume uploaded: ${data.resumeUrl.split('/').pop()}`;
+                State.resumeUrl = data.resumeUrl;
+            }
+
+            // Privacy
+            DOM.privacyLevel.value = data.privacyLevel || 'public';
+            DOM.showEmail.value = data.showEmail !== undefined ? (data.showEmail ? 'yes' : 'no') : 'yes';
+
+            // Name display
+            DOM.profileName.textContent = data.fullName || 'Your Name';
+            DOM.profileTitle.textContent = `${data.jobTitle || 'Job Title'}${data.company ? ` • ${data.company}` : ''}`;
+        }
+
+        // ============================================
+        // RENDER ROLE-SPECIFIC FIELDS
+        // ============================================
+        function renderRoleSpecificFields(role) {
+            const container = DOM.roleSpecificFields;
+            let html = '';
+
+            switch (role) {
+                case 'instructor':
+                    html = `
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>👨‍🏫 Instructor Information</h2>
+                                <span class="card-badge required">Required for payouts</span>
+                            </div>
+                            <div class="form-group">
+                                <label>Teaching Experience <span class="optional-tag">(Years)</span></label>
+                                <input type="number" id="teachingExperience" placeholder="5" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Expertise Areas <span class="optional-tag">(Comma separated)</span></label>
+                                <input type="text" id="expertiseAreas" placeholder="React, Node.js, Python">
+                            </div>
+                            <div class="form-group">
+                                <label>Bank Name <span class="required-star">*</span></label>
+                                <input type="text" id="bankName" placeholder="GTBank">
+                            </div>
+                            <div class="form-group">
+                                <label>Account Number <span class="required-star">*</span></label>
+                                <input type="text" id="accountNumber" placeholder="0123456789" maxlength="10">
+                            </div>
+                            <div class="form-group">
+                                <label>Account Name <span class="required-star">*</span></label>
+                                <input type="text" id="accountName" placeholder="John Doe">
+                            </div>
+                            <div class="form-group">
+                                <label>Subscription Status</label>
+                                <div style="padding:8px 12px;background:var(--bg-alt);border-radius:var(--radius-sm);font-size:0.85rem;">
+                                    <span id="subscriptionStatus">${State.userData.subscriptionStatus || 'Free Trial'}</span>
+                                    ${State.userData.subscriptionEnd ? ` • Expires: ${State.userData.subscriptionEnd.toDate ? State.userData.subscriptionEnd.toDate().toLocaleDateString() : ''}` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'jobgiver':
+                    html = `
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>🏢 Company Information</h2>
+                                <span class="card-badge required">Required</span>
+                            </div>
+                            <div class="form-group">
+                                <label>Company Name <span class="required-star">*</span></label>
+                                <input type="text" id="companyName" placeholder="Tech Corp">
+                            </div>
+                            <div class="form-group">
+                                <label>Company Website <span class="optional-tag">(Optional)</span></label>
+                                <input type="url" id="companyWebsite" placeholder="https://company.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Company Description <span class="optional-tag">(Optional)</span></label>
+                                <textarea id="companyDescription" rows="3" placeholder="What does your company do?"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Industry <span class="optional-tag">(Optional)</span></label>
+                                <select id="industry">
+                                    <option value="">Select industry...</option>
+                                    <option value="technology">Technology</option>
+                                    <option value="finance">Finance</option>
+                                    <option value="healthcare">Healthcare</option>
+                                    <option value="education">Education</option>
+                                    <option value="ecommerce">E-commerce</option>
+                                    <option value="media">Media & Entertainment</option>
+                                    <option value="realestate">Real Estate</option>
+                                    <option value="manufacturing">Manufacturing</option>
+                                    <option value="agriculture">Agriculture</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Company Size <span class="optional-tag">(Optional)</span></label>
+                                <select id="companySize">
+                                    <option value="">Select size...</option>
+                                    <option value="1-10">1-10 employees</option>
+                                    <option value="11-50">11-50 employees</option>
+                                    <option value="51-200">51-200 employees</option>
+                                    <option value="201-500">201-500 employees</option>
+                                    <option value="500+">500+ employees</option>
+                                </select>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'admin':
+                    html = `
+                        <div class="card" style="border:2px solid var(--gold);">
+                            <div class="card-header">
+                                <h2>👑 Admin Panel</h2>
+                                <span class="card-badge" style="background:var(--gold);color:#fff;">Admin</span>
+                            </div>
+                            <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:12px;">
+                                As an admin, you have full access to all platform features.
+                            </p>
+                            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                                <a href="admin-dashboard.html" class="btn btn-filled btn-sm">📊 Admin Dashboard</a>
+                                <a href="create-course.html" class="btn btn-ghost btn-sm">📚 Create Course</a>
+                                <a href="job-board.html" class="btn btn-ghost btn-sm">💼 Job Board</a>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                default: // learner
+                    html = `
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>🧑‍🎓 Learning Goals</h2>
+                                <span class="card-badge optional">Optional</span>
+                            </div>
+                            <div class="form-group">
+                                <label>What do you want to learn? <span class="optional-tag">(Optional)</span></label>
+                                <textarea id="learningGoals" rows="3" placeholder="I want to become a full-stack developer..."></textarea>
+                            </div>
+                        </div>
+                    `;
+            }
+
+            container.innerHTML = html;
+
+            // Populate role-specific fields if data exists
+            if (State.userData) {
+                const data = State.userData;
+                switch (role) {
+                    case 'instructor':
+                        document.getElementById('teachingExperience') && (document.getElementById('teachingExperience').value = data.teachingExperience || '');
+                        document.getElementById('expertiseAreas') && (document.getElementById('expertiseAreas').value = (data.expertiseAreas || []).join(', '));
+                        document.getElementById('bankName') && (document.getElementById('bankName').value = data.bankDetails?.bankName || '');
+                        document.getElementById('accountNumber') && (document.getElementById('accountNumber').value = data.bankDetails?.accountNumber || '');
+                        document.getElementById('accountName') && (document.getElementById('accountName').value = data.bankDetails?.accountName || '');
+                        break;
+                    case 'jobgiver':
+                        document.getElementById('companyName') && (document.getElementById('companyName').value = data.companyName || '');
+                        document.getElementById('companyWebsite') && (document.getElementById('companyWebsite').value = data.companyWebsite || '');
+                        document.getElementById('companyDescription') && (document.getElementById('companyDescription').value = data.companyDescription || '');
+                        document.getElementById('industry') && (document.getElementById('industry').value = data.industry || '');
+                        document.getElementById('companySize') && (document.getElementById('companySize').value = data.companySize || '');
+                        break;
+                    case 'learner':
+                        document.getElementById('learningGoals') && (document.getElementById('learningGoals').value = data.learningGoals || '');
+                        break;
+                }
+            }
+        }
+
+        // ============================================
+        // SKILLS
+        // ============================================
+        const SKILL_LIST = [
+            // Programming Languages
+            'JavaScript', 'Python', 'Java', 'C++', 'C#', 'Ruby', 'PHP', 'Swift', 'Kotlin', 'Go', 'Rust', 'TypeScript',
+            'HTML', 'CSS', 'Sass', 'Less', 'SQL', 'NoSQL', 'GraphQL',
+            // Frameworks & Libraries
+            'React', 'Angular', 'Vue.js', 'Next.js', 'Nuxt.js', 'Svelte', 'jQuery', 'Bootstrap', 'Tailwind CSS',
+            'Node.js', 'Express.js', 'Django', 'Flask', 'Spring Boot', 'Laravel', 'Ruby on Rails', 'ASP.NET',
+            'TensorFlow', 'PyTorch', 'Scikit-learn', 'Pandas', 'NumPy', 'Matplotlib',
+            // Databases
+            'MongoDB', 'PostgreSQL', 'MySQL', 'Firebase', 'Redis', 'Elasticsearch', 'Cassandra', 'DynamoDB',
+            // DevOps & Cloud
+            'AWS', 'Azure', 'GCP', 'Docker', 'Kubernetes', 'Jenkins', 'Git', 'GitHub Actions', 'Terraform', 'Ansible',
+            'Linux', 'Bash', 'PowerShell',
+            // Design
+            'UI/UX Design', 'Figma', 'Adobe XD', 'Sketch', 'Photoshop', 'Illustrator', 'InDesign', 'After Effects',
+            'Blender', '3D Modeling', 'Animation',
+            // Data & Analytics
+            'Data Analysis', 'Data Science', 'Machine Learning', 'Deep Learning', 'NLP', 'Computer Vision',
+            'Power BI', 'Tableau', 'Excel', 'SPSS', 'R', 'SAS',
+            // Business & Soft Skills
+            'Project Management', 'Agile', 'Scrum', 'Leadership', 'Communication', 'Problem Solving',
+            'Critical Thinking', 'Teamwork', 'Adaptability', 'Creativity', 'Time Management',
+            'Digital Marketing', 'SEO', 'SEM', 'Social Media Marketing', 'Content Creation',
+            // Additional
+            'Blockchain', 'Smart Contracts', 'Web3', 'AR/VR', 'IoT', 'Robotics', 'Cybersecurity',
+            'Ethical Hacking', 'Penetration Testing', 'Network Security', 'Cloud Security'
+        ];
+
+        function populateSkillDropdown() {
+            const dropdown = DOM.skillDropdown;
+            dropdown.innerHTML = '<option value="">Or select from list...</option>';
+            SKILL_LIST.forEach(skill => {
+                if (!State.skills.includes(skill)) {
+                    const option = document.createElement('option');
+                    option.value = skill;
+                    option.textContent = skill;
+                    dropdown.appendChild(option);
+                }
+            });
+        }
+
+        function renderSkills() {
+            const container = DOM.skillsContainer;
+            container.innerHTML = State.skills.map(skill =>
+                `<span class="skill-tag">${skill} <span class="remove" onclick="removeSkill('${skill}')">×</span></span>`
+            ).join('');
+            populateSkillDropdown();
+            updateCompletion();
+        }
+
+        function addSkill() {
+            const input = DOM.skillInput;
+            const skill = input.value.trim();
+            if (skill && !State.skills.includes(skill)) {
+                State.skills.push(skill);
+                input.value = '';
+                renderSkills();
+                updateCompletion();
+                DOM.skillError.classList.remove('show');
+            }
+        }
+
+        function addSkillFromDropdown(skill) {
+            if (skill && !State.skills.includes(skill)) {
+                State.skills.push(skill);
+                renderSkills();
+                updateCompletion();
+                DOM.skillError.classList.remove('show');
+            }
+        }
+
+        function removeSkill(skill) {
+            State.skills = State.skills.filter(s => s !== skill);
+            renderSkills();
+            updateCompletion();
+        }
+
+        DOM.skillInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addSkill();
             }
         });
 
-        function renderProfile() {
-            const u = userData;
-            const referralLink = u.referralLink || (u.referralCode ? `${window.location.origin}/auth.html?ref=${u.referralCode}` : 'Complete enrollment to get your link');
+        // ============================================
+        // EXPERIENCE
+        // ============================================
+        let expCounter = 0;
 
-            document.getElementById('profileContainer').innerHTML = `
-                <div class="card">
-                    <div class="card-header"><h2>👤 Personal Information</h2></div>
-                    <div id="profileAlert"></div>
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" id="editName" value="${escapeHtml(u.fullName || '')}">
-                    </div>
-                    <div class="form-group">
-                        <label>Email (cannot be changed)</label>
-                        <input type="email" value="${escapeHtml(u.email || '')}" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label>Phone Number</label>
-                        <input type="tel" id="editPhone" value="${escapeHtml(u.phone || '')}">
-                    </div>
-                    <div class="form-group">
-                        <label>WhatsApp Number</label>
-                        <input type="tel" id="editWhatsapp" value="${escapeHtml(u.whatsapp || '')}">
-                    </div>
-                    <button class="btn btn-filled" id="saveProfileBtn">💾 Save Changes</button>
-                </div>
-
-                <div class="ref-box">
-                    <h3>💰 Your Referral Program</h3>
-                    <p>Share your unique link. Earn 20% commission on every enrollment.</p>
-                    <div class="ref-link-copy">
-                        <input type="text" id="refLink" value="${escapeHtml(referralLink)}" readonly onclick="this.select()">
-                        <button id="copyRefBtn">Copy</button>
-                    </div>
-                    <div class="earnings">
-                        Your code: <strong>${escapeHtml(u.referralCode || 'Not available')}</strong>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header"><h2>📊 Referral History</h2></div>
-                    <div id="referralHistory"><div class="loading-spinner" style="margin:20px auto;"></div></div>
-                </div>`;
-
-            document.getElementById('saveProfileBtn').addEventListener('click', saveProfile);
-            document.getElementById('copyRefBtn').addEventListener('click', copyRefLink);
-        }
-
-        async function saveProfile() {
-            const btn = document.getElementById('saveProfileBtn');
-            btn.disabled = true;
-            btn.textContent = 'Saving...';
-            try {
-                await db.collection('users').doc(currentUser.uid).update({
-                    fullName: document.getElementById('editName').value.trim(),
-                    phone: document.getElementById('editPhone').value.trim(),
-                    whatsapp: document.getElementById('editWhatsapp').value.trim(),
-                });
-                showAlert('profileAlert', 'Profile updated successfully!', 'success');
-                userData.fullName = document.getElementById('editName').value.trim();
-                userData.phone = document.getElementById('editPhone').value.trim();
-                userData.whatsapp = document.getElementById('editWhatsapp').value.trim();
-            } catch (e) {
-                showAlert('profileAlert', 'Failed to save: ' + e.message, 'error');
-            } finally {
-                btn.disabled = false;
-                btn.textContent = '💾 Save Changes';
-            }
-        }
-
-        function copyRefLink() {
-            const input = document.getElementById('refLink');
-            if (!input.value || input.value.includes('Complete enrollment')) {
-                alert('Complete enrollment to get your referral link.');
+        function renderExperience() {
+            const container = DOM.experienceContainer;
+            if (State.experience.length === 0) {
+                container.innerHTML = `<p style="color:var(--text-muted);font-size:0.82rem;padding:8px 0;">No experience added yet.</p>`;
                 return;
             }
-            input.select();
-            document.execCommand('copy');
-            const btn = document.getElementById('copyRefBtn');
-            btn.textContent = 'Copied!';
-            setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+            container.innerHTML = State.experience.map((exp, index) => `
+                <div class="entry-item" data-index="${index}">
+                    <div class="entry-header">
+                        <h4>${exp.title || 'Untitled'} @ ${exp.company || 'Company'}</h4>
+                        <div class="entry-actions">
+                            <button class="edit-btn" onclick="editExperience(${index})">✏️</button>
+                            <button class="delete-btn" onclick="removeExperience(${index})">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="entry-body">
+                        <div class="form-group"><label>Job Title</label><input type="text" value="${exp.title || ''}" onchange="updateExperience(${index},'title',this.value)"></div>
+                        <div class="form-group"><label>Company</label><input type="text" value="${exp.company || ''}" onchange="updateExperience(${index},'company',this.value)"></div>
+                        <div class="form-group"><label>Start Date</label><input type="date" value="${exp.startDate || ''}" onchange="updateExperience(${index},'startDate',this.value)"></div>
+                        <div class="form-group"><label>End Date</label><input type="date" value="${exp.endDate || ''}" onchange="updateExperience(${index},'endDate',this.value)"></div>
+                        <div class="full-width form-group"><label>Description</label><textarea rows="2" onchange="updateExperience(${index},'description',this.value)">${exp.description || ''}</textarea></div>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        async function loadReferralDetails() {
-            try {
-                const snap = await db.collection('referrals')
-                    .where('referrerUid', '==', currentUser.uid)
-                    .orderBy('createdAt', 'desc')
-                    .get();
+        function addExperience() {
+            if (State.experience.length >= 10) {
+                showToast('Maximum 10 experiences allowed', 'warning', '⚠️');
+                return;
+            }
+            State.experience.push({ title: '', company: '', startDate: '', endDate: '', description: '' });
+            renderExperience();
+            updateCompletion();
+        }
 
-                const historyDiv = document.getElementById('referralHistory');
-                if (snap.empty) {
-                    historyDiv.innerHTML = '<div class="empty-state">No referrals yet. Share your link to start earning!</div>';
-                    // Update total in referral box
-                    const earningsSpan = document.querySelector('.ref-box .earnings');
-                    if (earningsSpan) earningsSpan.innerHTML += '<br>Total earned: <strong>₦0</strong>';
-                    return;
-                }
+        function removeExperience(index) {
+            State.experience.splice(index, 1);
+            renderExperience();
+            updateCompletion();
+        }
 
-                let totalEarned = 0;
-                let rows = '';
-                snap.forEach(doc => {
-                    const r = doc.data();
-                    if (r.status === 'paid') totalEarned += (r.commissionAmount || 0);
-                    const date = r.createdAt?.toDate?.().toDateString() || '—';
-                    const statusClass = r.status === 'paid' ? 'badge-paid' : 'badge-pending';
-                    rows += `<tr>
-                        <td>${escapeHtml(r.referredName || '—')}</td>
-                        <td>${escapeHtml(r.referredEmail || '—')}</td>
-                        <td><span class="badge ${statusClass}">${r.status || 'pending'}</span></td>
-                        <td>₦${(r.commissionAmount || 0).toLocaleString()}</td>
-                        <td>${date}</td>
-                    </tr>`;
-                });
+        function updateExperience(index, field, value) {
+            State.experience[index][field] = value;
+            updateCompletion();
+        }
 
-                historyDiv.innerHTML = `
-                    <table>
-                        <thead><tr><th>Name</th><th>Email</th><th>Status</th><th>Commission</th><th>Date</th></tr></thead>
-                        <tbody>${rows}</tbody>
-                    </table>`;
-
-                const earningsSpan = document.querySelector('.ref-box .earnings');
-                if (earningsSpan) earningsSpan.innerHTML += `<br>Total earned: <strong>₦${totalEarned.toLocaleString()}</strong>`;
-            } catch (e) {
-                document.getElementById('referralHistory').innerHTML = '<p style="color:var(--danger);">Failed to load referrals.</p>';
+        function editExperience(index) {
+            // Scroll to the entry and focus the title field
+            const entry = document.querySelector(`.entry-item[data-index="${index}"]`);
+            if (entry) {
+                entry.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                const titleInput = entry.querySelector('input[type="text"]');
+                if (titleInput) titleInput.focus();
             }
         }
 
-        function showAlert(containerId, message, type) {
-            const el = document.getElementById(containerId);
-            if (!el) return;
-            el.className = `alert alert-${type}`;
-            el.textContent = message;
-            setTimeout(() => { el.className = 'alert'; }, 4000);
+        // ============================================
+        // EDUCATION
+        // ============================================
+        let eduCounter = 0;
+
+        function renderEducation() {
+            const container = DOM.educationContainer;
+            if (State.education.length === 0) {
+                container.innerHTML = `<p style="color:var(--text-muted);font-size:0.82rem;padding:8px 0;">No education added yet.</p>`;
+                return;
+            }
+            container.innerHTML = State.education.map((edu, index) => `
+                <div class="entry-item" data-edu-index="${index}">
+                    <div class="entry-header">
+                        <h4>${edu.school || 'School'} - ${edu.degree || 'Degree'}</h4>
+                        <div class="entry-actions">
+                            <button class="edit-btn" onclick="editEducation(${index})">✏️</button>
+                            <button class="delete-btn" onclick="removeEducation(${index})">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="entry-body">
+                        <div class="form-group"><label>School/Institution</label><input type="text" value="${edu.school || ''}" onchange="updateEducation(${index},'school',this.value)"></div>
+                        <div class="form-group"><label>Degree/Certification</label><input type="text" value="${edu.degree || ''}" onchange="updateEducation(${index},'degree',this.value)"></div>
+                        <div class="form-group"><label>Field of Study</label><input type="text" value="${edu.field || ''}" onchange="updateEducation(${index},'field',this.value)"></div>
+                        <div class="form-group"><label>Year</label><input type="text" value="${edu.year || ''}" onchange="updateEducation(${index},'year',this.value)"></div>
+                        <div class="full-width form-group"><label>Notes</label><textarea rows="2" onchange="updateEducation(${index},'notes',this.value)">${edu.notes || ''}</textarea></div>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        function escapeHtml(s) {
-            const d = document.createElement('div');
-            d.textContent = s || '';
-            return d.innerHTML;
+        function addEducation() {
+            State.education.push({ school: '', degree: '', field: '', year: '', notes: '' });
+            renderEducation();
+            updateCompletion();
         }
+
+        function removeEducation(index) {
+            State.education.splice(index, 1);
+            renderEducation();
+            updateCompletion();
+        }
+
+        function updateEducation(index, field, value) {
+            State.education[index][field] = value;
+            updateCompletion();
+        }
+
+        function editEducation(index) {
+            const entry = document.querySelector(`.entry-item[data-edu-index="${index}"]`);
+            if (entry) {
+                entry.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                const schoolInput = entry.querySelector('input[type="text"]');
+                if (schoolInput) schoolInput.focus();
+            }
+        }
+
+        // ============================================
+        // RESUME UPLOAD - Cloudinary
+        // ============================================
+        function uploadResume(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', CLOUDINARY.uploadPreset);
+            formData.append('folder', CLOUDINARY.folder + '/resumes');
+
+            DOM.resumeStatus.textContent = '⏳ Uploading...';
+
+            fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY.cloudName}/upload`, {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.secure_url) {
+                    State.resumeUrl = data.secure_url;
+                    DOM.resumeStatus.textContent = `✅ Resume uploaded: ${file.name}`;
+                    showToast('Resume uploaded successfully!', 'success', '📄');
+                    updateCompletion();
+                } else {
+                    DOM.resumeStatus.textContent = '❌ Upload failed';
+                    showToast('Failed to upload resume', 'error', '❌');
+                }
+            })
+            .catch(err => {
+                console.error('Resume upload error:', err);
+                DOM.resumeStatus.textContent = '❌ Upload error';
+                showToast('Failed to upload resume', 'error', '❌');
+            });
+        }
+
+        // ============================================
+        // CLOUDINARY WIDGET - Profile Picture & Cover
+        // ============================================
+        function openCloudinaryWidget(type) {
+            const widget = cloudinary.createUploadWidget({
+                cloudName: CLOUDINARY.cloudName,
+                uploadPreset: CLOUDINARY.uploadPreset,
+                folder: CLOUDINARY.folder + (type === 'avatar' ? '/avatars' : '/covers'),
+                cropping: true,
+                croppingAspectRatio: type === 'avatar' ? 1 : 3,
+                croppingCoordinatesMode: 'custom',
+                showAdvancedOptions: true,
+                multiple: false,
+                styles: {
+                    palette: {
+                        window: '#FFFFFF',
+                        windowBorder: '#EEF0F5',
+                        tabIcon: '#6C5CE7',
+                        menuIcons: '#6C5CE7',
+                        textDark: '#1A1A2E',
+                        textLight: '#FFFFFF',
+                        link: '#6C5CE7',
+                        action: '#E84393',
+                        inactiveTabIcon: '#8A8AA0',
+                        error: '#E74C3C',
+                        inProgress: '#F0A500',
+                        complete: '#0D9488',
+                        sourceBg: '#F8F9FC'
+                    }
+                },
+                sources: ['local', 'url', 'camera', 'facebook', 'instagram', 'google_drive', 'dropbox'],
+                showUploadMoreButton: true,
+                showPoweredBy: false
+            }, (error, result) => {
+                if (error) {
+                    console.error('Widget error:', error);
+                    showToast('Upload failed', 'error', '❌');
+                    return;
+                }
+                if (result.event === 'success') {
+                    const url = result.info.secure_url;
+                    if (type === 'avatar') {
+                        State.avatarUrl = url;
+                        DOM.avatarImage.src = url;
+                        DOM.avatarImage.style.display = 'block';
+                        DOM.avatarPlaceholder.style.display = 'none';
+                        showToast('Profile picture updated!', 'success', '📸');
+                    } else {
+                        State.coverUrl = url;
+                        DOM.coverImage.src = url;
+                        DOM.coverImage.style.display = 'block';
+                        showToast('Cover image updated!', 'success', '🖼️');
+                    }
+                    updateCompletion();
+                }
+            });
+
+            widget.open();
+        }
+
+        DOM.uploadAvatarBtn.addEventListener('click', () => openCloudinaryWidget('avatar'));
+        DOM.uploadCoverBtn.addEventListener('click', () => openCloudinaryWidget('cover'));
+
+        // ============================================
+        // PROFILE COMPLETION CALCULATION
+        // ============================================
+        const WEIGHTS = {
+            profilePicture: 15,
+            coverImage: 5,
+            fullName: 10,
+            jobTitle: 10,
+            company: 5,
+            bio: 10,
+            skills: 15,
+            socialLinks: 10,
+            workExperience: 10,
+            education: 5,
+            resume: 5,
+        };
+
+        function calculateCompletion() {
+            let completed = 0;
+            let total = 0;
+
+            // Profile Picture (15%)
+            if (State.avatarUrl) completed += WEIGHTS.profilePicture;
+            total += WEIGHTS.profilePicture;
+
+            // Cover Image (5%)
+            if (State.coverUrl) completed += WEIGHTS.coverImage;
+            total += WEIGHTS.coverImage;
+
+            // Full Name (10%)
+            if (DOM.fullName.value.trim().length > 0) completed += WEIGHTS.fullName;
+            total += WEIGHTS.fullName;
+
+            // Job Title (10%)
+            if (DOM.jobTitle.value.trim().length > 0) completed += WEIGHTS.jobTitle;
+            total += WEIGHTS.jobTitle;
+
+            // Company (5%)
+            if (DOM.company.value.trim().length > 0) completed += WEIGHTS.company;
+            total += WEIGHTS.company;
+
+            // Bio (10%)
+            if (DOM.bio.value.trim().length > 20) completed += WEIGHTS.bio;
+            total += WEIGHTS.bio;
+
+            // Skills (15%) - min 3 skills
+            const skillCount = State.skills.length;
+            if (skillCount >= 3) {
+                completed += WEIGHTS.skills;
+            } else {
+                completed += (skillCount / 3) * WEIGHTS.skills;
+            }
+            total += WEIGHTS.skills;
+
+            // Social Links (10%) - min 2 links
+            const socialFields = [
+                DOM.socialWebsite.value,
+                DOM.socialLinkedin.value,
+                DOM.socialX.value,
+                DOM.socialGithub.value,
+                DOM.socialFacebook.value,
+                DOM.socialInstagram.value
+            ];
+            const socialCount = socialFields.filter(s => s.trim().length > 0).length;
+            if (socialCount >= 2) {
+                completed += WEIGHTS.socialLinks;
+            } else {
+                completed += (socialCount / 2) * WEIGHTS.socialLinks;
+            }
+            total += WEIGHTS.socialLinks;
+
+            // Work Experience (10%)
+            const expCount = State.experience.filter(e => e.title && e.company).length;
+            if (expCount >= 1) {
+                completed += WEIGHTS.workExperience;
+            } else {
+                completed += (expCount / 1) * WEIGHTS.workExperience;
+            }
+            total += WEIGHTS.workExperience;
+
+            // Education (5%)
+            const eduCount = State.education.filter(e => e.school && e.degree).length;
+            if (eduCount >= 1) {
+                completed += WEIGHTS.education;
+            } else {
+                completed += (eduCount / 1) * WEIGHTS.education;
+            }
+            total += WEIGHTS.education;
+
+            // Resume (5%)
+            if (State.resumeUrl) completed += WEIGHTS.resume;
+            total += WEIGHTS.resume;
+
+            // Calculate percentage
+            const percentage = Math.min(Math.round((completed / total) * 100), 100);
+            State.profileComplete = percentage;
+            return percentage;
+        }
+
+        function updateCompletion() {
+            const pct = calculateCompletion();
+            DOM.completionFill.style.width = pct + '%';
+            DOM.completionPercent.textContent = pct + '%';
+
+            let msg = '';
+            let isComplete = pct >= 40;
+
+            if (pct >= 100) {
+                msg = '🎉 Perfect! Your profile is 100% complete!';
+            } else if (pct >= 80) {
+                msg = '🌟 Almost there! Just a few more details.';
+            } else if (pct >= 60) {
+                msg = '💪 Looking good! Keep going to improve your profile.';
+            } else if (pct >= 40) {
+                msg = '✅ Your profile is complete enough to access the dashboard.';
+                DOM.completionMsg.style.color = 'var(--success)';
+            } else {
+                msg = '📝 Complete your profile to unlock all features (minimum 40%).';
+                DOM.completionMsg.style.color = 'var(--warning)';
+            }
+
+            DOM.completionMsg.textContent = msg;
+            return isComplete;
+        }
+
+        // ============================================
+        // SAVE PROFILE
+        // ============================================
+        async function saveProfile() {
+            if (State.isSaving) return;
+            State.isSaving = true;
+            DOM.saveProfileBtn.disabled = true;
+            DOM.saveProfileBtn2.disabled = true;
+
+            try {
+                // Validate required fields
+                const name = DOM.fullName.value.trim();
+                if (!name) {
+                    DOM.fullNameError.classList.add('show');
+                    DOM.fullName.focus();
+                    showToast('Please enter your full name', 'error', '⚠️');
+                    State.isSaving = false;
+                    DOM.saveProfileBtn.disabled = false;
+                    DOM.saveProfileBtn2.disabled = false;
+                    return;
+                }
+                DOM.fullNameError.classList.remove('show');
+
+                // Collect social links
+                const socialLinks = {
+                    website: DOM.socialWebsite.value.trim(),
+                    linkedin: DOM.socialLinkedin.value.trim(),
+                    x: DOM.socialX.value.trim(),
+                    github: DOM.socialGithub.value.trim(),
+                    facebook: DOM.socialFacebook.value.trim(),
+                    instagram: DOM.socialInstagram.value.trim(),
+                };
+
+                // Collect role-specific data
+                const roleData = {};
+                const role = State.userRole;
+
+                switch (role) {
+                    case 'instructor':
+                        roleData.teachingExperience = parseInt(document.getElementById('teachingExperience')?.value) || 0;
+                        roleData.expertiseAreas = (document.getElementById('expertiseAreas')?.value || '').split(',').map(s => s.trim()).filter(Boolean);
+                        roleData.bankDetails = {
+                            bankName: document.getElementById('bankName')?.value.trim() || '',
+                            accountNumber: document.getElementById('accountNumber')?.value.trim() || '',
+                            accountName: document.getElementById('accountName')?.value.trim() || '',
+                        };
+                        break;
+                    case 'jobgiver':
+                        roleData.companyName = document.getElementById('companyName')?.value.trim() || '';
+                        roleData.companyWebsite = document.getElementById('companyWebsite')?.value.trim() || '';
+                        roleData.companyDescription = document.getElementById('companyDescription')?.value.trim() || '';
+                        roleData.industry = document.getElementById('industry')?.value || '';
+                        roleData.companySize = document.getElementById('companySize')?.value || '';
+                        break;
+                    case 'learner':
+                        roleData.learningGoals = document.getElementById('learningGoals')?.value.trim() || '';
+                        break;
+                }
+
+                // Build update data
+                const updateData = {
+                    fullName: name,
+                    jobTitle: DOM.jobTitle.value.trim(),
+                    company: DOM.company.value.trim(),
+                    location: DOM.location.value.trim(),
+                    bio: DOM.bio.value.trim(),
+                    skills: State.skills,
+                    socialLinks: socialLinks,
+                    workExperience: State.experience,
+                    education: State.education,
+                    privacyLevel: DOM.privacyLevel.value,
+                    showEmail: DOM.showEmail.value === 'yes',
+                    profileComplete: State.profileComplete,
+                    profilePicture: State.avatarUrl,
+                    coverImage: State.coverUrl,
+                    resumeUrl: State.resumeUrl,
+                    ...roleData,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                };
+
+                // Save to Firestore
+                await db.collection('users').doc(State.user.uid).update(updateData);
+
+                // Also save profile completion to a separate collection for analytics
+                await db.collection('profile_completions').doc(State.user.uid).set({
+                    userId: State.user.uid,
+                    role: State.userRole,
+                    completion: State.profileComplete,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                showToast('Profile saved successfully! 🎉', 'success', '✅');
+
+                // Check if profile is complete enough to redirect
+                if (State.profileComplete >= 40) {
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1500);
+                } else {
+                    updateCompletion();
+                }
+
+            } catch (error) {
+                console.error('Save error:', error);
+                showToast('Failed to save profile: ' + error.message, 'error', '❌');
+            }
+
+            State.isSaving = false;
+            DOM.saveProfileBtn.disabled = false;
+            DOM.saveProfileBtn2.disabled = false;
+        }
+
+        DOM.saveProfileBtn.addEventListener('click', saveProfile);
+        DOM.saveProfileBtn2.addEventListener('click', saveProfile);
+
+        // Auto-save on field changes (debounced)
+        let saveTimeout = null;
+        function autoSave() {
+            if (saveTimeout) clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                updateCompletion();
+                // Don't auto-save to Firestore on every change to avoid rate limits
+                // We'll save on button click only
+            }, 500);
+        }
+
+        // Add event listeners for auto-completion update
+        const autoSaveFields = [
+            DOM.fullName, DOM.jobTitle, DOM.company, DOM.location, DOM.bio,
+            DOM.socialWebsite, DOM.socialLinkedin, DOM.socialX, DOM.socialGithub,
+            DOM.socialFacebook, DOM.socialInstagram, DOM.privacyLevel
+        ];
+        autoSaveFields.forEach(el => {
+            if (el) el.addEventListener('input', autoSave);
+            if (el) el.addEventListener('change', autoSave);
+        });
+
+        // ============================================
+        // INIT
+        // ============================================
+        console.log('✅ TRIANGLE LEARN Profile Page Loaded');
+
     })();
     </script>
 </body>
