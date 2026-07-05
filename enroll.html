@@ -79,10 +79,11 @@
         .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
         .btn-filled { background: var(--gradient); color: #fff; }
         .btn-filled:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(232,67,147,0.3); }
-        .btn-danger { background: transparent; color: var(--danger); border: 1.5px solid #fdd; }
-        .btn-danger:hover { background: var(--danger-bg); }
         .btn-demo { background: #f59e0b; color: #fff; }
         .btn-demo:hover { background: #d97706; transform: translateY(-2px); }
+        .btn-danger { background: transparent; color: var(--danger); border: 1.5px solid #fdd; }
+        .btn-danger:hover { background: var(--danger-bg); }
+        .btn-sm { padding: 8px 16px; font-size: 0.8rem; }
 
         .main-container { max-width: 900px; margin: 0 auto; padding: 100px 24px 60px; }
 
@@ -177,22 +178,14 @@
         }
         .field-error.show { display: flex; }
 
-        .error-banner {
-            background: var(--danger-bg); color: var(--danger);
+        .error-banner, .success-banner {
             padding: 12px 16px; border-radius: var(--radius-sm);
             font-size: 0.82rem; font-weight: 500; margin-bottom: 18px;
             display: none; align-items: center; gap: 8px;
-            border: 1px solid #fdd;
         }
-        .error-banner.show { display: flex; }
-        .success-banner {
-            background: var(--success-bg); color: var(--success);
-            padding: 12px 16px; border-radius: var(--radius-sm);
-            font-size: 0.82rem; font-weight: 500; margin-bottom: 18px;
-            display: none; align-items: center; gap: 8px;
-            border: 1px solid #c8f0e8;
-        }
-        .success-banner.show { display: flex; }
+        .error-banner { background: var(--danger-bg); color: var(--danger); border: 1px solid #fdd; }
+        .success-banner { background: var(--success-bg); color: var(--success); border: 1px solid #c8f0e8; }
+        .error-banner.show, .success-banner.show { display: flex; }
 
         .summary-box {
             background: var(--bg-alt); border-radius: var(--radius-md);
@@ -263,13 +256,9 @@
         .next-steps ul li::before { content: '✅'; font-size: 0.9rem; }
 
         .demo-notice {
-            background: #fff3e0;
-            border: 1px solid #ffd699;
-            border-radius: var(--radius-sm);
-            padding: 14px;
-            margin-bottom: 18px;
-            text-align: center;
-            font-weight: 500;
+            background: #fff3e0; border: 1px solid #ffd699;
+            border-radius: var(--radius-sm); padding: 14px;
+            margin-bottom: 18px; text-align: center; font-weight: 500;
         }
 
         @media (max-width: 768px) {
@@ -301,6 +290,7 @@
     </header>
 
     <div class="main-container">
+        <!-- Step indicator -->
         <div class="steps" id="stepIndicator">
             <div class="step active" data-step="1"><span class="step-num">1</span> Select Course</div>
             <div class="step-line"></div>
@@ -314,7 +304,7 @@
         <div class="error-banner" id="errorBanner"><span>⚠️</span> <span id="errorMessage"></span></div>
         <div class="success-banner" id="successBanner"><span>✅</span> <span id="successMessage"></span></div>
 
-        <!-- STEP 1 -->
+        <!-- STEP 1: Select Course -->
         <div class="enroll-section active" id="step1Section">
             <div class="card">
                 <div class="section-header">
@@ -333,7 +323,7 @@
             </div>
         </div>
 
-        <!-- STEP 2 -->
+        <!-- STEP 2: Your Details -->
         <div class="enroll-section" id="step2Section">
             <div class="card">
                 <div class="section-header">
@@ -379,7 +369,7 @@
             </div>
         </div>
 
-        <!-- STEP 3 (Payment) -->
+        <!-- STEP 3: Payment -->
         <div class="enroll-section" id="step3Section">
             <div class="card">
                 <div class="section-header">
@@ -387,10 +377,9 @@
                     <p>Confirm your selection and complete payment.</p>
                 </div>
                 <div class="summary-box" id="orderSummary"></div>
-                <!-- Demo mode notice -->
                 <div class="demo-notice" id="demoNotice" style="display:none;">
                     ⚠️ <strong>Demo Mode</strong> – No real payment will be made.<br>
-                    <small>Use this to test the full enrollment flow. Switch to live Paystack by updating your public key.</small>
+                    <small>Switch to live payments by updating your Paystack public key.</small>
                 </div>
                 <div class="btn-row">
                     <button class="btn btn-ghost" id="backToStep2">← Back</button>
@@ -406,7 +395,7 @@
             </div>
         </div>
 
-        <!-- STEP 4 -->
+        <!-- STEP 4: Confirmation -->
         <div class="enroll-section" id="step4Section">
             <div class="card">
                 <div class="success-icon">🎉</div>
@@ -420,7 +409,7 @@
                         <li>Check your email for enrollment confirmation</li>
                         <li>You'll be added to the batch WhatsApp group shortly</li>
                         <li>Your course materials are ready in your dashboard</li>
-                        <li id="certStep" style="display:none;">Your certificate has been issued – <a href="#" id="certLink">view it now</a></li>
+                        <li id="certStep" style="display:none;">🎓 Your certificate has been issued – <a href="#" id="certLink">view it now</a></li>
                     </ul>
                 </div>
                 <div class="summary-box" id="confirmationSummary"></div>
@@ -432,7 +421,7 @@
         </div>
     </div>
 
-    <!-- Firebase SDK -->
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -457,8 +446,8 @@
         const db = firebase.firestore();
 
         // ---------- CONFIG ----------
-        const PAYSTACK_PUBLIC_KEY = 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxx'; // replace with your real key later
-        const IS_DEMO = true; // set to false when you have a real Paystack key
+        const PAYSTACK_PUBLIC_KEY = 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxx'; // Replace with your live key later
+        const IS_DEMO = true; // Set to false when you have a real Paystack key
 
         // ---------- STATE ----------
         const State = {
@@ -544,7 +533,7 @@
             const name = user.displayName || user.email.split('@')[0];
             DOM.userName.textContent = name;
             DOM.userAvatar.textContent = name.charAt(0).toUpperCase();
-            prefillUserData(user);
+            await prefillUserData(user);
             loadCourses();
             setupSpotsListener();
         });
@@ -579,7 +568,9 @@
                         <div class="course-icon">${c.icon||'📘'}</div>
                         <h3>${escapeHtml(c.name)}</h3>
                         <span class="stage-tag">${escapeHtml(c.stage||'Stage')}</span>
-                        <div class="price-tag">${formatCurrency(c.price)}</div>`;
+                        <div class="price-tag">${formatCurrency(c.price)}</div>
+                        ${c.isFullTrack ? '<div style="font-size:0.7rem;color:var(--success);margin-top:2px;">💎 Full Track</div>' : ''}
+                        <div style="font-size:0.72rem;color:var(--text-muted);margin-top:4px;">${c.durationWeeks||'?'} weeks</div>`;
                     card.addEventListener('click', () => {
                         $$('.course-option').forEach(el => el.classList.remove('selected'));
                         card.classList.add('selected');
@@ -643,7 +634,7 @@
                 DOM.refStatus.textContent = '❌ Invalid code';
                 DOM.refStatus.className = 'ref-status show invalid';
             } else {
-                DOM.refStatus.textContent = `✅ Valid – Referral discount applied!`;
+                DOM.refStatus.textContent = '✅ Valid – Referral discount applied!';
                 DOM.refStatus.className = 'ref-status show valid';
                 State.validatedReferral = { code, referrerUid: snap.docs[0].id };
                 buildSummary();
