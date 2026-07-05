@@ -49,7 +49,7 @@
             padding: 20px;
         }
 
-        .auth-wrapper { width: 100%; max-width: 460px; }
+        .auth-wrapper { width: 100%; max-width: 480px; }
 
         .back-link {
             display: inline-flex; align-items: center; gap: 6px;
@@ -242,20 +242,36 @@
             color: var(--text); margin-bottom: 6px; letter-spacing: 0.3px;
         }
         .form-group .input-wrapper { position: relative; display: flex; align-items: center; }
-        .form-group input {
+        .form-group input,
+        .form-group select {
             width: 100%; padding: 12px 16px;
             border: 1.5px solid var(--border); border-radius: var(--radius-sm);
             font-family: var(--font-body); font-size: 0.9rem;
             color: var(--text); background: #fff;
             transition: all 0.25s ease; outline: none;
+            appearance: auto;
         }
-        .form-group input:focus {
+        .form-group select {
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a8aa0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
             border-color: var(--purple);
             box-shadow: 0 0 0 3px rgba(108,92,231,0.1);
         }
-        .form-group input.input-error {
+        .form-group input.input-error,
+        .form-group select.input-error {
             border-color: var(--danger);
             box-shadow: 0 0 0 3px rgba(231,76,60,0.08);
+        }
+        .form-group .input-hint {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 4px;
         }
         .toggle-password {
             position: absolute; right: 12px; background: none;
@@ -353,6 +369,54 @@
         }
         .terms-text a { color: var(--purple); }
 
+        /* Role Cards */
+        .role-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .role-option {
+            padding: 12px 8px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            background: #fff;
+        }
+        .role-option:hover {
+            border-color: var(--purple);
+            transform: translateY(-2px);
+        }
+        .role-option.selected {
+            border-color: var(--purple);
+            background: #f3f0ff;
+            box-shadow: 0 0 0 3px rgba(108,92,231,0.15);
+        }
+        .role-option .role-icon {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .role-option .role-name {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .role-option .role-desc {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+        }
+
+        /* Admin Code Input */
+        .admin-code-group {
+            display: none;
+        }
+        .admin-code-group.show {
+            display: block;
+        }
+
         @media (max-width: 480px) {
             body { padding: 12px; align-items: flex-start; padding-top: 30px; }
             .auth-card { padding: 28px 20px; border-radius: var(--radius-md); }
@@ -362,6 +426,7 @@
             .referral-banner .ref-text { font-size: 0.8rem; }
             .toast-container { width: 95%; bottom: 16px; }
             .toast { font-size: 0.82rem; padding: 12px 16px; }
+            .role-selector { grid-template-columns: 1fr; gap: 6px; }
         }
     </style>
 </head>
@@ -457,11 +522,45 @@
                         <input type="tel" id="signupPhone" placeholder="+234 800 000 0000" autocomplete="tel">
                         <div class="field-error" id="signupPhoneError"></div>
                     </div>
+
+                    <!-- ===== ROLE SELECTOR ===== -->
+                    <div class="form-group">
+                        <label>I want to join as... *</label>
+                        <div class="role-selector" id="roleSelector">
+                            <div class="role-option selected" data-role="learner" onclick="selectRole('learner')">
+                                <span class="role-icon">🧑‍🎓</span>
+                                <div class="role-name">Learner</div>
+                                <div class="role-desc">Take courses & earn certificates</div>
+                            </div>
+                            <div class="role-option" data-role="instructor" onclick="selectRole('instructor')">
+                                <span class="role-icon">👨‍🏫</span>
+                                <div class="role-name">Instructor</div>
+                                <div class="role-desc">Create & sell courses</div>
+                            </div>
+                            <div class="role-option" data-role="jobgiver" onclick="selectRole('jobgiver')">
+                                <span class="role-icon">🏢</span>
+                                <div class="role-name">Job Giver</div>
+                                <div class="role-desc">Post jobs & hire talent</div>
+                            </div>
+                        </div>
+                        <div class="field-error" id="signupRoleError"></div>
+                    </div>
+
+                    <!-- ===== ADMIN CODE ===== -->
+                    <div class="form-group admin-code-group" id="adminCodeGroup">
+                        <label for="signupAdminCode">Admin Access Code</label>
+                        <input type="password" id="signupAdminCode" placeholder="Enter admin code">
+                        <div class="input-hint">Only if you have been given admin access</div>
+                        <div class="field-error" id="signupAdminCodeError"></div>
+                    </div>
+
+                    <!-- ===== REFERRAL CODE ===== -->
                     <div class="form-group">
                         <label for="signupReferral">Referral Code (Optional)</label>
                         <input type="text" id="signupReferral" placeholder="Enter referral code if you have one" style="text-transform:uppercase;">
                         <div class="field-error" id="signupReferralError"></div>
                     </div>
+
                     <div class="form-group">
                         <label for="signupPassword">Password *</label>
                         <div class="input-wrapper">
@@ -558,6 +657,8 @@
             referrerAvatar: null,
             redirectScheduled: false,
             isValidReferral: false,
+            selectedRole: 'learner',
+            isAdmin: false,
         };
 
         // ============================================
@@ -581,12 +682,16 @@
             signupName: $('#signupName'),
             signupEmail: $('#signupEmail'),
             signupPhone: $('#signupPhone'),
+            signupRole: $('#signupRole'),
+            signupAdminCode: $('#signupAdminCode'),
             signupReferral: $('#signupReferral'),
             signupPassword: $('#signupPassword'),
             signupSubmit: $('#signupSubmit'),
             signupNameError: $('#signupNameError'),
             signupEmailError: $('#signupEmailError'),
             signupPhoneError: $('#signupPhoneError'),
+            signupRoleError: $('#signupRoleError'),
+            signupAdminCodeError: $('#signupAdminCodeError'),
             signupReferralError: $('#signupReferralError'),
             signupPasswordError: $('#signupPasswordError'),
 
@@ -606,7 +711,52 @@
 
             googleLogin: $('#googleLogin'),
             googleSignup: $('#googleSignup'),
+
+            roleSelector: $('#roleSelector'),
+            adminCodeGroup: $('#adminCodeGroup'),
         };
+
+        // ============================================
+        // ROLE SELECTION
+        // ============================================
+        window.selectRole = function(role) {
+            State.selectedRole = role;
+            document.querySelectorAll('.role-option').forEach(el => {
+                el.classList.toggle('selected', el.dataset.role === role);
+            });
+
+            // Show admin code input if selecting admin (hidden role)
+            if (role === 'admin') {
+                DOM.adminCodeGroup.classList.add('show');
+            } else {
+                DOM.adminCodeGroup.classList.remove('show');
+                DOM.signupAdminCode.value = '';
+            }
+        };
+
+        // Add admin option secretly (click on logo 5 times to reveal)
+        let logoClickCount = 0;
+        document.querySelector('.auth-logo')?.addEventListener('click', function() {
+            logoClickCount++;
+            if (logoClickCount === 5) {
+                // Add admin option to role selector
+                const roleSelector = DOM.roleSelector;
+                if (!roleSelector.querySelector('[data-role="admin"]')) {
+                    const adminOption = document.createElement('div');
+                    adminOption.className = 'role-option';
+                    adminOption.dataset.role = 'admin';
+                    adminOption.innerHTML = `
+                        <span class="role-icon">👑</span>
+                        <div class="role-name">Admin</div>
+                        <div class="role-desc">Manage everything</div>
+                    `;
+                    adminOption.onclick = function() { selectRole('admin'); };
+                    roleSelector.appendChild(adminOption);
+                    showToast('👑 Admin role revealed!', 'info', '🔓');
+                }
+                logoClickCount = 0;
+            }
+        });
 
         // ============================================
         // TOAST SYSTEM
@@ -669,14 +819,14 @@
             if (!el) return;
             el.textContent = '⚠ ' + msg;
             el.classList.add('show');
-            const input = el.closest('.form-group')?.querySelector('input');
+            const input = el.closest('.form-group')?.querySelector('input, select');
             if (input) input.classList.add('input-error');
         }
         function clearFieldError(el) {
             if (!el) return;
             el.textContent = '';
             el.classList.remove('show');
-            const input = el.closest('.form-group')?.querySelector('input');
+            const input = el.closest('.form-group')?.querySelector('input, select');
             if (input) input.classList.remove('input-error');
         }
         function clearAllFieldErrors() {
@@ -867,12 +1017,15 @@
             const name = extraData.fullName || user.displayName || user.email?.split('@')[0] || 'Learner';
             const referralCode = generateReferralCode(name);
             const phone = extraData.phone || user.phoneNumber || '';
+            const role = extraData.role || 'learner';
+            const isAdmin = extraData.isAdmin || false;
 
+            // Base user document
             const userDoc = {
                 fullName: name,
                 email: user.email,
                 phone: phone,
-                role: 'learner',
+                role: isAdmin ? 'admin' : role,
                 referralCode: referralCode,
                 referralLink: `${window.location.origin}/auth.html?ref=${referralCode}`,
                 referredBy: extraData.referredBy || null,
@@ -880,16 +1033,47 @@
                 referredByName: extraData.referredByName || null,
                 referredByEmail: extraData.referredByEmail || null,
                 referralSource: extraData.referralSource || 'direct',
-                profileComplete: false,
+                profileComplete: 0,
                 referralEarnings: 0,
                 referralPending: 0,
+                profileViews: 0,
+                contacts: 0,
+                privacyLevel: 'public',
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                // Profile fields (empty initially)
+                profilePicture: null,
+                coverImage: null,
+                bio: null,
+                jobTitle: null,
+                company: null,
+                skills: [],
+                socialLinks: {},
+                workExperience: [],
+                education: [],
+                resumeUrl: null,
+                // Role-specific fields
+                teachingExperience: null, // Instructor
+                expertiseAreas: [], // Instructor
+                bankDetails: null, // Instructor (for payouts)
+                companyName: null, // Job Giver
+                companyWebsite: null, // Job Giver
+                companyDescription: null, // Job Giver
+                industry: null, // Job Giver
+                // Admin fields
+                isAdmin: isAdmin,
+                // Subscription (Instructor)
+                subscriptionStatus: 'free_trial', // 'free_trial' | 'active' | 'expired' | 'cancelled'
+                subscriptionEnd: null,
+                freeTrialEnd: null,
+                // Enrolled courses (stored as array of references)
                 enrolledCourses: [],
                 certificates: [],
             };
 
             await db.collection('users').doc(user.uid).set(userDoc);
 
+            // Create referral record
             if (extraData.referredBy) {
                 await db.collection('referrals').add({
                     referrerUid: extraData.referredBy,
@@ -918,13 +1102,21 @@
                 const userDocSnap = await db.collection('users').doc(user.uid).get();
                 const data = userDocSnap.exists ? userDocSnap.data() : {};
 
+                // If user doc doesn't exist, create it
                 if (!userDocSnap.exists) {
-                    await createUserDocument(user);
-                    showToast('🎉 Account created! Please complete your profile.', 'success', '🎊');
+                    // This should not happen as we create on signup
+                    await createUserDocument(user, { 
+                        role: State.selectedRole,
+                        isAdmin: State.isAdmin,
+                        fullName: user.displayName || 'Learner',
+                        phone: user.phoneNumber || '',
+                    });
+                    showToast('🎉 Account created! Redirecting to profile...', 'success', '🎊');
                     setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 1500);
                     return;
                 }
 
+                // Show referral welcome message for new signups
                 if (isNewSignup && data.referredByName) {
                     showToast(
                         `🎉 Welcome ${data.fullName || 'Learner'}! You were referred by ${data.referredByName}. You both get rewards! 🎊`,
@@ -935,23 +1127,31 @@
                     return;
                 }
 
-                if (data.role === 'admin') {
-                    showToast('Welcome back, Admin!', 'info', '👋');
-                    setTimeout(() => { window.location.href = 'admin.html'; }, 1000);
+                // Admin redirect - can perform all roles
+                if (data.isAdmin || data.role === 'admin') {
+                    showToast('👑 Welcome Admin!', 'info', '👑');
+                    setTimeout(() => { window.location.href = 'admin-dashboard.html'; }, 1000);
                     return;
                 }
 
-                if (data.profileComplete === false) {
-                    showToast('Please complete your profile to continue.', 'info', '📝');
+                // Check if profile is complete enough (40% minimum)
+                const profileComplete = data.profileComplete || 0;
+
+                if (profileComplete < 40) {
+                    showToast('📝 Please complete your profile to continue.', 'info', '📝');
                     setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 1500);
-                } else {
-                    showToast(`Welcome back, ${data.fullName || 'Learner'}!`, 'success', '👋');
-                    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+                    return;
                 }
+
+                // Redirect based on role
+                showToast(`Welcome back, ${data.fullName || 'Learner'}! 👋`, 'success', '👋');
+                setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+
             } catch (e) {
                 State.redirectScheduled = false;
                 setProcessingState(false);
                 showToast('Failed to load account. Please try again.', 'error', '❌');
+                console.error('Post-auth error:', e);
             }
         }
 
@@ -997,6 +1197,8 @@
             const phone = DOM.signupPhone.value.trim();
             const referralInput = DOM.signupReferral.value.trim();
             const pw = DOM.signupPassword.value;
+            const role = State.selectedRole || 'learner';
+            const adminCode = DOM.signupAdminCode.value.trim();
 
             const nameErr = validateName(name);
             const emailErr = validateEmail(email);
@@ -1006,6 +1208,20 @@
             if (pwErr) showFieldError(DOM.signupPasswordError, pwErr);
             if (nameErr || emailErr || pwErr) return;
 
+            // Check if admin
+            let isAdmin = false;
+            if (role === 'admin') {
+                // Verify admin code (you can change this)
+                const ADMIN_SECRET = 'TRIANGLE2026'; // Change this to your secret code
+                if (adminCode === ADMIN_SECRET) {
+                    isAdmin = true;
+                } else {
+                    showFieldError(DOM.signupAdminCodeError, 'Invalid admin code.');
+                    return;
+                }
+            }
+
+            // Validate referral if provided
             let referralData = null;
             if (referralInput) {
                 referralData = await getReferrerInfo(referralInput);
@@ -1032,9 +1248,14 @@
                 const referrerEmail = referralData?.email || State.referrerEmail || null;
                 const referralCode = referralData?.referralCode || State.referralFromUrl || null;
 
+                // Handle case where user clicked admin but didn't enter code
+                const finalRole = isAdmin ? 'admin' : role;
+
                 await createUserDocument(cred.user, {
                     fullName: name,
                     phone: phone,
+                    role: finalRole,
+                    isAdmin: isAdmin,
                     referredBy: referrerUid,
                     referredByCode: referralCode,
                     referredByName: referrerName,
@@ -1042,17 +1263,30 @@
                     referralSource: State.referralSource || 'direct',
                 });
 
+                // Show role-specific welcome message
+                const roleMessages = {
+                    'learner': 'Start your learning journey! 🚀',
+                    'instructor': 'Create your first course! 📚',
+                    'jobgiver': 'Post your first job! 💼',
+                    'admin': 'Welcome to the admin panel! 👑'
+                };
+
                 if (referrerName) {
                     showToast(
-                        `🎉 Welcome ${name}! You were referred by ${referrerName}. You both get rewards! 🎊`,
+                        `🎉 Welcome ${name}! You were referred by ${referrerName}. Role: ${finalRole}. ${roleMessages[finalRole] || ''}`,
                         'success',
                         '🎊'
                     );
-                    setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 2000);
                 } else {
-                    showToast('🎉 Account created! Redirecting...', 'success', '🎊');
-                    setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 1500);
+                    showToast(
+                        `🎉 Account created! Role: ${finalRole}. ${roleMessages[finalRole] || ''}`,
+                        'success',
+                        '🎊'
+                    );
                 }
+
+                setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 2000);
+
             } catch (err) {
                 showToast(getFirebaseError(err), 'error', '❌');
                 setProcessingState(false);
@@ -1078,6 +1312,8 @@
                     await createUserDocument(result.user, {
                         fullName: result.user.displayName || 'Learner',
                         phone: result.user.phoneNumber || '',
+                        role: State.selectedRole || 'learner',
+                        isAdmin: State.isAdmin,
                         referredBy: State.referrerUid,
                         referredByCode: State.referralFromUrl,
                         referredByName: State.referrerName,
@@ -1159,7 +1395,7 @@
         });
 
         document.addEventListener('input', (e) => {
-            if (!e.target.closest('input')) return;
+            if (!e.target.closest('input, select')) return;
             const fg = e.target.closest('.form-group');
             if (fg) {
                 const errEl = fg.querySelector('.field-error');
@@ -1181,11 +1417,14 @@
         // ============================================
         // INIT
         // ============================================
+        // Default role selection
+        selectRole('learner');
+
         setTimeout(async () => {
             await detectReferralFromUrl();
         }, 300);
 
-        console.log('✅ TRIANGLE LEARN Auth – Updated with referral features');
+        console.log('✅ TRIANGLE LEARN Auth – Updated with roles and admin');
     })();
     </script>
 </body>
