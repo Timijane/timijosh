@@ -122,13 +122,6 @@
             letter-spacing: 1px;
             color: #555;
         }
-        .sig-image {
-            max-width: 180px;
-            max-height: 60px;
-            object-fit: contain;
-            display: block;
-            margin: 5px auto;
-        }
         .seal {
             position: absolute;
             bottom: 40px;
@@ -175,56 +168,6 @@
             font-size: 0.9rem;
             color: #777;
         }
-
-        /* Signature input section */
-        .sig-upload-section {
-            display: none;
-            margin: 20px 0;
-            padding: 20px;
-            background: #f0f4ff;
-            border-radius: var(--radius);
-            text-align: center;
-        }
-        .sig-upload-section h3 {
-            font-family: 'Sora', sans-serif;
-            font-size: 1rem;
-            margin-bottom: 12px;
-        }
-        .sig-options {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            flex-wrap: wrap;
-        }
-        .sig-option {
-            background: white;
-            border: 1px solid #ccc;
-            border-radius: 12px;
-            padding: 20px;
-            cursor: pointer;
-            transition: 0.2s;
-            width: 200px;
-        }
-        .sig-option:hover {
-            border-color: var(--purple);
-            box-shadow: 0 0 15px rgba(108,92,231,0.15);
-        }
-        .sig-option input[type=file] {
-            display: none;
-        }
-        .sig-option label {
-            cursor: pointer;
-            font-weight: 600;
-        }
-        canvas#signatureCanvas {
-            border: 1px dashed #aaa;
-            border-radius: 8px;
-            width: 100%;
-            max-width: 300px;
-            height: 150px;
-            display: block;
-            margin: 15px auto;
-        }
         .btn {
             display: inline-flex;
             align-items: center;
@@ -262,7 +205,15 @@
             justify-content: center;
             margin-top: 20px;
         }
-
+        .error-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        .error-state h3 {
+            font-family: 'Sora', sans-serif;
+            margin-bottom: 10px;
+        }
         @media (max-width: 768px) {
             .certificate-container {
                 padding: 30px 20px;
@@ -282,7 +233,7 @@
         }
         @media print {
             body { background: white; padding: 0; }
-            .actions, .sig-upload-section, .qr-container .qr-label, .btn { display: none !important; }
+            .actions, .btn { display: none !important; }
             .certificate-container {
                 box-shadow: none;
                 border: 2px solid #c8963e;
@@ -299,18 +250,13 @@
         <button class="btn btn-outline" onclick="shareCert()">🔗 Share</button>
     </div>
 
-    <!-- QR Code library -->
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 
     <script>
     (function() {
-        // ========== FIREBASE CONFIG (YOUR PROJECT) ==========
         const firebaseConfig = {
             apiKey: "AIzaSyAvvB3C9SP8tDTqMmqzc6craI4d_0kSVX0",
             authDomain: "timijosh-b8bee.firebaseapp.com",
@@ -323,258 +269,142 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
-        const storage = firebase.storage().ref();
 
-        // ========== STATE ==========
         const urlParams = new URLSearchParams(window.location.search);
         const CERT_ID = urlParams.get('certId') || urlParams.get('id');
-        let certificateData = null;
-        let learnerSignatureUrl = null;
-        let instructorSignatureUrl = null;
-
-        // DOM helpers
         const wrapper = document.getElementById('certificateWrapper');
         const actionsBar = document.getElementById('certActions');
 
-        // ========== LOAD CERTIFICATE ==========
-        auth.onAuthStateChanged(async (user) => {
-            if (!user) {
-                // Public view allowed if certId present, but for editing signature user must be owner
-                if (CERT_ID) {
-                    await loadCertificate(null);
-                } else {
-                    window.location.href = 'auth.html';
-                }
-            } else {
-                await loadCertificate(user);
-            }
-        });
+        function escapeHtml(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
 
-        async function loadCertificate(user) {
+        async function loadCertificate() {
             if (!CERT_ID) {
-                wrapper.innerHTML = '<p style="text-align:center;">No certificate ID provided.</p>';
+                wrapper.innerHTML = `
+                    <div class="error-state">
+                        <h3>No Certificate ID</h3>
+                        <p>Please provide a valid certificate ID in the URL (e.g., ?certId=abc123).</p>
+                        <a href="dashboard.html" class="btn btn-primary" style="margin-top:15px;">Go to Dashboard</a>
+                    </div>`;
                 return;
             }
+
             try {
+                console.log('Loading certificate:', CERT_ID);
                 const doc = await db.collection('certificates').doc(CERT_ID).get();
+                
                 if (!doc.exists) {
-                    wrapper.innerHTML = '<p style="text-align:center;">Certificate not found.</p>';
+                    wrapper.innerHTML = `
+                        <div class="error-state">
+                            <h3>Certificate Not Found</h3>
+                            <p>The certificate with ID <strong>${CERT_ID}</strong> could not be found.</p>
+                            <p style="font-size:0.8rem;margin-top:8px;">This may happen if:</p>
+                            <ul style="text-align:left;max-width:400px;margin:10px auto;font-size:0.8rem;">
+                                <li>The certificate hasn't been generated yet</li>
+                                <li>The ID in the URL is incorrect</li>
+                                <li>The certificate was deleted</li>
+                            </ul>
+                            <a href="dashboard.html" class="btn btn-primary" style="margin-top:15px;">Go to Dashboard</a>
+                        </div>`;
                     return;
                 }
-                certificateData = doc.data();
-                // Check ownership if user logged in
-                if (user && certificateData.userId !== user.uid && !(certificateData.userId === user.uid)) {
-                    // but we'll still show it (public view) but disable signature editing
-                }
-                // Fetch instructor signature from settings
-                const settingsDoc = await db.collection('settings').doc('instructor').get();
-                if (settingsDoc.exists) {
-                    instructorSignatureUrl = settingsDoc.data().signatureUrl || null;
-                }
-                renderCertificate(user);
-            } catch (err) {
-                console.error(err);
-                wrapper.innerHTML = '<p style="text-align:center;">Error loading certificate.</p>';
+
+                const cert = doc.data();
+                console.log('Certificate data:', cert);
+                renderCertificate(cert);
+            } catch (e) {
+                console.error('Certificate load error:', e);
+                wrapper.innerHTML = `
+                    <div class="error-state">
+                        <h3>Error Loading Certificate</h3>
+                        <p>${e.message || 'An unexpected error occurred.'}</p>
+                        <p style="font-size:0.8rem;margin-top:8px;">Check your internet connection and try refreshing.</p>
+                        <button class="btn btn-primary" onclick="location.reload()" style="margin-top:15px;">🔄 Retry</button>
+                        <a href="dashboard.html" class="btn btn-outline" style="margin-top:10px;display:block;">Go to Dashboard</a>
+                    </div>`;
             }
         }
 
-        // ========== RENDER CERTIFICATE ==========
-        function renderCertificate(user) {
-            const cert = certificateData;
-            const studentName = cert.fullName || 'Student';
+        function renderCertificate(cert) {
+            const studentName = cert.fullName || cert.studentName || 'Student';
             const courseName = cert.courseName || 'Course';
             const stage = cert.stage || 'Completed';
             const issueDate = cert.issuedAt?.toDate?.() || new Date();
             const dateStr = issueDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
             const certIdShort = CERT_ID.substring(0, 8);
 
-            // Build QR data
             const qrData = JSON.stringify({
                 certId: CERT_ID,
                 student: studentName,
                 course: courseName,
                 stage: stage,
-                date: dateStr,
-                verification: `https://timijane.github.io/timijosh/verify.html?cert=${CERT_ID}` // to be built later
+                date: dateStr
             });
 
-            // Render certificate HTML
-            let html = `
-            <div class="certificate-container" id="printableCert">
-                <div class="certificate-border"></div>
-                <div class="seal">TRIANGLE<br>LEARN<br>CERTIFIED</div>
-                <div class="qr-container" id="qrContainer">
-                    <div id="qrcode"></div>
-                    <div class="qr-label">Scan to verify</div>
-                </div>
-                <div class="cert-header">
-                    <div class="org-name">TRIANGLE LEARN</div>
-                    <div class="cert-title">Certificate of Completion</div>
-                    <div class="divider"></div>
-                </div>
-                <div class="cert-body">
-                    This is to certify that
-                    <div class="student-name">${escapeHtml(studentName)}</div>
-                    has successfully completed
-                    <div class="course-name">${escapeHtml(courseName)}</div>
-                    <div class="stage">${escapeHtml(stage)} Stage</div>
-                    with dedication and excellence.
-                </div>
-                <div class="signatures">
-                    <div class="sig-block" id="instructorSigBlock">
-                        ${instructorSignatureUrl 
-                            ? `<img src="${instructorSignatureUrl}" class="sig-image" alt="Instructor Signature">` 
-                            : '<div class="sig-line"></div>'}
-                        <div class="sig-label">Instructor / Course Creator</div>
+            wrapper.innerHTML = `
+                <div class="certificate-container" id="printableCert">
+                    <div class="certificate-border"></div>
+                    <div class="seal">TRIANGLE<br>LEARN<br>CERTIFIED</div>
+                    <div class="qr-container" id="qrContainer">
+                        <div id="qrcode"></div>
+                        <div class="qr-label">Scan to verify</div>
                     </div>
-                    <div class="sig-block" id="learnerSigBlock">
-                        ${certificateData.learnerSignatureUrl 
-                            ? `<img src="${certificateData.learnerSignatureUrl}" class="sig-image" alt="Learner Signature">` 
-                            : '<div class="sig-line"></div>'}
-                        <div class="sig-label">Learner</div>
+                    <div class="cert-header">
+                        <div class="org-name">TRIANGLE LEARN</div>
+                        <div class="cert-title">Certificate of Completion</div>
+                        <div class="divider"></div>
                     </div>
-                </div>
-                <div class="cert-date">
-                    Issued on ${dateStr} | Certificate ID: ${certIdShort}
-                </div>
-            </div>`;
+                    <div class="cert-body">
+                        This is to certify that
+                        <div class="student-name">${escapeHtml(studentName)}</div>
+                        has successfully completed
+                        <div class="course-name">${escapeHtml(courseName)}</div>
+                        <div class="stage">${escapeHtml(stage)} Stage</div>
+                        with dedication and excellence.
+                    </div>
+                    <div class="signatures">
+                        <div class="sig-block">
+                            <div class="sig-line"></div>
+                            <div class="sig-label">Instructor / Course Creator</div>
+                        </div>
+                        <div class="sig-block">
+                            <div class="sig-line"></div>
+                            <div class="sig-label">Learner</div>
+                        </div>
+                    </div>
+                    <div class="cert-date">
+                        Issued on ${dateStr} | Certificate ID: ${certIdShort}
+                    </div>
+                </div>`;
 
-            wrapper.innerHTML = html;
             actionsBar.style.display = 'flex';
 
             // Generate QR code
-            new QRCode(document.getElementById('qrcode'), {
-                text: qrData,
-                width: 80,
-                height: 80,
-                colorDark: "#1e293b",
-                colorLight: "#ffffff"
-            });
-
-            // If user is the certificate owner and no signature yet, show upload section
-            if (user && user.uid === certificateData.userId && !certificateData.learnerSignatureUrl) {
-                showSignatureUpload(user);
+            try {
+                new QRCode(document.getElementById('qrcode'), {
+                    text: qrData,
+                    width: 80,
+                    height: 80,
+                    colorDark: "#1e293b",
+                    colorLight: "#ffffff"
+                });
+            } catch(e) {
+                console.warn('QR generation failed:', e);
             }
         }
 
-        // ========== SIGNATURE UPLOAD / DRAW ==========
-        function showSignatureUpload(user) {
-            const certWrapper = document.querySelector('.certificate-container');
-            const uploadDiv = document.createElement('div');
-            uploadDiv.className = 'sig-upload-section';
-            uploadDiv.innerHTML = `
-                <h3>✍️ Add Your Signature</h3>
-                <p style="margin-bottom:15px;color:#555;">Choose one method to sign your certificate</p>
-                <div class="sig-options">
-                    <div class="sig-option" id="uploadSigOption">
-                        <label for="sigFileInput">
-                            📁 Upload Signature<br><small>(JPG/PNG, white paper)</small>
-                        </label>
-                        <input type="file" id="sigFileInput" accept="image/*">
-                    </div>
-                    <div class="sig-option" id="drawSigOption">
-                        <label>🖊️ Draw Signature</label>
-                        <button id="startDrawBtn" class="btn btn-outline" style="margin-top:8px;">Open Drawing Pad</button>
-                    </div>
-                </div>
-                <canvas id="signatureCanvas" style="display:none;"></canvas>
-                <div id="drawActions" style="display:none; margin-top:12px;">
-                    <button id="clearCanvasBtn" class="btn btn-outline">Clear</button>
-                    <button id="saveCanvasBtn" class="btn btn-primary">Save Signature</button>
-                </div>
-                <div id="uploadProgress" style="display:none; margin-top:12px;">Uploading...</div>
-            `;
-            certWrapper.parentNode.insertBefore(uploadDiv, actionsBar);
-
-            // File upload handler
-            document.getElementById('sigFileInput').addEventListener('change', handleFileUpload);
-
-            // Drawing pad
-            let drawing = false;
-            const canvas = document.getElementById('signatureCanvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = 300;
-            canvas.height = 150;
-            document.getElementById('startDrawBtn').addEventListener('click', () => {
-                canvas.style.display = 'block';
-                document.getElementById('drawActions').style.display = 'block';
-                document.getElementById('startDrawBtn').style.display = 'none';
-                ctx.clearRect(0,0,canvas.width,canvas.height);
-                ctx.strokeStyle = '#000';
-                ctx.lineWidth = 2;
-                canvas.addEventListener('mousedown', startDraw);
-                canvas.addEventListener('mousemove', draw);
-                canvas.addEventListener('mouseup', stopDraw);
-                canvas.addEventListener('touchstart', startDraw);
-                canvas.addEventListener('touchmove', draw);
-                canvas.addEventListener('touchend', stopDraw);
-            });
-            document.getElementById('clearCanvasBtn').addEventListener('click', () => {
-                ctx.clearRect(0,0,canvas.width,canvas.height);
-            });
-            document.getElementById('saveCanvasBtn').addEventListener('click', () => {
-                const dataURL = canvas.toDataURL('image/png');
-                uploadSignatureAsBlob(dataURL);
-            });
-
-            function startDraw(e) { e.preventDefault(); drawing = true; ctx.beginPath(); }
-            function draw(e) {
-                if (!drawing) return;
-                e.preventDefault();
-                const rect = canvas.getBoundingClientRect();
-                const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
-                const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
-                ctx.lineTo(x,y);
-                ctx.stroke();
-            }
-            function stopDraw() { drawing = false; }
-        }
-
-        function handleFileUpload(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                uploadSignatureAsBlob(ev.target.result);
-            };
-            reader.readAsDataURL(file);
-        }
-
-        async function uploadSignatureAsBlob(dataUrl) {
-            const user = auth.currentUser;
-            if (!user) return;
-            document.getElementById('uploadProgress').style.display = 'block';
-            const response = await fetch(dataUrl);
-            const blob = await response.blob();
-            const storageRef = storage.child(`signatures/${user.uid}_${CERT_ID}.png`);
-            await storageRef.put(blob);
-            const downloadUrl = await storageRef.getDownloadURL();
-            // Update certificate document
-            await db.collection('certificates').doc(CERT_ID).update({
-                learnerSignatureUrl: downloadUrl
-            });
-            certificateData.learnerSignatureUrl = downloadUrl;
-            // Refresh certificate display
-            wrapper.innerHTML = '';
-            renderCertificate(user);
-        }
-
-        // ========== SHARE ==========
         window.shareCert = () => {
             const url = window.location.href;
             if (navigator.share) {
                 navigator.share({ title: 'My TRIANGLE LEARN Certificate', url });
             } else {
-                navigator.clipboard.writeText(url);
-                alert('Certificate link copied!');
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('Certificate link copied to clipboard!');
+                });
             }
         };
 
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
+        // Load certificate on page load (no auth required for public viewing)
+        loadCertificate();
     })();
     </script>
 </body>
