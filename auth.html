@@ -86,6 +86,146 @@
             font-size: 1.1rem; color: var(--text); letter-spacing: -0.5px;
         }
 
+        /* ===== REFERRAL BANNER ===== */
+        .referral-banner {
+            display: none;
+            background: linear-gradient(135deg, #fff8f0, #fff0f6);
+            border: 1px solid #ffe0b2;
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            align-items: center;
+            gap: 14px;
+            animation: slideDown 0.5s ease;
+        }
+        .referral-banner.show { display: flex; }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .referral-banner .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--gold);
+            flex-shrink: 0;
+            background: #f0f0f5;
+        }
+        .referral-banner .avatar-placeholder {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        .referral-banner .ref-text {
+            flex: 1;
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+        .referral-banner .ref-text strong {
+            color: var(--purple);
+        }
+        .referral-banner .ref-badge {
+            font-size: 0.7rem;
+            background: var(--gold);
+            color: #fff;
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .referral-banner .ref-badge.invalid {
+            background: var(--danger);
+        }
+
+        /* ===== SELF-REFERRAL WARNING ===== */
+        .self-referral-warning {
+            display: none;
+            background: var(--danger-bg);
+            border: 1px solid #fdd;
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            align-items: center;
+            gap: 10px;
+            color: var(--danger);
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+        .self-referral-warning.show { display: flex; }
+
+        /* ===== TOAST NOTIFICATIONS ===== */
+        .toast-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 99999;
+            width: 90%;
+            max-width: 440px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none;
+        }
+        .toast {
+            padding: 14px 20px;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            font-size: 0.88rem;
+            box-shadow: var(--shadow-lg);
+            animation: toastIn 0.4s ease, toastOut 0.4s ease 3.6s forwards;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            pointer-events: auto;
+            border: 1px solid transparent;
+        }
+        .toast-success {
+            background: #0d9488;
+            color: #fff;
+            border-color: #0f766e;
+        }
+        .toast-error {
+            background: var(--danger);
+            color: #fff;
+            border-color: #c0392b;
+        }
+        .toast-info {
+            background: var(--purple);
+            color: #fff;
+            border-color: #5a4bd1;
+        }
+        .toast .toast-emoji { font-size: 1.2rem; }
+        .toast .toast-close {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 0 4px;
+            transition: color 0.2s;
+        }
+        .toast .toast-close:hover { color: #fff; }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes toastOut {
+            from { opacity: 1; transform: translateY(0) scale(1); }
+            to { opacity: 0; transform: translateY(20px) scale(0.95); }
+        }
+
         .auth-title {
             font-family: var(--font-heading); font-size: 1.5rem;
             font-weight: 700; text-align: center; margin-bottom: 6px;
@@ -130,30 +270,6 @@
             display: none; align-items: center; gap: 4px;
         }
         .field-error.show { display: flex; }
-
-        .auth-error {
-            background: var(--danger-bg); color: var(--danger);
-            padding: 12px 16px; border-radius: var(--radius-sm);
-            font-size: 0.82rem; font-weight: 500; margin-bottom: 18px;
-            display: none; align-items: center; gap: 8px;
-            border: 1px solid #fdd;
-        }
-        .auth-error.show { display: flex; }
-        .auth-error .close-error {
-            margin-left: auto; background: none; border: none;
-            cursor: pointer; font-size: 1.1rem; color: var(--danger);
-            padding: 0 4px; opacity: 0.7;
-        }
-        .auth-error .close-error:hover { opacity: 1; }
-
-        .auth-success {
-            background: var(--success-bg); color: var(--success);
-            padding: 12px 16px; border-radius: var(--radius-sm);
-            font-size: 0.82rem; font-weight: 500; margin-bottom: 18px;
-            display: none; align-items: center; gap: 8px;
-            border: 1px solid #c8f0e8;
-        }
-        .auth-success.show { display: flex; }
 
         .btn-submit {
             width: 100%; padding: 13px 20px;
@@ -231,14 +347,6 @@
         .form-section { display: none; }
         .form-section.active { display: block; }
 
-        .referral-note {
-            background: #fff8e8; border: 1px solid #ffe0b2;
-            border-radius: var(--radius-sm); padding: 10px 14px;
-            font-size: 0.75rem; color: #b45309; margin-bottom: 16px;
-            display: none; align-items: center; gap: 6px;
-        }
-        .referral-note.show { display: flex; }
-
         .terms-text {
             font-size: 0.72rem; color: var(--text-muted);
             text-align: center; margin-top: 12px;
@@ -250,10 +358,17 @@
             .auth-card { padding: 28px 20px; border-radius: var(--radius-md); }
             .auth-title { font-size: 1.3rem; }
             .auth-logo img { height: 32px; }
+            .referral-banner { flex-wrap: wrap; padding: 12px; }
+            .referral-banner .ref-text { font-size: 0.8rem; }
+            .toast-container { width: 95%; bottom: 16px; }
+            .toast { font-size: 0.82rem; padding: 12px 16px; }
         }
     </style>
 </head>
 <body>
+
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
 
     <div class="auth-wrapper">
         <a href="index.html" class="back-link">
@@ -267,23 +382,19 @@
                 <span>TRIANGLE LEARN</span>
             </div>
 
-            <!-- GLOBAL ERROR -->
-            <div class="auth-error" id="authError">
-                <span>⚠️</span>
-                <span id="authErrorMessage"></span>
-                <button class="close-error" id="closeError">&times;</button>
+            <!-- REFERRAL BANNER -->
+            <div class="referral-banner" id="referralBanner">
+                <img class="avatar" id="referrerAvatar" src="" alt="Referrer" onerror="this.style.display='none';document.getElementById('avatarPlaceholder').style.display='flex'">
+                <div class="avatar-placeholder" id="avatarPlaceholder" style="display:none;">👤</div>
+                <div class="ref-text" id="referrerText">
+                    <strong id="referrerName">Someone</strong> invited you to TRIANGLE LEARN! 🚀
+                </div>
+                <span class="ref-badge" id="refBadge">✅ Valid</span>
             </div>
 
-            <!-- GLOBAL SUCCESS -->
-            <div class="auth-success" id="authSuccess">
-                <span>✅</span>
-                <span id="authSuccessMessage"></span>
-            </div>
-
-            <!-- REFERRAL NOTE -->
-            <div class="referral-note" id="referralNote">
-                <span>🎁</span>
-                <span id="referralNoteText"></span>
+            <!-- SELF-REFERRAL WARNING -->
+            <div class="self-referral-warning" id="selfReferralWarning">
+                ⚠️ You can't refer yourself! This link is for new users only.
             </div>
 
             <!-- ==================== LOGIN SECTION ==================== -->
@@ -440,7 +551,13 @@
             currentSection: 'login',
             isProcessing: false,
             referralFromUrl: null,
+            referralSource: 'direct',
+            referrerUid: null,
+            referrerName: null,
+            referrerEmail: null,
+            referrerAvatar: null,
             redirectScheduled: false,
+            isValidReferral: false,
         };
 
         // ============================================
@@ -478,31 +595,35 @@
             resetSubmit: $('#resetSubmit'),
             resetEmailError: $('#resetEmailError'),
 
-            authError: $('#authError'),
-            authErrorMessage: $('#authErrorMessage'),
-            authSuccess: $('#authSuccess'),
-            authSuccessMessage: $('#authSuccessMessage'),
+            referralBanner: $('#referralBanner'),
+            referrerAvatar: $('#referrerAvatar'),
+            avatarPlaceholder: $('#avatarPlaceholder'),
+            referrerName: $('#referrerName'),
+            refBadge: $('#refBadge'),
+            selfReferralWarning: $('#selfReferralWarning'),
 
-            referralNote: $('#referralNote'),
-            referralNoteText: $('#referralNoteText'),
+            toastContainer: $('#toastContainer'),
 
             googleLogin: $('#googleLogin'),
             googleSignup: $('#googleSignup'),
         };
 
         // ============================================
-        // URL REFERRAL DETECTION
+        // TOAST SYSTEM
         // ============================================
-        function detectReferralFromUrl() {
-            const params = new URLSearchParams(window.location.search);
-            const ref = params.get('ref');
-            if (ref) {
-                State.referralFromUrl = ref.toUpperCase().trim();
-                if (DOM.signupReferral) DOM.signupReferral.value = State.referralFromUrl;
-                DOM.referralNoteText.textContent = `You've been referred! Code "${State.referralFromUrl}" will be applied when you sign up.`;
-                DOM.referralNote.classList.add('show');
-                showSection('signup');
-            }
+        function showToast(message, type = 'success', emoji = '🎉') {
+            const container = DOM.toastContainer;
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                <span class="toast-emoji">${emoji}</span>
+                <span>${message}</span>
+                <button class="toast-close" onclick="this.closest('.toast').remove()">✕</button>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                if (toast.parentNode) toast.remove();
+            }, 4000);
         }
 
         // ============================================
@@ -513,7 +634,6 @@
             DOM.loginSection.classList.remove('active');
             DOM.signupSection.classList.remove('active');
             DOM.resetSection.classList.remove('active');
-            hideGlobalMessages();
             clearAllFieldErrors();
 
             switch (section) {
@@ -543,26 +663,8 @@
         });
 
         // ============================================
-        // ERROR / SUCCESS HANDLING
+        // FIELD ERROR HANDLING
         // ============================================
-        function showGlobalError(msg) {
-            DOM.authErrorMessage.textContent = msg;
-            DOM.authError.classList.add('show');
-            DOM.authSuccess.classList.remove('show');
-        }
-        function hideGlobalError() { DOM.authError.classList.remove('show'); }
-        function showGlobalSuccess(msg) {
-            DOM.authSuccessMessage.textContent = msg;
-            DOM.authSuccess.classList.add('show');
-            DOM.authError.classList.remove('show');
-        }
-        function hideGlobalSuccess() { DOM.authSuccess.classList.remove('show'); }
-        function hideGlobalMessages() {
-            hideGlobalError(); hideGlobalSuccess();
-        }
-
-        $('#closeError').addEventListener('click', hideGlobalError);
-
         function showFieldError(el, msg) {
             if (!el) return;
             el.textContent = '⚠ ' + msg;
@@ -644,9 +746,9 @@
         }
 
         // ============================================
-        // VALIDATE REFERRAL CODE
+        // VALIDATE REFERRAL CODE & FETCH REFERRER INFO
         // ============================================
-        async function validateReferralCode(code) {
+        async function getReferrerInfo(code) {
             if (!code?.trim()) return null;
             const cleanCode = code.trim().toUpperCase();
             try {
@@ -655,10 +757,107 @@
                     .limit(1)
                     .get();
                 if (!snap.empty) {
-                    return { valid: true, referrerUid: snap.docs[0].id, code: cleanCode };
+                    const doc = snap.docs[0];
+                    const data = doc.data();
+                    return {
+                        uid: doc.id,
+                        fullName: data.fullName || 'Someone',
+                        email: data.email,
+                        avatar: data.avatar || data.photoURL || null,
+                        referralCode: data.referralCode,
+                    };
                 }
-                return { valid: false, code: cleanCode };
-            } catch (e) { return null; }
+                return null;
+            } catch (e) {
+                console.error('Referral validation error:', e);
+                return null;
+            }
+        }
+
+        // ============================================
+        // URL REFERRAL DETECTION
+        // ============================================
+        async function detectReferralFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const ref = params.get('ref');
+            const source = params.get('source') || 'direct';
+
+            if (!ref) return;
+
+            State.referralFromUrl = ref.toUpperCase().trim();
+            State.referralSource = source;
+
+            const currentUser = auth.currentUser;
+            const referrerData = await getReferrerInfo(ref);
+
+            if (referrerData) {
+                if (currentUser && referrerData.uid === currentUser.uid) {
+                    DOM.selfReferralWarning.classList.add('show');
+                    DOM.referralBanner.classList.remove('show');
+                    State.isValidReferral = false;
+                    return;
+                }
+
+                State.referrerUid = referrerData.uid;
+                State.referrerName = referrerData.fullName;
+                State.referrerEmail = referrerData.email;
+                State.referrerAvatar = referrerData.avatar;
+                State.isValidReferral = true;
+
+                DOM.referrerName.textContent = referrerData.fullName;
+                DOM.refBadge.textContent = '✅ Valid';
+                DOM.refBadge.className = 'ref-badge';
+
+                if (referrerData.avatar) {
+                    DOM.referrerAvatar.src = referrerData.avatar;
+                    DOM.referrerAvatar.style.display = 'block';
+                    DOM.avatarPlaceholder.style.display = 'none';
+                } else {
+                    DOM.referrerAvatar.style.display = 'none';
+                    DOM.avatarPlaceholder.style.display = 'flex';
+                    DOM.avatarPlaceholder.textContent = referrerData.fullName.charAt(0).toUpperCase();
+                }
+
+                DOM.referralBanner.classList.add('show');
+                DOM.selfReferralWarning.classList.remove('show');
+
+                if (DOM.signupReferral) {
+                    DOM.signupReferral.value = State.referralFromUrl;
+                }
+
+                showSection('signup');
+
+                setTimeout(() => {
+                    showToast(
+                        `${referrerData.fullName} invited you! 🎉 Use their code to get started.`,
+                        'info',
+                        '👋'
+                    );
+                }, 500);
+
+            } else {
+                State.isValidReferral = false;
+                DOM.referralBanner.classList.add('show');
+                DOM.referrerName.textContent = 'Invalid Referral Code';
+                DOM.refBadge.textContent = '❌ Invalid';
+                DOM.refBadge.className = 'ref-badge invalid';
+                DOM.referrerAvatar.style.display = 'none';
+                DOM.avatarPlaceholder.style.display = 'flex';
+                DOM.avatarPlaceholder.textContent = '❓';
+
+                if (DOM.signupReferral) {
+                    DOM.signupReferral.value = State.referralFromUrl;
+                }
+                showSection('signup');
+
+                setTimeout(() => {
+                    showToast(
+                        'Invalid referral code. You can still sign up!',
+                        'error',
+                        '⚠️'
+                    );
+                }, 500);
+            }
         }
 
         // ============================================
@@ -678,7 +877,12 @@
                 referralLink: `${window.location.origin}/auth.html?ref=${referralCode}`,
                 referredBy: extraData.referredBy || null,
                 referredByCode: extraData.referredByCode || null,
+                referredByName: extraData.referredByName || null,
+                referredByEmail: extraData.referredByEmail || null,
+                referralSource: extraData.referralSource || 'direct',
                 profileComplete: false,
+                referralEarnings: 0,
+                referralPending: 0,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 enrolledCourses: [],
                 certificates: [],
@@ -693,7 +897,9 @@
                     referredName: name,
                     referredEmail: user.email,
                     referralCode: extraData.referredByCode,
+                    source: extraData.referralSource || 'direct',
                     status: 'registered',
+                    rewardAmount: 0,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 });
             }
@@ -704,42 +910,48 @@
         // ============================================
         // POST-AUTH: DETECT ROLE & REDIRECT
         // ============================================
-        async function handlePostAuthRedirect(user) {
+        async function handlePostAuthRedirect(user, isNewSignup = false) {
             if (State.redirectScheduled) return;
             State.redirectScheduled = true;
 
             try {
                 const userDocSnap = await db.collection('users').doc(user.uid).get();
                 const data = userDocSnap.exists ? userDocSnap.data() : {};
-                const role = data.role || 'learner';
 
-                // If user doc doesn't exist (new Google sign-in), create one
                 if (!userDocSnap.exists) {
                     await createUserDocument(user);
-                    showGlobalSuccess('Account created! Please complete your profile.');
+                    showToast('🎉 Account created! Please complete your profile.', 'success', '🎊');
                     setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 1500);
                     return;
                 }
 
-                // Admin redirect
-                if (role === 'admin') {
-                    showGlobalSuccess('Welcome back, Admin!');
+                if (isNewSignup && data.referredByName) {
+                    showToast(
+                        `🎉 Welcome ${data.fullName || 'Learner'}! You were referred by ${data.referredByName}. You both get rewards! 🎊`,
+                        'success',
+                        '🎊'
+                    );
+                    setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 2000);
+                    return;
+                }
+
+                if (data.role === 'admin') {
+                    showToast('Welcome back, Admin!', 'info', '👋');
                     setTimeout(() => { window.location.href = 'admin.html'; }, 1000);
                     return;
                 }
 
-                // Learner redirect
                 if (data.profileComplete === false) {
-                    showGlobalSuccess('Please complete your profile to continue.');
-                    setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 1000);
+                    showToast('Please complete your profile to continue.', 'info', '📝');
+                    setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 1500);
                 } else {
-                    showGlobalSuccess('Welcome back!');
+                    showToast(`Welcome back, ${data.fullName || 'Learner'}!`, 'success', '👋');
                     setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
                 }
             } catch (e) {
                 State.redirectScheduled = false;
                 setProcessingState(false);
-                showGlobalError('Failed to load account. Please try again.');
+                showToast('Failed to load account. Please try again.', 'error', '❌');
             }
         }
 
@@ -749,7 +961,7 @@
         DOM.loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (State.isProcessing) return;
-            hideGlobalMessages(); clearAllFieldErrors();
+            clearAllFieldErrors();
 
             const email = DOM.loginEmail.value.trim();
             const pw = DOM.loginPassword.value;
@@ -764,9 +976,9 @@
 
             try {
                 const cred = await auth.signInWithEmailAndPassword(email, pw);
-                await handlePostAuthRedirect(cred.user);
+                await handlePostAuthRedirect(cred.user, false);
             } catch (err) {
-                showGlobalError(getFirebaseError(err));
+                showToast(getFirebaseError(err), 'error', '❌');
                 setProcessingState(false);
                 setButtonLoading(DOM.loginSubmit, false);
             }
@@ -778,7 +990,7 @@
         DOM.signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (State.isProcessing) return;
-            hideGlobalMessages(); clearAllFieldErrors();
+            clearAllFieldErrors();
 
             const name = DOM.signupName.value.trim();
             const email = DOM.signupEmail.value.trim();
@@ -796,9 +1008,15 @@
 
             let referralData = null;
             if (referralInput) {
-                referralData = await validateReferralCode(referralInput);
-                if (referralData && !referralData.valid) {
+                referralData = await getReferrerInfo(referralInput);
+                if (!referralData) {
                     showFieldError(DOM.signupReferralError, 'Invalid referral code. You can still continue.');
+                } else {
+                    const currentUser = auth.currentUser;
+                    if (currentUser && referralData.uid === currentUser.uid) {
+                        showFieldError(DOM.signupReferralError, 'You cannot refer yourself!');
+                        return;
+                    }
                 }
             }
 
@@ -808,18 +1026,35 @@
             try {
                 const cred = await auth.createUserWithEmailAndPassword(email, pw);
                 await cred.user.updateProfile({ displayName: name });
+
+                const referrerUid = referralData?.uid || State.referrerUid || null;
+                const referrerName = referralData?.fullName || State.referrerName || null;
+                const referrerEmail = referralData?.email || State.referrerEmail || null;
+                const referralCode = referralData?.referralCode || State.referralFromUrl || null;
+
                 await createUserDocument(cred.user, {
                     fullName: name,
                     phone: phone,
-                    referredBy: referralData?.valid ? referralData.referrerUid : null,
-                    referredByCode: referralData?.valid ? referralData.code : null,
+                    referredBy: referrerUid,
+                    referredByCode: referralCode,
+                    referredByName: referrerName,
+                    referredByEmail: referrerEmail,
+                    referralSource: State.referralSource || 'direct',
                 });
 
-                // Directly redirect after signup – no verification step
-                showGlobalSuccess('Account created! Redirecting...');
-                setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 1500);
+                if (referrerName) {
+                    showToast(
+                        `🎉 Welcome ${name}! You were referred by ${referrerName}. You both get rewards! 🎊`,
+                        'success',
+                        '🎊'
+                    );
+                    setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 2000);
+                } else {
+                    showToast('🎉 Account created! Redirecting...', 'success', '🎊');
+                    setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 1500);
+                }
             } catch (err) {
-                showGlobalError(getFirebaseError(err));
+                showToast(getFirebaseError(err), 'error', '❌');
                 setProcessingState(false);
                 setButtonLoading(DOM.signupSubmit, false);
             }
@@ -830,16 +1065,39 @@
         // ============================================
         async function handleGoogleSignIn() {
             if (State.isProcessing) return;
-            hideGlobalMessages();
             setProcessingState(true);
 
             try {
                 const provider = new firebase.auth.GoogleAuthProvider();
                 provider.setCustomParameters({ prompt: 'select_account' });
                 const result = await auth.signInWithPopup(provider);
-                await handlePostAuthRedirect(result.user);
+
+                const isNewUser = result.additionalUserInfo?.isNewUser || false;
+
+                if (isNewUser && State.isValidReferral) {
+                    await createUserDocument(result.user, {
+                        fullName: result.user.displayName || 'Learner',
+                        phone: result.user.phoneNumber || '',
+                        referredBy: State.referrerUid,
+                        referredByCode: State.referralFromUrl,
+                        referredByName: State.referrerName,
+                        referredByEmail: State.referrerEmail,
+                        referralSource: State.referralSource || 'direct',
+                    });
+                    if (State.referrerName) {
+                        showToast(
+                            `🎉 Welcome! You were referred by ${State.referrerName}. You both get rewards! 🎊`,
+                            'success',
+                            '🎊'
+                        );
+                        setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 2000);
+                        return;
+                    }
+                }
+
+                await handlePostAuthRedirect(result.user, isNewUser);
             } catch (err) {
-                showGlobalError(getFirebaseError(err));
+                showToast(getFirebaseError(err), 'error', '❌');
                 setProcessingState(false);
             }
         }
@@ -853,7 +1111,7 @@
         DOM.resetForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (State.isProcessing) return;
-            hideGlobalMessages(); clearAllFieldErrors();
+            clearAllFieldErrors();
 
             const email = DOM.resetEmail.value.trim();
             const err = validateEmail(email);
@@ -867,13 +1125,13 @@
                     url: window.location.origin + '/auth.html',
                     handleCodeInApp: false,
                 });
-                showGlobalSuccess('Reset link sent! Check your inbox (and spam).');
+                showToast('Reset link sent! Check your inbox (and spam).', 'success', '📧');
                 DOM.resetEmail.value = '';
                 setProcessingState(false);
                 setButtonLoading(DOM.resetSubmit, false);
                 setTimeout(() => { if (State.currentSection === 'reset') showSection('login'); }, 3000);
             } catch (err) {
-                showGlobalError(getFirebaseError(err));
+                showToast(getFirebaseError(err), 'error', '❌');
                 setProcessingState(false);
                 setButtonLoading(DOM.resetSubmit, false);
             }
@@ -908,7 +1166,6 @@
                 if (errEl) clearFieldError(errEl);
                 e.target.classList.remove('input-error');
             }
-            hideGlobalError();
         });
 
         // ============================================
@@ -917,15 +1174,18 @@
         auth.onAuthStateChanged(async (user) => {
             if (user && !State.isProcessing && !State.redirectScheduled) {
                 setProcessingState(true);
-                await handlePostAuthRedirect(user);
+                await handlePostAuthRedirect(user, false);
             }
         });
 
         // ============================================
         // INIT
         // ============================================
-        detectReferralFromUrl();
-        console.log('✅ TRIANGLE LEARN Auth – Verification removed');
+        setTimeout(async () => {
+            await detectReferralFromUrl();
+        }, 300);
+
+        console.log('✅ TRIANGLE LEARN Auth – Updated with referral features');
     })();
     </script>
 </body>
