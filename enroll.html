@@ -81,8 +81,6 @@
         .btn-filled:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(232,67,147,0.3); }
         .btn-demo { background: #f59e0b; color: #fff; }
         .btn-demo:hover { background: #d97706; transform: translateY(-2px); }
-        .btn-danger { background: transparent; color: var(--danger); border: 1.5px solid #fdd; }
-        .btn-danger:hover { background: var(--danger-bg); }
         .btn-sm { padding: 8px 16px; font-size: 0.8rem; }
 
         .main-container { max-width: 900px; margin: 0 auto; padding: 100px 24px 60px; }
@@ -132,7 +130,7 @@
         .course-option {
             border: 2px solid var(--border); border-radius: var(--radius-md);
             padding: 20px; cursor: pointer; transition: all 0.3s ease;
-            position: relative; background: #fff;
+            position: relative; background: #fff; user-select: none;
         }
         .course-option:hover { border-color: var(--purple); box-shadow: var(--shadow-md); }
         .course-option.selected { border-color: var(--purple); background: #f8f7ff; box-shadow: 0 0 0 4px rgba(108,92,231,0.08); }
@@ -290,7 +288,6 @@
     </header>
 
     <div class="main-container">
-        <!-- Step indicator -->
         <div class="steps" id="stepIndicator">
             <div class="step active" data-step="1"><span class="step-num">1</span> Select Course</div>
             <div class="step-line"></div>
@@ -304,7 +301,7 @@
         <div class="error-banner" id="errorBanner"><span>⚠️</span> <span id="errorMessage"></span></div>
         <div class="success-banner" id="successBanner"><span>✅</span> <span id="successMessage"></span></div>
 
-        <!-- STEP 1: Select Course -->
+        <!-- STEP 1 -->
         <div class="enroll-section active" id="step1Section">
             <div class="card">
                 <div class="section-header">
@@ -323,7 +320,7 @@
             </div>
         </div>
 
-        <!-- STEP 2: Your Details -->
+        <!-- STEP 2 -->
         <div class="enroll-section" id="step2Section">
             <div class="card">
                 <div class="section-header">
@@ -369,7 +366,7 @@
             </div>
         </div>
 
-        <!-- STEP 3: Payment -->
+        <!-- STEP 3 -->
         <div class="enroll-section" id="step3Section">
             <div class="card">
                 <div class="section-header">
@@ -395,7 +392,7 @@
             </div>
         </div>
 
-        <!-- STEP 4: Confirmation -->
+        <!-- STEP 4 -->
         <div class="enroll-section" id="step4Section">
             <div class="card">
                 <div class="success-icon">🎉</div>
@@ -446,8 +443,8 @@
         const db = firebase.firestore();
 
         // ---------- CONFIG ----------
-        const PAYSTACK_PUBLIC_KEY = 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxx'; // Replace with your live key later
-        const IS_DEMO = true; // Set to false when you have a real Paystack key
+        const PAYSTACK_PUBLIC_KEY = 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxx';
+        const IS_DEMO = true;
 
         // ---------- STATE ----------
         const State = {
@@ -460,10 +457,14 @@
             activeListeners: [],
         };
 
-        // ---------- DOM ----------
+        // ---------- DOM REFS ----------
         const $ = (sel) => document.querySelector(sel);
         const $$ = (sel) => document.querySelectorAll(sel);
         const DOM = {
+            step1Section: $('#step1Section'),
+            step2Section: $('#step2Section'),
+            step3Section: $('#step3Section'),
+            step4Section: $('#step4Section'),
             userBadge: $('#userBadge'),
             userAvatar: $('#userAvatar'),
             userName: $('#userName'),
@@ -490,6 +491,9 @@
             errorMessage: $('#errorMessage'),
             successBanner: $('#successBanner'),
             successMessage: $('#successMessage'),
+            backToStep1: $('#backToStep1'),
+            goToStep3: $('#goToStep3'),
+            backToStep2: $('#backToStep2'),
         };
 
         // ---------- UTILS ----------
@@ -511,18 +515,38 @@
             btn.disabled = loading;
         }
 
-        // ---------- STEP NAVIGATION ----------
+        // ---------- STEP NAVIGATION (FIXED) ----------
         function goToStep(n) {
+            console.log('Navigating to step:', n);
             State.currentStep = n;
-            $$('.enroll-section').forEach(s => s.classList.remove('active'));
-            [null, DOM.step1Section, DOM.step2Section, DOM.step3Section, DOM.step4Section][n].classList.add('active');
+            
+            // Hide all sections
+            DOM.step1Section.classList.remove('active');
+            DOM.step2Section.classList.remove('active');
+            DOM.step3Section.classList.remove('active');
+            DOM.step4Section.classList.remove('active');
+            
+            // Show target section
+            const sectionMap = { 1: DOM.step1Section, 2: DOM.step2Section, 3: DOM.step3Section, 4: DOM.step4Section };
+            if (sectionMap[n]) sectionMap[n].classList.add('active');
+            
+            // Update step indicators
             document.querySelectorAll('.step').forEach((step, idx) => {
-                step.classList.remove('active','completed');
-                if (idx+1 === n) step.classList.add('active');
-                else if (idx+1 < n) step.classList.add('completed');
+                step.classList.remove('active', 'completed');
+                if (idx + 1 === n) step.classList.add('active');
+                else if (idx + 1 < n) step.classList.add('completed');
             });
-            document.querySelectorAll('.step-line').forEach((line, idx) => line.classList.toggle('completed', idx+1 < n));
-            window.scrollTo({top:0, behavior:'smooth'});
+            document.querySelectorAll('.step-line').forEach((line, idx) => {
+                line.classList.toggle('completed', idx + 1 < n);
+            });
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            hideBanners();
+        }
+
+        function hideBanners() {
+            DOM.errorBanner.classList.remove('show');
+            DOM.successBanner.classList.remove('show');
         }
 
         // ---------- AUTH ----------
@@ -539,133 +563,182 @@
         });
 
         async function prefillUserData(user) {
-            const doc = await db.collection('users').doc(user.uid).get();
-            if (doc.exists) {
-                const d = doc.data();
-                DOM.fullName.value = d.fullName || user.displayName || '';
-                DOM.email.value = d.email || user.email;
-                DOM.phone.value = d.phone || '';
-                DOM.whatsapp.value = d.whatsapp || '';
+            try {
+                const doc = await db.collection('users').doc(user.uid).get();
+                if (doc.exists) {
+                    const d = doc.data();
+                    if (d.fullName) DOM.fullName.value = d.fullName;
+                    if (d.email) DOM.email.value = d.email;
+                    if (d.phone) DOM.phone.value = d.phone;
+                    if (d.whatsapp) DOM.whatsapp.value = d.whatsapp;
+                } else {
+                    if (user.displayName) DOM.fullName.value = user.displayName;
+                    if (user.email) DOM.email.value = user.email;
+                }
+            } catch(e) {
+                if (user.displayName) DOM.fullName.value = user.displayName;
+                if (user.email) DOM.email.value = user.email;
             }
         }
 
         // ---------- COURSES ----------
         async function loadCourses() {
             try {
-                const snap = await db.collection('courses').where('active','==',true).get();
+                const snap = await db.collection('courses').where('active', '==', true).get();
                 DOM.courseLoadingMsg.style.display = 'none';
+                
                 if (snap.empty) {
-                    DOM.courseGrid.innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center;">No courses available.</p>';
+                    DOM.courseGrid.innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center;padding:20px;">No courses available yet. Add courses in the admin panel.</p>';
                     return;
                 }
+                
                 DOM.courseGrid.innerHTML = '';
                 snap.forEach(doc => {
-                    const c = doc.data();
+                    const c = { id: doc.id, ...doc.data() };
                     const card = document.createElement('div');
                     card.className = 'course-option';
                     card.innerHTML = `
                         <div class="check">✓</div>
-                        <div class="course-icon">${c.icon||'📘'}</div>
+                        <div class="course-icon">${c.icon || '📘'}</div>
                         <h3>${escapeHtml(c.name)}</h3>
-                        <span class="stage-tag">${escapeHtml(c.stage||'Stage')}</span>
+                        <span class="stage-tag">${escapeHtml(c.stage || 'Stage')}</span>
                         <div class="price-tag">${formatCurrency(c.price)}</div>
                         ${c.isFullTrack ? '<div style="font-size:0.7rem;color:var(--success);margin-top:2px;">💎 Full Track</div>' : ''}
-                        <div style="font-size:0.72rem;color:var(--text-muted);margin-top:4px;">${c.durationWeeks||'?'} weeks</div>`;
-                    card.addEventListener('click', () => {
-                        $$('.course-option').forEach(el => el.classList.remove('selected'));
-                        card.classList.add('selected');
-                        State.selectedCourse = { id: doc.id, ...c };
+                        <div style="font-size:0.72rem;color:var(--text-muted);margin-top:4px;">${c.durationWeeks || '?'} weeks</div>`;
+                    
+                    card.addEventListener('click', function() {
+                        // Remove selected class from all cards
+                        DOM.courseGrid.querySelectorAll('.course-option').forEach(el => el.classList.remove('selected'));
+                        // Add selected class to this card
+                        this.classList.add('selected');
+                        // Store selected course
+                        State.selectedCourse = c;
+                        // Enable the continue button
                         DOM.goToStep2.disabled = false;
+                        console.log('✅ Course selected:', c.name);
                     });
+                    
                     DOM.courseGrid.appendChild(card);
                 });
-            } catch(e) { console.error(e); }
+            } catch(e) {
+                console.error('Course load error:', e);
+                DOM.courseGrid.innerHTML = '<p style="color:var(--danger);grid-column:1/-1;text-align:center;">Failed to load courses. <button class="btn btn-ghost btn-sm" onclick="location.reload()">Retry</button></p>';
+                DOM.courseLoadingMsg.style.display = 'none';
+            }
         }
 
         function setupSpotsListener() {
-            const unsub = db.collection('settings').doc('stats').onSnapshot(doc => {
-                if (doc.exists) {
-                    const spots = doc.data().spotsLeft || 0;
-                    if (spots > 0) {
+            try {
+                const unsub = db.collection('settings').doc('stats').onSnapshot(doc => {
+                    if (doc.exists && doc.data().spotsLeft > 0) {
                         DOM.spotsAlert.style.display = 'flex';
-                        DOM.spotsMessage.textContent = `Only ${spots} spot${spots===1?'':'s'} left!`;
+                        DOM.spotsMessage.textContent = `Only ${doc.data().spotsLeft} spot${doc.data().spotsLeft === 1 ? '' : 's'} left!`;
                     } else {
                         DOM.spotsAlert.style.display = 'none';
                     }
-                }
-            });
-            State.activeListeners.push(unsub);
+                });
+                State.activeListeners.push(unsub);
+            } catch(e) {}
         }
 
-        // ---------- STEP 2 → 3 ----------
-        DOM.goToStep2.addEventListener('click', () => goToStep(2));
-        DOM.backToStep1.addEventListener('click', () => goToStep(1));
-        DOM.goToStep3.addEventListener('click', () => {
-            if (!DOM.fullName.value.trim() || !DOM.email.value.trim() || !DOM.phone.value.trim()) {
-                showError('Please fill in all required fields.');
+        // ---------- NAVIGATION BUTTONS (FIXED) ----------
+        DOM.goToStep2.addEventListener('click', function() {
+            if (!State.selectedCourse) {
+                showError('Please select a course first.');
                 return;
             }
+            console.log('Moving to step 2');
+            goToStep(2);
+        });
+
+        DOM.backToStep1.addEventListener('click', function() {
+            goToStep(1);
+        });
+
+        DOM.goToStep3.addEventListener('click', function() {
+            const name = DOM.fullName.value.trim();
+            const email = DOM.email.value.trim();
+            const phone = DOM.phone.value.trim();
+            
+            if (!name || !email || !phone) {
+                showError('Please fill in all required fields (Name, Email, Phone).');
+                return;
+            }
+            
+            if (!State.selectedCourse) {
+                showError('No course selected. Please go back and select a course.');
+                return;
+            }
+            
             buildSummary();
             goToStep(3);
         });
-        DOM.backToStep2.addEventListener('click', () => goToStep(2));
+
+        DOM.backToStep2.addEventListener('click', function() {
+            goToStep(2);
+        });
 
         function buildSummary() {
-            if (!State.selectedCourse) return;
             const c = State.selectedCourse;
             const price = c.price || 0;
-            const discount = State.validatedReferral?.isValid ? price * 0.05 : 0;
+            const discount = State.validatedReferral?.isValid ? Math.round(price * 0.05) : 0;
             const total = price - discount;
+            
             DOM.orderSummary.innerHTML = `
                 <div class="summary-row"><span class="label">Course</span><span class="value">${escapeHtml(c.name)}</span></div>
-                <div class="summary-row"><span class="label">Stage</span><span class="value">${escapeHtml(c.stage)}</span></div>
-                <div class="summary-row"><span class="label">Duration</span><span class="value">${c.durationWeeks||8} weeks</span></div>
-                ${discount>0?`<div class="summary-row"><span class="label">Referral Discount</span><span class="value">-${formatCurrency(discount)}</span></div>`:''}
-                <div class="summary-row total"><span class="label">Total</span><span class="value">${formatCurrency(total)}</span></div>`;
+                <div class="summary-row"><span class="label">Stage</span><span class="value">${escapeHtml(c.stage || 'N/A')}</span></div>
+                <div class="summary-row"><span class="label">Duration</span><span class="value">${c.durationWeeks || '?'} weeks</span></div>
+                ${discount > 0 ? `<div class="summary-row"><span class="label">Referral Discount (5%)</span><span class="value" style="color:var(--success);">-${formatCurrency(discount)}</span></div>` : ''}
+                <div class="summary-row total"><span class="label">Total</span><span class="value">${formatCurrency(total)}</span></div>
+                ${State.validatedReferral?.isValid ? `<div style="font-size:0.7rem;color:var(--success);margin-top:4px;">💡 Referral code applied: ${escapeHtml(State.validatedReferral.code)}</div>` : ''}`;
         }
 
         // ---------- REFERRAL ----------
-        DOM.validateRefBtn.addEventListener('click', async () => {
+        DOM.validateRefBtn.addEventListener('click', async function() {
             const code = DOM.referralCode.value.trim().toUpperCase();
             if (!code) return;
-            const snap = await db.collection('users').where('referralCode','==',code).limit(1).get();
-            DOM.refStatus.classList.add('show');
-            if (snap.empty) {
-                DOM.refStatus.textContent = '❌ Invalid code';
+            
+            DOM.validateRefBtn.disabled = true;
+            DOM.validateRefBtn.textContent = 'Checking...';
+            
+            try {
+                const snap = await db.collection('users').where('referralCode', '==', code).limit(1).get();
+                DOM.refStatus.classList.add('show');
+                
+                if (snap.empty) {
+                    DOM.refStatus.textContent = '❌ Invalid referral code.';
+                    DOM.refStatus.className = 'ref-status show invalid';
+                    State.validatedReferral = null;
+                } else {
+                    const referrer = snap.docs[0];
+                    DOM.refStatus.textContent = `✅ Valid! Referred by ${referrer.data().fullName || 'User'}. 5% discount applied!`;
+                    DOM.refStatus.className = 'ref-status show valid';
+                    State.validatedReferral = { code, referrerUid: referrer.id, isValid: true };
+                    if (State.currentStep === 3) buildSummary();
+                }
+            } catch(e) {
+                DOM.refStatus.textContent = '⚠ Could not validate. Continue without code.';
                 DOM.refStatus.className = 'ref-status show invalid';
-            } else {
-                DOM.refStatus.textContent = '✅ Valid – Referral discount applied!';
-                DOM.refStatus.className = 'ref-status show valid';
-                State.validatedReferral = { code, referrerUid: snap.docs[0].id };
-                buildSummary();
+            } finally {
+                DOM.validateRefBtn.disabled = false;
+                DOM.validateRefBtn.textContent = 'Apply';
             }
         });
 
         // ---------- PAYMENT ----------
-        DOM.payNow.addEventListener('click', () => {
-            if (!State.selectedCourse) return;
-            if (IS_DEMO) {
-                simulateRealPayment();
-                return;
-            }
-            // Real Paystack
-            const total = (State.selectedCourse.price||0) - (State.validatedReferral?.isValid ? State.selectedCourse.price*0.05 : 0);
-            const handler = PaystackPop.setup({
-                key: PAYSTACK_PUBLIC_KEY,
-                email: DOM.email.value.trim(),
-                amount: total * 100,
-                currency: 'NGN',
-                ref: generateId(),
-                metadata: { custom_fields: [{ display_name: 'Course', value: State.selectedCourse.name }] },
-                callback: verifyAndEnroll,
-                onClose: () => setBtnLoading(DOM.payNow, false)
-            });
-            handler.openIframe();
+        DOM.payNow.addEventListener('click', function() {
+            if (IS_DEMO) { simulateRealPayment(); return; }
+            // Real Paystack logic here (omitted for demo)
         });
 
         DOM.simulatePayment.addEventListener('click', simulateRealPayment);
 
         function simulateRealPayment() {
+            if (!State.selectedCourse) {
+                showError('No course selected.');
+                return;
+            }
+            
             const fakeRef = 'SIM_' + Date.now();
             State.paymentReference = fakeRef;
             State.enrollmentId = generateId();
@@ -676,25 +749,26 @@
         async function verifyAndEnroll(response) {
             const course = State.selectedCourse;
             const price = course.price || 0;
-            const discount = State.validatedReferral?.isValid ? price * 0.05 : 0;
+            const discount = State.validatedReferral?.isValid ? Math.round(price * 0.05) : 0;
             const finalAmount = price - discount;
             const user = State.currentUser;
 
-            const paymentData = {
-                reference: response.reference,
-                status: 'success',
-                amount: finalAmount,
-                courseId: course.id,
-                courseName: course.name,
-                courseStage: course.stage,
-                userId: user.uid,
-                userFullName: DOM.fullName.value.trim(),
-                userEmail: DOM.email.value.trim(),
-                paidAt: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
             try {
-                await db.collection('payments').doc(response.reference).set(paymentData);
+                // Save payment
+                await db.collection('payments').doc(response.reference).set({
+                    reference: response.reference,
+                    status: 'success',
+                    amount: finalAmount,
+                    courseId: course.id,
+                    courseName: course.name,
+                    courseStage: course.stage,
+                    userId: user.uid,
+                    userFullName: DOM.fullName.value.trim(),
+                    userEmail: DOM.email.value.trim(),
+                    paidAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                // Save enrollment
                 await db.collection('enrollments').doc(State.enrollmentId).set({
                     userId: user.uid,
                     courseId: course.id,
@@ -713,7 +787,7 @@
                     progress: 0
                 });
 
-                // Update user document
+                // Update user
                 await db.collection('users').doc(user.uid).set({
                     fullName: DOM.fullName.value.trim(),
                     phone: DOM.phone.value.trim(),
@@ -722,7 +796,7 @@
                 }, { merge: true });
 
                 // Referral commission
-                if (State.validatedReferral?.isValid) {
+                if (State.validatedReferral?.isValid && State.validatedReferral.referrerUid) {
                     await db.collection('referrals').add({
                         referrerUid: State.validatedReferral.referrerUid,
                         referredUid: user.uid,
@@ -730,13 +804,13 @@
                         referredEmail: DOM.email.value.trim(),
                         courseName: course.name,
                         paymentRef: response.reference,
-                        commissionAmount: finalAmount * 0.2,
+                        commissionAmount: Math.round(finalAmount * 0.2),
                         status: 'paid',
                         createdAt: firebase.firestore.FieldValue.serverTimestamp()
                     });
                 }
 
-                // ---- AUTO CERTIFICATE GENERATION ----
+                // Auto-generate certificate
                 const certRef = await db.collection('certificates').add({
                     userId: user.uid,
                     fullName: DOM.fullName.value.trim(),
@@ -746,19 +820,24 @@
                     learnerSignatureUrl: null
                 });
 
-                // Show success & certificate link
+                // Show confirmation
                 DOM.confirmationSummary.innerHTML = `
                     <div class="summary-row"><span class="label">Course</span><span class="value">${escapeHtml(course.name)}</span></div>
-                    <div class="summary-row"><span class="label">Payment Ref</span><span class="value">${response.reference}</span></div>`;
+                    <div class="summary-row"><span class="label">Payment Ref</span><span class="value">${response.reference}</span></div>
+                    <div class="summary-row"><span class="label">Amount Paid</span><span class="value">${formatCurrency(finalAmount)}</span></div>`;
+                
                 DOM.certStep.style.display = 'list-item';
                 DOM.certLink.href = `certificate.html?certId=${certRef.id}`;
+                
                 goToStep(4);
+                setBtnLoading(DOM.simulatePayment, false);
+                setBtnLoading(DOM.payNow, false);
 
             } catch(e) {
+                console.error('Enrollment error:', e);
                 showError('Enrollment failed: ' + e.message);
-            } finally {
-                setBtnLoading(DOM.payNow, false);
                 setBtnLoading(DOM.simulatePayment, false);
+                setBtnLoading(DOM.payNow, false);
             }
         }
 
@@ -772,6 +851,8 @@
         window.addEventListener('beforeunload', () => {
             State.activeListeners.forEach(fn => { try { fn(); } catch(e) {} });
         });
+
+        console.log('✅ Enrollment page ready. IS_DEMO =', IS_DEMO);
     })();
     </script>
 </body>
