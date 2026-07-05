@@ -48,6 +48,7 @@
             min-height: 100vh;
         }
 
+        /* HEADER */
         .header {
             position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
             padding: 12px 0; background: rgba(255,255,255,0.9);
@@ -91,6 +92,27 @@
         .dropdown .divider { height: 1px; background: var(--border); margin: 4px 0; }
         .dropdown .logout { color: var(--danger); }
 
+        /* ANNOUNCEMENT TICKER (NEW) */
+        .announce-ticker {
+            position: fixed; top: 62px; left: 0; right: 0; z-index: 999;
+            background: var(--warning-bg); border-bottom: 1px solid #ffe0b2;
+            padding: 10px 24px; font-size: 0.82rem; font-weight: 500;
+            color: var(--warning); overflow: hidden; white-space: nowrap;
+        }
+        .announce-ticker .ticker-track {
+            display: inline-block; animation: scrollTicker 30s linear infinite;
+            padding-left: 100%;
+        }
+        .announce-ticker .ticker-track span {
+            display: inline-block; margin-right: 60px;
+        }
+        @keyframes scrollTicker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        /* Push content down to accommodate ticker */
+        .dashboard-container { padding-top: 120px; }
+
         .btn {
             display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px;
             border-radius: 22px; font-weight: 600; font-size: 0.82rem; cursor: pointer;
@@ -102,15 +124,8 @@
         .btn-filled { background: var(--gradient); color: #fff; }
         .btn-filled:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(232,67,147,0.3); }
         .btn-sm { padding: 6px 14px; font-size: 0.75rem; }
-        .btn-debug {
-            background: var(--warning-bg);
-            color: var(--warning);
-            border: 1px solid var(--warning);
-            margin-top: 8px;
-        }
+        .btn-debug { background: var(--warning-bg); color: var(--warning); border: 1px solid var(--warning); }
         .btn-debug:hover { background: #ffe0b2; }
-
-        .dashboard-container { max-width: 1100px; margin: 0 auto; padding: 90px 24px 50px; }
 
         .welcome-section { margin-bottom: 28px; }
         .welcome-section h1 { font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700; letter-spacing: -0.5px; }
@@ -288,9 +303,10 @@
             .sidebar { order: -1; }
             .stats-row { grid-template-columns: repeat(2, 1fr); }
             .user-menu .name { display: none; }
+            .announce-ticker { top: 56px; }
         }
         @media (max-width: 480px) {
-            .dashboard-container { padding: 80px 14px 40px; }
+            .dashboard-container { padding: 110px 14px 40px; }
             .stats-row { grid-template-columns: 1fr 1fr; gap: 8px; }
             .stat-card { padding: 14px; gap: 8px; }
             .stat-icon { width: 36px; height: 36px; font-size: 1.1rem; }
@@ -325,6 +341,11 @@
             </div>
         </div>
     </header>
+
+    <!-- REAL-TIME ANNOUNCEMENT TICKER -->
+    <div class="announce-ticker" id="announceTicker" style="display:none;">
+        <div class="ticker-track" id="tickerTrack"></div>
+    </div>
 
     <div class="dashboard-container">
         <div class="error-banner" id="errorBanner"><span>⚠️</span> <span id="errorMessage"></span></div>
@@ -427,7 +448,6 @@
     (function() {
         'use strict';
 
-        // ========== FIREBASE CONFIG ==========
         const firebaseConfig = {
             apiKey: "AIzaSyAvvB3C9SP8tDTqMmqzc6craI4d_0kSVX0",
             authDomain: "timijosh-b8bee.firebaseapp.com",
@@ -441,7 +461,6 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // ========== STATE ==========
         const State = {
             currentUser: null,
             userData: null,
@@ -452,10 +471,8 @@
             activeListeners: [],
             settings: {},
             lastError: null,
-            lastErrorTime: null
         };
 
-        // ========== DOM ==========
         const $ = (sel) => document.querySelector(sel);
         const DOM = {
             userMenu: $('#userMenu'),
@@ -477,6 +494,8 @@
             refTotalEarnings: $('#refTotalEarnings'),
             refCount: $('#refCount'),
             announceList: $('#announceList'),
+            announceTicker: $('#announceTicker'),
+            tickerTrack: $('#tickerTrack'),
             navCertificates: $('#navCertificates'),
             navCommunity: $('#navCommunity'),
             quickCommunity: $('#quickCommunity'),
@@ -486,10 +505,9 @@
             debugModal: $('#debugModal'),
             debugErrorText: $('#debugErrorText'),
             closeDebug: $('#closeDebug'),
-            closeDebugBtn: $('#closeDebugBtn')
+            closeDebugBtn: $('#closeDebugBtn'),
         };
 
-        // ========== UTILS ==========
         function escapeHtml(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
         function formatCurrency(n) { return '₦' + (n || 0).toLocaleString(); }
         function timeAgo(ts) {
@@ -509,6 +527,12 @@
             setTimeout(() => DOM.errorBanner.classList.remove('show'), 8000);
         }
         function hideError() { DOM.errorBanner.classList.remove('show'); }
+
+        function recordError(message) {
+            State.lastError = message;
+            DOM.debugBtn.style.display = 'inline-flex';
+            console.error('Dashboard Error:', message);
+        }
 
         // ========== AUTH ==========
         auth.onAuthStateChanged(async (user) => {
@@ -536,12 +560,9 @@
                     DOM.navCommunity.href = communityLink;
                     DOM.quickCommunity.href = communityLink;
                 }
-            } catch (e) {
-                recordError('Failed to load user data: ' + e.message);
-            }
+            } catch (e) { recordError('Failed to load user data: ' + e.message); }
         }
 
-        // ========== DATA LOADING ==========
         async function loadDashboardData() {
             if (!State.currentUser) return;
             const uid = State.currentUser.uid;
@@ -568,7 +589,11 @@
             if (!State.currentUser) return;
             try {
                 const u1 = db.collection('announcements').doc('current').onSnapshot(doc => {
-                    if (doc.exists) { State.announcements = doc.data().messages || []; renderAnnouncements(); }
+                    if (doc.exists) {
+                        State.announcements = doc.data().messages || [];
+                        renderAnnouncements();
+                        renderTicker(State.announcements);
+                    }
                 });
                 const u2 = db.collection('enrollments').where('userId', '==', State.currentUser.uid).onSnapshot(snap => {
                     State.enrollments = []; snap.forEach(d => State.enrollments.push({ id: d.id, ...d.data() }));
@@ -579,19 +604,20 @@
                     renderStats(); renderCertificates();
                 });
                 State.activeListeners.push(u1, u2, u3);
-            } catch (e) {
-                recordError('Real-time listeners setup error: ' + e.message);
+            } catch (e) { recordError('Real-time listeners setup error: ' + e.message); }
+        }
+
+        function renderTicker(messages) {
+            if (!messages || messages.length === 0) {
+                DOM.announceTicker.style.display = 'none';
+                return;
             }
+            DOM.announceTicker.style.display = 'block';
+            // Show each message twice for seamless looping
+            const doubled = [...messages, ...messages];
+            DOM.tickerTrack.innerHTML = doubled.map(m => `<span>📢 ${escapeHtml(m)}</span>`).join('');
         }
 
-        function recordError(message) {
-            State.lastError = message;
-            State.lastErrorTime = new Date().toLocaleTimeString();
-            console.error('Dashboard Error:', message);
-            DOM.debugBtn.style.display = 'inline-flex';
-        }
-
-        // ========== RENDER ==========
         function renderAll() { renderStats(); renderProgress(); renderCourses(); renderCertificates(); renderReferrals(); renderAnnouncements(); }
 
         function renderStats() {
@@ -689,17 +715,15 @@
             inp.select(); document.execCommand('copy'); DOM.copyRefBtn.textContent = 'Copied!'; setTimeout(() => { DOM.copyRefBtn.textContent = 'Copy'; }, 2000);
         });
 
-        // Debug button & modal
+        // Debug panel
         DOM.debugBtn.addEventListener('click', () => {
             let info = 'No errors recorded.';
-            if (State.lastError) {
-                info = `[${State.lastErrorTime}] ${State.lastError}`;
-            }
+            if (State.lastError) info = `[${new Date().toLocaleTimeString()}] ${State.lastError}`;
             info += '\n\nUser ID: ' + (State.currentUser?.uid || 'Not logged in');
             info += '\nEnrollments loaded: ' + State.enrollments.length;
             info += '\nCertificates loaded: ' + State.certificates.length;
             info += '\nReferrals loaded: ' + State.referrals.length;
-            info += '\n\nCommon fixes:\n- Ensure Firestore composite index for enrollments (userId + enrolledAt DESC) exists.\n- Check browser console for a clickable index creation link.';
+            info += '\n\nRequired indexes:\n- enrollments: userId Asc, enrolledAt Desc\n- certificates: userId Asc, issuedAt Desc\nIf missing, you\'ll see a link in the browser console.';
             DOM.debugErrorText.textContent = info;
             DOM.debugModal.classList.add('open');
         });
