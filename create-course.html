@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Create Course — TRIANGLE LEARN</title>
-    <meta name="description" content="Course Creation Studio for TRIANGLE LEARN. Build professional courses with outlines, tests, exams, and projects.">
+    <meta name="description" content="Course Creation Studio for TRIANGLE LEARN. Build professional courses with modules, tests, exams, and projects.">
     <link rel="icon" href="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,6 +34,7 @@
             --danger: #e74c3c;
             --success: #0d9488;
             --warning: #e65100;
+            --warning-bg: #fff3e0;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { font-size: 16px; -webkit-text-size-adjust: 100%; scroll-padding-top: 80px; }
@@ -47,7 +48,6 @@
             min-height: 100vh;
         }
 
-        /* HEADER */
         .header {
             position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
             padding: 14px 0; background: rgba(255,255,255,0.85);
@@ -61,6 +61,7 @@
         .logo-link { display: flex; align-items: center; gap: 10px; text-decoration: none; }
         .logo-link img { height: 36px; width: auto; }
         .logo-link span { font-family: var(--font-heading); font-weight: 700; font-size: 1.05rem; color: var(--text); letter-spacing: -0.5px; }
+
         .btn {
             display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px;
             border-radius: 25px; font-weight: 600; font-size: 0.85rem; cursor: pointer;
@@ -80,10 +81,8 @@
         .btn-sm { padding: 5px 12px; font-size: 0.72rem; }
         .btn-block { width: 100%; justify-content: center; }
 
-        /* MAIN CONTAINER */
         .main-container { max-width: 1400px; margin: 0 auto; padding: 100px 24px 60px; }
 
-        /* STUDIO LAYOUT */
         .studio-header {
             display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 28px; flex-wrap: wrap; gap: 12px;
@@ -98,7 +97,6 @@
             box-shadow: var(--shadow-md);
         }
 
-        /* TABS */
         .studio-tabs {
             display: flex; border-bottom: 2px solid var(--border);
             background: var(--bg-alt); overflow-x: auto;
@@ -116,14 +114,17 @@
         .studio-tab.active { color: var(--purple); border-bottom-color: var(--purple); background: #fff; }
         .studio-tab .tab-icon { margin-right: 6px; }
 
-        /* TAB BODY */
         .studio-body { padding: 30px; min-height: 500px; }
         .studio-panel { display: none; }
         .studio-panel.active { display: block; }
 
-        /* FORM ELEMENTS */
+        /* FORM */
         .form-group { margin-bottom: 14px; }
-        .form-group label { display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: var(--text); }
+        .form-group label {
+            display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: var(--text);
+        }
+        .form-group .required { color: var(--danger); margin-left: 2px; }
+        .form-group .optional { font-weight: 400; color: var(--text-muted); font-size: 0.7rem; }
         .form-group input, .form-group textarea, .form-group select {
             width: 100%; padding: 10px 14px; border: 1.5px solid var(--border);
             border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 0.88rem;
@@ -134,6 +135,7 @@
         }
         .form-row { display: flex; gap: 14px; flex-wrap: wrap; }
         .form-row .form-group { flex: 1; min-width: 200px; }
+
         .section-header {
             display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 16px; flex-wrap: wrap; gap: 8px;
@@ -161,62 +163,43 @@
             outline: none; overflow-y: auto; background: #fff;
         }
         .editor-content:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(108,92,231,0.06); }
-        .editor-content h2 { font-family: var(--font-heading); font-size: 1.3rem; margin: 16px 0 8px; }
-        .editor-content h3 { font-family: var(--font-heading); font-size: 1.05rem; margin: 14px 0 6px; }
-        .editor-content p { margin-bottom: 10px; }
-        .editor-content ul, .editor-content ol { margin: 8px 0 8px 24px; }
-        .editor-content blockquote {
-            border-left: 4px solid var(--purple); padding: 8px 16px;
-            margin: 16px 0; background: #f8f7ff;
-            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-        }
 
-        /* OUTLINE ITEMS */
-        .outline-list { list-style: none; padding: 0; }
-        .outline-item {
+        /* MODULES */
+        .module-list { list-style: none; padding: 0; }
+        .module-item {
             border: 1px solid var(--border); border-radius: var(--radius-sm);
             padding: 18px; margin-bottom: 14px; background: #fff;
             transition: box-shadow 0.2s;
         }
-        .outline-item:hover { box-shadow: var(--shadow-sm); }
-        .outline-item .oi-header {
+        .module-item:hover { box-shadow: var(--shadow-sm); }
+        .module-item .module-header {
             display: flex; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap;
         }
-        .outline-item .oi-number {
+        .module-item .module-number {
             width: 34px; height: 34px; border-radius: 50%;
             background: var(--gradient); color: #fff;
             display: flex; align-items: center; justify-content: center;
             font-weight: 700; font-size: 0.85rem; flex-shrink: 0;
         }
-        .outline-item .oi-title-input {
+        .module-item .module-title-input {
             flex: 1; border: none; border-bottom: 1px dashed var(--border);
             padding: 6px 4px; font-family: var(--font-heading); font-weight: 600;
             font-size: 0.95rem; outline: none; background: transparent;
             min-width: 150px;
         }
-        .outline-item .oi-title-input:focus { border-bottom-color: var(--purple); }
-        .outline-item .oi-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+        .module-item .module-title-input:focus { border-bottom-color: var(--purple); }
+        .module-item .module-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
 
-        /* MEDIA */
-        .media-attachment {
-            display: flex; align-items: center; gap: 10px;
-            background: #f8f7ff; border: 1px solid #e0dbff;
-            border-radius: var(--radius-sm); padding: 10px 14px;
-            margin: 8px 0; font-size: 0.82rem;
+        /* ATTACHMENTS */
+        .attachment-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+        .attachment-tag {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: #f3f0ff; border: 1px solid #d8d0f0;
+            border-radius: 16px; padding: 4px 12px; font-size: 0.75rem; font-weight: 500;
         }
-        .media-attachment .media-icon { font-size: 1.2rem; }
-        .media-attachment .media-info { flex: 1; }
-        .media-attachment .media-info strong { display: block; font-size: 0.8rem; }
-        .media-attachment .media-info span { color: var(--text-muted); font-size: 0.72rem; }
-        .media-remove { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 1.1rem; padding: 4px; }
-        .preview-video {
-            width: 100%; max-width: 560px; aspect-ratio: 16/9;
-            border-radius: var(--radius-sm); margin: 10px 0;
-            border: 1px solid var(--border); overflow: hidden;
-        }
-        .preview-video iframe { width: 100%; height: 100%; border: none; }
+        .attachment-tag .remove { cursor: pointer; color: var(--danger); }
 
-        /* TEST / EXAM BLOCKS */
+        /* TEST BLOCKS */
         .test-block {
             background: #fff8e8; border: 2px dashed var(--gold);
             border-radius: var(--radius-sm); padding: 16px;
@@ -257,13 +240,33 @@
         }
         .option-row input[type="radio"] { width: 16px; height: 16px; accent-color: var(--purple); }
 
-        .project-card {
-            background: #e8f8f0; border: 1px solid var(--success);
-            border-radius: var(--radius-sm); padding: 20px; margin-top: 16px;
+        /* LIVE CLASS SCHEDULE */
+        .live-schedule-box {
+            background: #e6fafc; border: 1px solid var(--cyan);
+            border-radius: var(--radius-sm); padding: 20px;
+            margin: 12px 0;
         }
-        .project-card h4 { color: var(--success); margin-bottom: 10px; font-family: var(--font-heading); }
+        .live-schedule-box h4 { color: var(--cyan); margin-bottom: 10px; font-family: var(--font-heading); }
 
-        /* TOAST */
+        .toggle-switch {
+            display: flex; align-items: center; gap: 10px; cursor: pointer;
+        }
+        .toggle-switch input { display: none; }
+        .toggle-switch .slider {
+            width: 44px; height: 24px; background: #ccc; border-radius: 12px;
+            transition: all 0.3s; position: relative;
+        }
+        .toggle-switch .slider::after {
+            content: ''; position: absolute; top: 2px; left: 2px;
+            width: 20px; height: 20px; background: #fff; border-radius: 50%;
+            transition: all 0.3s;
+        }
+        .toggle-switch input:checked + .slider { background: var(--success); }
+        .toggle-switch input:checked + .slider::after { left: 22px; }
+
+        .empty-state { text-align: center; padding: 40px; color: var(--text-muted); }
+        .empty-state .icon { font-size: 3rem; margin-bottom: 10px; }
+
         .toast {
             position: fixed; bottom: 24px; right: 24px;
             background: var(--purple); color: #fff;
@@ -280,85 +283,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .empty-state { text-align: center; padding: 40px; color: var(--text-muted); }
-        .empty-state .icon { font-size: 3rem; margin-bottom: 10px; }
-
-        /* ===== ENROLLED STUDENTS ===== */
-        .student-list-item {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 16px; border-bottom: 1px solid var(--border);
-            transition: background 0.2s;
-        }
-        .student-list-item:hover { background: var(--bg-alt); }
-        .student-list-item .student-info { display: flex; align-items: center; gap: 12px; }
-        .student-list-item .student-avatar {
-            width: 36px; height: 36px; border-radius: 50%;
-            background: var(--gradient); display: flex; align-items: center;
-            justify-content: center; color: #fff; font-weight: 700;
-            font-size: 0.8rem;
-        }
-        .student-list-item .student-name { font-weight: 600; }
-        .student-list-item .student-email { font-size: 0.78rem; color: var(--text-muted); }
-        .student-list-item .student-status {
-            font-size: 0.7rem; padding: 2px 12px; border-radius: 12px; font-weight: 600;
-        }
-        .student-status.active { background: #e8f8f0; color: var(--success); }
-        .student-status.pending { background: #fff8e8; color: var(--warning); }
-        .student-status.completed { background: #f3f0ff; color: var(--purple); }
-
-        /* ===== LIVE CLASSROOM ===== */
-        .live-classroom {
-            background: #0c0c1a; border-radius: var(--radius-md);
-            padding: 20px; color: #fff; margin-top: 16px;
-        }
-        .live-classroom .live-header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 16px; flex-wrap: wrap; gap: 8px;
-        }
-        .live-classroom .live-header h4 { font-family: var(--font-heading); font-weight: 700; }
-        .live-status {
-            display: flex; align-items: center; gap: 8px;
-            padding: 4px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600;
-        }
-        .live-status.live { background: #e74c3c; color: #fff; animation: pulse 2s infinite; }
-        .live-status.offline { background: #555; color: #ccc; }
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
-
-        .live-classroom .chat-area {
-            background: rgba(255,255,255,0.05); border-radius: var(--radius-sm);
-            padding: 16px; height: 200px; overflow-y: auto; margin-bottom: 12px;
-            font-size: 0.85rem;
-        }
-        .chat-area .chat-msg { margin-bottom: 8px; }
-        .chat-area .chat-msg .chat-user { font-weight: 600; color: var(--gold); }
-        .chat-area .chat-msg .chat-time { font-size: 0.65rem; color: #888; margin-left: 8px; }
-        .chat-input-group {
-            display: flex; gap: 8px;
-        }
-        .chat-input-group input {
-            flex: 1; padding: 8px 14px; border: 1px solid #333;
-            border-radius: 20px; background: rgba(255,255,255,0.05);
-            color: #fff; outline: none; font-family: var(--font-body);
-        }
-        .chat-input-group input::placeholder { color: #888; }
-        .chat-input-group button {
-            padding: 8px 16px; border-radius: 20px; border: none;
-            background: var(--gradient); color: #fff; font-weight: 600; cursor: pointer;
-        }
-
-        .video-controls {
-            display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap;
-        }
-        .video-controls button {
-            padding: 6px 16px; border-radius: 20px; border: none;
-            font-weight: 600; font-size: 0.78rem; cursor: pointer;
-        }
-        .video-controls .btn-start { background: var(--success); color: #fff; }
-        .video-controls .btn-start:hover { transform: scale(1.04); }
-        .video-controls .btn-end { background: var(--danger); color: #fff; }
-        .video-controls .btn-end:hover { transform: scale(1.04); }
-
-        /* RESPONSIVE */
         @media (max-width: 768px) {
             .studio-body { padding: 20px; }
             .studio-tab { padding: 12px 16px; font-size: 0.78rem; }
@@ -366,19 +290,12 @@
             .studio-header h1 { font-size: 1.3rem; }
             .studio-header .actions { width: 100%; }
             .studio-header .actions .btn { flex: 1; justify-content: center; }
-            .toast { right: 16px; left: 16px; bottom: 16px; max-width: none; }
-            .live-classroom .chat-area { height: 150px; }
-        }
-        @media (max-width: 480px) {
-            .main-container { padding: 90px 12px 40px; }
-            .outline-item .oi-header { flex-wrap: wrap; }
-            .outline-item .oi-title-input { min-width: 100px; }
+            .module-item .module-header { flex-wrap: wrap; }
         }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
     <header class="header">
         <div class="header-inner">
             <a href="admin-dashboard.html" class="logo-link">
@@ -392,8 +309,7 @@
         </div>
     </header>
 
-    <!-- MAIN -->
-    <main class="main-container">
+    <div class="main-container">
         <div class="studio-header">
             <h1>📝 Course Creation Studio</h1>
             <div class="actions">
@@ -403,29 +319,27 @@
         </div>
 
         <div class="course-studio">
-            <!-- Tabs -->
             <div class="studio-tabs">
                 <button class="studio-tab active" data-tab="tab-info"><span class="tab-icon">📋</span>Course Info</button>
-                <button class="studio-tab" data-tab="tab-outline"><span class="tab-icon">📑</span>Outline & Content</button>
-                <button class="studio-tab" data-tab="tab-tests"><span class="tab-icon">❓</span>Tests & Quizzes</button>
+                <button class="studio-tab" data-tab="tab-modules"><span class="tab-icon">📑</span>Modules</button>
+                <button class="studio-tab" data-tab="tab-tests"><span class="tab-icon">❓</span>Tests</button>
                 <button class="studio-tab" data-tab="tab-exam"><span class="tab-icon">📝</span>Final Exam</button>
                 <button class="studio-tab" data-tab="tab-project"><span class="tab-icon">🎯</span>Project</button>
-                <button class="studio-tab" data-tab="tab-students"><span class="tab-icon">👥</span>Enrolled Students</button>
-                <button class="studio-tab" data-tab="tab-live"><span class="tab-icon">📺</span>Live Classroom</button>
+                <button class="studio-tab" data-tab="tab-live"><span class="tab-icon">📺</span>Live Class</button>
+                <button class="studio-tab" data-tab="tab-resources"><span class="tab-icon">📎</span>Resources</button>
             </div>
 
-            <!-- Tab Body -->
             <div class="studio-body">
 
                 <!-- TAB 1: Course Info -->
                 <div class="studio-panel active" id="tab-info">
                     <div class="form-row">
                         <div class="form-group" style="flex:2;">
-                            <label>Course Title *</label>
+                            <label>Course Title <span class="required">*</span></label>
                             <input id="csTitle" placeholder="e.g., Complete Web Development Bootcamp" style="font-size:1.1rem;font-weight:600;">
                         </div>
                         <div class="form-group">
-                            <label>Stage</label>
+                            <label>Stage <span class="required">*</span></label>
                             <select id="csStage">
                                 <option value="Elementary">Elementary</option>
                                 <option value="Advanced">Advanced</option>
@@ -439,7 +353,7 @@
                             <input type="number" id="csDuration" value="8" min="1" max="52">
                         </div>
                         <div class="form-group">
-                            <label>Price (₦)</label>
+                            <label>Price (₦) <span class="required">*</span></label>
                             <input type="number" id="csPrice" value="5000" min="0" step="500">
                         </div>
                         <div class="form-group">
@@ -460,11 +374,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Short Description (shown on course card)</label>
+                        <label>Short Description <span class="optional">(shown on course card)</span></label>
                         <textarea id="csShortDesc" rows="2" placeholder="A brief summary that appears on the course card..."></textarea>
                     </div>
                     <div class="form-group">
-                        <label>Full Course Description</label>
+                        <label>Full Course Description <span class="required">*</span></label>
                         <div class="editor-toolbar" id="descToolbar">
                             <button data-cmd="bold" title="Bold"><b>B</b></button>
                             <button data-cmd="italic" title="Italic"><i>I</i></button>
@@ -481,37 +395,36 @@
                     </div>
                 </div>
 
-                <!-- TAB 2: Outline & Content -->
-                <div class="studio-panel" id="tab-outline">
+                <!-- TAB 2: Modules -->
+                <div class="studio-panel" id="tab-modules">
                     <div class="section-header">
-                        <h3>📑 Course Outline</h3>
-                        <button class="btn btn-filled btn-sm" onclick="addOutlineItem()">+ Add Module / Week</button>
+                        <h3>📑 Course Modules</h3>
+                        <button class="btn btn-filled btn-sm" onclick="addModule()">+ Add Module</button>
                     </div>
                     <p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:16px;">
-                        Each item represents a week or module. Add rich content, videos, and voice notes.
+                        Each module is a lesson. Students must complete each module in order.
                     </p>
-                    <ul class="outline-list" id="outlineList"></ul>
-                    <div id="emptyOutline" class="empty-state">
+                    <ul class="module-list" id="moduleList"></ul>
+                    <div id="emptyModules" class="empty-state">
                         <div class="icon">📑</div>
-                        <p>No outline items yet.</p>
-                        <button class="btn btn-outline btn-sm" onclick="addOutlineItem()" style="margin-top:10px;">+ Add First Module</button>
+                        <p>No modules yet.</p>
+                        <button class="btn btn-outline btn-sm" onclick="addModule()" style="margin-top:10px;">+ Add First Module</button>
                     </div>
                 </div>
 
-                <!-- TAB 3: Tests & Quizzes -->
+                <!-- TAB 3: Tests -->
                 <div class="studio-panel" id="tab-tests">
                     <div class="section-header">
-                        <h3>❓ Inline Tests & Quizzes</h3>
-                        <button class="btn btn-filled btn-sm" onclick="addTestToOutline()">+ Insert Test into Outline</button>
+                        <h3>❓ Tests & Quizzes</h3>
+                        <button class="btn btn-filled btn-sm" onclick="addTest()">+ Add Test</button>
                     </div>
                     <p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:16px;">
-                        Tests appear between outline modules. Students must pass to continue. Immediate grading.
+                        Tests can be placed anywhere between modules. 3 tests minimum recommended.
                     </p>
                     <div id="testsContainer">
                         <div class="empty-state">
                             <div class="icon">❓</div>
-                            <p>No tests added yet.</p>
-                            <p style="font-size:0.78rem;">Click "Insert Test into Outline" to place a quiz between modules.</p>
+                            <p>No tests added yet. Add at least 3 tests.</p>
                         </div>
                     </div>
                 </div>
@@ -573,77 +486,90 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Grading Rubric (optional)</label>
+                        <label>Grading Rubric</label>
                         <textarea id="projRubric" rows="4" placeholder="Describe how the project will be graded..."></textarea>
                     </div>
                 </div>
 
-                <!-- TAB 6: Enrolled Students -->
-                <div class="studio-panel" id="tab-students">
-                    <div class="section-header">
-                        <h3>👥 Enrolled Students</h3>
-                        <span style="font-size:0.78rem;color:var(--text-muted);" id="studentCountDisplay">0 students enrolled</span>
-                    </div>
-                    <div id="studentsContainer">
-                        <div class="empty-state">
-                            <div class="icon">👥</div>
-                            <p>No students enrolled yet.</p>
-                            <p style="font-size:0.78rem;">Share your course link to start enrolling students.</p>
+                <!-- TAB 6: Live Class -->
+                <div class="studio-panel" id="tab-live">
+                    <div class="section-header"><h3>📺 Live Classroom</h3></div>
+                    <div class="live-schedule-box">
+                        <h4>🎥 Live Class Schedule</h4>
+                        <div class="form-group">
+                            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                                <span class="toggle-switch">
+                                    <input type="checkbox" id="liveEnabled" onchange="toggleLiveSchedule()">
+                                    <span class="slider"></span>
+                                </span>
+                                Enable Live Classes
+                            </label>
+                        </div>
+                        <div id="liveScheduleFields" style="display:none;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Day of Week</label>
+                                    <select id="liveDay">
+                                        <option value="Monday">Monday</option>
+                                        <option value="Tuesday">Tuesday</option>
+                                        <option value="Wednesday">Wednesday</option>
+                                        <option value="Thursday">Thursday</option>
+                                        <option value="Friday" selected>Friday</option>
+                                        <option value="Saturday">Saturday</option>
+                                        <option value="Sunday">Sunday</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Start Time</label>
+                                    <input type="time" id="liveStartTime" value="16:00">
+                                </div>
+                                <div class="form-group">
+                                    <label>Duration (minutes)</label>
+                                    <input type="number" id="liveDuration" value="60" min="15" max="180">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                    <input type="checkbox" id="liveEveryoneSpeak" checked>
+                                    Allow everyone to speak during live class
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                    <input type="checkbox" id="liveRecord">
+                                    Record live sessions (saves to device)
+                                </label>
+                            </div>
                         </div>
                     </div>
+                    <p style="color:var(--text-muted);font-size:0.82rem;margin-top:12px;">
+                        💡 Students can chat and discuss anytime. Only the instructor can start a live video session.
+                    </p>
                 </div>
 
-                <!-- TAB 7: Live Classroom -->
-                <div class="studio-panel" id="tab-live">
-                    <div class="section-header">
-                        <h3>📺 Live Classroom</h3>
-                        <span class="live-status offline" id="liveStatus">⏹ Offline</span>
-                    </div>
+                <!-- TAB 7: Resources -->
+                <div class="studio-panel" id="tab-resources">
+                    <div class="section-header"><h3>📎 Course Resources</h3></div>
                     <p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:16px;">
-                        Start a live session with enrolled students. Video, audio, and real-time chat.
+                        Upload slides, PDFs, images, and other resources for students to download.
                     </p>
-
-                    <div class="live-classroom">
-                        <div class="live-header">
-                            <h4 id="liveSessionTitle">📡 Live Session</h4>
-                            <div style="display:flex;gap:8px;align-items:center;">
-                                <span id="liveViewers" style="font-size:0.78rem;color:#888;">👤 0 viewers</span>
-                            </div>
+                    <div class="form-group">
+                        <label>Upload Resources</label>
+                        <input type="file" id="resourceUpload" multiple onchange="uploadResources(this)">
+                        <div style="font-size:0.7rem;color:var(--text-muted);margin-top:4px;">
+                            Supports: PDF, PPT, PPTX, DOC, DOCX, ZIP, PNG, JPG, MP4, MP3
                         </div>
-
-                        <!-- Video Area -->
-                        <div id="videoContainer" style="background:#1a1a2e;border-radius:var(--radius-sm);height:240px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;position:relative;">
-                            <div style="text-align:center;color:#888;">
-                                <div style="font-size:3rem;margin-bottom:8px;">📺</div>
-                                <p id="videoStatus">No live stream active</p>
-                                <p style="font-size:0.75rem;">Click "Start Live Session" to begin</p>
-                            </div>
-                            <video id="liveVideo" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:var(--radius-sm);" controls autoplay playsinline></video>
-                        </div>
-
-                        <!-- Chat Area -->
-                        <div class="chat-area" id="liveChat">
-                            <div class="chat-msg" style="color:#888;text-align:center;padding:30px 0;">
-                                💬 No messages yet. Start the conversation!
-                            </div>
-                        </div>
-
-                        <div class="chat-input-group">
-                            <input type="text" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendChatMessage()">
-                            <button onclick="sendChatMessage()">Send</button>
-                        </div>
-
-                        <div class="video-controls">
-                            <button class="btn-start" onclick="startLiveSession()">🎥 Start Live Session</button>
-                            <button class="btn-end" onclick="endLiveSession()">⏹ End Session</button>
-                            <button class="btn-outline" style="background:transparent;color:#fff;border:1px solid #555;" onclick="shareScreen()">🖥 Share Screen</button>
+                    </div>
+                    <div id="resourceList" style="margin-top:12px;">
+                        <div class="empty-state" style="padding:20px;">
+                            <p style="font-size:0.82rem;">No resources uploaded yet.</p>
                         </div>
                     </div>
                 </div>
 
             </div>
         </div>
-    </main>
+    </div>
 
     <!-- TOAST -->
     <div class="toast" id="toast"></div>
@@ -657,7 +583,7 @@
     (function() {
         'use strict';
 
-        // ==================== FIREBASE CONFIG ====================
+        // ==================== FIREBASE ====================
         const firebaseConfig = {
             apiKey: "AIzaSyAvvB3C9SP8tDTqMmqzc6craI4d_0kSVX0",
             authDomain: "timijosh-b8bee.firebaseapp.com",
@@ -672,14 +598,15 @@
         const db = firebase.firestore();
 
         // ==================== STATE ====================
-        let courseOutline = [];
-        let currentExamQuestions = [];
-        let mediaRecorder = null;
-        let audioChunks = [];
-        let currentRecordingOutlineId = null;
-        let isLive = false;
-        let chatMessages = [];
+        let modules = [];
+        let tests = [];
+        let examQuestions = [];
+        let resources = [];
         let currentCourseId = null;
+
+        // ==================== DOM REFS ====================
+        const $ = (id) => document.getElementById(id);
+        const $$ = (sel) => document.querySelectorAll(sel);
 
         // ==================== AUTH CHECK ====================
         auth.onAuthStateChanged(async (user) => {
@@ -690,15 +617,620 @@
                 window.location.href = 'auth.html';
                 return;
             }
-            initStudio();
             // Check if editing existing course
             const params = new URLSearchParams(window.location.search);
             const editId = params.get('edit');
             if (editId) {
                 currentCourseId = editId;
-                loadExistingCourse(editId);
+                await loadExistingCourse(editId);
             }
+            initStudio();
         });
+
+        // ==================== INIT ====================
+        function initStudio() {
+            // Tab switching
+            document.querySelectorAll('.studio-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.studio-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.querySelectorAll('.studio-panel').forEach(p => p.classList.remove('active'));
+                    document.getElementById(tab.dataset.tab).classList.add('active');
+                });
+            });
+
+            // Rich text toolbars
+            initEditorToolbar('descToolbar', 'csDescription');
+            initEditorToolbar('projToolbar', 'projDescription');
+        }
+
+        function initEditorToolbar(toolbarId, editorId) {
+            const toolbar = document.getElementById(toolbarId);
+            if (!toolbar) return;
+            toolbar.querySelectorAll('button[data-cmd]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.execCommand(btn.dataset.cmd, false, btn.dataset.value || null);
+                    document.getElementById(editorId).focus();
+                });
+            });
+        }
+
+        // ==================== TOAST ====================
+        function showToast(msg, type = 'success', duration = 3000) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = 'toast';
+            if (type === 'error') toast.classList.add('error');
+            else if (type === 'success') toast.classList.add('success');
+            toast.classList.add('show');
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => toast.classList.remove('show'), duration);
+        }
+
+        function escapeHtml(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+        // ==================== LIVE SCHEDULE TOGGLE ====================
+        window.toggleLiveSchedule = function() {
+            const enabled = document.getElementById('liveEnabled').checked;
+            document.getElementById('liveScheduleFields').style.display = enabled ? 'block' : 'none';
+        };
+
+        // ==================== MODULES ====================
+        window.addModule = function() {
+            const idx = modules.length + 1;
+            modules.push({
+                id: Date.now(),
+                title: `Module ${idx}`,
+                content: '<p>Start writing your module content here...</p>',
+                videoUrl: '',
+                audioUrl: '',
+                attachments: [],
+                hasTest: false,
+                testId: null,
+                order: idx,
+                estimatedTime: 45,
+                discussionEnabled: true,
+                qaEnabled: true
+            });
+            renderModules();
+            showToast(`Module ${idx} added!`);
+        };
+
+        window.removeModule = function(id) {
+            if (!confirm('Remove this module?')) return;
+            modules = modules.filter(m => m.id !== id);
+            modules.forEach((m, i) => m.order = i + 1);
+            renderModules();
+            showToast('Module removed.');
+        };
+
+        window.updateModuleTitle = function(id, value) {
+            const m = modules.find(mod => mod.id === id);
+            if (m) m.title = value;
+        };
+
+        window.updateModuleContent = function(id, html) {
+            const m = modules.find(mod => mod.id === id);
+            if (m) m.content = html;
+        };
+
+        window.addModuleAttachment = function(id) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.pdf,.ppt,.pptx,.doc,.docx,.zip,.png,.jpg,.jpeg,.mp4,.mp3';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                const m = modules.find(mod => mod.id === id);
+                if (m) {
+                    // For demo, just store name and placeholder URL
+                    m.attachments.push({
+                        name: file.name,
+                        size: (file.size / 1024).toFixed(1) + ' KB',
+                        type: file.type,
+                        url: URL.createObjectURL(file)
+                    });
+                    renderModules();
+                    showToast(`📎 ${file.name} attached!`);
+                }
+            };
+            input.click();
+        };
+
+        window.removeModuleAttachment = function(moduleId, index) {
+            const m = modules.find(mod => mod.id === moduleId);
+            if (m) {
+                m.attachments.splice(index, 1);
+                renderModules();
+            }
+        };
+
+        window.addVideoToModule = function(id) {
+            const url = prompt('Enter YouTube or Vimeo video URL:');
+            if (!url) return;
+            const m = modules.find(mod => mod.id === id);
+            if (m) { m.videoUrl = url; renderModules(); showToast('Video attached!'); }
+        };
+
+        window.removeVideoFromModule = function(id) {
+            const m = modules.find(mod => mod.id === id);
+            if (m) { m.videoUrl = ''; renderModules(); }
+        };
+
+        window.addTestToModule = function(id) {
+            if (tests.length === 0) {
+                showToast('Create a test first in the Tests tab.', 'error');
+                return;
+            }
+            const m = modules.find(mod => mod.id === id);
+            if (!m) return;
+            const testList = tests.map((t, i) => `${i + 1}. ${t.title}`);
+            const choice = prompt(`Select a test to attach to this module:\n${testList.join('\n')}\n\nEnter test number:`);
+            const idx = parseInt(choice) - 1;
+            if (idx >= 0 && idx < tests.length) {
+                m.hasTest = true;
+                m.testId = tests[idx].id;
+                renderModules();
+                showToast(`Test "${tests[idx].title}" attached!`);
+            }
+        };
+
+        window.removeTestFromModule = function(id) {
+            const m = modules.find(mod => mod.id === id);
+            if (m) { m.hasTest = false; m.testId = null; renderModules(); }
+        };
+
+        function renderModules() {
+            const list = document.getElementById('moduleList');
+            const empty = document.getElementById('emptyModules');
+
+            if (modules.length === 0) {
+                list.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+            empty.style.display = 'none';
+
+            list.innerHTML = modules.map((m, i) => `
+                <li class="module-item" data-id="${m.id}">
+                    <div class="module-header">
+                        <div class="module-number">${i + 1}</div>
+                        <input class="module-title-input" value="${escapeHtml(m.title)}" 
+                               onchange="window.updateModuleTitle(${m.id}, this.value)" 
+                               placeholder="Module title...">
+                        <button class="btn btn-danger btn-sm" onclick="window.removeModule(${m.id})">🗑</button>
+                    </div>
+
+                    <div class="editor-toolbar">
+                        <button onclick="window.execOnModule(${m.id}, 'bold')"><b>B</b></button>
+                        <button onclick="window.execOnModule(${m.id}, 'italic')"><i>I</i></button>
+                        <button onclick="window.execOnModule(${m.id}, 'underline')"><u>U</u></button>
+                        <span class="divider"></span>
+                        <button onclick="window.execOnModule(${m.id}, 'insertUnorderedList')">•</button>
+                        <button onclick="window.execOnModule(${m.id}, 'insertOrderedList')">1.</button>
+                        <span class="divider"></span>
+                        <button onclick="window.execOnModule(${m.id}, 'formatBlock', 'h2')">H2</button>
+                        <button onclick="window.execOnModule(${m.id}, 'formatBlock', 'h3')">H3</button>
+                    </div>
+                    <div class="editor-content module-editor" contenteditable="true" 
+                         id="module-editor-${m.id}"
+                         oninput="window.updateModuleContent(${m.id}, this.innerHTML)"
+                         onblur="window.updateModuleContent(${m.id}, this.innerHTML)">
+                        ${m.content || '<p>Start writing your module content here...</p>'}
+                    </div>
+
+                    <div class="module-actions">
+                        <button class="btn btn-outline btn-sm" onclick="window.addVideoToModule(${m.id})">🎥 Add Video</button>
+                        <button class="btn btn-outline btn-sm" onclick="window.addModuleAttachment(${m.id})">📎 Add Attachment</button>
+                        <button class="btn btn-outline btn-sm" onclick="window.addTestToModule(${m.id})">❓ Attach Test</button>
+                    </div>
+
+                    ${m.videoUrl ? `
+                        <div class="media-attachment" style="margin-top:8px;padding:8px 12px;background:#f8f7ff;border-radius:8px;display:flex;justify-content:space-between;align-items:center;">
+                            <span>🎥 ${escapeHtml(m.videoUrl.substring(0, 40))}...</span>
+                            <button class="btn btn-danger btn-sm" onclick="window.removeVideoFromModule(${m.id})">✕</button>
+                        </div>
+                    ` : ''}
+
+                    ${m.attachments.length > 0 ? `
+                        <div class="attachment-list" style="margin-top:8px;">
+                            ${m.attachments.map((a, idx) => `
+                                <span class="attachment-tag">
+                                    📎 ${escapeHtml(a.name)} (${a.size})
+                                    <span class="remove" onclick="window.removeModuleAttachment(${m.id}, ${idx})">×</span>
+                                </span>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+
+                    ${m.hasTest ? `
+                        <div style="margin-top:8px;padding:6px 12px;background:#fff8e8;border-radius:6px;font-size:0.78rem;display:flex;justify-content:space-between;align-items:center;">
+                            <span>❓ Test attached: ${escapeHtml(tests.find(t => t.id === m.testId)?.title || 'Unknown')}</span>
+                            <button class="btn btn-danger btn-sm" onclick="window.removeTestFromModule(${m.id})">✕</button>
+                        </div>
+                    ` : ''}
+
+                    <div style="margin-top:8px;display:flex;gap:12px;font-size:0.72rem;color:var(--text-muted);">
+                        <label style="display:flex;align-items:center;gap:4px;cursor:pointer;">
+                            <input type="checkbox" ${m.discussionEnabled ? 'checked' : ''} 
+                                   onchange="window.updateModuleSetting(${m.id}, 'discussionEnabled', this.checked)">
+                            💬 Discussion
+                        </label>
+                        <label style="display:flex;align-items:center;gap:4px;cursor:pointer;">
+                            <input type="checkbox" ${m.qaEnabled ? 'checked' : ''} 
+                                   onchange="window.updateModuleSetting(${m.id}, 'qaEnabled', this.checked)">
+                            ❓ Q&A
+                        </label>
+                        <label style="display:flex;align-items:center;gap:4px;cursor:pointer;">
+                            ⏱️ 
+                            <input type="number" value="${m.estimatedTime || 45}" 
+                                   style="width:50px;padding:2px 4px;border:1px solid var(--border);border-radius:4px;font-size:0.7rem;"
+                                   onchange="window.updateModuleSetting(${m.id}, 'estimatedTime', parseInt(this.value) || 45)">
+                            min
+                        </label>
+                    </div>
+                </li>
+            `).join('');
+        }
+
+        window.execOnModule = function(id, cmd, value) {
+            const editor = document.getElementById(`module-editor-${id}`);
+            if (editor) { editor.focus(); document.execCommand(cmd, false, value); }
+        };
+
+        window.updateModuleSetting = function(id, field, value) {
+            const m = modules.find(mod => mod.id === id);
+            if (m) m[field] = value;
+        };
+
+        // ==================== TESTS ====================
+        let testCounter = 0;
+
+        window.addTest = function() {
+            testCounter++;
+            tests.push({
+                id: Date.now(),
+                title: `Test ${testCounter}`,
+                questions: [
+                    { id: Date.now() + 1, question: 'Question 1', options: ['A', 'B', 'C', 'D'], correct: 0 },
+                    { id: Date.now() + 2, question: 'Question 2', options: ['A', 'B', 'C', 'D'], correct: 0 },
+                    { id: Date.now() + 3, question: 'Question 3', options: ['A', 'B', 'C', 'D'], correct: 0 }
+                ],
+                passingScore: 70,
+                timeLimit: 15
+            });
+            renderTests();
+            showToast(`Test ${testCounter} added!`);
+        };
+
+        window.removeTest = function(id) {
+            if (!confirm('Remove this test?')) return;
+            tests = tests.filter(t => t.id !== id);
+            // Also remove from modules
+            modules.forEach(m => { if (m.testId === id) { m.hasTest = false; m.testId = null; } });
+            renderTests();
+            renderModules();
+            showToast('Test removed.');
+        };
+
+        window.addTestQuestion = function(testId) {
+            const t = tests.find(te => te.id === testId);
+            if (!t) return;
+            t.questions.push({
+                id: Date.now(),
+                question: `Question ${t.questions.length + 1}`,
+                options: ['Option A', 'Option B', 'Option C', 'Option D'],
+                correct: 0
+            });
+            renderTests();
+        };
+
+        window.removeTestQuestion = function(testId, qIdx) {
+            const t = tests.find(te => te.id === testId);
+            if (!t) return;
+            t.questions.splice(qIdx, 1);
+            renderTests();
+        };
+
+        function renderTests() {
+            const container = document.getElementById('testsContainer');
+            if (tests.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">❓</div>
+                        <p>No tests added yet. Add at least 3 tests.</p>
+                        <button class="btn btn-filled btn-sm" onclick="window.addTest()" style="margin-top:10px;">+ Add Test</button>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = tests.map((t, ti) => `
+                <div class="test-block" style="margin-bottom:24px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+                        <span class="test-label">Test ${ti + 1}</span>
+                        <div style="display:flex;gap:8px;align-items:center;">
+                            <span style="font-size:0.7rem;color:var(--text-muted);">${t.questions.length} questions</span>
+                            <button class="btn btn-danger btn-sm" onclick="window.removeTest(${t.id})">✕ Remove</button>
+                        </div>
+                    </div>
+                    <div class="form-row" style="margin-bottom:8px;">
+                        <div class="form-group">
+                            <label>Test Title</label>
+                            <input type="text" value="${escapeHtml(t.title)}" 
+                                   onchange="window.updateTestField(${t.id}, 'title', this.value)"
+                                   placeholder="Test title...">
+                        </div>
+                        <div class="form-group" style="max-width:150px;">
+                            <label>Passing Score %</label>
+                            <input type="number" value="${t.passingScore}" min="0" max="100"
+                                   onchange="window.updateTestField(${t.id}, 'passingScore', parseInt(this.value))">
+                        </div>
+                        <div class="form-group" style="max-width:150px;">
+                            <label>Time Limit (min)</label>
+                            <input type="number" value="${t.timeLimit}" min="0"
+                                   onchange="window.updateTestField(${t.id}, 'timeLimit', parseInt(this.value))">
+                        </div>
+                    </div>
+                    ${t.questions.map((q, qi) => `
+                        <div class="question-item">
+                            <div class="q-header">
+                                <span class="q-number">Question ${qi + 1}</span>
+                                <button class="btn btn-danger btn-sm" onclick="window.removeTestQuestion(${t.id}, ${qi})">✕</button>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" value="${escapeHtml(q.question)}" 
+                                       placeholder="Enter question..." 
+                                       onchange="window.updateTestQ(${t.id}, ${qi}, 'question', this.value)">
+                            </div>
+                            ${q.options.map((opt, oi) => `
+                                <div class="option-row">
+                                    <input type="radio" name="test_correct_${t.id}_${qi}" value="${oi}" 
+                                           ${q.correct === oi ? 'checked' : ''}
+                                           onchange="window.updateTestQ(${t.id}, ${qi}, 'correct', ${oi})">
+                                    <input type="text" value="${escapeHtml(opt)}" 
+                                           placeholder="Option ${String.fromCharCode(65 + oi)}"
+                                           onchange="window.updateTestOpt(${t.id}, ${qi}, ${oi}, this.value)">
+                                </div>
+                            `).join('')}
+                            <button class="btn btn-outline btn-sm" onclick="window.addTestOption(${t.id}, ${qi})">+ Add Option</button>
+                        </div>
+                    `).join('')}
+                    <button class="btn btn-outline btn-sm" onclick="window.addTestQuestion(${t.id})">+ Add Question</button>
+                </div>
+            `).join('');
+        }
+
+        window.updateTestField = function(id, field, value) {
+            const t = tests.find(te => te.id === id);
+            if (t) t[field] = value;
+        };
+
+        window.updateTestQ = function(testId, qIdx, field, value) {
+            const t = tests.find(te => te.id === testId);
+            if (!t || !t.questions[qIdx]) return;
+            t.questions[qIdx][field] = value;
+        };
+
+        window.updateTestOpt = function(testId, qIdx, optIdx, value) {
+            const t = tests.find(te => te.id === testId);
+            if (!t || !t.questions[qIdx]) return;
+            t.questions[qIdx].options[optIdx] = value;
+        };
+
+        window.addTestOption = function(testId, qIdx) {
+            const t = tests.find(te => te.id === testId);
+            if (!t || !t.questions[qIdx]) return;
+            t.questions[qIdx].options.push(`Option ${String.fromCharCode(65 + t.questions[qIdx].options.length)}`);
+            renderTests();
+        };
+
+        // ==================== EXAM ====================
+        window.addExamQuestion = function() {
+            examQuestions.push({
+                id: Date.now(),
+                question: '',
+                options: ['', '', '', ''],
+                correct: 0,
+                points: 1
+            });
+            renderExam();
+        };
+
+        window.removeExamQuestion = function(qIdx) {
+            examQuestions.splice(qIdx, 1);
+            renderExam();
+        };
+
+        function renderExam() {
+            const container = document.getElementById('examQuestionsContainer');
+            if (examQuestions.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">📝</div>
+                        <p>No exam questions yet.</p>
+                        <p style="font-size:0.78rem;">Minimum 10 questions recommended.</p>
+                    </div>`;
+                return;
+            }
+            container.innerHTML = examQuestions.map((q, qi) => `
+                <div class="question-item exam-block" style="margin-bottom:14px;">
+                    <span class="exam-label">Exam Question ${qi + 1}</span>
+                    <div class="q-header" style="margin-top:8px;">
+                        <span class="q-number">Question ${qi + 1}</span>
+                        <div>
+                            <span style="font-size:0.7rem;color:var(--text-muted);margin-right:8px;">
+                                Points: <input type="number" value="${q.points || 1}" min="1" max="10" 
+                                       style="width:40px;padding:2px 4px;border:1px solid var(--border);border-radius:4px;"
+                                       onchange="window.updateExamQ(${qi}, 'points', parseInt(this.value))">
+                            </span>
+                            <button class="btn btn-danger btn-sm" onclick="window.removeExamQuestion(${qi})">✕</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" value="${escapeHtml(q.question)}" 
+                               placeholder="Enter question..." 
+                               onchange="window.updateExamQ(${qi}, 'question', this.value)">
+                    </div>
+                    ${q.options.map((opt, oi) => `
+                        <div class="option-row">
+                            <input type="radio" name="exam_correct_${qi}" value="${oi}" 
+                                   ${q.correct === oi ? 'checked' : ''}
+                                   onchange="window.updateExamQ(${qi}, 'correct', ${oi})">
+                            <input type="text" value="${escapeHtml(opt)}" 
+                                   placeholder="Option ${String.fromCharCode(65 + oi)}"
+                                   onchange="window.updateExamOpt(${qi}, ${oi}, this.value)">
+                        </div>
+                    `).join('')}
+                    <button class="btn btn-outline btn-sm" onclick="window.addExamOption(${qi})">+ Add Option</button>
+                </div>
+            `).join('');
+        }
+
+        window.updateExamQ = function(qIdx, field, value) {
+            if (!examQuestions[qIdx]) return;
+            examQuestions[qIdx][field] = value;
+        };
+
+        window.updateExamOpt = function(qIdx, optIdx, value) {
+            if (!examQuestions[qIdx]) return;
+            examQuestions[qIdx].options[optIdx] = value;
+        };
+
+        window.addExamOption = function(qIdx) {
+            if (!examQuestions[qIdx]) return;
+            examQuestions[qIdx].options.push(`Option ${String.fromCharCode(65 + examQuestions[qIdx].options.length)}`);
+            renderExam();
+        };
+
+        // ==================== RESOURCES ====================
+        window.uploadResources = function(input) {
+            const files = input.files;
+            for (let file of files) {
+                resources.push({
+                    name: file.name,
+                    size: (file.size / 1024).toFixed(1) + ' KB',
+                    type: file.type,
+                    url: URL.createObjectURL(file)
+                });
+            }
+            renderResources();
+            showToast(`${files.length} resource${files.length > 1 ? 's' : ''} uploaded!`);
+            input.value = '';
+        };
+
+        window.removeResource = function(index) {
+            resources.splice(index, 1);
+            renderResources();
+        };
+
+        function renderResources() {
+            const container = document.getElementById('resourceList');
+            if (resources.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="padding:20px;">
+                        <p style="font-size:0.82rem;">No resources uploaded yet.</p>
+                    </div>`;
+                return;
+            }
+            container.innerHTML = `
+                <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                    ${resources.map((r, i) => `
+                        <span class="attachment-tag">
+                            📎 ${escapeHtml(r.name)} (${r.size})
+                            <span class="remove" onclick="window.removeResource(${i})">×</span>
+                        </span>
+                    `).join('')}
+                </div>`;
+        }
+
+        // ==================== PUBLISH ====================
+        window.publishCourse = async function() {
+            const title = document.getElementById('csTitle')?.value.trim();
+            if (!title) { showToast('⚠ Course title is required.', 'error'); return; }
+
+            const liveEnabled = document.getElementById('liveEnabled').checked;
+
+            const courseData = {
+                name: title,
+                stage: document.getElementById('csStage')?.value || 'Elementary',
+                price: parseInt(document.getElementById('csPrice')?.value) || 0,
+                durationWeeks: parseInt(document.getElementById('csDuration')?.value) || 8,
+                savings: parseInt(document.getElementById('csSavings')?.value) || 0,
+                icon: document.getElementById('csIcon')?.value || '📘',
+                isFullTrack: document.getElementById('csFullTrack')?.checked || false,
+                description: document.getElementById('csDescription')?.innerHTML || '',
+                shortDescription: document.getElementById('csShortDesc')?.value || '',
+                active: true,
+                modules: modules.map(m => ({
+                    id: m.id,
+                    title: m.title,
+                    content: m.content,
+                    videoUrl: m.videoUrl,
+                    audioUrl: m.audioUrl,
+                    attachments: m.attachments || [],
+                    hasTest: m.hasTest,
+                    testId: m.testId,
+                    order: m.order,
+                    estimatedTime: m.estimatedTime || 45,
+                    discussionEnabled: m.discussionEnabled !== false,
+                    qaEnabled: m.qaEnabled !== false
+                })),
+                tests: tests,
+                exam: {
+                    passingScore: parseInt(document.getElementById('examPassScore')?.value) || 70,
+                    timeLimit: parseInt(document.getElementById('examTimeLimit')?.value) || 60,
+                    questions: examQuestions
+                },
+                project: {
+                    title: document.getElementById('projTitle')?.value || '',
+                    description: document.getElementById('projDescription')?.innerHTML || '',
+                    deadline: document.getElementById('projDeadline')?.value || '14',
+                    rubric: document.getElementById('projRubric')?.value || ''
+                },
+                liveClass: {
+                    enabled: liveEnabled,
+                    day: document.getElementById('liveDay')?.value || 'Friday',
+                    startTime: document.getElementById('liveStartTime')?.value || '16:00',
+                    duration: parseInt(document.getElementById('liveDuration')?.value) || 60,
+                    everyoneCanSpeak: document.getElementById('liveEveryoneSpeak')?.checked || true,
+                    record: document.getElementById('liveRecord')?.checked || false
+                },
+                resources: resources,
+                totalModules: modules.length,
+                totalTests: tests.length,
+                hasExam: examQuestions.length > 0,
+                hasProject: !!document.getElementById('projTitle')?.value,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                if (currentCourseId) {
+                    await db.collection('courses').doc(currentCourseId).update(courseData);
+                    showToast('✅ Course updated successfully!', 'success');
+                } else {
+                    const ref = await db.collection('courses').add({
+                        ...courseData,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        enrolledCount: 0,
+                        instructorId: auth.currentUser.uid,
+                    });
+                    currentCourseId = ref.id;
+                    showToast('✅ Course published successfully!', 'success');
+                }
+            } catch (error) {
+                showToast('❌ Error: ' + error.message, 'error');
+                console.error(error);
+            }
+        };
+
+        window.previewCourse = function() {
+            if (!currentCourseId) {
+                showToast('Please publish the course first to preview.', 'warning');
+                return;
+            }
+            window.open(`classroom.html?courseId=${currentCourseId}`, '_blank');
+        };
 
         // ==================== LOAD EXISTING COURSE ====================
         async function loadExistingCourse(courseId) {
@@ -717,20 +1249,21 @@
                 document.getElementById('csShortDesc').value = data.shortDescription || '';
                 document.getElementById('csDescription').innerHTML = data.description || '';
 
-                if (data.outline) {
-                    courseOutline = data.outline.map(o => ({
-                        ...o,
-                        audioBlob: null,
-                    }));
-                    renderOutlineList();
-                    renderTestsList();
+                if (data.modules) {
+                    modules = data.modules;
+                    renderModules();
+                }
+
+                if (data.tests) {
+                    tests = data.tests;
+                    renderTests();
                 }
 
                 if (data.exam) {
-                    currentExamQuestions = data.exam.questions || [];
+                    examQuestions = data.exam.questions || [];
                     document.getElementById('examPassScore').value = data.exam.passingScore || 70;
                     document.getElementById('examTimeLimit').value = data.exam.timeLimit || 60;
-                    renderExamQuestions();
+                    renderExam();
                 }
 
                 if (data.project) {
@@ -740,758 +1273,38 @@
                     document.getElementById('projRubric').value = data.project.rubric || '';
                 }
 
-                // Load enrolled students
-                loadEnrolledStudents(courseId);
+                if (data.liveClass) {
+                    document.getElementById('liveEnabled').checked = data.liveClass.enabled || false;
+                    document.getElementById('liveDay').value = data.liveClass.day || 'Friday';
+                    document.getElementById('liveStartTime').value = data.liveClass.startTime || '16:00';
+                    document.getElementById('liveDuration').value = data.liveClass.duration || 60;
+                    document.getElementById('liveEveryoneSpeak').checked = data.liveClass.everyoneCanSpeak !== false;
+                    document.getElementById('liveRecord').checked = data.liveClass.record || false;
+                    toggleLiveSchedule();
+                }
 
-                showToast('📂 Course loaded for editing', 3000);
+                if (data.resources) {
+                    resources = data.resources;
+                    renderResources();
+                }
+
+                showToast('📂 Course loaded for editing', 'success');
+
             } catch (err) {
                 console.error('Load course error:', err);
                 showToast('Failed to load course', 'error');
             }
         }
 
-        // ==================== LOAD ENROLLED STUDENTS ====================
-        async function loadEnrolledStudents(courseId) {
-            try {
-                const snap = await db.collection('enrollments')
-                    .where('courseId', '==', courseId)
-                    .get();
-
-                const container = document.getElementById('studentsContainer');
-                if (snap.empty) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <div class="icon">👥</div>
-                            <p>No students enrolled yet.</p>
-                            <p style="font-size:0.78rem;">Share your course link to start enrolling students.</p>
-                        </div>`;
-                    document.getElementById('studentCountDisplay').textContent = '0 students enrolled';
-                    return;
-                }
-
-                document.getElementById('studentCountDisplay').textContent = `${snap.size} students enrolled`;
-
-                let html = '';
-                for (const doc of snap.docs) {
-                    const e = doc.data();
-                    let studentName = 'Unknown';
-                    let studentEmail = '';
-                    if (e.userId) {
-                        const uDoc = await db.collection('users').doc(e.userId).get();
-                        if (uDoc.exists) {
-                            studentName = uDoc.data().fullName || 'Unknown';
-                            studentEmail = uDoc.data().email || '';
-                        }
-                    }
-                    const statusClass = e.status === 'active' ? 'active' : e.status === 'completed' ? 'completed' : 'pending';
-                    html += `
-                        <div class="student-list-item">
-                            <div class="student-info">
-                                <div class="student-avatar">${studentName.charAt(0).toUpperCase()}</div>
-                                <div>
-                                    <div class="student-name">${studentName}</div>
-                                    <div class="student-email">${studentEmail}</div>
-                                </div>
-                            </div>
-                            <span class="student-status ${statusClass}">${e.status || 'Active'}</span>
-                        </div>
-                    `;
-                }
-                container.innerHTML = html;
-
-            } catch (err) {
-                console.error('Load students error:', err);
-                showToast('Failed to load students', 'error');
-            }
-        }
-
-        // ==================== INIT ====================
-        function initStudio() {
-            // Tab switching
-            document.querySelectorAll('.studio-tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const tabId = tab.dataset.tab;
-                    document.querySelectorAll('.studio-tab').forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    document.querySelectorAll('.studio-panel').forEach(p => p.classList.remove('active'));
-                    document.getElementById(tabId).classList.add('active');
-
-                    // Load students when tab is clicked
-                    if (tabId === 'tab-students' && currentCourseId) {
-                        loadEnrolledStudents(currentCourseId);
-                    }
-                });
-            });
-
-            // Rich text toolbars
-            initEditorToolbar('descToolbar', 'csDescription');
-            initEditorToolbar('projToolbar', 'projDescription');
-
-            console.log('✅ Course Creation Studio ready');
-        }
-
-        function initEditorToolbar(toolbarId, editorId) {
-            const toolbar = document.getElementById(toolbarId);
-            if (!toolbar) return;
-            toolbar.querySelectorAll('button[data-cmd]').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const cmd = btn.dataset.cmd;
-                    const value = btn.dataset.value || null;
-                    document.execCommand(cmd, false, value);
-                    document.getElementById(editorId).focus();
-                });
-            });
-        }
-
-        // ==================== TOAST ====================
-        function showToast(msg, type = 'success', duration = 3000) {
-            const toast = document.getElementById('toast');
-            if (!toast) return;
-            toast.textContent = msg;
-            toast.className = 'toast';
-            if (type === 'error') toast.classList.add('error');
-            else if (type === 'success') toast.classList.add('success');
-            toast.classList.add('show');
-            clearTimeout(toast._timeout);
-            toast._timeout = setTimeout(() => toast.classList.remove('show'), duration);
-        }
-
-        function escapeHtml(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
-
-        // ==================== OUTLINE ====================
-        function addOutlineItem() {
-            const idx = courseOutline.length + 1;
-            courseOutline.push({
-                id: Date.now(),
-                title: `Week ${idx}: New Module`,
-                content: '<p>Start writing your module content here...</p>',
-                videoUrl: '',
-                audioUrl: '',
-                audioBlob: null,
-                hasTest: false,
-                testQuestions: [],
-                order: idx
-            });
-            renderOutlineList();
-            showToast(`Module ${idx} added!`);
-        }
-
-        function renderOutlineList() {
-            const list = document.getElementById('outlineList');
-            const empty = document.getElementById('emptyOutline');
-            if (!list) return;
-
-            if (courseOutline.length === 0) {
-                list.innerHTML = '';
-                if (empty) empty.style.display = 'block';
-                return;
-            }
-            if (empty) empty.style.display = 'none';
-
-            list.innerHTML = courseOutline.map((item, i) => `
-                <li class="outline-item" data-id="${item.id}">
-                    <div class="oi-header">
-                        <div class="oi-number">${i + 1}</div>
-                        <input class="oi-title-input" value="${escapeHtml(item.title)}" 
-                               onchange="window.updateOutlineTitle(${item.id}, this.value)" 
-                               placeholder="Module / Week title...">
-                        <button class="btn btn-danger btn-sm" onclick="window.removeOutlineItem(${item.id})" title="Remove">🗑</button>
-                    </div>
-
-                    <div class="editor-toolbar">
-                        <button data-cmd="bold" onclick="window.execOnOutline(${item.id}, 'bold')"><b>B</b></button>
-                        <button data-cmd="italic" onclick="window.execOnOutline(${item.id}, 'italic')"><i>I</i></button>
-                        <button data-cmd="underline" onclick="window.execOnOutline(${item.id}, 'underline')"><u>U</u></button>
-                        <span class="divider"></span>
-                        <button data-cmd="insertUnorderedList" onclick="window.execOnOutline(${item.id}, 'insertUnorderedList')">•</button>
-                        <button data-cmd="insertOrderedList" onclick="window.execOnOutline(${item.id}, 'insertOrderedList')">1.</button>
-                        <span class="divider"></span>
-                        <button data-cmd="formatBlock" data-value="h2" onclick="window.execOnOutline(${item.id}, 'formatBlock', 'h2')">H2</button>
-                        <button data-cmd="formatBlock" data-value="h3" onclick="window.execOnOutline(${item.id}, 'formatBlock', 'h3')">H3</button>
-                        <button data-cmd="formatBlock" data-value="p" onclick="window.execOnOutline(${item.id}, 'formatBlock', 'p')">¶</button>
-                    </div>
-                    <div class="editor-content outline-editor" contenteditable="true" 
-                         id="editor-${item.id}"
-                         oninput="window.updateOutlineContent(${item.id}, this.innerHTML)"
-                         onblur="window.updateOutlineContent(${item.id}, this.innerHTML)">
-                        ${item.content || '<p>Start writing your module content here...</p>'}
-                    </div>
-
-                    <div class="oi-actions">
-                        <button class="btn btn-outline btn-sm" onclick="window.addVideoToOutline(${item.id})">🎥 Add Video</button>
-                        <button class="btn btn-outline btn-sm" onclick="window.startAudioRecording(${item.id})">🎤 Record Voice Note</button>
-                    </div>
-                    ${item.videoUrl ? `
-                        <div class="media-attachment">
-                            <span class="media-icon">🎥</span>
-                            <div class="media-info">
-                                <strong>Video Link</strong>
-                                <span>${escapeHtml(item.videoUrl.substring(0, 60))}...</span>
-                            </div>
-                            <button class="media-remove" onclick="window.removeVideoFromOutline(${item.id})">✕</button>
-                        </div>
-                        <div class="preview-video">
-                            <iframe src="${getEmbedUrl(item.videoUrl)}" allowfullscreen></iframe>
-                        </div>
-                    ` : ''}
-                    ${item.audioUrl ? `
-                        <div class="media-attachment">
-                            <span class="media-icon">🎤</span>
-                            <div class="media-info">
-                                <strong>Voice Note</strong>
-                                <span>Recorded audio attached</span>
-                            </div>
-                            <audio controls src="${item.audioUrl}" style="max-width:300px;height:32px;"></audio>
-                            <button class="media-remove" onclick="window.removeAudioFromOutline(${item.id})">✕</button>
-                        </div>
-                    ` : ''}
-                </li>
-            `).join('');
-        }
-
-        window.execOnOutline = function(id, cmd, value) {
-            const editor = document.getElementById(`editor-${id}`);
-            if (editor) {
-                editor.focus();
-                document.execCommand(cmd, false, value);
-            }
-        };
-
-        window.updateOutlineTitle = function(id, value) {
-            const item = courseOutline.find(o => o.id === id);
-            if (item) item.title = value;
-        };
-
-        window.updateOutlineContent = function(id, html) {
-            const item = courseOutline.find(o => o.id === id);
-            if (item) item.content = html;
-        };
-
-        window.removeOutlineItem = function(id) {
-            courseOutline = courseOutline.filter(o => o.id !== id);
-            courseOutline.forEach((item, i) => { item.order = i + 1; });
-            renderOutlineList();
-            renderTestsList();
-            showToast('Module removed.');
-        };
-
-        function getEmbedUrl(url) {
-            if (!url) return '';
-            const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
-            if (ytMatch) return `https://www.youtube.com/embed/${ytMatch[1]}`;
-            const vmMatch = url.match(/vimeo\.com\/(\d+)/);
-            if (vmMatch) return `https://player.vimeo.com/video/${vmMatch[1]}`;
-            return url;
-        }
-
-        // ==================== VIDEO ====================
-        window.addVideoToOutline = function(id) {
-            const url = prompt('Enter YouTube or Vimeo video URL:');
-            if (!url) return;
-            const item = courseOutline.find(o => o.id === id);
-            if (item) { item.videoUrl = url; renderOutlineList(); showToast('Video attached!'); }
-        };
-
-        window.removeVideoFromOutline = function(id) {
-            const item = courseOutline.find(o => o.id === id);
-            if (item) { item.videoUrl = ''; renderOutlineList(); }
-        };
-
-        // ==================== AUDIO RECORDING ====================
-        window.startAudioRecording = async function(id) {
-            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                alert('Audio recording not supported. Please use Chrome or Edge.');
-                return;
-            }
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                mediaRecorder = new MediaRecorder(stream);
-                audioChunks = [];
-                currentRecordingOutlineId = id;
-
-                mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
-                mediaRecorder.onstop = () => {
-                    const blob = new Blob(audioChunks, { type: 'audio/webm' });
-                    const url = URL.createObjectURL(blob);
-                    const item = courseOutline.find(o => o.id === currentRecordingOutlineId);
-                    if (item) {
-                        item.audioBlob = blob;
-                        item.audioUrl = url;
-                        renderOutlineList();
-                        showToast('Voice note recorded!');
-                    }
-                    stream.getTracks().forEach(t => t.stop());
-                    const stopBtn = document.getElementById('stopRecordingBtn');
-                    if (stopBtn) stopBtn.remove();
-                };
-
-                mediaRecorder.start();
-                showToast('🔴 Recording... Click "Stop Recording" when done.', 'success', 0);
-
-                // Add floating stop button
-                const stopBtn = document.createElement('button');
-                stopBtn.textContent = '⏹ Stop Recording';
-                stopBtn.className = 'btn btn-danger';
-                stopBtn.style.cssText = 'position:fixed;bottom:80px;right:24px;z-index:9999;padding:12px 24px;';
-                stopBtn.id = 'stopRecordingBtn';
-                stopBtn.onclick = () => {
-                    if (mediaRecorder && mediaRecorder.state === 'recording') {
-                        mediaRecorder.stop();
-                        document.getElementById('toast')?.classList.remove('show');
-                    }
-                };
-                document.body.appendChild(stopBtn);
-            } catch (e) {
-                alert('Microphone access denied. Please allow microphone permissions.');
-            }
-        };
-
-        window.removeAudioFromOutline = function(id) {
-            const item = courseOutline.find(o => o.id === id);
-            if (item) { item.audioUrl = ''; item.audioBlob = null; renderOutlineList(); }
-        };
-
-        // ==================== TESTS ====================
-        window.addTestToOutline = function() {
-            if (courseOutline.length === 0) {
-                alert('Please add at least one outline module first.');
-                return;
-            }
-            const moduleNames = courseOutline.map((o, i) => `${i + 1}. ${o.title}`);
-            const choice = prompt(`Insert test after which module?\n${moduleNames.join('\n')}\n\nEnter module number (1-${courseOutline.length}):`);
-            if (!choice) return;
-            const idx = parseInt(choice) - 1;
-            if (isNaN(idx) || idx < 0 || idx >= courseOutline.length) {
-                alert('Invalid module number.');
-                return;
-            }
-            const item = courseOutline[idx];
-            item.hasTest = true;
-            if (!item.testQuestions) item.testQuestions = [];
-            // Ensure at least 3 questions
-            if (item.testQuestions.length < 3) {
-                for (let i = item.testQuestions.length; i < 3; i++) {
-                    item.testQuestions.push({
-                        id: Date.now() + i,
-                        question: `Question ${i + 1}`,
-                        options: ['Option A', 'Option B', 'Option C', 'Option D'],
-                        correct: 0
-                    });
-                }
-            }
-            // Switch to tests tab
-            document.querySelector('.studio-tab[data-tab="tab-tests"]').click();
-            renderTestsList();
-            showToast('Test block added with 3 questions!');
-        };
-
-        window.addTestQuestion = function(outlineId) {
-            const item = courseOutline.find(o => o.id === outlineId);
-            if (!item) return;
-            item.testQuestions.push({
-                id: Date.now(),
-                question: '',
-                options: ['', '', '', ''],
-                correct: 0
-            });
-            renderTestsList();
-        };
-
-        window.removeTestBlock = function(outlineId) {
-            const item = courseOutline.find(o => o.id === outlineId);
-            if (!item) return;
-            item.hasTest = false;
-            item.testQuestions = [];
-            renderTestsList();
-            showToast('Test block removed.');
-        };
-
-        window.removeTestQuestion = function(outlineId, qIdx) {
-            const item = courseOutline.find(o => o.id === outlineId);
-            if (!item) return;
-            item.testQuestions.splice(qIdx, 1);
-            if (item.testQuestions.length === 0) item.hasTest = false;
-            renderTestsList();
-        };
-
-        function renderTestsList() {
-            const container = document.getElementById('testsContainer');
-            if (!container) return;
-            const testItems = courseOutline.filter(o => o.hasTest && o.testQuestions && o.testQuestions.length > 0);
-            if (testItems.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="icon">❓</div>
-                        <p>No tests added yet.</p>
-                        <p style="font-size:0.78rem;">Click "Insert Test into Outline" to place a quiz between modules.</p>
-                    </div>`;
-                return;
-            }
-            container.innerHTML = testItems.map(item => `
-                <div class="test-block" style="margin-bottom:24px;">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
-                        <span class="test-label">Test: ${escapeHtml(item.title)}</span>
-                        <div style="display:flex;gap:8px;">
-                            <button class="btn btn-filled btn-sm" onclick="window.addTestQuestion(${item.id})">+ Add Question</button>
-                            <button class="btn btn-danger btn-sm" onclick="window.removeTestBlock(${item.id})">Remove Test</button>
-                        </div>
-                    </div>
-                    <p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:8px;">${item.testQuestions.length} questions • Passing score: 70%</p>
-                    ${(item.testQuestions || []).map((q, qi) => `
-                        <div class="question-item">
-                            <div class="q-header">
-                                <span class="q-number">Question ${qi + 1}</span>
-                                <button class="btn btn-danger btn-sm" onclick="window.removeTestQuestion(${item.id}, ${qi})">✕</button>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" value="${escapeHtml(q.question)}" 
-                                       placeholder="Enter question..." 
-                                       onchange="window._updateTestQ(${item.id}, ${qi}, 'question', this.value)">
-                            </div>
-                            ${q.options.map((opt, oi) => `
-                                <div class="option-row">
-                                    <input type="radio" name="correct_${item.id}_${qi}" value="${oi}" 
-                                           ${q.correct === oi ? 'checked' : ''}
-                                           onchange="window._updateTestQ(${item.id}, ${qi}, 'correct', ${oi})">
-                                    <input type="text" value="${escapeHtml(opt)}" 
-                                           placeholder="Option ${oi + 1}"
-                                           onchange="window._updateTestOpt(${item.id}, ${qi}, ${oi}, this.value)">
-                                </div>
-                            `).join('')}
-                        </div>
-                    `).join('')}
-                </div>
-            `).join('');
-        }
-
-        window._updateTestQ = function(outlineId, qIdx, field, value) {
-            const item = courseOutline.find(o => o.id === outlineId);
-            if (!item || !item.testQuestions[qIdx]) return;
-            item.testQuestions[qIdx][field] = value;
-        };
-        window._updateTestOpt = function(outlineId, qIdx, optIdx, value) {
-            const item = courseOutline.find(o => o.id === outlineId);
-            if (!item || !item.testQuestions[qIdx]) return;
-            item.testQuestions[qIdx].options[optIdx] = value;
-        };
-
-        // ==================== FINAL EXAM ====================
-        window.addExamQuestion = function() {
-            currentExamQuestions.push({
-                id: Date.now(),
-                question: '',
-                options: ['', '', '', ''],
-                correct: 0
-            });
-            renderExamQuestions();
-        };
-
-        window.removeExamQuestion = function(qIdx) {
-            currentExamQuestions.splice(qIdx, 1);
-            renderExamQuestions();
-        };
-
-        function renderExamQuestions() {
-            const container = document.getElementById('examQuestionsContainer');
-            if (!container) return;
-            if (currentExamQuestions.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="icon">📝</div>
-                        <p>No exam questions yet.</p>
-                        <p style="font-size:0.78rem;">Minimum 10 questions recommended.</p>
-                    </div>`;
-                return;
-            }
-            container.innerHTML = currentExamQuestions.map((q, qi) => `
-                <div class="question-item exam-block" style="margin-bottom:14px;">
-                    <span class="exam-label">Exam Question ${qi + 1}</span>
-                    <div class="q-header" style="margin-top:8px;">
-                        <span class="q-number">Question ${qi + 1}</span>
-                        <button class="btn btn-danger btn-sm" onclick="window.removeExamQuestion(${qi})">✕</button>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" value="${escapeHtml(q.question)}" 
-                               placeholder="Enter question..." 
-                               onchange="window._updateExamQ(${qi}, 'question', this.value)">
-                    </div>
-                    ${q.options.map((opt, oi) => `
-                        <div class="option-row">
-                            <input type="radio" name="exam_correct_${qi}" value="${oi}" 
-                                   ${q.correct === oi ? 'checked' : ''}
-                                   onchange="window._updateExamQ(${qi}, 'correct', ${oi})">
-                            <input type="text" value="${escapeHtml(opt)}" 
-                                   placeholder="Option ${oi + 1}"
-                                   onchange="window._updateExamOpt(${qi}, ${oi}, this.value)">
-                        </div>
-                    `).join('')}
-                </div>
-            `).join('');
-        }
-
-        window._updateExamQ = function(qIdx, field, value) {
-            if (!currentExamQuestions[qIdx]) return;
-            currentExamQuestions[qIdx][field] = value;
-        };
-        window._updateExamOpt = function(qIdx, optIdx, value) {
-            if (!currentExamQuestions[qIdx]) return;
-            currentExamQuestions[qIdx].options[optIdx] = value;
-        };
-
-        // ==================== LIVE CLASSROOM ====================
-        let liveStream = null;
-        let chatUnsubscribe = null;
-
-        window.startLiveSession = function() {
-            if (isLive) { showToast('Session already live!', 'warning'); return; }
-            if (!currentCourseId) { showToast('Please publish the course first before starting a live session.', 'error'); return; }
-
-            isLive = true;
-            document.getElementById('liveStatus').className = 'live-status live';
-            document.getElementById('liveStatus').textContent = '🔴 LIVE';
-            document.getElementById('videoStatus').textContent = '🔴 Live stream active';
-            document.getElementById('liveVideo').style.display = 'block';
-            document.getElementById('liveViewers').textContent = '👤 1 viewer';
-
-            // Add system message
-            addChatMessage('System', '🎥 The instructor has started the live session!', true);
-
-            // Update Firestore
-            db.collection('courses').doc(currentCourseId).update({
-                liveStatus: true,
-                liveStartedAt: firebase.firestore.FieldValue.serverTimestamp()
-            }).catch(err => console.error('Live status update error:', err));
-
-            showToast('🎥 Live session started!', 'success');
-        };
-
-        window.endLiveSession = function() {
-            if (!isLive) { showToast('No live session active.', 'warning'); return; }
-
-            isLive = false;
-            document.getElementById('liveStatus').className = 'live-status offline';
-            document.getElementById('liveStatus').textContent = '⏹ Offline';
-            document.getElementById('videoStatus').textContent = 'No live stream active';
-            document.getElementById('liveVideo').style.display = 'none';
-            document.getElementById('liveViewers').textContent = '👤 0 viewers';
-
-            addChatMessage('System', '🛑 The instructor has ended the live session.', true);
-
-            db.collection('courses').doc(currentCourseId).update({
-                liveStatus: false
-            }).catch(err => console.error('Live status update error:', err));
-
-            showToast('Live session ended.', 'info');
-        };
-
-        window.shareScreen = function() {
-            showToast('🖥 Screen sharing coming soon!', 'info');
-        };
-
-        // ==================== CHAT ====================
-        window.sendChatMessage = function() {
-            const input = document.getElementById('chatInput');
-            const msg = input.value.trim();
-            if (!msg) return;
-
-            const user = auth.currentUser;
-            if (!user) return;
-
-            const chatMsg = {
-                userId: user.uid,
-                userName: user.displayName || 'Instructor',
-                message: msg,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                isSystem: false
-            };
-
-            // Save to Firestore
-            db.collection('courses').doc(currentCourseId).collection('chat')
-                .add(chatMsg)
-                .then(() => {
-                    input.value = '';
-                })
-                .catch(err => console.error('Chat send error:', err));
-        };
-
-        function addChatMessage(user, message, isSystem = false) {
-            const chatArea = document.getElementById('liveChat');
-            const time = new Date().toLocaleTimeString();
-            const msgDiv = document.createElement('div');
-            msgDiv.className = 'chat-msg';
-            if (isSystem) {
-                msgDiv.innerHTML = `<span style="color:#888;font-style:italic;">${message}</span>`;
-            } else {
-                msgDiv.innerHTML = `
-                    <span class="chat-user">${escapeHtml(user)}</span>
-                    <span class="chat-time">${time}</span>
-                    <span>${escapeHtml(message)}</span>
-                `;
-            }
-            chatArea.appendChild(msgDiv);
-            chatArea.scrollTop = chatArea.scrollHeight;
-        }
-
-        // Listen for chat messages
-        function setupChatListener() {
-            if (chatUnsubscribe) chatUnsubscribe();
-
-            if (!currentCourseId) return;
-
-            chatUnsubscribe = db.collection('courses')
-                .doc(currentCourseId)
-                .collection('chat')
-                .orderBy('timestamp', 'asc')
-                .onSnapshot((snapshot) => {
-                    const chatArea = document.getElementById('liveChat');
-                    // Clear existing messages except the first "No messages" state
-                    const firstMsg = chatArea.querySelector('.chat-msg:first-child');
-                    if (firstMsg && firstMsg.textContent.includes('No messages yet')) {
-                        chatArea.innerHTML = '';
-                    } else {
-                        // Keep only the first message if it's the empty state
-                        const emptyMsg = chatArea.querySelector('.chat-msg[data-empty]');
-                        if (emptyMsg) chatArea.innerHTML = '';
-                    }
-
-                    snapshot.docChanges().forEach(change => {
-                        if (change.type === 'added') {
-                            const data = change.doc.data();
-                            const user = data.userName || 'Anonymous';
-                            const msg = data.message || '';
-                            const isSystem = data.isSystem || false;
-                            addChatMessage(user, msg, isSystem);
-                        }
-                    });
-                }, (error) => {
-                    console.error('Chat listener error:', error);
-                });
-        }
-
-        // ==================== PUBLISH ====================
-        window.publishCourse = async function() {
-            const title = document.getElementById('csTitle')?.value.trim();
-            if (!title) { showToast('⚠ Course title is required.', 'error'); return; }
-
-            const courseData = {
-                name: title,
-                stage: document.getElementById('csStage')?.value || 'Elementary',
-                price: parseInt(document.getElementById('csPrice')?.value) || 0,
-                durationWeeks: parseInt(document.getElementById('csDuration')?.value) || 8,
-                savings: parseInt(document.getElementById('csSavings')?.value) || 0,
-                icon: document.getElementById('csIcon')?.value || '📘',
-                isFullTrack: document.getElementById('csFullTrack')?.checked || false,
-                description: document.getElementById('csDescription')?.innerHTML || '',
-                shortDescription: document.getElementById('csShortDesc')?.value || '',
-                active: true,
-                outline: courseOutline.map(o => ({
-                    id: o.id,
-                    title: o.title,
-                    content: o.content,
-                    videoUrl: o.videoUrl,
-                    audioUrl: o.audioUrl,
-                    hasTest: o.hasTest,
-                    testQuestions: o.testQuestions || [],
-                    order: o.order
-                })),
-                exam: {
-                    passingScore: parseInt(document.getElementById('examPassScore')?.value) || 70,
-                    timeLimit: parseInt(document.getElementById('examTimeLimit')?.value) || 60,
-                    questions: currentExamQuestions
-                },
-                project: {
-                    title: document.getElementById('projTitle')?.value || '',
-                    description: document.getElementById('projDescription')?.innerHTML || '',
-                    deadline: document.getElementById('projDeadline')?.value || '14',
-                    rubric: document.getElementById('projRubric')?.value || ''
-                },
-                totalLessons: courseOutline.length,
-                totalTests: courseOutline.filter(o => o.hasTest).length,
-                hasExam: currentExamQuestions.length > 0,
-                hasProject: !!document.getElementById('projTitle')?.value,
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            try {
-                let docRef;
-                if (currentCourseId) {
-                    await db.collection('courses').doc(currentCourseId).update({
-                        ...courseData,
-                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                    docRef = { id: currentCourseId };
-                    showToast('✅ Course updated successfully!', 'success', 5000);
-                } else {
-                    const ref = await db.collection('courses').add({
-                        ...courseData,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        liveStatus: false,
-                        enrolledCount: 0,
-                    });
-                    docRef = ref;
-                    currentCourseId = ref.id;
-                    showToast('✅ Course published successfully!', 'success', 5000);
-                    // Setup chat listener for the new course
-                    setupChatListener();
-                }
-
-                // Load enrolled students
-                setTimeout(() => {
-                    loadEnrolledStudents(currentCourseId);
-                }, 1000);
-
-            } catch (error) {
-                showToast('❌ Error: ' + error.message, 'error');
-                console.error(error);
-            }
-        };
-
-        window.previewCourse = function() {
-            if (!currentCourseId) {
-                showToast('Please publish the course first to preview.', 'warning');
-                return;
-            }
-            window.open(`learn.html?courseId=${currentCourseId}`, '_blank');
-        };
-
-        // ==================== KEYBOARD SHORTCUTS ====================
+        // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
-            // Ctrl+Enter to publish
             if (e.ctrlKey && e.key === 'Enter') {
                 e.preventDefault();
                 window.publishCourse();
             }
-            // Escape to close toast
-            if (e.key === 'Escape') {
-                document.getElementById('toast').classList.remove('show');
-            }
         });
 
-        // ==================== EXPOSE GLOBALLY ====================
-        window.addOutlineItem = addOutlineItem;
-        window.removeOutlineItem = window.removeOutlineItem;
-        window.updateOutlineTitle = window.updateOutlineTitle;
-        window.updateOutlineContent = window.updateOutlineContent;
-        window.execOnOutline = window.execOnOutline;
-        window.addVideoToOutline = window.addVideoToOutline;
-        window.removeVideoFromOutline = window.removeVideoFromOutline;
-        window.startAudioRecording = window.startAudioRecording;
-        window.removeAudioFromOutline = window.removeAudioFromOutline;
-        window.addTestToOutline = window.addTestToOutline;
-        window.addTestQuestion = window.addTestQuestion;
-        window.removeTestBlock = window.removeTestBlock;
-        window.removeTestQuestion = window.removeTestQuestion;
-        window.addExamQuestion = window.addExamQuestion;
-        window.removeExamQuestion = window.removeExamQuestion;
-        window.startLiveSession = window.startLiveSession;
-        window.endLiveSession = window.endLiveSession;
-        window.shareScreen = window.shareScreen;
-        window.sendChatMessage = window.sendChatMessage;
-        window.publishCourse = window.publishCourse;
-        window.previewCourse = window.previewCourse;
-
-        console.log('✅ Course Creation Studio — all functions registered');
+        console.log('✅ Course Creation Studio loaded');
 
     })();
     </script>
