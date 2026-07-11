@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Classroom — TRIANGLE LEARN</title>
+    <meta name="description" content="Your course classroom. Learn, chat, and connect with your instructor and peers.">
+    <link rel="icon" href="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f0f2f8;
+            --bg-card: #ffffff;
+            --bg-alt: #f8f9fc;
+            --text: #1a1a2e;
+            --text-secondary: #5a5a7a;
+            --text-muted: #8a8aa0;
+            --gold: #f0a500;
+            --pink: #e84393;
+            --purple: #6c5ce7;
+            --cyan: #00c4cc;
+            --green: #0d9488;
+            --gradient: linear-gradient(135deg, #f0a500 0%, #e84393 50%, #6c5ce7 100%);
+            --border: #e8ecf2;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.06);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.08);
+            --radius-sm: 10px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --font-heading: 'Sora', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --sidebar-width: 280px;
+            --header-height: 64px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 16px; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 10px; }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: #0c0c1a;
+            color: #fff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+        }
+        .sidebar-brand {
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            text-decoration: none;
+        }
+        .sidebar-brand img { height: 30px; }
+        .sidebar-brand span { font-family: var(--font-heading); font-weight: 700; font-size: 0.9rem; color: #fff; }
+        .sidebar-nav { flex: 1; padding: 12px 10px; }
+        .sidebar-nav .section-label {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.25);
+            padding: 14px 14px 6px;
+            font-weight: 700;
+        }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 14px;
+            border-radius: var(--radius-sm);
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-family: var(--font-body);
+        }
+        .sidebar-nav a:hover { background: rgba(255,255,255,0.05); color: #fff; }
+        .sidebar-nav a.active {
+            background: rgba(240,165,0,0.12);
+            color: var(--gold);
+            font-weight: 600;
+        }
+        .sidebar-nav a .icon { font-size: 1rem; width: 20px; text-align: center; flex-shrink: 0; }
+        .sidebar-nav a .status {
+            margin-left: auto;
+            font-size: 0.6rem;
+        }
+        .sidebar-nav a .status.done { color: var(--green); }
+        .sidebar-nav a .status.active { color: var(--gold); }
+        .sidebar-nav a .status.locked { color: var(--text-muted); }
+
+        .sidebar-footer {
+            padding: 12px 16px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .sidebar-footer .avatar {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: var(--gradient); display: flex; align-items: center;
+            justify-content: center; font-weight: 700; font-size: 0.75rem; color: #fff; flex-shrink: 0;
+        }
+        .sidebar-footer .info { flex: 1; min-width: 0; }
+        .sidebar-footer .name { font-weight: 600; font-size: 0.78rem; color: #fff; }
+        .sidebar-footer .role { font-size: 0.6rem; color: var(--text-muted); }
+
+        /* ===== MAIN ===== */
+        .main {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .main-header {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(12px);
+            padding: 0 24px;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .main-header .left { display: flex; align-items: center; gap: 12px; }
+        .main-header h1 { font-family: var(--font-heading); font-size: 1rem; font-weight: 700; }
+        .main-header h1 small { font-weight: 400; font-size: 0.75rem; color: var(--text-muted); }
+        .menu-toggle { display: none; background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--text); padding: 4px; }
+        .header-actions { display: flex; align-items: center; gap: 12px; }
+        .header-actions .progress-text { font-size: 0.78rem; color: var(--text-muted); }
+        .progress-bar-header {
+            width: 120px; height: 4px; background: var(--border); border-radius: 4px; overflow: hidden;
+        }
+        .progress-bar-header .fill {
+            height: 100%; background: var(--gradient); transition: width 0.5s;
+        }
+
+        .main-content { padding: 24px; flex: 1; }
+
+        /* ===== CONTENT AREAS ===== */
+        .content-panel { display: none; animation: fadeIn 0.3s ease; }
+        .content-panel.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .card-header {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .card-header h2 { font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; }
+        .card-body { padding: 20px; }
+
+        .btn {
+            display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px;
+            border-radius: 20px; font-weight: 600; font-size: 0.78rem; cursor: pointer;
+            border: none; font-family: var(--font-body); text-decoration: none;
+            transition: all 0.3s; white-space: nowrap;
+        }
+        .btn-sm { padding: 4px 12px; font-size: 0.7rem; }
+        .btn-primary { background: var(--gradient); color: #fff; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(232,67,147,0.25); }
+        .btn-outline { background: #fff; color: var(--text); border: 1.5px solid var(--border); }
+        .btn-outline:hover { border-color: var(--purple); color: var(--purple); }
+        .btn-success { background: var(--green); color: #fff; }
+        .btn-success:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(13,148,136,0.3); }
+        .btn-gold { background: var(--gold); color: #fff; }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(240,165,0,0.3); }
+        .btn-danger { background: #fff0f0; color: #e74c3c; border: 1px solid #fdd; }
+        .btn-danger:hover { background: #ffe5e5; }
+
+        .badge {
+            display: inline-block; padding: 2px 10px; border-radius: 20px;
+            font-size: 0.65rem; font-weight: 600;
+        }
+        .badge-success { background: #e8f8f0; color: var(--green); }
+        .badge-warning { background: #fff8e6; color: #d97706; }
+        .badge-info { background: #eff6ff; color: #3b82f6; }
+        .badge-gold { background: #fff8e8; color: var(--gold); }
+
+        .empty-state { text-align: center; padding: 30px 20px; color: var(--text-muted); }
+        .empty-state .icon { font-size: 2.5rem; margin-bottom: 10px; }
+        .empty-state h3 { font-weight: 600; font-size: 0.95rem; color: var(--text); }
+
+        /* ===== MODULE CONTENT ===== */
+        .module-content .video-wrapper {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: var(--radius-sm); background: #1a1a2e;
+        }
+        .module-content .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .module-content .module-body { margin-top: 16px; line-height: 1.8; }
+        .module-content .module-body h2 { font-family: var(--font-heading); font-size: 1.3rem; margin: 16px 0 8px; }
+        .module-content .module-body h3 { font-family: var(--font-heading); font-size: 1.05rem; margin: 14px 0 6px; }
+        .module-content .module-body ul, .module-content .module-body ol { margin: 8px 0 8px 24px; }
+
+        /* ===== DISCUSSION ===== */
+        .discussion-message {
+            padding: 12px 16px; border-bottom: 1px solid var(--border);
+            display: flex; gap: 12px; align-items: flex-start;
+        }
+        .discussion-message .msg-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: var(--gradient); display: flex; align-items: center;
+            justify-content: center; color: #fff; font-weight: 700;
+            font-size: 0.75rem; flex-shrink: 0;
+        }
+        .discussion-message .msg-content { flex: 1; }
+        .discussion-message .msg-content .msg-user { font-weight: 600; font-size: 0.82rem; }
+        .discussion-message .msg-content .msg-time { font-size: 0.65rem; color: var(--text-muted); margin-left: 8px; }
+        .discussion-message .msg-content .msg-text { font-size: 0.85rem; margin-top: 2px; }
+
+        .discussion-input {
+            display: flex; gap: 10px; padding: 14px 20px;
+            border-top: 1px solid var(--border);
+        }
+        .discussion-input input {
+            flex: 1; padding: 8px 14px; border: 1.5px solid var(--border);
+            border-radius: 20px; font-family: var(--font-body); font-size: 0.85rem;
+            outline: none; transition: border 0.2s;
+        }
+        .discussion-input input:focus { border-color: var(--purple); }
+        .discussion-input .btn { flex-shrink: 0; }
+
+        /* ===== Q&A ===== */
+        .qa-item {
+            padding: 14px 16px; border-bottom: 1px solid var(--border);
+        }
+        .qa-item .qa-question { font-weight: 600; font-size: 0.9rem; }
+        .qa-item .qa-meta { font-size: 0.7rem; color: var(--text-muted); }
+        .qa-item .qa-answer {
+            margin-top: 8px; padding: 10px 14px; background: #f8f7ff;
+            border-radius: var(--radius-sm); border-left: 3px solid var(--purple);
+        }
+
+        /* ===== LIVE CLASS ===== */
+        .live-status {
+            display: flex; align-items: center; gap: 8px;
+            padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600;
+        }
+        .live-status.live { background: #e74c3c; color: #fff; animation: pulse-live 1.5s infinite; }
+        .live-status.upcoming { background: #fff8e6; color: #d97706; }
+        .live-status.ended { background: var(--border); color: var(--text-muted); }
+        @keyframes pulse-live { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+        .live-container {
+            background: #0c0c1a; border-radius: var(--radius-md);
+            padding: 20px; color: #fff; margin-top: 12px;
+        }
+        .live-container .live-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 12px; flex-wrap: wrap; gap: 8px;
+        }
+        .live-container .live-header h3 { font-family: var(--font-heading); font-weight: 700; font-size: 1rem; }
+        .live-container .jitsi-wrapper {
+            background: #1a1a2e; border-radius: var(--radius-sm);
+            height: 400px; position: relative; overflow: hidden;
+        }
+        .live-container .jitsi-wrapper .placeholder {
+            display: flex; align-items: center; justify-content: center;
+            height: 100%; flex-direction: column; color: #888;
+        }
+        .live-container .jitsi-wrapper .placeholder .icon { font-size: 3rem; margin-bottom: 12px; }
+
+        /* ===== OVERLAY ===== */
+        .overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 999;
+        }
+        .overlay.show { display: block; }
+
+        /* ===== TOAST ===== */
+        .toast-container {
+            position: fixed; bottom: 30px; right: 30px; z-index: 9999;
+            display: flex; flex-direction: column; gap: 8px; max-width: 400px;
+        }
+        .toast {
+            padding: 14px 20px; border-radius: var(--radius-sm); font-weight: 500;
+            font-size: 0.85rem; box-shadow: var(--shadow-lg); animation: slideIn 0.4s ease;
+            display: flex; align-items: center; gap: 10px; color: #fff;
+        }
+        .toast-success { background: var(--green); }
+        .toast-error { background: #e74c3c; }
+        .toast-info { background: var(--purple); }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .toast .toast-close {
+            margin-left: auto; background: none; border: none;
+            color: rgba(255,255,255,0.7); cursor: pointer; font-size: 1.1rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .menu-toggle { display: block; }
+            .main { margin-left: 0; }
+            .main-content { padding: 16px; }
+            .main-header { padding: 0 16px; flex-wrap: wrap; height: auto; min-height: var(--header-height); gap: 8px; }
+            .main-header h1 { font-size: 0.9rem; }
+            .progress-bar-header { width: 80px; }
+            .live-container .jitsi-wrapper { height: 250px; }
+            .toast-container { right: 16px; bottom: 16px; left: 16px; max-width: none; }
+        }
+        @media (max-width: 480px) {
+            .main-header .left { flex-wrap: wrap; }
+            .header-actions .progress-text { font-size: 0.7rem; }
+            .discussion-input { flex-wrap: wrap; }
+            .discussion-input input { flex: 1 1 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- OVERLAY -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar" id="sidebar">
+        <a href="dashboard.html" class="sidebar-brand">
+            <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="Logo">
+            <span>TRIANGLE LEARN</span>
+        </a>
+        <nav class="sidebar-nav" id="sidebarNav">
+            <!-- Dynamic content -->
+        </nav>
+        <div class="sidebar-footer">
+            <div class="avatar" id="sidebarAvatar">U</div>
+            <div class="info">
+                <div class="name" id="sidebarName">User</div>
+                <div class="role" id="sidebarRole">Student</div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ===== MAIN ===== -->
+    <div class="main">
+        <header class="main-header">
+            <div class="left">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <div>
+                    <h1 id="courseTitle">Course Name <small id="courseStage">Elementary</small></h1>
+                </div>
+            </div>
+            <div class="header-actions">
+                <span class="progress-text" id="progressText">0%</span>
+                <div class="progress-bar-header">
+                    <div class="fill" id="headerProgress" style="width:0%;"></div>
+                </div>
+                <a href="dashboard.html" class="btn btn-outline btn-sm">← Dashboard</a>
+            </div>
+        </header>
+
+        <div class="main-content" id="mainContent">
+            <!-- Dynamic content -->
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // ==================== FIREBASE ====================
+        const firebaseConfig = {
+            apiKey: "AIzaSyAvvB3C9SP8tDTqMmqzc6craI4d_0kSVX0",
+            authDomain: "timijosh-b8bee.firebaseapp.com",
+            projectId: "timijosh-b8bee",
+            storageBucket: "timijosh-b8bee.firebasestorage.app",
+            messagingSenderId: "779082784462",
+            appId: "1:779082784462:web:a9e9aca2177c7e343c3a9f",
+            measurementId: "G-ZPS8VP8ZBX"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // ==================== STATE ====================
+        const urlParams = new URLSearchParams(window.location.search);
+        const COURSE_ID = urlParams.get('courseId');
+        let currentUser = null;
+        let courseData = null;
+        let userRole = 'student';
+        let completedModules = [];
+        let currentModuleIndex = 0;
+        let activePanel = 'overview';
+
+        // ==================== DOM REFS ====================
+        const sidebarNav = document.getElementById('sidebarNav');
+        const mainContent = document.getElementById('mainContent');
+        const courseTitle = document.getElementById('courseTitle');
+        const courseStage = document.getElementById('courseStage');
+        const headerProgress = document.getElementById('headerProgress');
+        const progressText = document.getElementById('progressText');
+
+        // ==================== AUTH ====================
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) { window.location.href = 'auth.html'; return; }
+            currentUser = user;
+            if (!COURSE_ID) {
+                mainContent.innerHTML = `
+                    <div class="card"><div class="empty-state">
+                        <div class="icon">❌</div>
+                        <h3>No Course Selected</h3>
+                        <p>Please select a course from your dashboard.</p>
+                        <a href="dashboard.html" class="btn btn-primary" style="margin-top:12px;">Go to Dashboard</a>
+                    </div></div>`;
+                return;
+            }
+            await loadCourse(COURSE_ID);
+            await loadUserData(user.uid);
+        });
+
+        // ==================== LOAD COURSE ====================
+        async function loadCourse(courseId) {
+            try {
+                const doc = await db.collection('courses').doc(courseId).get();
+                if (!doc.exists) {
+                    mainContent.innerHTML = `
+                        <div class="card"><div class="empty-state">
+                            <div class="icon">📚</div>
+                            <h3>Course Not Found</h3>
+                            <p>The course you're looking for doesn't exist.</p>
+                            <a href="dashboard.html" class="btn btn-primary" style="margin-top:12px;">Go to Dashboard</a>
+                        </div></div>`;
+                    return;
+                }
+                courseData = { id: doc.id, ...doc.data() };
+                courseTitle.textContent = courseData.name || 'Course';
+                courseStage.textContent = courseData.stage || 'Elementary';
+
+                // Check if user is instructor/admin
+                const userDoc = await db.collection('users').doc(currentUser.uid).get();
+                if (userDoc.exists) {
+                    const data = userDoc.data();
+                    if (data.role === 'instructor' || data.role === 'admin') {
+                        userRole = 'instructor';
+                    }
+                }
+
+                // Load completed modules from progress
+                await loadProgress();
+
+                // Render sidebar and content
+                renderSidebar();
+                renderOverview();
+
+            } catch (err) {
+                console.error('Load course error:', err);
+                mainContent.innerHTML = `
+                    <div class="card"><div class="empty-state">
+                        <div class="icon">⚠️</div>
+                        <h3>Error Loading Course</h3>
+                        <p>${err.message}</p>
+                    </div></div>`;
+            }
+        }
+
+        // ==================== LOAD PROGRESS ====================
+        async function loadProgress() {
+            try {
+                const snap = await db.collection('progress')
+                    .where('userId', '==', currentUser.uid)
+                    .where('courseId', '==', COURSE_ID)
+                    .limit(1)
+                    .get();
+
+                if (!snap.empty) {
+                    const data = snap.docs[0].data();
+                    completedModules = data.completedModules || [];
+                } else {
+                    // Create progress document
+                    await db.collection('progress').add({
+                        userId: currentUser.uid,
+                        courseId: COURSE_ID,
+                        completedModules: [],
+                        startedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        lastAccessed: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+            } catch (err) {
+                console.error('Load progress error:', err);
+                completedModules = [];
+            }
+        }
+
+        // ==================== LOAD USER DATA ====================
+        async function loadUserData(uid) {
+            try {
+                const doc = await db.collection('users').doc(uid).get();
+                if (doc.exists) {
+                    const data = doc.data();
+                    document.getElementById('sidebarName').textContent = data.fullName || 'User';
+                    document.getElementById('sidebarAvatar').textContent = (data.fullName || 'U').charAt(0).toUpperCase();
+                    document.getElementById('sidebarRole').textContent = data.role || 'Student';
+                }
+            } catch (err) { console.error('Load user error:', err); }
+        }
+
+        // ==================== RENDER SIDEBAR ====================
+        function renderSidebar() {
+            const modules = courseData.modules || [];
+            const total = modules.length;
+            const done = completedModules.length;
+
+            let html = `
+                <div style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <div style="font-size:0.7rem;color:var(--text-muted);">Progress</div>
+                    <div style="font-size:1.1rem;font-weight:700;color:#fff;">${done}/${total}</div>
+                    <div style="width:100%;height:4px;background:rgba(255,255,255,0.1);border-radius:4px;margin-top:4px;">
+                        <div style="width:${total > 0 ? (done/total)*100 : 0}%;height:100%;background:var(--gradient);border-radius:4px;transition:width 0.5s;"></div>
+                    </div>
+                </div>
+            `;
+
+            // Overview
+            html += `
+                <a class="${activePanel === 'overview' ? 'active' : ''}" onclick="navigateTo('overview')">
+                    <span class="icon">📖</span> Overview
+                </a>
+            `;
+
+            // Modules
+            if (modules.length > 0) {
+                html += `<span class="section-label">Modules</span>`;
+                modules.forEach((m, i) => {
+                    const isDone = completedModules.includes(m.id);
+                    const isUnlocked = i === 0 || completedModules.includes(modules[i-1]?.id) || userRole === 'instructor';
+                    const status = isDone ? '✅' : isUnlocked ? '🔓' : '🔒';
+                    const statusClass = isDone ? 'done' : isUnlocked ? 'active' : 'locked';
+                    html += `
+                        <a class="${activePanel === 'module_' + i ? 'active' : ''}" onclick="navigateTo('module_${i}')">
+                            <span class="icon">${status}</span>
+                            ${m.title || 'Module ' + (i+1)}
+                            <span class="status ${statusClass}">${isDone ? '✅' : isUnlocked ? '▶' : '🔒'}</span>
+                        </a>
+                    `;
+                });
+            }
+
+            // Tests
+            const tests = courseData.tests || [];
+            if (tests.length > 0) {
+                html += `<span class="section-label">Tests</span>`;
+                tests.forEach((t, i) => {
+                    html += `
+                        <a onclick="navigateTo('test_${i}')">
+                            <span class="icon">❓</span> ${t.title || 'Test ' + (i+1)}
+                        </a>
+                    `;
+                });
+            }
+
+            // Exam
+            if (courseData.exam && courseData.exam.questions && courseData.exam.questions.length > 0) {
+                html += `
+                    <span class="section-label">Assessment</span>
+                    <a onclick="navigateTo('exam')">
+                        <span class="icon">📝</span> Final Exam
+                    </a>
+                `;
+            }
+
+            // Project
+            if (courseData.project && courseData.project.title) {
+                html += `
+                    <a onclick="navigateTo('project')">
+                        <span class="icon">🎯</span> ${courseData.project.title}
+                    </a>
+                `;
+            }
+
+            // Certificate
+            html += `
+                <span class="section-label">Completion</span>
+                <a onclick="navigateTo('certificate')">
+                    <span class="icon">📜</span> Certificate
+                    ${done === modules.length && modules.length > 0 ? '<span class="status done">✅</span>' : ''}
+                </a>
+            `;
+
+            // Live Class
+            if (courseData.liveClass && courseData.liveClass.enabled) {
+                html += `
+                    <span class="section-label">Live</span>
+                    <a onclick="navigateTo('live')">
+                        <span class="icon">📺</span> Live Classroom
+                        ${courseData.liveClass.enabled ? '<span class="status active">●</span>' : ''}
+                    </a>
+                `;
+            }
+
+            sidebarNav.innerHTML = html;
+        }
+
+        // ==================== NAVIGATE ====================
+        window.navigateTo = function(panel) {
+            activePanel = panel;
+            renderSidebar();
+
+            if (panel === 'overview') renderOverview();
+            else if (panel.startsWith('module_')) {
+                const idx = parseInt(panel.split('_')[1]);
+                currentModuleIndex = idx;
+                renderModule(idx);
+            } else if (panel.startsWith('test_')) {
+                const idx = parseInt(panel.split('_')[1]);
+                renderTest(idx);
+            } else if (panel === 'exam') renderExam();
+            else if (panel === 'project') renderProject();
+            else if (panel === 'certificate') renderCertificate();
+            else if (panel === 'live') renderLiveClass();
+
+            // Mobile close sidebar
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+                document.getElementById('overlay').classList.remove('show');
+            }
+        };
+
+        // ==================== RENDER OVERVIEW ====================
+        function renderOverview() {
+            const modules = courseData.modules || [];
+            const total = modules.length;
+            const done = completedModules.length;
+            const pct = total > 0 ? Math.round((done/total)*100) : 0;
+
+            updateHeaderProgress(pct);
+
+            mainContent.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📖 Course Overview</h2>
+                        <span class="badge badge-gold">${courseData.stage || 'Elementary'}</span>
+                    </div>
+                    <div class="card-body">
+                        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                            <div>
+                                <h3 style="font-family:var(--font-heading);font-size:1.2rem;">${courseData.name || 'Course'}</h3>
+                                <p style="color:var(--text-secondary);font-size:0.85rem;">${courseData.shortDescription || ''}</p>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-size:1.5rem;font-weight:700;">${pct}%</div>
+                                <div style="font-size:0.78rem;color:var(--text-muted);">${done}/${total} modules</div>
+                            </div>
+                        </div>
+                        <div style="margin-top:12px;width:100%;height:8px;background:var(--border);border-radius:8px;overflow:hidden;">
+                            <div style="width:${pct}%;height:100%;background:var(--gradient);border-radius:8px;transition:width 0.8s;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📋 Course Details</h2>
+                    </div>
+                    <div class="card-body">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                            <div><span style="color:var(--text-muted);">Stage</span><br><strong>${courseData.stage || 'Elementary'}</strong></div>
+                            <div><span style="color:var(--text-muted);">Duration</span><br><strong>${courseData.durationWeeks || '?'} weeks</strong></div>
+                            <div><span style="color:var(--text-muted);">Modules</span><br><strong>${modules.length}</strong></div>
+                            <div><span style="color:var(--text-muted);">Price</span><br><strong>₦${(courseData.price || 0).toLocaleString()}</strong></div>
+                            ${courseData.liveClass && courseData.liveClass.enabled ? `
+                                <div><span style="color:var(--text-muted);">Live Class</span><br><strong>${courseData.liveClass.day} ${courseData.liveClass.startTime}</strong></div>
+                            ` : ''}
+                            ${courseData.hasExam ? `<div><span style="color:var(--text-muted);">Final Exam</span><br><strong>✅ Included</strong></div>` : ''}
+                            ${courseData.hasProject ? `<div><span style="color:var(--text-muted);">Project</span><br><strong>✅ Included</strong></div>` : ''}
+                        </div>
+                        ${courseData.description ? `
+                            <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">
+                                <div style="color:var(--text-muted);font-size:0.78rem;">Description</div>
+                                <div style="font-size:0.88rem;line-height:1.7;margin-top:4px;">${courseData.description}</div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📚 Modules</h2>
+                        <span class="badge badge-info">${done}/${modules.length} completed</span>
+                    </div>
+                    <div class="card-body no-padding">
+                        ${modules.map((m, i) => {
+                            const isDone = completedModules.includes(m.id);
+                            const isUnlocked = i === 0 || completedModules.includes(modules[i-1]?.id) || userRole === 'instructor';
+                            return `
+                                <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);">
+                                    <span style="font-size:1.2rem;">${isDone ? '✅' : isUnlocked ? '📖' : '🔒'}</span>
+                                    <div style="flex:1;">
+                                        <div style="font-weight:600;font-size:0.85rem;">${m.title || 'Module ' + (i+1)}</div>
+                                        <div style="font-size:0.7rem;color:var(--text-muted);">${m.estimatedTime || 45} min</div>
+                                    </div>
+                                    ${isUnlocked ? `
+                                        <button class="btn btn-primary btn-sm" onclick="navigateTo('module_${i}')">
+                                            ${isDone ? 'Review' : 'Start'}
+                                        </button>
+                                    ` : `
+                                        <span class="badge badge-warning">Locked</span>
+                                    `}
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // ==================== RENDER MODULE ====================
+        function renderModule(idx) {
+            const modules = courseData.modules || [];
+            if (idx >= modules.length) { renderOverview(); return; }
+
+            const m = modules[idx];
+            const isLocked = idx > 0 && !completedModules.includes(modules[idx-1]?.id) && userRole !== 'instructor';
+            const isDone = completedModules.includes(m.id);
+
+            if (isLocked) {
+                mainContent.innerHTML = `
+                    <div class="card"><div class="empty-state">
+                        <div class="icon">🔒</div>
+                        <h3>Module Locked</h3>
+                        <p>Complete the previous module first.</p>
+                        <button class="btn btn-outline" onclick="navigateTo('overview')">← Back to Overview</button>
+                    </div></div>`;
+                return;
+            }
+
+            updateHeaderProgress();
+
+            mainContent.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h2>${m.title || 'Module ' + (idx+1)}</h2>
+                        <div>
+                            ${isDone ? '<span class="badge badge-success">✅ Completed</span>' : ''}
+                            <button class="btn btn-outline btn-sm" onclick="navigateTo('overview')">← Overview</button>
+                        </div>
+                    </div>
+                    <div class="card-body module-content">
+                        ${m.videoUrl ? `
+                            <div class="video-wrapper">
+                                <iframe src="${getEmbedUrl(m.videoUrl)}" allowfullscreen></iframe>
+                            </div>
+                        ` : ''}
+
+                        ${m.audioUrl ? `
+                            <div style="margin:12px 0;padding:12px 16px;background:#f8f7ff;border-radius:var(--radius-sm);">
+                                <span>🎤 Voice Note</span>
+                                <audio controls src="${m.audioUrl}" style="width:100%;margin-top:6px;"></audio>
+                            </div>
+                        ` : ''}
+
+                        <div class="module-body">${m.content || '<p>No content yet.</p>'}</div>
+
+                        ${m.attachments && m.attachments.length > 0 ? `
+                            <div style="margin-top:16px;padding:12px 16px;background:var(--bg-alt);border-radius:var(--radius-sm);">
+                                <div style="font-weight:600;font-size:0.82rem;margin-bottom:8px;">📎 Resources</div>
+                                ${m.attachments.map(a => `
+                                    <a href="${a.url}" target="_blank" style="display:block;padding:4px 0;color:var(--purple);text-decoration:none;font-size:0.82rem;">
+                                        📄 ${a.name} (${a.size})
+                                    </a>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+
+                        <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;">
+                            ${!isDone ? `
+                                <button class="btn btn-success" onclick="markComplete('${m.id}')">✅ Mark as Complete</button>
+                            ` : ''}
+                            ${idx < modules.length - 1 ? `
+                                <button class="btn btn-primary" onclick="navigateTo('module_${idx+1}')">Next Module →</button>
+                            ` : `
+                                <button class="btn btn-gold" onclick="navigateTo('exam')">📝 Take Exam</button>
+                            `}
+                        </div>
+                    </div>
+                </div>
+
+                ${m.discussionEnabled !== false ? `
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>💬 Discussion</h2>
+                        </div>
+                        <div class="card-body" id="discussionContainer">
+                            <div class="empty-state" style="padding:16px;">
+                                <p style="font-size:0.82rem;">No discussions yet. Start the conversation!</p>
+                            </div>
+                        </div>
+                        <div class="discussion-input">
+                            <input type="text" id="discussionInput" placeholder="Write a message...">
+                            <button class="btn btn-primary" onclick="sendDiscussion('${m.id}')">Send</button>
+                            <button class="btn btn-outline btn-sm" onclick="recordVoiceNote('${m.id}')">🎤</button>
+                        </div>
+                    </div>
+                ` : ''}
+
+                ${m.qaEnabled !== false ? `
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>❓ Q&A</h2>
+                            <button class="btn btn-primary btn-sm" onclick="showAskQuestion('${m.id}')">Ask Question</button>
+                        </div>
+                        <div class="card-body" id="qaContainer">
+                            <div class="empty-state" style="padding:16px;">
+                                <p style="font-size:0.82rem;">No questions yet. Ask your instructor!</p>
+                            </div>
+                        </div>
+                    </div>
+                ` : ''}
+            `;
+
+            // Load discussion and Q&A
+            loadDiscussion(m.id);
+            loadQA(m.id);
+        }
+
+        // ==================== MARK COMPLETE ====================
+        window.markComplete = async function(moduleId) {
+            if (completedModules.includes(moduleId)) return;
+
+            try {
+                // Add to completed
+                completedModules.push(moduleId);
+
+                // Update progress in Firestore
+                const snap = await db.collection('progress')
+                    .where('userId', '==', currentUser.uid)
+                    .where('courseId', '==', COURSE_ID)
+                    .limit(1)
+                    .get();
+
+                if (!snap.empty) {
+                    await snap.docs[0].ref.update({
+                        completedModules: completedModules,
+                        lastAccessed: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+
+                showToast('✅ Module completed!', 'success');
+                renderSidebar();
+                renderModule(currentModuleIndex);
+                updateHeaderProgress();
+
+            } catch (err) {
+                showToast('Error: ' + err.message, 'error');
+            }
+        };
+
+        // ==================== DISCUSSION ====================
+        async function loadDiscussion(moduleId) {
+            try {
+                const snap = await db.collection('courses')
+                    .doc(COURSE_ID)
+                    .collection('modules')
+                    .doc(moduleId)
+                    .collection('discussions')
+                    .orderBy('createdAt', 'desc')
+                    .get();
+
+                const container = document.getElementById('discussionContainer');
+                if (snap.empty) {
+                    container.innerHTML = `
+                        <div class="empty-state" style="padding:16px;">
+                            <p style="font-size:0.82rem;">No discussions yet. Start the conversation!</p>
+                        </div>`;
+                    return;
+                }
+
+                container.innerHTML = '';
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    container.innerHTML += `
+                        <div class="discussion-message">
+                            <div class="msg-avatar">${(d.userName || 'U').charAt(0).toUpperCase()}</div>
+                            <div class="msg-content">
+                                <div>
+                                    <span class="msg-user">${d.userName || 'User'}</span>
+                                    <span class="msg-time">${d.createdAt?.toDate ? timeAgo(d.createdAt.toDate()) : ''}</span>
+                                </div>
+                                <div class="msg-text">${d.message}</div>
+                                ${d.voiceUrl ? `<audio controls src="${d.voiceUrl}" style="height:32px;margin-top:4px;"></audio>` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+
+            } catch (err) { console.error('Load discussion error:', err); }
+        }
+
+        window.sendDiscussion = async function(moduleId) {
+            const input = document.getElementById('discussionInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            try {
+                await db.collection('courses')
+                    .doc(COURSE_ID)
+                    .collection('modules')
+                    .doc(moduleId)
+                    .collection('discussions')
+                    .add({
+                        userId: currentUser.uid,
+                        userName: currentUser.displayName || 'User',
+                        message: msg,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                input.value = '';
+                loadDiscussion(moduleId);
+                showToast('Message sent!', 'success');
+
+            } catch (err) { showToast('Error: ' + err.message, 'error'); }
+        };
+
+        window.recordVoiceNote = function(moduleId) {
+            showToast('🎤 Voice recording coming soon!', 'info');
+        };
+
+        // ==================== Q&A ====================
+        async function loadQA(moduleId) {
+            try {
+                const snap = await db.collection('courses')
+                    .doc(COURSE_ID)
+                    .collection('modules')
+                    .doc(moduleId)
+                    .collection('qa')
+                    .orderBy('createdAt', 'desc')
+                    .get();
+
+                const container = document.getElementById('qaContainer');
+                if (snap.empty) {
+                    container.innerHTML = `
+                        <div class="empty-state" style="padding:16px;">
+                            <p style="font-size:0.82rem;">No questions yet. Ask your instructor!</p>
+                        </div>`;
+                    return;
+                }
+
+                container.innerHTML = '';
+                snap.forEach(doc => {
+                    const q = doc.data();
+                    container.innerHTML += `
+                        <div class="qa-item">
+                            <div class="qa-question">❓ ${q.question}</div>
+                            <div class="qa-meta">Asked by ${q.userName || 'User'} • ${q.createdAt?.toDate ? timeAgo(q.createdAt.toDate()) : ''}</div>
+                            ${q.answer ? `
+                                <div class="qa-answer">
+                                    <strong>👨‍🏫 Instructor:</strong> ${q.answer}
+                                </div>
+                            ` : `
+                                <div style="margin-top:6px;font-size:0.78rem;color:var(--text-muted);">⏳ Awaiting answer...</div>
+                            `}
+                        </div>
+                    `;
+                });
+
+            } catch (err) { console.error('Load QA error:', err); }
+        }
+
+        window.showAskQuestion = function(moduleId) {
+            const q = prompt('Ask your question:');
+            if (!q) return;
+
+            db.collection('courses')
+                .doc(COURSE_ID)
+                .collection('modules')
+                .doc(moduleId)
+                .collection('qa')
+                .add({
+                    userId: currentUser.uid,
+                    userName: currentUser.displayName || 'User',
+                    question: q,
+                    answer: null,
+                    status: 'open',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                })
+                .then(() => {
+                    showToast('Question posted!', 'success');
+                    loadQA(moduleId);
+                })
+                .catch(err => showToast('Error: ' + err.message, 'error'));
+        };
+
+        // ==================== RENDER TEST ====================
+        function renderTest(idx) {
+            const tests = courseData.tests || [];
+            if (idx >= tests.length) { renderOverview(); return; }
+            const t = tests[idx];
+
+            mainContent.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h2>❓ ${t.title || 'Test ' + (idx+1)}</h2>
+                        <div>
+                            <span class="badge badge-info">${t.questions?.length || 0} questions</span>
+                            <button class="btn btn-outline btn-sm" onclick="navigateTo('overview')">← Overview</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p style="color:var(--text-secondary);margin-bottom:16px;">
+                            Passing score: ${t.passingScore || 70}% • Time limit: ${t.timeLimit || 15} min
+                        </p>
+                        <a href="quiz.html?id=${t.id}&courseId=${COURSE_ID}&test=true" class="btn btn-primary" target="_blank">
+                            📝 Start Test
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ==================== RENDER EXAM ====================
+        function renderExam() {
+            const exam = courseData.exam || {};
+            const hasQuestions = exam.questions && exam.questions.length > 0;
+
+            mainContent.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📝 Final Exam</h2>
+                        <button class="btn btn-outline btn-sm" onclick="navigateTo('overview')">← Overview</button>
+                    </div>
+                    <div class="card-body">
+                        ${hasQuestions ? `
+                            <p style="color:var(--text-secondary);margin-bottom:16px;">
+                                ${exam.questions.length} questions • Passing score: ${exam.passingScore || 70}% • Time limit: ${exam.timeLimit || 60} min
+                            </p>
+                            <a href="quiz.html?id=${COURSE_ID}&courseId=${COURSE_ID}&mode=exam" class="btn btn-gold" target="_blank">
+                                📝 Start Exam
+                            </a>
+                        ` : `
+                            <div class="empty-state">
+                                <div class="icon">📝</div>
+                                <h3>No Exam Available</h3>
+                                <p>The instructor hasn't added an exam yet.</p>
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        // ==================== RENDER PROJECT ====================
+        function renderProject() {
+            const project = courseData.project || {};
+
+            mainContent.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h2>🎯 ${project.title || 'Capstone Project'}</h2>
+                        <button class="btn btn-outline btn-sm" onclick="navigateTo('overview')">← Overview</button>
+                    </div>
+                    <div class="card-body">
+                        <div style="margin-bottom:16px;">
+                            <div style="color:var(--text-muted);font-size:0.78rem;">Deadline</div>
+                            <div style="font-weight:600;">${project.deadline || '14'} days after course end</div>
+                        </div>
+                        ${project.description ? `
+                            <div style="margin-bottom:16px;">
+                                <div style="color:var(--text-muted);font-size:0.78rem;">Description</div>
+                                <div style="margin-top:4px;line-height:1.7;">${project.description}</div>
+                            </div>
+                        ` : ''}
+                        ${project.rubric ? `
+                            <div style="margin-bottom:16px;">
+                                <div style="color:var(--text-muted);font-size:0.78rem;">Grading Rubric</div>
+                                <div style="margin-top:4px;background:var(--bg-alt);padding:12px;border-radius:var(--radius-sm);font-size:0.88rem;white-space:pre-wrap;">${project.rubric}</div>
+                            </div>
+                        ` : ''}
+                        <button class="btn btn-primary" onclick="submitProject()">📤 Submit Project</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.submitProject = function() {
+            showToast('📤 Project submission coming soon!', 'info');
+        };
+
+        // ==================== RENDER CERTIFICATE ====================
+        function renderCertificate() {
+            const modules = courseData.modules || [];
+            const allDone = modules.length > 0 && completedModules.length === modules.length;
+
+            mainContent.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📜 Certificate</h2>
+                    </div>
+                    <div class="card-body" style="text-align:center;">
+                        ${allDone ? `
+                            <div style="font-size:4rem;margin-bottom:12px;">🎓</div>
+                            <h3>You've Earned Your Certificate!</h3>
+                            <p style="color:var(--text-secondary);margin:8px 0 16px;">
+                                Congratulations on completing ${courseData.name || 'this course'}!
+                            </p>
+                            <a href="certificate.html?courseId=${COURSE_ID}" class="btn btn-gold" target="_blank">
+                                📜 View Certificate
+                            </a>
+                        ` : `
+                            <div style="font-size:4rem;margin-bottom:12px;">📜</div>
+                            <h3>Complete All Modules</h3>
+                            <p style="color:var(--text-secondary);margin:8px 0 16px;">
+                                Complete all ${modules.length} modules to earn your certificate.
+                            </p>
+                            <p style="font-size:0.85rem;color:var(--text-muted);">
+                                ${completedModules.length}/${modules.length} modules completed
+                            </p>
+                            <button class="btn btn-primary" onclick="navigateTo('overview')" style="margin-top:12px;">
+                                Continue Learning
+                            </button>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        // ==================== RENDER LIVE CLASS ====================
+        function renderLiveClass() {
+            const live = courseData.liveClass || {};
+            const isLive = live.enabled && live.day && live.startTime;
+
+            mainContent.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📺 Live Classroom</h2>
+                        <span class="live-status ${isLive ? 'upcoming' : 'ended'}">
+                            ${isLive ? '📅 Upcoming' : '⏹ Not Scheduled'}
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        ${isLive ? `
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+                                <div><span style="color:var(--text-muted);">Day</span><br><strong>${live.day || 'Friday'}</strong></div>
+                                <div><span style="color:var(--text-muted);">Time</span><br><strong>${live.startTime || '4:00 PM'}</strong></div>
+                                <div><span style="color:var(--text-muted);">Duration</span><br><strong>${live.duration || 60} minutes</strong></div>
+                                <div><span style="color:var(--text-muted);">Everyone can speak</span><br><strong>${live.everyoneCanSpeak !== false ? '✅ Yes' : '❌ No'}</strong></div>
+                            </div>
+                            <div style="background:#f8f7ff;padding:16px;border-radius:var(--radius-sm);margin-bottom:16px;">
+                                <p style="font-size:0.85rem;color:var(--text-secondary);">
+                                    💡 The instructor will start the live session at the scheduled time.
+                                    You'll be able to join, ask questions, and interact with your peers.
+                                </p>
+                            </div>
+                            ${userRole === 'instructor' ? `
+                                <button class="btn btn-gold" onclick="startLiveSession()" style="width:100%;justify-content:center;font-size:1rem;padding:14px;">
+                                    🎥 Start Live Session Now
+                                </button>
+                            ` : `
+                                <div style="text-align:center;padding:20px;background:var(--bg-alt);border-radius:var(--radius-sm);">
+                                    <div style="font-size:2rem;margin-bottom:8px;">📺</div>
+                                    <p style="font-weight:600;">Waiting for instructor to start...</p>
+                                    <p style="font-size:0.82rem;color:var(--text-muted);">The live session will appear here when it starts.</p>
+                                    <button class="btn btn-primary btn-sm" onclick="checkLiveStatus()" style="margin-top:8px;">🔄 Check Status</button>
+                                </div>
+                            `}
+                        ` : `
+                            <div class="empty-state">
+                                <div class="icon">📺</div>
+                                <h3>No Live Classes Scheduled</h3>
+                                <p>The instructor hasn't scheduled any live classes for this course yet.</p>
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        window.startLiveSession = function() {
+            // This would open Jitsi Meet
+            showToast('🎥 Starting live session... This will integrate with Jitsi Meet.', 'info');
+            // In production, this would open jitsi iframe with the room
+        };
+
+        window.checkLiveStatus = function() {
+            showToast('🔄 Checking live status...', 'info');
+        };
+
+        // ==================== UTILITY ====================
+        function getEmbedUrl(url) {
+            if (!url) return '';
+            const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
+            if (ytMatch) return `https://www.youtube.com/embed/${ytMatch[1]}`;
+            const vmMatch = url.match(/vimeo\.com\/(\d+)/);
+            if (vmMatch) return `https://player.vimeo.com/video/${vmMatch[1]}`;
+            return url;
+        }
+
+        function timeAgo(date) {
+            const diff = Math.floor((Date.now() - date) / 1000);
+            if (diff < 60) return 'Just now';
+            if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+            if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+            if (diff < 604800) return Math.floor(diff / 86400) + 'd ago';
+            return date.toDateString();
+        }
+
+        function updateHeaderProgress(pct) {
+            const modules = courseData.modules || [];
+            const total = modules.length;
+            const done = completedModules.length;
+            const percent = pct !== undefined ? pct : (total > 0 ? Math.round((done/total)*100) : 0);
+            headerProgress.style.width = percent + '%';
+            progressText.textContent = percent + '%';
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+            toast.innerHTML = `
+                <span>${icons[type] || '📢'}</span>
+                <span>${message}</span>
+                <button class="toast-close" onclick="this.closest('.toast').remove()">✕</button>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => { if (toast.parentNode) toast.remove(); }, 4000);
+        }
+
+        // ==================== MOBILE MENU ====================
+        document.getElementById('menuToggle').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('show');
+        });
+        document.getElementById('overlay').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('overlay').classList.remove('show');
+        });
+
+        console.log('✅ Classroom loaded');
+    })();
+    </script>
+</body>
+</html>
