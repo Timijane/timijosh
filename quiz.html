@@ -33,6 +33,7 @@
             --success: #0d9488;
             --warning: #e65100;
             --warning-bg: #fff3e0;
+            --header-height: 64px;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -44,6 +45,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* HEADER */
         .header {
             padding: 12px 24px;
             background: rgba(255,255,255,0.9);
@@ -55,6 +57,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            height: var(--header-height);
         }
         .logo-link { display: flex; align-items: center; gap: 10px; text-decoration: none; }
         .logo-link img { height: 32px; }
@@ -72,16 +75,29 @@
             align-items: center;
             gap: 6px;
         }
-        .header-timer.warning { color: var(--danger); }
+        .header-timer.warning { color: var(--danger); animation: blinkTimer 1s infinite; }
+        @keyframes blinkTimer { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
         .header-progress {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--text-muted);
+        }
+        .progress-bar-header {
+            width: 100px;
+            height: 4px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-bar-header .fill {
+            height: 100%;
+            background: var(--gradient);
+            transition: width 0.5s;
         }
 
         .main-container {
             max-width: 820px;
-            margin: 30px auto;
-            padding: 0 20px 40px;
+            margin: 0 auto;
+            padding: 24px 20px 40px;
         }
 
         .card {
@@ -92,9 +108,23 @@
             box-shadow: var(--shadow-sm);
             margin-bottom: 20px;
         }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .card-header h2 {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .card-body.no-padding { padding: 0; }
+
         .quiz-header {
             text-align: center;
-            margin-bottom: 24px;
         }
         .quiz-header h1 {
             font-family: var(--font-heading);
@@ -213,7 +243,10 @@
         .btn-ghost:hover { border-color: var(--purple); }
         .btn-success { background: var(--success); color: #fff; }
         .btn-success:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(13,148,136,0.3); }
+        .btn-gold { background: var(--gold); color: #fff; }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(240,165,0,0.3); }
         .btn-sm { padding: 6px 14px; font-size: 0.75rem; }
+        .btn-block { width: 100%; justify-content: center; }
 
         .result-box {
             text-align: center;
@@ -230,20 +263,6 @@
         }
         .result-box .score.pass { color: var(--success); }
         .result-box .score.fail { color: var(--danger); }
-
-        .progress-bar-wrapper {
-            width: 100%;
-            height: 4px;
-            background: var(--border);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-        .progress-bar-wrapper .fill {
-            height: 100%;
-            background: var(--gradient);
-            transition: width 0.5s ease;
-        }
 
         .skeleton {
             background: linear-gradient(90deg, #f0f0f5 25%, #e8e8f0 50%, #f0f0f5 75%);
@@ -267,31 +286,107 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
+        .empty-state {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-muted);
+        }
+        .empty-state .icon { font-size: 2.5rem; margin-bottom: 10px; }
+        .empty-state h3 { font-weight: 600; font-size: 0.95rem; color: var(--text); margin-bottom: 4px; }
+        .empty-state p { font-size: 0.85rem; }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        .history-item:last-child { border-bottom: none; }
+        .history-item .h-date { font-size: 0.78rem; color: var(--text-muted); }
+        .history-item .h-score { font-weight: 700; }
+        .history-item .h-score.pass { color: var(--success); }
+        .history-item .h-score.fail { color: var(--danger); }
+
+        /* TOAST */
+        .toast-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 400px;
+        }
+        .toast {
+            padding: 14px 20px;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            font-size: 0.85rem;
+            box-shadow: var(--shadow-lg);
+            animation: slideIn 0.4s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+        }
+        .toast-success { background: var(--success); }
+        .toast-error { background: var(--danger); }
+        .toast-info { background: var(--purple); }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .toast .toast-close {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
         @media (max-width: 768px) {
-            .header { padding: 10px 16px; flex-wrap: wrap; gap: 8px; }
+            .header { padding: 10px 16px; flex-wrap: wrap; gap: 8px; height: auto; min-height: var(--header-height); }
             .header-right { gap: 10px; flex-wrap: wrap; }
+            .header-progress { display: none; }
+            .progress-bar-header { width: 60px; }
             .card { padding: 20px; }
             .quiz-header h1 { font-size: 1.3rem; }
             .question-block { padding: 14px; }
             .result-box .score { font-size: 2.2rem; }
             .quiz-meta { gap: 10px; font-size: 0.75rem; }
+            .main-container { padding: 16px 12px 40px; }
+            .toast-container { right: 16px; bottom: 16px; left: 16px; max-width: none; }
+        }
+        @media (max-width: 480px) {
+            .header h1 { font-size: 0.9rem; }
+            .header-timer { font-size: 0.85rem; }
+            .option-item { padding: 8px 12px; font-size: 0.85rem; }
+            .btn { padding: 8px 14px; font-size: 0.78rem; }
         }
     </style>
 </head>
 <body>
 
+    <!-- HEADER -->
     <header class="header">
         <a href="dashboard.html" class="logo-link">
             <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="Logo">
             <span>TRIANGLE LEARN</span>
         </a>
         <div class="header-right">
-            <span class="header-progress" id="progressDisplay">0 / 0</span>
+            <span class="header-progress" id="progressDisplay">📊 0 / 0</span>
+            <div class="progress-bar-header">
+                <div class="fill" id="headerProgressFill" style="width:0%;"></div>
+            </div>
             <span class="header-timer" id="headerTimer">⏱️ --:--</span>
             <a href="#" id="backToLearn" class="btn btn-ghost btn-sm">← Back</a>
         </div>
     </header>
 
+    <!-- MAIN -->
     <div class="main-container" id="quizContainer">
         <!-- Skeleton Loading -->
         <div class="card">
@@ -305,7 +400,10 @@
         </div>
     </div>
 
-    <!-- Firebase SDK -->
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -314,7 +412,7 @@
     (function() {
         'use strict';
 
-        // ==================== FIREBASE CONFIG ====================
+        // ==================== FIREBASE ====================
         const firebaseConfig = {
             apiKey: "AIzaSyAvvB3C9SP8tDTqMmqzc6craI4d_0kSVX0",
             authDomain: "timijosh-b8bee.firebaseapp.com",
@@ -343,18 +441,21 @@
         let timerInterval = null;
         let timeRemaining = 0;
         let quizData = null;
-        let questionStartTime = Date.now();
+        let quizHistory = [];
+        let tabSwitchCount = 0;
+        let tabSwitchTimeout = null;
 
         // ==================== DOM REFS ====================
         const quizContainer = document.getElementById('quizContainer');
         const progressDisplay = document.getElementById('progressDisplay');
         const headerTimer = document.getElementById('headerTimer');
+        const headerProgressFill = document.getElementById('headerProgressFill');
         const backToLearn = document.getElementById('backToLearn');
 
         if (COURSE_ID) {
             backToLearn.href = `learn.html?courseId=${COURSE_ID}`;
         } else if (EXAM_MODE) {
-            backToLearn.href = `dashboard.html`;
+            backToLearn.href = `classroom.html?courseId=${COURSE_ID}`;
         } else {
             backToLearn.href = 'dashboard.html';
         }
@@ -382,34 +483,51 @@
                 const quizDoc = await db.collection('quizzes').doc(QUIZ_ID).get();
 
                 if (!quizDoc.exists) {
-                    throw new Error('Quiz not found.');
-                }
+                    // Try loading from courses collection
+                    const courseSnap = await db.collection('courses')
+                        .where('tests', 'array-contains', { id: QUIZ_ID })
+                        .limit(1)
+                        .get();
 
-                quizData = quizDoc.data();
+                    if (!courseSnap.empty) {
+                        const courseData = courseSnap.docs[0].data();
+                        const test = (courseData.tests || []).find(t => t.id === QUIZ_ID);
+                        if (test) {
+                            quizData = test;
+                            questions = test.questions || [];
+                        }
+                    }
 
-                // Load questions from subcollection
-                const qSnap = await db.collection('quizzes')
-                    .doc(QUIZ_ID)
-                    .collection('questions')
-                    .orderBy('order')
-                    .get();
-
-                if (!qSnap.empty) {
-                    questions = [];
-                    qSnap.forEach(doc => questions.push({ id: doc.id, ...doc.data() }));
-                } else if (quizData.questions && Array.isArray(quizData.questions)) {
-                    questions = quizData.questions.map((q, i) => ({ id: `q${i}`, ...q }));
+                    if (!quizData) {
+                        throw new Error('Quiz not found.');
+                    }
                 } else {
-                    // Try alternate location
-                    const fallback = await db.collection('questions')
-                        .where('quizId', '==', QUIZ_ID)
+                    quizData = quizDoc.data();
+
+                    // Load questions from subcollection
+                    const qSnap = await db.collection('quizzes')
+                        .doc(QUIZ_ID)
+                        .collection('questions')
                         .orderBy('order')
                         .get();
-                    if (!fallback.empty) {
+
+                    if (!qSnap.empty) {
                         questions = [];
-                        fallback.forEach(doc => questions.push({ id: doc.id, ...doc.data() }));
+                        qSnap.forEach(doc => questions.push({ id: doc.id, ...doc.data() }));
+                    } else if (quizData.questions && Array.isArray(quizData.questions)) {
+                        questions = quizData.questions.map((q, i) => ({ id: `q${i}`, ...q }));
                     } else {
-                        throw new Error('No questions found for this quiz.');
+                        // Try alternate location
+                        const fallback = await db.collection('questions')
+                            .where('quizId', '==', QUIZ_ID)
+                            .orderBy('order')
+                            .get();
+                        if (!fallback.empty) {
+                            questions = [];
+                            fallback.forEach(doc => questions.push({ id: doc.id, ...doc.data() }));
+                        } else {
+                            throw new Error('No questions found for this quiz.');
+                        }
                     }
                 }
 
@@ -420,6 +538,9 @@
                     timeRemaining = (quizData.duration || quizData.timeLimit || 0) * 60;
                     startTimer();
                 }
+
+                // Load quiz history
+                await loadQuizHistory();
 
                 renderQuiz();
                 updateProgress();
@@ -432,6 +553,24 @@
                         <p style="color:var(--text-muted);">Please try again or contact support.</p>
                         <a href="dashboard.html" class="btn btn-primary" style="margin-top:12px;">Go to Dashboard</a>
                     </div>`;
+            }
+        }
+
+        // ==================== LOAD QUIZ HISTORY ====================
+        async function loadQuizHistory() {
+            try {
+                const snap = await db.collection('quiz_results')
+                    .where('userId', '==', currentUser.uid)
+                    .where('quizId', '==', QUIZ_ID)
+                    .orderBy('submittedAt', 'desc')
+                    .get();
+
+                quizHistory = [];
+                snap.forEach(doc => quizHistory.push({ id: doc.id, ...doc.data() }));
+
+            } catch (err) {
+                console.error('Load history error:', err);
+                quizHistory = [];
             }
         }
 
@@ -478,8 +617,14 @@
                         ${EXAM_MODE ? '<span style="color:var(--danger);font-weight:700;">📝 Final Exam</span>' : ''}
                     </div>
                 </div>
-                <div class="progress-bar-wrapper">
-                    <div class="fill" id="progressFill" style="width:0%;"></div>
+                <div style="margin-bottom:16px;">
+                    <div style="display:flex;justify-content:space-between;font-size:0.78rem;color:var(--text-muted);margin-bottom:4px;">
+                        <span>Progress</span>
+                        <span id="progressText">0%</span>
+                    </div>
+                    <div class="progress-bar-header" style="width:100%;height:6px;">
+                        <div class="fill" id="progressFill" style="width:0%;"></div>
+                    </div>
                 </div>`;
 
             questions.forEach((q, idx) => {
@@ -504,10 +649,8 @@
                         <input type="text" class="fill-input" id="fill_${q.id}" 
                                placeholder="${placeholder}" 
                                oninput="updateTextAnswer('${q.id}', this.value)" 
-                               ${type === 'theory' ? 'data-theory="true"' : ''}>`;
-                    if (type === 'theory') {
-                        inputHtml += `<div style="font-size:0.7rem;color:var(--text-muted);margin-top:4px;">📝 Theory question — will be graded by instructor</div>`;
-                    }
+                               ${type === 'theory' ? 'data-theory="true"' : ''}>
+                        ${type === 'theory' ? `<div style="font-size:0.7rem;color:var(--text-muted);margin-top:4px;">📝 Theory question — will be graded by instructor</div>` : ''}`;
                 } else {
                     // Multiple choice
                     const options = q.options || [];
@@ -540,6 +683,32 @@
                         ${EXAM_MODE ? '⚠️ Once submitted, you cannot change your answers.' : 'You can review before submitting.'}
                     </p>
                 </div>`;
+
+            // Add history section if exists
+            if (quizHistory.length > 0) {
+                html += `
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>📊 Your Quiz History</h2>
+                            <span class="badge badge-info">${quizHistory.length} attempts</span>
+                        </div>
+                        <div class="card-body no-padding">
+                            ${quizHistory.map(h => {
+                                const date = h.submittedAt?.toDate ? h.submittedAt.toDate().toLocaleDateString() : '—';
+                                return `
+                                    <div class="history-item">
+                                        <span class="h-date">${date}</span>
+                                        <span class="h-score ${h.passed ? 'pass' : 'fail'}">${h.percentage}%</span>
+                                        <span>${h.score}/${h.totalPoints}</span>
+                                        <span class="badge ${h.passed ? 'badge-success' : 'badge-warning'}">
+                                            ${h.passed ? '✅ Passed' : '❌ Failed'}
+                                        </span>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>`;
+            }
 
             quizContainer.innerHTML = html;
 
@@ -591,6 +760,10 @@
             const fill = document.getElementById('progressFill');
             if (fill) fill.style.width = pct + '%';
 
+            const text = document.getElementById('progressText');
+            if (text) text.textContent = pct + '%';
+
+            headerProgressFill.style.width = pct + '%';
             progressDisplay.textContent = `📊 ${answered} / ${total}`;
         }
 
@@ -635,7 +808,6 @@
             let theoryCount = 0;
             let totalPoints = questions.reduce((sum, q) => sum + (q.points || 1), 0);
             const results = [];
-            const explanations = [];
 
             questions.forEach(q => {
                 const studentAns = userAnswers[q.id] || '';
@@ -682,8 +854,6 @@
                     type: type,
                     explanation: q.explanation || ''
                 });
-
-                if (q.explanation) explanations.push(q.explanation);
             });
 
             const percentage = totalPoints > 0 ? Math.round((score / totalPoints) * 100) : 0;
@@ -792,6 +962,9 @@
                     }
                 }
 
+                // Reload history
+                await loadQuizHistory();
+
                 // Show result
                 showResult(percentage, passed, passingScore, score, totalPoints, correctCount, theoryCount, resultRef.id);
 
@@ -814,15 +987,15 @@
                     userId: currentUser.uid,
                     fullName: userName,
                     courseName: courseName,
-                    stage: 'Professional', // or get from course
+                    stage: courseData.exists ? courseData.data().stage : 'Professional',
                     resultId: resultId,
                     quizId: QUIZ_ID,
                     issuedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    certificateUrl: '', // Will be generated by Cloud Function
+                    certificateUrl: '',
                     verified: true,
                 });
 
-                console.log('✅ Certificate generated:', certRef.id);
+                showToast('🎓 Certificate generated!', 'success');
 
             } catch (err) {
                 console.error('Certificate generation error:', err);
@@ -831,6 +1004,10 @@
 
         // ==================== SHOW RESULT ====================
         function showResult(percentage, passed, passingScore, score, totalPoints, correctCount, theoryCount, resultId) {
+            // Remove submit button if exists
+            const submitCard = quizContainer.querySelector('.card:last-child');
+            if (submitCard && submitCard.querySelector('#submitBtn')) submitCard.remove();
+
             const resultHtml = `
                 <div class="card result-box">
                     <h2>${passed ? '🎉 Quiz Complete!' : '📝 Quiz Complete'}</h2>
@@ -862,12 +1039,13 @@
                 </div>
             `;
 
-            // Append result to container
-            const container = document.getElementById('quizContainer');
-            const submitCard = container.querySelector('.card:last-child');
-            if (submitCard) submitCard.remove();
-
+            // Insert result after the last card
+            const container = quizContainer;
             container.insertAdjacentHTML('beforeend', resultHtml);
+
+            // Remove questions container
+            const questionCards = container.querySelectorAll('.question-block');
+            questionCards.forEach(el => el.style.opacity = '0.5');
 
             // Scroll to result
             setTimeout(() => {
@@ -886,10 +1064,21 @@
             return String(s).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
 
-        // ==================== ANTI-CHEAT ====================
-        let tabSwitchCount = 0;
-        let tabSwitchTimeout = null;
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+            toast.innerHTML = `
+                <span>${icons[type] || '📢'}</span>
+                <span>${message}</span>
+                <button class="toast-close" onclick="this.closest('.toast').remove()">✕</button>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => { if (toast.parentNode) toast.remove(); }, 4000);
+        }
 
+        // ==================== ANTI-CHEAT ====================
         document.addEventListener('visibilitychange', () => {
             if (document.hidden && !submitted && questions.length > 0) {
                 tabSwitchCount++;
@@ -897,41 +1086,20 @@
                 tabSwitchTimeout = setTimeout(() => { tabSwitchCount = 0; }, 5000);
 
                 if (tabSwitchCount >= 3) {
-                    alert('⚠️ Excessive tab switching detected. Quiz will be auto-submitted.');
+                    showToast('⚠️ Excessive tab switching. Quiz will be auto-submitted.', 'error');
                     submitQuiz();
                 } else {
                     const remaining = 3 - tabSwitchCount;
-                    // Show subtle warning
-                    const warning = document.getElementById('tabWarning');
-                    if (!warning) {
-                        const w = document.createElement('div');
-                        w.id = 'tabWarning';
-                        w.style.cssText = `
-                            position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
-                            background:var(--warning-bg);border:1px solid #f0c000;
-                            padding:10px 20px;border-radius:var(--radius-sm);
-                            font-size:0.8rem;font-weight:600;color:var(--warning);
-                            z-index:999;box-shadow:var(--shadow-md);
-                        `;
-                        w.textContent = `⚠️ Please stay on the quiz page. ${remaining} warning${remaining > 1 ? 's' : ''} remaining.`;
-                        document.body.appendChild(w);
-                        setTimeout(() => w.remove(), 3000);
-                    }
+                    showToast(`⚠️ Please stay on the quiz page. ${remaining} warning${remaining > 1 ? 's' : ''} remaining.`, 'warning');
                 }
             }
         });
 
         // ==================== KEYBOARD SHORTCUTS ====================
         document.addEventListener('keydown', (e) => {
-            // Ctrl+Enter to submit
             if (e.ctrlKey && e.key === 'Enter') {
                 e.preventDefault();
                 if (!submitted) submitQuiz();
-            }
-            // Escape to cancel
-            if (e.key === 'Escape') {
-                const warning = document.getElementById('tabWarning');
-                if (warning) warning.remove();
             }
         });
 
