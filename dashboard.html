@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dashboard — TRIANGLE LEARN</title>
-    <meta name="description" content="Your personalized TRIANGLE LEARN dashboard. Track progress, manage courses, view certificates, and more.">
+    <meta name="description" content="Your personalized TRIANGLE LEARN dashboard.">
     <link rel="icon" href="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* [Keep all existing styles from your version - they're good!] */
         :root {
             --bg: #f0f2f8;
             --sidebar-bg: #0c0c1a;
@@ -161,6 +160,12 @@
             font-size: 0.85rem;
             color: #fff;
             flex-shrink: 0;
+            overflow: hidden;
+        }
+        .sidebar-footer .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .sidebar-footer .info { flex: 1; min-width: 0; }
         .sidebar-footer .name {
@@ -470,6 +475,8 @@
         .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(240,165,0,0.3); }
         .btn-success { background: var(--green); color: #fff; }
         .btn-success:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(13,148,136,0.3); }
+        .btn-danger { background: #fff0f0; color: var(--red); border: 1px solid #fdd; }
+        .btn-danger:hover { background: #ffe5e5; }
 
         /* ===== EMPTY STATE ===== */
         .empty-state {
@@ -560,6 +567,21 @@
         /* ===== LOADING ===== */
         .loading-row { text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.85rem; }
 
+        /* ===== LIVE DOT ===== */
+        @keyframes pulse-live {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+        .live-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: pulse-live 1.5s infinite;
+            margin-right: 4px;
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
             .dashboard-grid { grid-template-columns: 1fr; }
@@ -585,25 +607,6 @@
             .stats-grid { grid-template-columns: 1fr; }
             .stat-card .stat-value { font-size: 1.2rem; }
             .welcome-section h1 { font-size: 1.3rem; }
-        }
-
-        /* ===== BLINK ANIMATION ===== */
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.2; }
-        }
-        @keyframes pulse-live {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.5); }
-        }
-        .live-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #22c55e;
-            animation: pulse-live 1.5s infinite;
-            margin-right: 4px;
         }
     </style>
 </head>
@@ -646,7 +649,7 @@
             </div>
             <div class="header-actions">
                 <span class="time-display" id="currentTime"></span>
-                <a href="enroll.html" class="btn btn-primary btn-sm" id="enrollBtn">🎓 Enroll Now</a>
+                <a href="enroll.html" class="btn btn-primary btn-sm" id="enrollBtn" style="display:none;">🎓 Enroll Now</a>
                 <a href="profile.html" class="btn btn-outline btn-sm">👤 Profile</a>
                 <a href="settings.html" class="btn btn-outline btn-sm">⚙️</a>
             </div>
@@ -677,17 +680,17 @@
                 <div class="stat-card">
                     <div class="stat-top"><div class="stat-icon purple">📚</div></div>
                     <div class="stat-value" id="statCourses">0</div>
-                    <div class="stat-label">Enrolled Courses</div>
+                    <div class="stat-label" id="statCoursesLabel">Enrolled Courses</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-top"><div class="stat-icon gold">🏆</div></div>
                     <div class="stat-value" id="statCompleted">0</div>
-                    <div class="stat-label">Stages Completed</div>
+                    <div class="stat-label" id="statCompletedLabel">Completed</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card" id="certStatCard">
                     <div class="stat-top"><div class="stat-icon pink">📜</div></div>
                     <div class="stat-value" id="statCerts">0</div>
-                    <div class="stat-label">Certificates Earned</div>
+                    <div class="stat-label">Certificates</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-top"><div class="stat-icon green">💰</div></div>
@@ -702,40 +705,24 @@
                 <!-- MAIN COLUMN -->
                 <div class="main-col">
 
-                    <!-- CURRENT PROGRESS -->
-                    <div class="card">
+                    <!-- MY COURSES (Role-based) -->
+                    <div class="card" id="myCoursesCard">
                         <div class="card-header">
-                            <h2>📈 Current Progress</h2>
-                            <span class="badge badge-success" id="progressBadge">In Progress</span>
+                            <h2 id="myCoursesTitle">📖 My Courses</h2>
+                            <a href="enroll.html" class="btn btn-outline btn-sm" id="myCoursesAction">+ Enroll</a>
                         </div>
-                        <div class="card-body" id="progressContent">
-                            <div class="empty-state">
-                                <div class="icon">🚀</div>
-                                <h3>Start Your Learning Journey</h3>
-                                <p>Enroll in a course to begin.</p>
-                                <a href="enroll.html" class="btn btn-primary btn-sm">Browse Courses</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ENROLLED COURSES -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>📖 My Courses</h2>
-                            <a href="enroll.html" class="btn btn-outline btn-sm">+ Enroll</a>
-                        </div>
-                        <div class="card-body no-padding" id="coursesContent">
+                        <div class="card-body no-padding" id="myCoursesContent">
                             <div class="empty-state">
                                 <div class="icon">📖</div>
-                                <h3>No Courses Yet</h3>
-                                <p>Enroll in your first course to get started.</p>
-                                <a href="enroll.html" class="btn btn-primary btn-sm">Browse Courses</a>
+                                <h3 id="myCoursesEmptyTitle">No Courses Yet</h3>
+                                <p id="myCoursesEmptyText">Enroll in your first course to get started.</p>
+                                <a href="enroll.html" class="btn btn-primary btn-sm" id="myCoursesEmptyAction">Browse Courses</a>
                             </div>
                         </div>
                     </div>
 
-                    <!-- CERTIFICATES -->
-                    <div class="card">
+                    <!-- CERTIFICATES (Only Learners & Instructors) -->
+                    <div class="card" id="certificatesCard">
                         <div class="card-header">
                             <h2>📜 Certificates</h2>
                             <a href="certificate.html" class="btn btn-outline btn-sm" id="viewAllCerts">View All</a>
@@ -743,8 +730,8 @@
                         <div class="card-body no-padding" id="certificatesContent">
                             <div class="empty-state">
                                 <div class="icon">📜</div>
-                                <h3>No Certificates Yet</h3>
-                                <p>Complete a course to earn your first certificate.</p>
+                                <h3 id="certEmptyTitle">No Certificates Yet</h3>
+                                <p id="certEmptyText">Complete a course to earn your first certificate.</p>
                             </div>
                         </div>
                     </div>
@@ -822,7 +809,7 @@
                             <div style="display:flex;flex-direction:column;gap:6px;">
                                 <a href="enroll.html" class="btn btn-primary btn-sm" style="justify-content:center;">🎓 Enroll in Course</a>
                                 <a href="profile.html" class="btn btn-outline btn-sm" style="justify-content:center;">👤 Update Profile</a>
-                                <a href="job-board.html" class="btn btn-outline btn-sm" style="justify-content:center;">💼 Browse Jobs</a>
+                                <a href="classroom.html" class="btn btn-outline btn-sm" style="justify-content:center;">📺 Live Classroom</a>
                             </div>
                         </div>
                     </div>
@@ -863,13 +850,14 @@
                     <!-- LIVE CLASS STATUS -->
                     <div class="card" id="liveClassCard">
                         <div class="card-header">
-                            <h2>📺 Live Class</h2>
+                            <h2>📺 Live Classroom</h2>
                             <span class="badge badge-info" id="liveStatusBadge">No Session</span>
                         </div>
                         <div class="card-body" id="liveClassContent">
                             <div class="empty-state" style="padding:12px;">
                                 <div class="icon">📺</div>
                                 <p style="font-size:0.82rem;">No live class scheduled.</p>
+                                <a href="classroom.html" class="btn btn-primary btn-sm" style="margin-top:8px;">Go to Classroom</a>
                             </div>
                         </div>
                     </div>
@@ -924,7 +912,8 @@
             user: null,
             userData: null,
             userRole: 'learner',
-            enrollments: [],
+            enrolledCourses: [],
+            createdCourses: [],
             certificates: [],
             referrals: [],
             announcements: [],
@@ -956,13 +945,25 @@
             welcomeSub: $('#welcomeSub'),
             roleBadge: $('#roleBadge'),
             statCourses: $('#statCourses'),
+            statCoursesLabel: $('#statCoursesLabel'),
             statCompleted: $('#statCompleted'),
+            statCompletedLabel: $('#statCompletedLabel'),
             statCerts: $('#statCerts'),
             statEarnings: $('#statEarnings'),
-            progressContent: $('#progressContent'),
-            progressBadge: $('#progressBadge'),
-            coursesContent: $('#coursesContent'),
+            statEarningsLabel: $('#statEarningsLabel'),
+            myCoursesCard: $('#myCoursesCard'),
+            myCoursesTitle: $('#myCoursesTitle'),
+            myCoursesAction: $('#myCoursesAction'),
+            myCoursesContent: $('#myCoursesContent'),
+            myCoursesEmptyTitle: $('#myCoursesEmptyTitle'),
+            myCoursesEmptyText: $('#myCoursesEmptyText'),
+            myCoursesEmptyAction: $('#myCoursesEmptyAction'),
+            certificatesCard: $('#certificatesCard'),
             certificatesContent: $('#certificatesContent'),
+            certEmptyTitle: $('#certEmptyTitle'),
+            certEmptyText: $('#certEmptyText'),
+            viewAllCerts: $('#viewAllCerts'),
+            certStatCard: $('#certStatCard'),
             referralContent: $('#referralContent'),
             refCode: $('#refCode'),
             refEarnings: $('#refEarnings'),
@@ -981,7 +982,6 @@
             completionPercent: $('#completionPercent'),
             completionMsg: $('#completionMsg'),
             enrollBtn: $('#enrollBtn'),
-            viewAllCerts: $('#viewAllCerts'),
             quickActions: $('#quickActions'),
             pageTitle: $('#pageTitle'),
             pageSubtitle: $('#pageSubtitle'),
@@ -1047,22 +1047,13 @@
                 State.userRole = State.userData.role || 'learner';
                 State.profileComplete = State.userData.profileComplete || 0;
 
-                // Update UI
-                DOM.sidebarName.textContent = State.userData.fullName || 'User';
-                DOM.sidebarAvatar.textContent = (State.userData.fullName || 'U').charAt(0).toUpperCase();
+                // Update UI with profile picture and cover
+                updateProfileUI();
+
+                // Set role badge
                 DOM.sidebarRole.textContent = State.userRole.charAt(0).toUpperCase() + State.userRole.slice(1);
-                DOM.welcomeName.textContent = State.userData.fullName?.split(' ')[0] || 'Learner';
                 DOM.roleBadge.textContent = State.userRole.charAt(0).toUpperCase() + State.userRole.slice(1);
                 DOM.roleBadge.className = `role-badge ${State.userRole}`;
-
-                // Set page title based on role
-                const roleTitles = {
-                    'learner': '📚 Your Learning Dashboard',
-                    'instructor': '👨‍🏫 Instructor Dashboard',
-                    'jobgiver': '🏢 Job Giver Dashboard',
-                    'admin': '👑 Admin Dashboard'
-                };
-                DOM.pageTitle.textContent = roleTitles[State.userRole] || '📊 Dashboard';
 
                 // Build sidebar
                 buildSidebar(State.userRole);
@@ -1070,22 +1061,8 @@
                 // Profile completion
                 updateCompletionBanner();
 
-                // Load data
-                await loadEnrollments(uid);
-                await loadCertificates(uid);
-                await loadReferrals(uid);
-                await loadAnnouncements();
-                await loadJobRecommendations();
-                await loadProfileStats(uid);
-                await loadLiveSessions(uid);
-                
-                // Role-specific data
-                if (State.userRole === 'instructor' || State.userRole === 'admin') {
-                    await loadInstructorStudents(uid);
-                }
-                if (State.userRole === 'jobgiver' || State.userRole === 'admin') {
-                    await loadJobApplications(uid);
-                }
+                // Load data based on role
+                await loadRoleSpecificData();
 
                 // Role-specific actions
                 renderRoleSpecificActions(State.userRole);
@@ -1093,8 +1070,8 @@
                 // Update stats
                 updateStats();
 
-                // Show enroll button based on role
-                if (State.userRole === 'admin' || State.userRole === 'instructor') {
+                // Show/hide enroll button
+                if (State.userRole === 'admin' || State.userRole === 'instructor' || State.userRole === 'jobgiver') {
                     DOM.enrollBtn.style.display = 'none';
                 } else {
                     DOM.enrollBtn.style.display = 'inline-flex';
@@ -1112,6 +1089,22 @@
                     DOM.jobGiverApplicationsCard.style.display = 'none';
                 }
 
+                // Hide certificates for job givers
+                if (State.userRole === 'jobgiver') {
+                    DOM.certificatesCard.style.display = 'none';
+                    DOM.certStatCard.style.display = 'none';
+                } else {
+                    DOM.certificatesCard.style.display = 'block';
+                    DOM.certStatCard.style.display = 'block';
+                }
+
+                // Hide job recommendations for non-learners
+                if (State.userRole !== 'learner') {
+                    DOM.jobRecommendationsCard.style.display = 'none';
+                } else {
+                    DOM.jobRecommendationsCard.style.display = 'block';
+                }
+
             } catch (error) {
                 console.error('Load user error:', error);
                 showToast('Failed to load profile data', 'error');
@@ -1119,7 +1112,41 @@
         }
 
         // ============================================
-        // BUILD SIDEBAR (Role-based - ALL REAL LINKS)
+        // UPDATE PROFILE UI (Picture + Cover)
+        // ============================================
+        function updateProfileUI() {
+            // Profile picture
+            const avatar = DOM.sidebarAvatar;
+            if (State.userData?.profilePicture) {
+                avatar.innerHTML = `<img src="${State.userData.profilePicture}" alt="Profile">`;
+            } else {
+                avatar.textContent = (State.userData?.fullName || 'U').charAt(0).toUpperCase();
+                avatar.style.background = 'var(--gradient)';
+            }
+
+            // Name
+            DOM.sidebarName.textContent = State.userData?.fullName || 'User';
+            DOM.welcomeName.textContent = State.userData?.fullName?.split(' ')[0] || 'Learner';
+
+            // Role
+            DOM.sidebarRole.textContent = State.userRole.charAt(0).toUpperCase() + State.userRole.slice(1);
+
+            // Set page title
+            const roleTitles = {
+                'learner': '📚 Your Learning Dashboard',
+                'instructor': '👨‍🏫 Instructor Dashboard',
+                'jobgiver': '🏢 Job Giver Dashboard',
+                'admin': '👑 Admin Dashboard'
+            };
+            DOM.pageTitle.textContent = roleTitles[State.userRole] || '📊 Dashboard';
+            DOM.pageSubtitle.textContent = State.userRole === 'learner' ? 'Continue your learning journey' :
+                                          State.userRole === 'instructor' ? 'Manage your courses and students' :
+                                          State.userRole === 'jobgiver' ? 'Find and hire talent' :
+                                          'Manage the platform';
+        }
+
+        // ============================================
+        // BUILD SIDEBAR (Role-based)
         // ============================================
         function buildSidebar(role) {
             const nav = DOM.sidebarNav;
@@ -1131,15 +1158,15 @@
                 { icon: '👤', label: 'Profile', page: 'profile.html' },
             );
 
-            // Role-specific links - ALL REAL NOW
+            // Role-specific links
             switch (role) {
                 case 'learner':
                     links.push(
-                        { icon: '📚', label: 'My Courses', page: 'enroll.html' },
+                        { icon: '📚', label: 'My Courses', page: 'my-courses.html' },
                         { icon: '📜', label: 'Certificates', page: 'certificate.html' },
                         { icon: '💼', label: 'Job Board', page: 'job-board.html' },
-                        { icon: '📺', label: 'Live Classes', page: 'live-classes.html' },
-                        { icon: '💬', label: 'Discussions', page: 'discussions.html' },
+                        { icon: '📺', label: 'Classroom', page: 'classroom.html' },
+                        { icon: '⚙️', label: 'Settings', page: 'settings.html' },
                     );
                     break;
                 case 'instructor':
@@ -1147,9 +1174,8 @@
                         { icon: '📚', label: 'My Courses', page: 'teacher-workspace.html' },
                         { icon: '➕', label: 'Create Course', page: 'create-course.html' },
                         { icon: '👨‍🎓', label: 'My Students', page: 'teacher-students.html' },
-                        { icon: '📺', label: 'Live Classes', page: 'teacher-teach.html' },
-                        { icon: '📊', label: 'Analytics', page: 'teacher-analytics.html' },
-                        { icon: '💰', label: 'Earnings', page: 'teacher-earnings.html' },
+                        { icon: '📺', label: 'Classroom', page: 'teacher-teach.html' },
+                        { icon: '⚙️', label: 'Settings', page: 'settings.html' },
                     );
                     break;
                 case 'jobgiver':
@@ -1157,7 +1183,7 @@
                         { icon: '📋', label: 'Post Job', page: 'create-job.html' },
                         { icon: '💼', label: 'My Jobs', page: 'jobgiver-jobs.html' },
                         { icon: '👥', label: 'Candidates', page: 'jobgiver-candidates.html' },
-                        { icon: '📊', label: 'Hiring Stats', page: 'jobgiver-analytics.html' },
+                        { icon: '⚙️', label: 'Settings', page: 'settings.html' },
                     );
                     break;
                 case 'admin':
@@ -1174,7 +1200,6 @@
 
             // Build HTML with sections
             let html = '';
-            let sectionCount = 0;
             links.forEach((link, index) => {
                 if (index === 1) {
                     html += `<span class="section-label">Main</span>`;
@@ -1238,15 +1263,15 @@
                     actions = [
                         { icon: '🎓', label: 'Enroll in Course', link: 'enroll.html', class: 'btn-primary' },
                         { icon: '👤', label: 'Update Profile', link: 'profile.html', class: 'btn-outline' },
+                        { icon: '📺', label: 'Classroom', link: 'classroom.html', class: 'btn-outline' },
                         { icon: '💼', label: 'Browse Jobs', link: 'job-board.html', class: 'btn-outline' },
-                        { icon: '📜', label: 'View Certificates', link: 'certificate.html', class: 'btn-outline' },
                     ];
                     break;
                 case 'instructor':
                     actions = [
                         { icon: '➕', label: 'Create Course', link: 'create-course.html', class: 'btn-primary' },
                         { icon: '📚', label: 'My Courses', link: 'teacher-workspace.html', class: 'btn-outline' },
-                        { icon: '📺', label: 'Live Classes', link: 'teacher-teach.html', class: 'btn-outline' },
+                        { icon: '📺', label: 'Classroom', link: 'teacher-teach.html', class: 'btn-outline' },
                         { icon: '👨‍🎓', label: 'Students', link: 'teacher-students.html', class: 'btn-outline' },
                     ];
                     break;
@@ -1275,17 +1300,56 @@
         }
 
         // ============================================
-        // CLOCK
+        // LOAD ROLE-SPECIFIC DATA
         // ============================================
-        function updateClock() {
-            const now = new Date();
-            DOM.currentTime.textContent =
-                now.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) +
-                ' · ' + now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+        async function loadRoleSpecificData() {
+            const uid = State.user.uid;
+
+            // Load enrollments (learners)
+            if (State.userRole === 'learner' || State.userRole === 'admin') {
+                await loadEnrollments(uid);
+            }
+
+            // Load created courses (instructors)
+            if (State.userRole === 'instructor' || State.userRole === 'admin') {
+                await loadCreatedCourses(uid);
+            }
+
+            // Load certificates (learners & instructors)
+            if (State.userRole !== 'jobgiver') {
+                await loadCertificates(uid);
+            }
+
+            // Load referrals (all)
+            await loadReferrals(uid);
+
+            // Load announcements (all)
+            await loadAnnouncements();
+
+            // Load job recommendations (learners only)
+            if (State.userRole === 'learner') {
+                await loadJobRecommendations();
+            }
+
+            // Load live sessions (all)
+            await loadLiveSessions();
+
+            // Load instructor students (instructors only)
+            if (State.userRole === 'instructor' || State.userRole === 'admin') {
+                await loadInstructorStudents(uid);
+            }
+
+            // Load job applications (job givers only)
+            if (State.userRole === 'jobgiver' || State.userRole === 'admin') {
+                await loadJobApplications(uid);
+            }
+
+            // Load profile stats (all)
+            await loadProfileStats(uid);
         }
 
         // ============================================
-        // LOAD ENROLLMENTS
+        // LOAD ENROLLMENTS (Learner)
         // ============================================
         async function loadEnrollments(uid) {
             try {
@@ -1293,10 +1357,10 @@
                     .where('userId', '==', uid)
                     .get();
 
-                State.enrollments = [];
-                snap.forEach(doc => State.enrollments.push({ id: doc.id, ...doc.data() }));
+                State.enrolledCourses = [];
+                snap.forEach(doc => State.enrolledCourses.push({ id: doc.id, ...doc.data() }));
 
-                renderCourses();
+                renderMyCourses('learner');
                 renderProgress();
 
             } catch (error) {
@@ -1304,50 +1368,129 @@
             }
         }
 
-        function renderCourses() {
-            const container = DOM.coursesContent;
-            if (State.enrollments.length === 0) {
+        // ============================================
+        // LOAD CREATED COURSES (Instructor)
+        // ============================================
+        async function loadCreatedCourses(uid) {
+            try {
+                const snap = await db.collection('courses')
+                    .where('instructorId', '==', uid)
+                    .get();
+
+                State.createdCourses = [];
+                snap.forEach(doc => State.createdCourses.push({ id: doc.id, ...doc.data() }));
+
+                renderMyCourses('instructor');
+
+            } catch (error) {
+                console.error('Load created courses error:', error);
+            }
+        }
+
+        // ============================================
+        // RENDER MY COURSES (Role-based)
+        // ============================================
+        function renderMyCourses(role) {
+            const container = DOM.myCoursesContent;
+            const title = DOM.myCoursesTitle;
+            const action = DOM.myCoursesAction;
+            const emptyTitle = DOM.myCoursesEmptyTitle;
+            const emptyText = DOM.myCoursesEmptyText;
+            const emptyAction = DOM.myCoursesEmptyAction;
+
+            let courses = [];
+            let label = '';
+
+            if (role === 'learner') {
+                courses = State.enrolledCourses;
+                label = 'Enrolled Courses';
+                title.textContent = '📖 My Courses';
+                action.textContent = '+ Enroll';
+                action.href = 'enroll.html';
+                emptyTitle.textContent = 'No Courses Yet';
+                emptyText.textContent = 'Enroll in your first course to get started.';
+                emptyAction.textContent = 'Browse Courses';
+                emptyAction.href = 'enroll.html';
+            } else if (role === 'instructor') {
+                courses = State.createdCourses;
+                label = 'Created Courses';
+                title.textContent = '📚 My Courses';
+                action.textContent = '+ Create Course';
+                action.href = 'create-course.html';
+                emptyTitle.textContent = 'No Courses Created';
+                emptyText.textContent = 'Create your first course to start teaching.';
+                emptyAction.textContent = 'Create Course';
+                emptyAction.href = 'create-course.html';
+            }
+
+            // Update stat labels
+            DOM.statCoursesLabel.textContent = label;
+            DOM.statCourses.textContent = courses.length;
+
+            if (courses.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
-                        <div class="icon">📖</div>
-                        <h3>No Courses Yet</h3>
-                        <p>Enroll in your first course to get started.</p>
-                        <a href="enroll.html" class="btn btn-primary btn-sm">Browse Courses</a>
+                        <div class="icon">${role === 'learner' ? '📖' : '📚'}</div>
+                        <h3>${emptyTitle.textContent}</h3>
+                        <p>${emptyText.textContent}</p>
+                        <a href="${emptyAction.href}" class="btn btn-primary btn-sm">${emptyAction.textContent}</a>
                     </div>`;
                 return;
             }
 
             let html = '<div style="padding:4px 0;">';
-            State.enrollments.forEach(e => {
-                const pct = e.progress || 0;
-                const status = e.status === 'completed' ? 'Completed' : 'In Progress';
-                const badge = e.status === 'completed' ?
+            courses.forEach(c => {
+                const pct = c.progress || 0;
+                const status = c.status === 'completed' ? 'Completed' : 'In Progress';
+                const badge = c.status === 'completed' ?
                     '<span class="badge badge-success">Completed</span>' :
                     '<span class="badge badge-info">In Progress</span>';
-                html += `
-                    <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border);">
-                        <div style="flex:1;">
-                            <div style="font-weight:600;font-size:0.85rem;">${escapeHtml(e.courseName || 'Course')}</div>
-                            <div style="font-size:0.72rem;color:var(--text-muted);">${escapeHtml(e.stage || 'Stage')}</div>
-                            <div class="progress-container" style="margin-top:4px;">
-                                <div class="progress-label"><span>${pct}%</span></div>
-                                <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;"></div></div>
+
+                if (role === 'learner') {
+                    html += `
+                        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border);">
+                            <div style="flex:1;">
+                                <div style="font-weight:600;font-size:0.85rem;">${escapeHtml(c.courseName || 'Course')}</div>
+                                <div style="font-size:0.72rem;color:var(--text-muted);">${escapeHtml(c.stage || 'Stage')}</div>
+                                <div class="progress-container" style="margin-top:4px;">
+                                    <div class="progress-label"><span>${pct}%</span></div>
+                                    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;"></div></div>
+                                </div>
+                            </div>
+                            <div style="text-align:right;">
+                                ${badge}
+                                ${c.status !== 'completed' ? `<a href="learn.html?courseId=${c.courseId}" class="btn btn-primary btn-sm" style="margin-top:4px;">Continue</a>` : `<a href="certificate.html?courseId=${c.courseId}" class="btn btn-outline btn-sm" style="margin-top:4px;">Certificate</a>`}
                             </div>
                         </div>
-                        <div style="text-align:right;">
-                            ${badge}
-                            ${e.status !== 'completed' ? `<a href="learn.html?courseId=${e.courseId}" class="btn btn-primary btn-sm" style="margin-top:4px;">Continue</a>` : `<a href="certificate.html?courseId=${e.courseId}" class="btn btn-outline btn-sm" style="margin-top:4px;">Certificate</a>`}
+                    `;
+                } else if (role === 'instructor') {
+                    const studentCount = c.enrolledCount || 0;
+                    html += `
+                        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border);">
+                            <div style="flex:1;">
+                                <div style="font-weight:600;font-size:0.85rem;">${escapeHtml(c.name || 'Course')}</div>
+                                <div style="font-size:0.72rem;color:var(--text-muted);">${escapeHtml(c.stage || 'Stage')} • ${studentCount} students</div>
+                            </div>
+                            <div style="display:flex;gap:4px;">
+                                <a href="learn.html?courseId=${c.id}" class="btn btn-outline btn-sm">View</a>
+                                <a href="create-course.html?edit=${c.id}" class="btn btn-outline btn-sm">✏️ Edit</a>
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
+                }
             });
             html += '</div>';
             container.innerHTML = html;
+
+            // Update completed count
+            const completed = courses.filter(c => c.status === 'completed').length;
+            DOM.statCompleted.textContent = completed;
+            DOM.statCompletedLabel.textContent = role === 'learner' ? 'Completed' : 'Students';
         }
 
         function renderProgress() {
             const container = DOM.progressContent;
-            if (State.enrollments.length === 0) {
+            if (State.enrolledCourses.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="icon">🚀</div>
@@ -1360,7 +1503,7 @@
                 return;
             }
 
-            const active = State.enrollments.find(e => e.status === 'active') || State.enrollments[0];
+            const active = State.enrolledCourses.find(e => e.status === 'active') || State.enrolledCourses[0];
             const pct = active.status === 'completed' ? 100 : (active.progress || 0);
 
             DOM.progressBadge.textContent = active.status === 'completed' ? 'Completed' : 'In Progress';
@@ -1380,7 +1523,7 @@
         }
 
         // ============================================
-        // LOAD CERTIFICATES
+        // LOAD CERTIFICATES (Learners & Instructors)
         // ============================================
         async function loadCertificates(uid) {
             try {
@@ -1402,25 +1545,33 @@
         function renderCertificates() {
             const container = DOM.certificatesContent;
             if (State.certificates.length === 0) {
+                const role = State.userRole;
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="icon">📜</div>
-                        <h3>No Certificates Yet</h3>
-                        <p>Complete a course to earn your first certificate.</p>
+                        <h3>${role === 'instructor' ? 'No Certificates Issued' : 'No Certificates Yet'}</h3>
+                        <p>${role === 'instructor' ? 'Certificates will appear here when your students complete courses.' : 'Complete a course to earn your first certificate.'}</p>
                     </div>`;
+                DOM.viewAllCerts.style.display = 'none';
                 return;
             }
+
+            DOM.viewAllCerts.style.display = 'inline-flex';
 
             let html = '';
             State.certificates.slice(0, 3).forEach(c => {
                 const date = c.issuedAt?.seconds ? new Date(c.issuedAt.seconds * 1000).toLocaleDateString('en-GB') :
                 '—';
+                const recipient = State.userRole === 'instructor' ? c.studentName || 'Student' : '';
                 html += `
                     <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border);">
                         <span style="font-size:1.5rem;">📜</span>
                         <div style="flex:1;">
                             <div style="font-weight:600;font-size:0.82rem;">${escapeHtml(c.courseName || 'Certificate')}</div>
-                            <div style="font-size:0.7rem;color:var(--text-muted);">${escapeHtml(c.stage || 'Stage')} • Issued ${date}</div>
+                            <div style="font-size:0.7rem;color:var(--text-muted);">
+                                ${escapeHtml(c.stage || 'Stage')} • Issued ${date}
+                                ${recipient ? `• ${escapeHtml(recipient)}` : ''}
+                            </div>
                         </div>
                         <a href="certificate.html?certId=${c.id}" class="btn btn-outline btn-sm">View</a>
                     </div>
@@ -1435,10 +1586,11 @@
             }
 
             container.innerHTML = html;
+            DOM.statCerts.textContent = State.certificates.length;
         }
 
         // ============================================
-        // LOAD REFERRALS
+        // LOAD REFERRALS (All Roles)
         // ============================================
         async function loadReferrals(uid) {
             try {
@@ -1577,7 +1729,7 @@
         }
 
         // ============================================
-        // LOAD JOB RECOMMENDATIONS
+        // LOAD JOB RECOMMENDATIONS (Learners Only)
         // ============================================
         async function loadJobRecommendations() {
             try {
@@ -1637,7 +1789,7 @@
         // ============================================
         // LOAD LIVE SESSIONS
         // ============================================
-        async function loadLiveSessions(uid) {
+        async function loadLiveSessions() {
             try {
                 const snap = await db.collection('liveClassSessions')
                     .where('status', '==', 'live')
@@ -1670,7 +1822,7 @@
                             <span>👨‍🏫 ${escapeHtml(active.teacherName || 'Instructor')}</span>
                             ${active.classPIN ? `<span style="margin-left:12px;">🔑 PIN: <strong style="color:var(--gold);">${active.classPIN}</strong></span>` : ''}
                         </div>
-                        <a href="teacher-teach.html?room=${active.roomName}" class="btn btn-primary btn-sm" style="justify-content:center;">
+                        <a href="classroom.html?room=${active.roomName}" class="btn btn-primary btn-sm" style="justify-content:center;">
                             <span class="live-dot"></span> Join Live Class
                         </a>
                     </div>
@@ -1682,7 +1834,7 @@
                     <div class="empty-state" style="padding:12px;">
                         <div class="icon">📺</div>
                         <p style="font-size:0.82rem;">No live class scheduled.</p>
-                        ${State.userRole === 'instructor' ? '<a href="teacher-teach.html" class="btn btn-primary btn-sm" style="margin-top:8px;">Start Live Class</a>' : ''}
+                        <a href="classroom.html" class="btn btn-primary btn-sm" style="margin-top:8px;">Go to Classroom</a>
                     </div>
                 `;
             }
@@ -1693,7 +1845,6 @@
         // ============================================
         async function loadInstructorStudents(uid) {
             try {
-                // Get all courses taught by this instructor
                 const courseSnap = await db.collection('courses')
                     .where('instructorId', '==', uid)
                     .get();
@@ -1712,7 +1863,6 @@
                     return;
                 }
 
-                // Get all enrollments for these courses
                 const enrollSnap = await db.collection('enrollments')
                     .where('courseId', 'in', courseIds)
                     .get();
@@ -1772,7 +1922,6 @@
         // ============================================
         async function loadJobApplications(uid) {
             try {
-                // Get all jobs posted by this job giver
                 const jobSnap = await db.collection('jobs')
                     .where('jobGiverId', '==', uid)
                     .get();
@@ -1791,7 +1940,6 @@
                     return;
                 }
 
-                // Get all applications for these jobs
                 const appSnap = await db.collection('job_applications')
                     .where('jobId', 'in', jobIds)
                     .get();
@@ -1870,17 +2018,47 @@
         // UPDATE STATS
         // ============================================
         function updateStats() {
-            const total = State.enrollments.length;
-            const completed = State.enrollments.filter(e => e.status === 'completed').length;
-            const certs = State.certificates.length;
-            const earnings = State.referrals
-                .filter(r => r.status === 'paid')
-                .reduce((sum, r) => sum + (r.rewardAmount || 0), 0);
+            let total = 0;
+            let completed = 0;
+            let certs = 0;
+            let earnings = 0;
+
+            if (State.userRole === 'learner' || State.userRole === 'admin') {
+                total = State.enrolledCourses.length;
+                completed = State.enrolledCourses.filter(e => e.status === 'completed').length;
+                certs = State.certificates.length;
+                earnings = State.referrals
+                    .filter(r => r.status === 'paid')
+                    .reduce((sum, r) => sum + (r.rewardAmount || 0), 0);
+            } else if (State.userRole === 'instructor') {
+                total = State.createdCourses.length;
+                completed = State.createdCourses.reduce((sum, c) => sum + (c.enrolledCount || 0), 0);
+                certs = State.certificates.length;
+                earnings = State.referrals
+                    .filter(r => r.status === 'paid')
+                    .reduce((sum, r) => sum + (r.rewardAmount || 0), 0);
+            } else if (State.userRole === 'jobgiver') {
+                total = State.jobApplications.length;
+                completed = State.jobApplications.filter(a => a.status === 'accepted').length;
+                earnings = State.referrals
+                    .filter(r => r.status === 'paid')
+                    .reduce((sum, r) => sum + (r.rewardAmount || 0), 0);
+            }
 
             DOM.statCourses.textContent = total;
             DOM.statCompleted.textContent = completed;
             DOM.statCerts.textContent = certs;
             DOM.statEarnings.textContent = '₦' + earnings.toLocaleString();
+        }
+
+        // ============================================
+        // CLOCK
+        // ============================================
+        function updateClock() {
+            const now = new Date();
+            DOM.currentTime.textContent =
+                now.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) +
+                ' · ' + now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
         }
 
         // ============================================
@@ -1890,30 +2068,49 @@
             if (!State.user) return;
 
             try {
-                // Enrollments
-                const unsub1 = db.collection('enrollments')
-                    .where('userId', '==', State.user.uid)
-                    .onSnapshot(snap => {
-                        State.enrollments = [];
-                        snap.forEach(doc => State.enrollments.push({ id: doc.id, ...doc.data() }));
-                        renderCourses();
-                        renderProgress();
-                        updateStats();
-                    });
+                // Enrollments (learners)
+                if (State.userRole === 'learner' || State.userRole === 'admin') {
+                    const unsub1 = db.collection('enrollments')
+                        .where('userId', '==', State.user.uid)
+                        .onSnapshot(snap => {
+                            State.enrolledCourses = [];
+                            snap.forEach(doc => State.enrolledCourses.push({ id: doc.id, ...doc.data() }));
+                            renderMyCourses('learner');
+                            renderProgress();
+                            updateStats();
+                        });
+                    State.activeListeners.push(unsub1);
+                }
+
+                // Created courses (instructors)
+                if (State.userRole === 'instructor' || State.userRole === 'admin') {
+                    const unsub2 = db.collection('courses')
+                        .where('instructorId', '==', State.user.uid)
+                        .onSnapshot(snap => {
+                            State.createdCourses = [];
+                            snap.forEach(doc => State.createdCourses.push({ id: doc.id, ...doc.data() }));
+                            renderMyCourses('instructor');
+                            updateStats();
+                        });
+                    State.activeListeners.push(unsub2);
+                }
 
                 // Certificates
-                const unsub2 = db.collection('certificates')
-                    .where('userId', '==', State.user.uid)
-                    .orderBy('issuedAt', 'desc')
-                    .onSnapshot(snap => {
-                        State.certificates = [];
-                        snap.forEach(doc => State.certificates.push({ id: doc.id, ...doc.data() }));
-                        renderCertificates();
-                        updateStats();
-                    });
+                if (State.userRole !== 'jobgiver') {
+                    const unsub3 = db.collection('certificates')
+                        .where('userId', '==', State.user.uid)
+                        .orderBy('issuedAt', 'desc')
+                        .onSnapshot(snap => {
+                            State.certificates = [];
+                            snap.forEach(doc => State.certificates.push({ id: doc.id, ...doc.data() }));
+                            renderCertificates();
+                            updateStats();
+                        });
+                    State.activeListeners.push(unsub3);
+                }
 
                 // Referrals
-                const unsub3 = db.collection('referrals')
+                const unsub4 = db.collection('referrals')
                     .where('referrerUid', '==', State.user.uid)
                     .onSnapshot(snap => {
                         State.referrals = [];
@@ -1921,18 +2118,20 @@
                         renderReferrals();
                         updateStats();
                     });
+                State.activeListeners.push(unsub4);
 
                 // Announcements
-                const unsub4 = db.collection('announcements').doc('current')
+                const unsub5 = db.collection('announcements').doc('current')
                     .onSnapshot(doc => {
                         if (doc.exists) {
                             State.announcements = doc.data().messages || [];
                             renderAnnouncements();
                         }
                     });
+                State.activeListeners.push(unsub5);
 
                 // User data
-                const unsub5 = db.collection('users').doc(State.user.uid)
+                const unsub6 = db.collection('users').doc(State.user.uid)
                     .onSnapshot(doc => {
                         if (doc.exists) {
                             State.userData = doc.data();
@@ -1940,15 +2139,46 @@
                             updateCompletionBanner();
                             DOM.profileViews.textContent = State.userData.profileViews || 0;
                             DOM.profileContacts.textContent = State.userData.contacts || 0;
+                            updateProfileUI();
                         }
                     });
+                State.activeListeners.push(unsub6);
 
                 // Live sessions
-                const unsub6 = db.collection('liveClassSessions')
+                const unsub7 = db.collection('liveClassSessions')
                     .where('status', '==', 'live')
-                    .onSnapshot(() => loadLiveSessions(State.user.uid));
+                    .onSnapshot(() => loadLiveSessions());
+                State.activeListeners.push(unsub7);
 
-                State.activeListeners.push(unsub1, unsub2, unsub3, unsub4, unsub5, unsub6);
+                // Instructor students (instructors only)
+                if (State.userRole === 'instructor' || State.userRole === 'admin') {
+                    const courseSnap = await db.collection('courses')
+                        .where('instructorId', '==', State.user.uid)
+                        .get();
+                    const courseIds = [];
+                    courseSnap.forEach(doc => courseIds.push(doc.id));
+                    if (courseIds.length > 0) {
+                        const unsub8 = db.collection('enrollments')
+                            .where('courseId', 'in', courseIds)
+                            .onSnapshot(() => loadInstructorStudents(State.user.uid));
+                        State.activeListeners.push(unsub8);
+                    }
+                }
+
+                // Job applications (job givers only)
+                if (State.userRole === 'jobgiver' || State.userRole === 'admin') {
+                    const jobSnap = await db.collection('jobs')
+                        .where('jobGiverId', '==', State.user.uid)
+                        .get();
+                    const jobIds = [];
+                    jobSnap.forEach(doc => jobIds.push(doc.id));
+                    if (jobIds.length > 0) {
+                        const unsub9 = db.collection('job_applications')
+                            .where('jobId', 'in', jobIds)
+                            .onSnapshot(() => loadJobApplications(State.user.uid));
+                        State.activeListeners.push(unsub9);
+                    }
+                }
 
             } catch (error) {
                 console.error('Setup listeners error:', error);
@@ -1991,7 +2221,7 @@
             State.activeListeners.forEach(fn => { try { fn(); } catch (e) {} });
         });
 
-        console.log('✅ TRIANGLE LEARN Dashboard Loaded - All Features Real & Working');
+        console.log('✅ TRIANGLE LEARN Dashboard Loaded - All Roles Optimized');
 
     })();
     </script>
