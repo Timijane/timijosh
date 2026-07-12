@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* ... Keep existing styles ... */
         :root {
             --bg: #f8f9fc;
             --bg-card: #ffffff;
@@ -118,7 +119,6 @@
         .studio-panel { display: none; }
         .studio-panel.active { display: block; }
 
-        /* FORM */
         .form-group { margin-bottom: 14px; }
         .form-group label {
             display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: var(--text);
@@ -142,7 +142,6 @@
         }
         .section-header h3 { font-family: var(--font-heading); font-size: 1rem; font-weight: 700; }
 
-        /* RICH TEXT EDITOR */
         .editor-toolbar {
             display: flex; gap: 4px; padding: 8px 12px;
             background: var(--bg-alt); border: 1px solid var(--border);
@@ -164,7 +163,6 @@
         }
         .editor-content:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(108,92,231,0.06); }
 
-        /* MODULES */
         .module-list { list-style: none; padding: 0; }
         .module-item {
             border: 1px solid var(--border); border-radius: var(--radius-sm);
@@ -190,7 +188,6 @@
         .module-item .module-title-input:focus { border-bottom-color: var(--purple); }
         .module-item .module-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
 
-        /* ATTACHMENTS */
         .attachment-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
         .attachment-tag {
             display: inline-flex; align-items: center; gap: 6px;
@@ -199,7 +196,6 @@
         }
         .attachment-tag .remove { cursor: pointer; color: var(--danger); }
 
-        /* TEST BLOCKS */
         .test-block {
             background: #fff8e8; border: 2px dashed var(--gold);
             border-radius: var(--radius-sm); padding: 16px;
@@ -240,7 +236,6 @@
         }
         .option-row input[type="radio"] { width: 16px; height: 16px; accent-color: var(--purple); }
 
-        /* LIVE CLASS SCHEDULE */
         .live-schedule-box {
             background: #e6fafc; border: 1px solid var(--cyan);
             border-radius: var(--radius-sm); padding: 20px;
@@ -330,7 +325,6 @@
             </div>
 
             <div class="studio-body">
-
                 <!-- TAB 1: Course Info -->
                 <div class="studio-panel active" id="tab-info">
                     <div class="form-row">
@@ -583,7 +577,9 @@
     (function() {
         'use strict';
 
-        // ==================== FIREBASE ====================
+        // ============================================
+        // FIREBASE CONFIG
+        // ============================================
         const firebaseConfig = {
             apiKey: "AIzaSyAvvB3C9SP8tDTqMmqzc6craI4d_0kSVX0",
             authDomain: "timijosh-b8bee.firebaseapp.com",
@@ -597,37 +593,53 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // ==================== STATE ====================
+        // ============================================
+        // STATE
+        // ============================================
         let modules = [];
         let tests = [];
         let examQuestions = [];
         let resources = [];
         let currentCourseId = null;
+        let currentUser = null;
+        let isEditMode = false;
 
-        // ==================== DOM REFS ====================
-        const $ = (id) => document.getElementById(id);
-        const $$ = (sel) => document.querySelectorAll(sel);
-
-        // ==================== AUTH CHECK ====================
+        // ============================================
+        // AUTH CHECK
+        // ============================================
         auth.onAuthStateChanged(async (user) => {
-            if (!user) { window.location.href = 'auth.html'; return; }
-            const userDoc = await db.collection('users').doc(user.uid).get();
-            if (!userDoc.exists || (userDoc.data().role !== 'admin' && !userDoc.data().isAdmin)) {
-                await auth.signOut();
-                window.location.href = 'auth.html';
-                return;
+            if (!user) { 
+                window.location.href = 'auth.html'; 
+                return; 
             }
-            // Check if editing existing course
-            const params = new URLSearchParams(window.location.search);
-            const editId = params.get('edit');
-            if (editId) {
-                currentCourseId = editId;
-                await loadExistingCourse(editId);
+            currentUser = user;
+            
+            try {
+                const userDoc = await db.collection('users').doc(user.uid).get();
+                if (!userDoc.exists || (userDoc.data().role !== 'admin' && !userDoc.data().isAdmin)) {
+                    await auth.signOut();
+                    window.location.href = 'auth.html';
+                    return;
+                }
+                
+                // Check if editing existing course
+                const params = new URLSearchParams(window.location.search);
+                const editId = params.get('edit');
+                if (editId) {
+                    currentCourseId = editId;
+                    isEditMode = true;
+                    await loadExistingCourse(editId);
+                }
+                initStudio();
+            } catch (err) {
+                console.error('Auth error:', err);
+                showToast('Failed to load user data', 'error');
             }
-            initStudio();
         });
 
-        // ==================== INIT ====================
+        // ============================================
+        // INIT
+        // ============================================
         function initStudio() {
             // Tab switching
             document.querySelectorAll('.studio-tab').forEach(tab => {
@@ -656,7 +668,9 @@
             });
         }
 
-        // ==================== TOAST ====================
+        // ============================================
+        // TOAST
+        // ============================================
         function showToast(msg, type = 'success', duration = 3000) {
             const toast = document.getElementById('toast');
             toast.textContent = msg;
@@ -668,19 +682,27 @@
             toast._timeout = setTimeout(() => toast.classList.remove('show'), duration);
         }
 
-        function escapeHtml(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+        function escapeHtml(s) { 
+            const d = document.createElement('div'); 
+            d.textContent = s || ''; 
+            return d.innerHTML; 
+        }
 
-        // ==================== LIVE SCHEDULE TOGGLE ====================
+        // ============================================
+        // LIVE SCHEDULE TOGGLE
+        // ============================================
         window.toggleLiveSchedule = function() {
             const enabled = document.getElementById('liveEnabled').checked;
             document.getElementById('liveScheduleFields').style.display = enabled ? 'block' : 'none';
         };
 
-        // ==================== MODULES ====================
+        // ============================================
+        // MODULES
+        // ============================================
         window.addModule = function() {
             const idx = modules.length + 1;
             modules.push({
-                id: Date.now(),
+                id: Date.now() + Math.random() * 1000,
                 title: `Module ${idx}`,
                 content: '<p>Start writing your module content here...</p>',
                 videoUrl: '',
@@ -724,12 +746,14 @@
                 if (!file) return;
                 const m = modules.find(mod => mod.id === id);
                 if (m) {
-                    // For demo, just store name and placeholder URL
+                    // Store file info for real upload later
                     m.attachments.push({
                         name: file.name,
                         size: (file.size / 1024).toFixed(1) + ' KB',
                         type: file.type,
-                        url: URL.createObjectURL(file)
+                        // In production, upload to Cloudinary/Storage
+                        url: URL.createObjectURL(file),
+                        file: file
                     });
                     renderModules();
                     showToast(`📎 ${file.name} attached!`);
@@ -750,7 +774,11 @@
             const url = prompt('Enter YouTube or Vimeo video URL:');
             if (!url) return;
             const m = modules.find(mod => mod.id === id);
-            if (m) { m.videoUrl = url; renderModules(); showToast('Video attached!'); }
+            if (m) { 
+                m.videoUrl = url; 
+                renderModules(); 
+                showToast('Video attached!'); 
+            }
         };
 
         window.removeVideoFromModule = function(id) {
@@ -765,9 +793,11 @@
             }
             const m = modules.find(mod => mod.id === id);
             if (!m) return;
-            const testList = tests.map((t, i) => `${i + 1}. ${t.title}`);
-            const choice = prompt(`Select a test to attach to this module:\n${testList.join('\n')}\n\nEnter test number:`);
+            
+            const testOptions = tests.map((t, i) => `${i + 1}. ${t.title}`).join('\n');
+            const choice = prompt(`Select a test to attach to this module:\n${testOptions}\n\nEnter test number:`);
             const idx = parseInt(choice) - 1;
+            
             if (idx >= 0 && idx < tests.length) {
                 m.hasTest = true;
                 m.testId = tests[idx].id;
@@ -884,13 +914,15 @@
             if (m) m[field] = value;
         };
 
-        // ==================== TESTS ====================
+        // ============================================
+        // TESTS
+        // ============================================
         let testCounter = 0;
 
         window.addTest = function() {
             testCounter++;
             tests.push({
-                id: Date.now(),
+                id: Date.now() + Math.random() * 1000,
                 title: `Test ${testCounter}`,
                 questions: [
                     { id: Date.now() + 1, question: 'Question 1', options: ['A', 'B', 'C', 'D'], correct: 0 },
@@ -907,7 +939,6 @@
         window.removeTest = function(id) {
             if (!confirm('Remove this test?')) return;
             tests = tests.filter(t => t.id !== id);
-            // Also remove from modules
             modules.forEach(m => { if (m.testId === id) { m.hasTest = false; m.testId = null; } });
             renderTests();
             renderModules();
@@ -918,7 +949,7 @@
             const t = tests.find(te => te.id === testId);
             if (!t) return;
             t.questions.push({
-                id: Date.now(),
+                id: Date.now() + Math.random() * 1000,
                 question: `Question ${t.questions.length + 1}`,
                 options: ['Option A', 'Option B', 'Option C', 'Option D'],
                 correct: 0
@@ -1025,10 +1056,12 @@
             renderTests();
         };
 
-        // ==================== EXAM ====================
+        // ============================================
+        // EXAM
+        // ============================================
         window.addExamQuestion = function() {
             examQuestions.push({
-                id: Date.now(),
+                id: Date.now() + Math.random() * 1000,
                 question: '',
                 options: ['', '', '', ''],
                 correct: 0,
@@ -1103,7 +1136,9 @@
             renderExam();
         };
 
-        // ==================== RESOURCES ====================
+        // ============================================
+        // RESOURCES
+        // ============================================
         window.uploadResources = function(input) {
             const files = input.files;
             for (let file of files) {
@@ -1111,7 +1146,8 @@
                     name: file.name,
                     size: (file.size / 1024).toFixed(1) + ' KB',
                     type: file.type,
-                    url: URL.createObjectURL(file)
+                    url: URL.createObjectURL(file),
+                    file: file
                 });
             }
             renderResources();
@@ -1144,10 +1180,15 @@
                 </div>`;
         }
 
-        // ==================== PUBLISH ====================
+        // ============================================
+        // PUBLISH / SAVE COURSE
+        // ============================================
         window.publishCourse = async function() {
             const title = document.getElementById('csTitle')?.value.trim();
-            if (!title) { showToast('⚠ Course title is required.', 'error'); return; }
+            if (!title) { 
+                showToast('⚠ Course title is required.', 'error'); 
+                return; 
+            }
 
             const liveEnabled = document.getElementById('liveEnabled').checked;
 
@@ -1162,13 +1203,19 @@
                 description: document.getElementById('csDescription')?.innerHTML || '',
                 shortDescription: document.getElementById('csShortDesc')?.value || '',
                 active: true,
+                instructorId: currentUser.uid,
                 modules: modules.map(m => ({
                     id: m.id,
                     title: m.title,
                     content: m.content,
                     videoUrl: m.videoUrl,
-                    audioUrl: m.audioUrl,
-                    attachments: m.attachments || [],
+                    audioUrl: m.audioUrl || '',
+                    attachments: m.attachments.map(a => ({
+                        name: a.name,
+                        size: a.size,
+                        type: a.type,
+                        url: a.url
+                    })),
                     hasTest: m.hasTest,
                     testId: m.testId,
                     order: m.order,
@@ -1176,16 +1223,33 @@
                     discussionEnabled: m.discussionEnabled !== false,
                     qaEnabled: m.qaEnabled !== false
                 })),
-                tests: tests,
+                tests: tests.map(t => ({
+                    id: t.id,
+                    title: t.title,
+                    questions: t.questions.map(q => ({
+                        id: q.id,
+                        question: q.question,
+                        options: q.options,
+                        correct: q.correct
+                    })),
+                    passingScore: t.passingScore,
+                    timeLimit: t.timeLimit
+                })),
                 exam: {
                     passingScore: parseInt(document.getElementById('examPassScore')?.value) || 70,
                     timeLimit: parseInt(document.getElementById('examTimeLimit')?.value) || 60,
-                    questions: examQuestions
+                    questions: examQuestions.map(q => ({
+                        id: q.id,
+                        question: q.question,
+                        options: q.options,
+                        correct: q.correct,
+                        points: q.points || 1
+                    }))
                 },
                 project: {
                     title: document.getElementById('projTitle')?.value || '',
                     description: document.getElementById('projDescription')?.innerHTML || '',
-                    deadline: document.getElementById('projDeadline')?.value || '14',
+                    deadline: parseInt(document.getElementById('projDeadline')?.value) || 14,
                     rubric: document.getElementById('projRubric')?.value || ''
                 },
                 liveClass: {
@@ -1196,7 +1260,12 @@
                     everyoneCanSpeak: document.getElementById('liveEveryoneSpeak')?.checked || true,
                     record: document.getElementById('liveRecord')?.checked || false
                 },
-                resources: resources,
+                resources: resources.map(r => ({
+                    name: r.name,
+                    size: r.size,
+                    type: r.type,
+                    url: r.url
+                })),
                 totalModules: modules.length,
                 totalTests: tests.length,
                 hasExam: examQuestions.length > 0,
@@ -1205,22 +1274,22 @@
             };
 
             try {
-                if (currentCourseId) {
+                if (currentCourseId && isEditMode) {
                     await db.collection('courses').doc(currentCourseId).update(courseData);
                     showToast('✅ Course updated successfully!', 'success');
                 } else {
                     const ref = await db.collection('courses').add({
                         ...courseData,
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        enrolledCount: 0,
-                        instructorId: auth.currentUser.uid,
+                        enrolledCount: 0
                     });
                     currentCourseId = ref.id;
+                    isEditMode = true;
                     showToast('✅ Course published successfully!', 'success');
                 }
             } catch (error) {
+                console.error('Publish error:', error);
                 showToast('❌ Error: ' + error.message, 'error');
-                console.error(error);
             }
         };
 
@@ -1232,13 +1301,20 @@
             window.open(`classroom.html?courseId=${currentCourseId}`, '_blank');
         };
 
-        // ==================== LOAD EXISTING COURSE ====================
+        // ============================================
+        // LOAD EXISTING COURSE
+        // ============================================
         async function loadExistingCourse(courseId) {
             try {
                 const doc = await db.collection('courses').doc(courseId).get();
-                if (!doc.exists) return;
+                if (!doc.exists) {
+                    showToast('Course not found', 'error');
+                    return;
+                }
+                
                 const data = doc.data();
 
+                // Populate basic info
                 document.getElementById('csTitle').value = data.name || '';
                 document.getElementById('csStage').value = data.stage || 'Elementary';
                 document.getElementById('csDuration').value = data.durationWeeks || 8;
@@ -1249,16 +1325,19 @@
                 document.getElementById('csShortDesc').value = data.shortDescription || '';
                 document.getElementById('csDescription').innerHTML = data.description || '';
 
+                // Load modules
                 if (data.modules) {
                     modules = data.modules;
                     renderModules();
                 }
 
+                // Load tests
                 if (data.tests) {
                     tests = data.tests;
                     renderTests();
                 }
 
+                // Load exam
                 if (data.exam) {
                     examQuestions = data.exam.questions || [];
                     document.getElementById('examPassScore').value = data.exam.passingScore || 70;
@@ -1266,6 +1345,7 @@
                     renderExam();
                 }
 
+                // Load project
                 if (data.project) {
                     document.getElementById('projTitle').value = data.project.title || '';
                     document.getElementById('projDescription').innerHTML = data.project.description || '';
@@ -1273,6 +1353,7 @@
                     document.getElementById('projRubric').value = data.project.rubric || '';
                 }
 
+                // Load live class
                 if (data.liveClass) {
                     document.getElementById('liveEnabled').checked = data.liveClass.enabled || false;
                     document.getElementById('liveDay').value = data.liveClass.day || 'Friday';
@@ -1283,6 +1364,7 @@
                     toggleLiveSchedule();
                 }
 
+                // Load resources
                 if (data.resources) {
                     resources = data.resources;
                     renderResources();
@@ -1292,11 +1374,13 @@
 
             } catch (err) {
                 console.error('Load course error:', err);
-                showToast('Failed to load course', 'error');
+                showToast('Failed to load course: ' + err.message, 'error');
             }
         }
 
-        // Keyboard shortcuts
+        // ============================================
+        // KEYBOARD SHORTCUTS
+        // ============================================
         document.addEventListener('keydown', (e) => {
             if (e.ctrlKey && e.key === 'Enter') {
                 e.preventDefault();
