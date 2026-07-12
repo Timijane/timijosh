@@ -10,7 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ... keep all existing styles ... */
         :root {
             --bg: #f0f2f8;
             --bg-card: #ffffff;
@@ -52,7 +51,6 @@
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 10px; }
 
-        /* ===== HEADER ===== */
         .header {
             background: rgba(255,255,255,0.9);
             backdrop-filter: blur(12px);
@@ -104,7 +102,6 @@
         .badge-info { background: #eff6ff; color: #3b82f6; }
         .badge-gold { background: #fff8e8; color: var(--gold); }
 
-        /* ===== MAIN LAYOUT ===== */
         .learn-container {
             display: flex;
             flex: 1;
@@ -112,7 +109,6 @@
             overflow: hidden;
         }
 
-        /* ===== CONTENT AREA ===== */
         .content-area {
             flex: 1;
             overflow-y: auto;
@@ -120,7 +116,6 @@
             background: var(--bg);
         }
 
-        /* ===== SIDEBAR ===== */
         .sidebar-right {
             width: var(--sidebar-width);
             background: var(--bg-card);
@@ -164,7 +159,6 @@
         .sidebar-panel { display: none; }
         .sidebar-panel.active { display: block; }
 
-        /* ===== VIDEO PLAYER ===== */
         .video-wrapper {
             position: relative;
             padding-bottom: 56.25%;
@@ -196,7 +190,6 @@
         }
         .video-wrapper .video-placeholder .icon { font-size: 4rem; margin-bottom: 12px; }
 
-        /* ===== MODULE CONTENT ===== */
         .module-title {
             font-family: var(--font-heading);
             font-size: 1.4rem;
@@ -227,7 +220,6 @@
             border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
         }
 
-        /* ===== ATTACHMENTS ===== */
         .attachment-list {
             display: flex;
             flex-wrap: wrap;
@@ -250,7 +242,6 @@
         }
         .attachment-item:hover { background: #e8e0ff; transform: translateY(-1px); }
 
-        /* ===== NAVIGATION BUTTONS ===== */
         .nav-buttons {
             display: flex;
             justify-content: space-between;
@@ -262,7 +253,6 @@
             gap: 10px;
         }
 
-        /* ===== NOTES ===== */
         .notes-editor {
             width: 100%;
             min-height: 120px;
@@ -279,7 +269,6 @@
         }
         .notes-editor:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(108,92,231,0.08); }
 
-        /* ===== DISCUSSION ===== */
         .discussion-item {
             padding: 12px 0;
             border-bottom: 1px solid var(--border);
@@ -314,7 +303,6 @@
         }
         .discussion-input-group input:focus { border-color: var(--purple); }
 
-        /* ===== PROGRESS ===== */
         .progress-section {
             margin-bottom: 16px;
         }
@@ -339,7 +327,6 @@
             transition: width 0.8s ease;
         }
 
-        /* ===== EMPTY STATE ===== */
         .empty-state {
             text-align: center;
             padding: 30px 20px;
@@ -349,7 +336,6 @@
         .empty-state h3 { font-weight: 600; font-size: 0.95rem; color: var(--text); margin-bottom: 4px; }
         .empty-state p { font-size: 0.82rem; }
 
-        /* ===== TOAST ===== */
         .toast-container {
             position: fixed;
             bottom: 30px;
@@ -388,7 +374,15 @@
             font-size: 1.1rem;
         }
 
-        /* ===== RESPONSIVE ===== */
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        .card-body { padding: 20px 22px; }
+
         @media (max-width: 1024px) {
             .sidebar-right { width: 280px; }
             .content-area { padding: 20px; }
@@ -415,21 +409,10 @@
             .header .right .progress-text { display: none; }
             .module-meta { font-size: 0.7rem; gap: 10px; }
         }
-
-        /* CARD STYLES */
-        .card {
-            background: var(--bg-card);
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-        }
-        .card-body { padding: 20px 22px; }
     </style>
 </head>
 <body>
 
-    <!-- ===== HEADER ===== -->
     <header class="header">
         <div class="left">
             <a href="dashboard.html" class="btn btn-outline btn-sm">← Dashboard</a>
@@ -444,15 +427,8 @@
         </div>
     </header>
 
-    <!-- ===== MAIN ===== -->
     <div class="learn-container">
-
-        <!-- CONTENT AREA -->
-        <div class="content-area" id="contentArea">
-            <!-- Dynamic content -->
-        </div>
-
-        <!-- SIDEBAR -->
+        <div class="content-area" id="contentArea"></div>
         <div class="sidebar-right">
             <div class="sidebar-tabs">
                 <button class="sidebar-tab active" data-tab="notes">📝 Notes</button>
@@ -460,7 +436,6 @@
                 <button class="sidebar-tab" data-tab="progress">📊 Progress</button>
             </div>
             <div class="sidebar-content">
-                <!-- Notes Panel -->
                 <div class="sidebar-panel active" id="panel-notes">
                     <div style="margin-bottom:12px;">
                         <span style="font-weight:600;font-size:0.85rem;">📝 Your Notes</span>
@@ -469,8 +444,6 @@
                     <textarea class="notes-editor" id="notesEditor" placeholder="Write your notes here..."></textarea>
                     <button class="btn btn-primary btn-sm" onclick="saveNotes()" style="margin-top:8px;width:100%;justify-content:center;">💾 Save Notes</button>
                 </div>
-
-                <!-- Discussion Panel -->
                 <div class="sidebar-panel" id="panel-discussion">
                     <div style="margin-bottom:12px;">
                         <span style="font-weight:600;font-size:0.85rem;">💬 Discussion</span>
@@ -486,8 +459,6 @@
                         <button class="btn btn-primary btn-sm" onclick="sendDiscussion()">Send</button>
                     </div>
                 </div>
-
-                <!-- Progress Panel -->
                 <div class="sidebar-panel" id="panel-progress">
                     <div style="margin-bottom:12px;">
                         <span style="font-weight:600;font-size:0.85rem;">📊 Your Progress</span>
@@ -511,10 +482,8 @@
         </div>
     </div>
 
-    <!-- TOAST CONTAINER -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -523,7 +492,6 @@
     (function() {
         'use strict';
 
-        // ==================== FIREBASE ====================
         const firebaseConfig = {
             apiKey: "AIzaSyAvvB3C9SP8tDTqMmqzc6craI4d_0kSVX0",
             authDomain: "timijosh-b8bee.firebaseapp.com",
@@ -537,7 +505,6 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // ==================== STATE ====================
         const urlParams = new URLSearchParams(window.location.search);
         const COURSE_ID = urlParams.get('courseId');
         const MODULE_ID = urlParams.get('moduleId');
@@ -549,7 +516,6 @@
         let notesData = {};
         let discussionListener = null;
 
-        // ==================== DOM REFS ====================
         const contentArea = document.getElementById('contentArea');
         const courseTitle = document.getElementById('courseTitle');
         const courseStage = document.getElementById('courseStage');
@@ -557,12 +523,16 @@
         const progressText = document.getElementById('progressText');
         const classroomBtn = document.getElementById('classroomBtn');
 
-        // ==================== HELPER: SAFE ARRAY ====================
+        // ========== SAFE ARRAY HELPER ==========
         function safeArray(value) {
-            return Array.isArray(value) ? value : [];
+            if (Array.isArray(value)) return value;
+            if (value && typeof value === 'object' && value.length !== undefined) {
+                return Array.from(value);
+            }
+            return [];
         }
 
-        // ==================== AUTH ====================
+        // ========== AUTH ==========
         auth.onAuthStateChanged(async (user) => {
             if (!user) { window.location.href = 'auth.html'; return; }
             currentUser = user;
@@ -581,7 +551,7 @@
             setupSidebarTabs();
         });
 
-        // ==================== LOAD COURSE ====================
+        // ========== LOAD COURSE ==========
         async function loadCourse(courseId) {
             try {
                 const doc = await db.collection('courses').doc(courseId).get();
@@ -599,30 +569,24 @@
                 courseTitle.textContent = courseData.name || 'Course';
                 courseStage.textContent = courseData.stage || 'Elementary';
 
-                // FIX: Ensure modules is always an array
+                // FIX: Always ensure modules is an array
                 modules = safeArray(courseData.modules);
+                console.log('📚 Loaded modules:', modules.length);
 
-                // Load completed modules
                 await loadProgress();
 
-                // Determine which module to show
                 if (MODULE_ID) {
                     const idx = modules.findIndex(m => m.id === MODULE_ID);
                     if (idx !== -1) currentModuleIndex = idx;
                 } else {
-                    // Find first incomplete module
                     const incompleteIdx = modules.findIndex(m => !completedModules.includes(m.id));
                     currentModuleIndex = incompleteIdx !== -1 ? incompleteIdx : 0;
                 }
 
-                // Load notes
                 await loadNotes();
-
                 renderModule(currentModuleIndex);
                 renderProgressList();
                 updateHeaderProgress();
-
-                // Setup discussion listener
                 setupDiscussionListener();
 
             } catch (err) {
@@ -637,7 +601,7 @@
             }
         }
 
-        // ==================== LOAD PROGRESS (FIXED) ====================
+        // ========== LOAD PROGRESS (FIXED) ==========
         async function loadProgress() {
             try {
                 const snap = await db.collection('progress')
@@ -648,10 +612,10 @@
 
                 if (!snap.empty) {
                     const data = snap.docs[0].data();
-                    // FIX: Ensure completedModules is always an array
+                    // FIX: Always ensure completedModules is an array
                     completedModules = safeArray(data.completedModules);
+                    console.log('📊 Loaded completed modules:', completedModules.length);
                 } else {
-                    // Create progress document
                     await db.collection('progress').add({
                         userId: currentUser.uid,
                         courseId: COURSE_ID,
@@ -660,6 +624,7 @@
                         lastAccessed: firebase.firestore.FieldValue.serverTimestamp()
                     });
                     completedModules = [];
+                    console.log('📊 Created new progress document');
                 }
             } catch (err) {
                 console.error('Load progress error:', err);
@@ -667,7 +632,7 @@
             }
         }
 
-        // ==================== LOAD NOTES ====================
+        // ========== LOAD NOTES ==========
         async function loadNotes() {
             try {
                 const snap = await db.collection('notes')
@@ -681,7 +646,6 @@
                     notesData[data.moduleId] = { id: doc.id, content: data.content || '' };
                 });
 
-                // If current module has notes, display them
                 const currentModule = modules[currentModuleIndex];
                 if (currentModule && notesData[currentModule.id]) {
                     document.getElementById('notesEditor').value = notesData[currentModule.id].content || '';
@@ -694,7 +658,7 @@
             }
         }
 
-        // ==================== SAVE NOTES ====================
+        // ========== SAVE NOTES ==========
         window.saveNotes = async function() {
             const content = document.getElementById('notesEditor').value;
             const moduleId = modules[currentModuleIndex]?.id;
@@ -726,11 +690,10 @@
             }
         };
 
-        // ==================== RENDER MODULE ====================
+        // ========== RENDER MODULE ==========
         function renderModule(index) {
             const module = modules[index];
             if (!module) {
-                // All modules completed!
                 contentArea.innerHTML = `
                     <div class="card">
                         <div class="card-body" style="text-align:center;padding:40px;">
@@ -754,7 +717,6 @@
             const isDone = completedModules.includes(module.id);
             const isLocked = index > 0 && !completedModules.includes(modules[index-1]?.id);
             const total = modules.length;
-            const done = completedModules.length;
 
             if (isLocked) {
                 contentArea.innerHTML = `
@@ -767,10 +729,7 @@
                 return;
             }
 
-            // Update notes editor
             document.getElementById('notesEditor').value = notesData[module.id]?.content || '';
-
-            // Get embed URL for video
             const videoUrl = module.videoUrl ? getEmbedUrl(module.videoUrl) : '';
 
             contentArea.innerHTML = `
@@ -864,15 +823,12 @@
                 </div>
             `;
 
-            // Update progress
             updateHeaderProgress();
             renderProgressList();
-
-            // Scroll to top
             document.querySelector('.content-area').scrollTop = 0;
         }
 
-        // ==================== MARK COMPLETE ====================
+        // ========== MARK COMPLETE ==========
         window.markComplete = async function(moduleId) {
             if (completedModules.includes(moduleId)) return;
 
@@ -897,7 +853,6 @@
                 renderProgressList();
                 updateHeaderProgress();
 
-                // Check if all modules are complete
                 if (completedModules.length === modules.length) {
                     showToast('🎉 Congratulations! You\'ve completed all modules!', 'success');
                 }
@@ -907,7 +862,7 @@
             }
         };
 
-        // ==================== UPDATE HEADER PROGRESS ====================
+        // ========== UPDATE HEADER PROGRESS ==========
         function updateHeaderProgress() {
             const total = modules.length;
             const done = completedModules.length;
@@ -918,7 +873,7 @@
             document.getElementById('courseProgressFill').style.width = pct + '%';
         }
 
-        // ==================== RENDER PROGRESS LIST ====================
+        // ========== RENDER PROGRESS LIST ==========
         function renderProgressList() {
             const container = document.getElementById('moduleProgressList');
             if (modules.length === 0) {
@@ -944,7 +899,7 @@
             }).join('');
         }
 
-        // ==================== DISCUSSION ====================
+        // ========== DISCUSSION ==========
         function setupDiscussionListener() {
             if (discussionListener) discussionListener();
 
@@ -1014,7 +969,7 @@
             }
         };
 
-        // ==================== SIDEBAR TABS ====================
+        // ========== SIDEBAR TABS ==========
         function setupSidebarTabs() {
             document.querySelectorAll('.sidebar-tab').forEach(tab => {
                 tab.addEventListener('click', () => {
@@ -1026,7 +981,7 @@
             });
         }
 
-        // ==================== UTILITY ====================
+        // ========== UTILITY ==========
         function getEmbedUrl(url) {
             if (!url) return '';
             const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
