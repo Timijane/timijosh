@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* ... keep all existing styles ... */
         :root {
             --bg: #f0f2f8;
             --bg-card: #ffffff;
@@ -414,6 +415,16 @@
             .header .right .progress-text { display: none; }
             .module-meta { font-size: 0.7rem; gap: 10px; }
         }
+
+        /* CARD STYLES */
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        .card-body { padding: 20px 22px; }
     </style>
 </head>
 <body>
@@ -546,16 +557,21 @@
         const progressText = document.getElementById('progressText');
         const classroomBtn = document.getElementById('classroomBtn');
 
+        // ==================== HELPER: SAFE ARRAY ====================
+        function safeArray(value) {
+            return Array.isArray(value) ? value : [];
+        }
+
         // ==================== AUTH ====================
         auth.onAuthStateChanged(async (user) => {
             if (!user) { window.location.href = 'auth.html'; return; }
             currentUser = user;
             if (!COURSE_ID) {
                 contentArea.innerHTML = `
-                    <div class="card"><div class="empty-state">
-                        <div class="icon">❌</div>
+                    <div class="card"><div class="card-body" style="text-align:center;padding:40px;">
+                        <div style="font-size:3rem;margin-bottom:12px;">❌</div>
                         <h3>No Course Selected</h3>
-                        <p>Please select a course from your dashboard.</p>
+                        <p style="color:var(--text-secondary);">Please select a course from your dashboard.</p>
                         <a href="dashboard.html" class="btn btn-primary" style="margin-top:12px;">Go to Dashboard</a>
                     </div></div>`;
                 return;
@@ -571,10 +587,10 @@
                 const doc = await db.collection('courses').doc(courseId).get();
                 if (!doc.exists) {
                     contentArea.innerHTML = `
-                        <div class="card"><div class="empty-state">
-                            <div class="icon">📚</div>
+                        <div class="card"><div class="card-body" style="text-align:center;padding:40px;">
+                            <div style="font-size:3rem;margin-bottom:12px;">📚</div>
                             <h3>Course Not Found</h3>
-                            <p>The course you're looking for doesn't exist.</p>
+                            <p style="color:var(--text-secondary);">The course you're looking for doesn't exist.</p>
                             <a href="dashboard.html" class="btn btn-primary" style="margin-top:12px;">Go to Dashboard</a>
                         </div></div>`;
                     return;
@@ -583,7 +599,8 @@
                 courseTitle.textContent = courseData.name || 'Course';
                 courseStage.textContent = courseData.stage || 'Elementary';
 
-                modules = courseData.modules || [];
+                // FIX: Ensure modules is always an array
+                modules = safeArray(courseData.modules);
 
                 // Load completed modules
                 await loadProgress();
@@ -611,16 +628,16 @@
             } catch (err) {
                 console.error('Load course error:', err);
                 contentArea.innerHTML = `
-                    <div class="card"><div class="empty-state">
-                        <div class="icon">⚠️</div>
+                    <div class="card"><div class="card-body" style="text-align:center;padding:40px;">
+                        <div style="font-size:3rem;margin-bottom:12px;">⚠️</div>
                         <h3>Error Loading Course</h3>
-                        <p>${err.message}</p>
+                        <p style="color:var(--text-secondary);">${err.message}</p>
                         <button class="btn btn-primary" onclick="location.reload()" style="margin-top:12px;">Retry</button>
                     </div></div>`;
             }
         }
 
-        // ==================== LOAD PROGRESS ====================
+        // ==================== LOAD PROGRESS (FIXED) ====================
         async function loadProgress() {
             try {
                 const snap = await db.collection('progress')
@@ -631,7 +648,8 @@
 
                 if (!snap.empty) {
                     const data = snap.docs[0].data();
-                    completedModules = data.completedModules || [];
+                    // FIX: Ensure completedModules is always an array
+                    completedModules = safeArray(data.completedModules);
                 } else {
                     // Create progress document
                     await db.collection('progress').add({
@@ -672,6 +690,7 @@
                 }
             } catch (err) {
                 console.error('Load notes error:', err);
+                notesData = {};
             }
         }
 
@@ -679,7 +698,10 @@
         window.saveNotes = async function() {
             const content = document.getElementById('notesEditor').value;
             const moduleId = modules[currentModuleIndex]?.id;
-            if (!moduleId) return;
+            if (!moduleId) {
+                showToast('No module selected.', 'error');
+                return;
+            }
 
             try {
                 if (notesData[moduleId]) {
@@ -736,10 +758,10 @@
 
             if (isLocked) {
                 contentArea.innerHTML = `
-                    <div class="card"><div class="empty-state">
-                        <div class="icon">🔒</div>
+                    <div class="card"><div class="card-body" style="text-align:center;padding:40px;">
+                        <div style="font-size:3rem;margin-bottom:12px;">🔒</div>
                         <h3>Module Locked</h3>
-                        <p>Complete the previous module first.</p>
+                        <p style="color:var(--text-secondary);">Complete the previous module first.</p>
                         <button class="btn btn-primary" onclick="renderModule(${index - 1})">← Go to Previous Module</button>
                     </div></div>`;
                 return;
@@ -1038,6 +1060,9 @@
         }
 
         console.log('✅ Learn page loaded');
+        console.log('📚 Course ID:', COURSE_ID);
+        console.log('📝 Modules:', modules.length);
+
     })();
     </script>
 </body>
