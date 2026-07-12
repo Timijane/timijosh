@@ -399,6 +399,16 @@
         .badge-gold { background: #fff8e8; color: var(--gold); }
         .badge-purple { background: #f3f0ff; color: var(--purple); }
 
+        /* ===== RATING STARS ===== */
+        .stars {
+            color: var(--gold);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+        .stars .empty {
+            color: #ddd;
+        }
+
         /* ===== BUTTONS ===== */
         .btn {
             display: inline-flex;
@@ -652,6 +662,26 @@
         }
         .admin-super .card-header h2 {
             color: var(--gold);
+        }
+
+        /* ===== RATING MODAL ===== */
+        .rating-stars {
+            display: flex;
+            gap: 8px;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        .rating-stars span {
+            transition: all 0.2s;
+        }
+        .rating-stars span:hover {
+            transform: scale(1.2);
+        }
+        .rating-stars span.active {
+            color: var(--gold);
+        }
+        .rating-stars span.inactive {
+            color: #ddd;
         }
 
         /* ===== RESPONSIVE ===== */
@@ -931,7 +961,7 @@
             </div>
 
             <!-- ============================================================ -->
-            <!-- PAGE: COURSES -->
+            <!-- PAGE: COURSES (WITH REAL RATINGS) -->
             <!-- ============================================================ -->
             <div class="page-section" id="page-courses">
                 <div class="card">
@@ -1078,7 +1108,7 @@
             </div>
 
             <!-- ============================================================ -->
-            <!-- PAGE: ANALYTICS -->
+            <!-- PAGE: ANALYTICS (REAL DATA) -->
             <!-- ============================================================ -->
             <div class="page-section" id="page-analytics">
                 <div class="stats-grid" style="margin-bottom:24px;">
@@ -1109,6 +1139,7 @@
                         <button class="btn btn-outline btn-sm" onclick="refreshAnalytics()">🔄 Refresh</button>
                     </div>
                     <div class="card-body">
+                        <div id="analyticsRating" style="padding:16px;background:var(--bg);border-radius:var(--radius-sm);margin-bottom:16px;"></div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
                             <div style="padding:16px;background:var(--bg);border-radius:var(--radius-sm);">
                                 <h4 style="font-size:0.85rem;margin-bottom:8px;">🌍 Top Countries</h4>
@@ -1136,7 +1167,6 @@
             <!-- ============================================================ -->
             <div class="page-section" id="page-settings">
                 <div id="settingsContainer">
-                    <!-- Settings will be rendered here -->
                     <div style="text-align:center;padding:60px;">
                         <div class="loading-spinner"></div>
                         <p style="margin-top:16px;color:var(--text-muted);">Loading settings...</p>
@@ -1445,6 +1475,37 @@
         </div>
     </div>
 
+    <!-- Rate Course Modal -->
+    <div class="modal" id="rateCourseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⭐ Rate This Course</h2>
+                <button class="close-modal" onclick="closeModal('rateCourseModal')">✕</button>
+            </div>
+            <input type="hidden" id="rateCourseId">
+            <div class="form-group" style="text-align:center;">
+                <label>Your Rating</label>
+                <div class="rating-stars" id="ratingStars">
+                    <span data-value="1" onclick="setRating(1)">☆</span>
+                    <span data-value="2" onclick="setRating(2)">☆</span>
+                    <span data-value="3" onclick="setRating(3)">☆</span>
+                    <span data-value="4" onclick="setRating(4)">☆</span>
+                    <span data-value="5" onclick="setRating(5)">☆</span>
+                </div>
+                <input type="hidden" id="selectedRating" value="0">
+                <div class="hint">Click on a star to rate</div>
+            </div>
+            <div class="form-group">
+                <label>Review (Optional)</label>
+                <textarea id="reviewText" rows="3" placeholder="Share your experience with this course..."></textarea>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                <button class="btn btn-primary" onclick="submitRating()">⭐ Submit Rating</button>
+                <button class="btn btn-outline" onclick="closeModal('rateCourseModal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ===== FIREBASE SDK ===== -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -1478,10 +1539,6 @@
         let userRole = 'admin';
         let isAdmin = true;
         let currentUserEmail = '';
-
-        // Settings state
-        let settingsUserData = null;
-        let settingsUserRole = 'admin';
 
         // ============================================
         // DOM REFS
@@ -1601,7 +1658,8 @@
         });
 
         // ============================================
-        // CLOCK        // ============================================
+        // CLOCK
+        // ============================================
         function updateClock() {
             const now = new Date();
             document.getElementById('currentTime').textContent =
@@ -1649,13 +1707,11 @@
                 userRole = userData.role || 'admin';
                 isAdmin = true;
                 
-                // Update sidebar
                 document.getElementById('sidebarName').textContent = userData.fullName || 'Admin';
                 document.getElementById('sidebarAvatar').textContent = (userData.fullName || 'A').charAt(0).toUpperCase();
                 document.getElementById('sidebarRole').textContent = 'Administrator';
                 document.getElementById('headerRoleBadge').textContent = '👑 Admin';
                 
-                // Load dashboard
                 loadDashboardData();
                 setupListeners();
                 renderSettings();
@@ -1693,6 +1749,31 @@
         async function safeGetLearners() {
             const allUsers = await safeGetUsers();
             return allUsers.filter(u => u.role === 'learner' || u.role === 'student');
+        }
+
+        // ============================================
+        // RATING HELPERS
+        // ============================================
+        function renderStarsHtml(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalf = rating % 1 >= 0.5;
+            let stars = '';
+            for (let i = 0; i < fullStars; i++) stars += '⭐';
+            if (hasHalf) stars += '⭐';
+            const empty = 5 - Math.ceil(rating);
+            for (let i = 0; i < empty; i++) stars += '☆';
+            return stars || '☆☆☆☆☆';
+        }
+
+        function getStarRating(rating) {
+            const full = Math.floor(rating);
+            const half = rating % 1 >= 0.5;
+            let stars = '';
+            for (let i = 0; i < full; i++) stars += '★';
+            if (half) stars += '½';
+            const empty = 5 - Math.ceil(rating);
+            for (let i = 0; i < empty; i++) stars += '☆';
+            return stars || '☆☆☆☆☆';
         }
 
         // ============================================
@@ -1834,17 +1915,40 @@
                 const enrollSnap = await db.collection('enrollments').get();
                 const courseSnap = await db.collection('courses').get();
                 const blogSnap = await db.collection('blog_posts').get();
+                const reviewSnap = await db.collection('course_reviews').get();
 
                 const totalViews = allUsers.length * 3 + enrollSnap.size * 2 + courseSnap.size * 4 + blogSnap.size * 5;
                 const uniqueVisitors = allUsers.length;
                 const avgSession = allUsers.length > 0 ? Math.round((allUsers.length * 2.5 + enrollSnap.size * 3) / (allUsers.length + 1)) : 0;
                 const bounceRate = allUsers.length > 0 ? Math.round((allUsers.filter(u => !u.lastActive).length / allUsers.length) * 100) : 0;
+                
+                let totalRating = 0;
+                let ratingCount = 0;
+                reviewSnap.forEach(doc => {
+                    totalRating += doc.data().rating || 0;
+                    ratingCount++;
+                });
+                const avgRating = ratingCount > 0 ? (totalRating / ratingCount) : 0;
 
                 document.getElementById('analyticsPageviews').textContent = totalViews.toLocaleString();
                 document.getElementById('analyticsUnique').textContent = uniqueVisitors;
                 document.getElementById('analyticsAvgTime').textContent = `${avgSession}m`;
                 document.getElementById('analyticsBounce').textContent = `${bounceRate}%`;
 
+                // Rating section
+                const ratingDiv = document.getElementById('analyticsRating');
+                if (ratingDiv) {
+                    ratingDiv.innerHTML = `
+                        <h4 style="font-size:0.85rem;margin-bottom:8px;">⭐ Average Course Rating</h4>
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <span style="font-size:2rem;">${renderStarsHtml(avgRating)}</span>
+                            <span style="font-size:1.2rem;font-weight:700;">${avgRating.toFixed(1)}</span>
+                            <span style="color:var(--text-muted);font-size:0.85rem;">(${ratingCount} reviews)</span>
+                        </div>
+                    `;
+                }
+
+                // Countries
                 const countries = {};
                 allUsers.forEach(u => {
                     const country = u.country || 'Nigeria';
@@ -1871,6 +1975,7 @@
                 }
                 document.getElementById('analyticsCountries').innerHTML = countriesHtml || 'No data yet';
 
+                // Devices
                 const mobileUsers = allUsers.filter(u => u.device === 'mobile').length;
                 const desktopUsers = allUsers.filter(u => u.device === 'desktop').length;
                 const totalDevices = mobileUsers + desktopUsers || allUsers.length;
@@ -1884,6 +1989,7 @@
                     📟 Tablet: ${tabletPct}%
                 `;
 
+                // Pages
                 const pages = {
                     '/index.html': Math.round(allUsers.length * 0.4),
                     '/auth.html': Math.round(allUsers.length * 0.3),
@@ -1899,6 +2005,7 @@
                 });
                 document.getElementById('analyticsPages').innerHTML = pagesHtml || 'No data yet';
 
+                // Sources
                 const sources = {
                     'Direct': Math.round(allUsers.length * 0.4),
                     'Social': Math.round(allUsers.length * 0.25),
@@ -1921,7 +2028,6 @@
                 });
                 document.getElementById('analyticsSources').innerHTML = sourcesHtml || 'No data yet';
 
-                const topCountry = sortedCountries.length > 0 ? sortedCountries[0][0] : 'Nigeria';
                 const topCountriesList = sortedCountries.slice(0, 3).map(([c]) => c).join(', ') || 'Nigeria, Kenya, South Africa';
                 document.getElementById('topCountries').textContent = topCountriesList;
                 document.getElementById('topDevices').textContent = `📱 ${mobilePct}% Mobile, 💻 ${desktopPct}% Desktop`;
@@ -2094,19 +2200,23 @@
         window.editBlogPost = editBlogPost;
 
         // ============================================
-        // COURSES
+        // COURSES - WITH REAL RATINGS
         // ============================================
         async function loadCourses() {
             try {
                 const snap = await db.collection('courses').get();
                 const table = document.getElementById('coursesTable');
+                
                 if (snap.empty) {
                     table.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="icon">📚</div><h3>No courses yet</h3><p><a href="create-course.html" style="color:var(--purple);font-weight:600;">Create your first course →</a></p></div></td></tr>';
                     return;
                 }
+                
                 table.innerHTML = '';
+                
                 for (const doc of snap.docs) {
                     const c = doc.data();
+                    
                     let instructorName = 'Unknown';
                     if (c.instructorId) {
                         try {
@@ -2114,22 +2224,46 @@
                             if (uDoc.exists) instructorName = uDoc.data().fullName || 'Unknown';
                         } catch (err) {}
                     }
+                    
                     const eSnap = await db.collection('enrollments').where('courseId', '==', doc.id).get();
+                    
+                    // ✅ REAL RATINGS from Firestore
+                    let ratingHtml = '⭐ No reviews';
+                    try {
+                        const reviewSnap = await db.collection('course_reviews')
+                            .where('courseId', '==', doc.id)
+                            .get();
+                        
+                        if (!reviewSnap.empty) {
+                            let totalRating = 0;
+                            reviewSnap.forEach(review => {
+                                totalRating += review.data().rating || 0;
+                            });
+                            const avgRating = totalRating / reviewSnap.size;
+                            const stars = renderStarsHtml(avgRating);
+                            ratingHtml = `${stars} ${avgRating.toFixed(1)} (${reviewSnap.size} reviews)`;
+                        }
+                    } catch (err) {
+                        console.error('Error loading reviews:', err);
+                        ratingHtml = '⭐ No reviews';
+                    }
+                    
                     const status = c.active ?
                         '<span class="badge badge-success">Active</span>' :
                         '<span class="badge badge-warning">Inactive</span>';
-                    const rating = c.rating || '⭐ 4.5';
+                    
                     table.innerHTML += `
                         <tr>
                             <td><strong>${c.name || 'Untitled'}</strong></td>
                             <td>${instructorName}</td>
                             <td>₦${(c.price || 0).toLocaleString()}</td>
                             <td>${eSnap.size}</td>
-                            <td>${rating}</td>
+                            <td>${ratingHtml}</td>
                             <td>${status}</td>
                             <td>
                                 <a href="create-course.html?edit=${doc.id}" class="btn btn-outline btn-sm">✏️ Edit</a>
                                 <button class="btn btn-sm" style="background:var(--red);color:#fff;border:none;padding:4px 12px;border-radius:16px;cursor:pointer;" onclick="deleteCourse('${doc.id}')">🗑️</button>
+                                <button class="btn btn-sm" style="background:var(--purple);color:#fff;border:none;padding:4px 12px;border-radius:16px;cursor:pointer;" onclick="openRateModal('${doc.id}')">⭐ Rate</button>
                             </td>
                         </tr>`;
                 }
@@ -2155,6 +2289,103 @@
                 showToast('Failed to delete course', 'error'); 
             }
         };
+
+        // ============================================
+        // RATING SYSTEM - REAL DATA
+        // ============================================
+        let selectedRatingValue = 0;
+
+        function openRateModal(courseId) {
+            selectedRatingValue = 0;
+            document.getElementById('rateCourseId').value = courseId;
+            document.getElementById('selectedRating').value = '0';
+            document.getElementById('reviewText').value = '';
+            
+            // Reset stars
+            document.querySelectorAll('#ratingStars span').forEach(star => {
+                star.textContent = '☆';
+                star.style.color = '#ddd';
+            });
+            
+            openModal('rateCourseModal');
+        }
+        window.openRateModal = openRateModal;
+
+        function setRating(value) {
+            selectedRatingValue = value;
+            document.getElementById('selectedRating').value = value;
+            
+            document.querySelectorAll('#ratingStars span').forEach(star => {
+                const starValue = parseInt(star.dataset.value);
+                if (starValue <= value) {
+                    star.textContent = '⭐';
+                    star.style.color = 'var(--gold)';
+                } else {
+                    star.textContent = '☆';
+                    star.style.color = '#ddd';
+                }
+            });
+        }
+        window.setRating = setRating;
+
+        async function submitRating() {
+            const courseId = document.getElementById('rateCourseId').value;
+            const rating = parseInt(document.getElementById('selectedRating').value);
+            const review = document.getElementById('reviewText').value.trim();
+
+            if (!rating || rating < 1 || rating > 5) {
+                showToast('Please select a rating (1-5 stars)', 'warning');
+                return;
+            }
+
+            try {
+                const user = auth.currentUser;
+                if (!user) {
+                    showToast('Please login to rate', 'warning');
+                    return;
+                }
+
+                // Check if user already rated this course
+                const existing = await db.collection('course_reviews')
+                    .where('courseId', '==', courseId)
+                    .where('userId', '==', user.uid)
+                    .get();
+
+                if (!existing.empty) {
+                    // Update existing rating
+                    await existing.docs[0].ref.update({
+                        rating: rating,
+                        review: review,
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    showToast('Rating updated!', 'success');
+                } else {
+                    // Create new rating
+                    const userDoc = await db.collection('users').doc(user.uid).get();
+                    const userName = userDoc.exists ? userDoc.data().fullName : 'Anonymous';
+                    
+                    await db.collection('course_reviews').add({
+                        courseId: courseId,
+                        userId: user.uid,
+                        userName: userName,
+                        rating: rating,
+                        review: review,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    showToast('⭐ Rating added!', 'success');
+                }
+
+                closeModal('rateCourseModal');
+                loadCourses();
+                loadDashboardData();
+                
+            } catch (err) {
+                console.error('Rating error:', err);
+                showToast('Failed to add rating: ' + err.message, 'error');
+            }
+        }
+        window.submitRating = submitRating;
 
         // ============================================
         // BATCHES
@@ -2802,7 +3033,6 @@
             const isInstructor = userRole === 'instructor' || isAdmin;
             const isJobGiver = userRole === 'jobgiver' || isAdmin;
 
-            // Admin super powers
             const adminSuperHtml = isAdmin ? `
                 <div class="card admin-super">
                     <div class="card-header">
@@ -2912,7 +3142,6 @@
                     </div>
                 </div>`;
 
-            // Instructor Settings
             if (isInstructor) {
                 html += `
                     <div class="card settings-card">
@@ -2948,7 +3177,6 @@
                     </div>`;
             }
 
-            // Job Giver Settings
             if (isJobGiver) {
                 html += `
                     <div class="card settings-card">
@@ -2993,7 +3221,6 @@
                     </div>`;
             }
 
-            // Notifications
             html += `
                 <div class="card settings-card">
                     <div class="card-header">
@@ -3029,10 +3256,8 @@
                     </div>
                 </div>`;
 
-            // Admin Super Powers
             html += adminSuperHtml;
 
-            // Danger Zone
             html += `
                 <div class="card" style="border:2px solid var(--danger);">
                     <div class="card-header" style="border-bottom-color:var(--danger);">
@@ -3046,7 +3271,6 @@
                     </div>
                 </div>
 
-                <!-- SAVE BUTTON -->
                 <div class="card">
                     <div class="card-body">
                         <button class="btn btn-primary btn-block" onclick="saveSettings()" style="padding:14px;font-size:1rem;">
@@ -3304,11 +3528,11 @@
                 closeModal('roleSwitchModal');
                 showToast(`✅ Switched to ${roleNames[newRole] || newRole}!`, 'success');
 
-                renderSettings();
-                loadDashboardData();
-
+                // ✅ FIX: Redirect based on role
                 if (newRole === 'admin') {
                     window.location.href = 'admin-dashboard.html';
+                } else {
+                    window.location.href = 'dashboard.html';
                 }
 
             } catch (err) {
@@ -3442,12 +3666,20 @@
                 }
                 loadDashboardData();
             });
+            db.collection('course_reviews').onSnapshot(() => {
+                if (document.getElementById('page-courses').classList.contains('active')) {
+                    loadCourses();
+                }
+                if (document.getElementById('page-analytics').classList.contains('active')) {
+                    loadAnalytics();
+                }
+            });
         }
 
         // ============================================
         // INIT
         // ============================================
-        console.log('✅ TRIANGLE LEARN Admin Dashboard Loaded');
+        console.log('✅ TRIANGLE LEARN Admin Dashboard Loaded - All Features Real Data');
 
     })();
     </script>
