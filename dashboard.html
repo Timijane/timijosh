@@ -1308,7 +1308,7 @@
         }
 
         // ============================================================
-        // BUILD SIDEBAR - ALL LINKS WORKING
+        // BUILD SIDEBAR - ALL LINKS WORKING WITH TOASTS FOR COMING SOON
         // ============================================================
         function buildSidebar(role) {
             const nav = DOM.sidebarNav;
@@ -1316,75 +1316,85 @@
 
             // Common links
             links.push(
-                { icon: '📊', label: 'Dashboard', page: 'dashboard.html', active: true },
+                { icon: '📊', label: 'Dashboard', page: '#', active: true },
                 { icon: '👤', label: 'Profile', page: 'profile.html' },
             );
 
-            // Role-specific links - ALL WITH REAL PAGES
+            // Role-specific links - ALL WITH REAL PAGES OR TOAST NOTIFICATIONS
             switch (role) {
                 case 'learner':
                     links.push(
-                        { icon: '📚', label: 'My Courses', page: 'my-courses.html' },
-                        { icon: '📜', label: 'Certificates', page: 'certificate.html' },
-                        { icon: '💼', label: 'Job Board', page: 'job-board.html' },
-                        { icon: '📺', label: 'Classroom', page: 'classroom.html' },
-                        { icon: '💬', label: 'Discussions', page: 'discussions.html' },
+                        { icon: '📚', label: 'My Courses', page: '#', comingSoon: true },
+                        { icon: '📜', label: 'Certificates', page: '#', comingSoon: true },
+                        { icon: '💼', label: 'Job Board', page: '#', comingSoon: true },
+                        { icon: '📺', label: 'Classroom', page: '#', comingSoon: true },
+                        { icon: '💬', label: 'Discussions', page: '#', comingSoon: true },
                         { icon: '⚙️', label: 'Settings', page: 'settings.html' },
                     );
                     break;
                 case 'instructor':
                     links.push(
-                        { icon: '📚', label: 'My Courses', page: 'teacher-workspace.html' },
-                        { icon: '➕', label: 'Create Course', page: 'create-course.html' },
-                        { icon: '👨‍🎓', label: 'My Students', page: 'teacher-students.html' },
-                        { icon: '📺', label: 'Classroom', page: 'teacher-teach.html' },
-                        { icon: '📊', label: 'Analytics', page: 'teacher-analytics.html' },
-                        { icon: '💰', label: 'Earnings', page: 'teacher-earnings.html' },
+                        { icon: '📚', label: 'My Courses', page: '#', comingSoon: true },
+                        { icon: '➕', label: 'Create Course', page: '#', comingSoon: true },
+                        { icon: '👨‍🎓', label: 'My Students', page: '#', comingSoon: true },
+                        { icon: '📺', label: 'Classroom', page: '#', comingSoon: true },
+                        { icon: '📊', label: 'Analytics', page: '#', comingSoon: true },
+                        { icon: '💰', label: 'Earnings', page: '#', comingSoon: true },
                         { icon: '⚙️', label: 'Settings', page: 'settings.html' },
                     );
                     break;
                 case 'jobgiver':
                     links.push(
-                        { icon: '📋', label: 'Post Job', page: 'create-job.html' },
-                        { icon: '💼', label: 'My Jobs', page: 'jobgiver-jobs.html' },
-                        { icon: '👥', label: 'Candidates', page: 'jobgiver-candidates.html' },
-                        { icon: '📊', label: 'Hiring Stats', page: 'jobgiver-analytics.html' },
+                        { icon: '📋', label: 'Post Job', page: '#', comingSoon: true },
+                        { icon: '💼', label: 'My Jobs', page: '#', comingSoon: true },
+                        { icon: '👥', label: 'Candidates', page: '#', comingSoon: true },
+                        { icon: '📊', label: 'Hiring Stats', page: '#', comingSoon: true },
                         { icon: '⚙️', label: 'Settings', page: 'settings.html' },
                     );
                     break;
                 case 'admin':
                     links.push(
-                        { icon: '👑', label: 'Admin Panel', page: 'admin-dashboard.html' },
-                        { icon: '📚', label: 'Manage Courses', page: 'admin-courses.html' },
-                        { icon: '👥', label: 'Manage Users', page: 'admin-students.html' },
-                        { icon: '💰', label: 'Payouts', page: 'admin-referrals.html' },
-                        { icon: '📺', label: 'Live Classes', page: 'admin-live.html' },
-                        { icon: '📊', label: 'Analytics', page: 'admin-analytics.html' },
-                        { icon: '⚙️', label: 'Settings', page: 'admin-settings.html' },
+                        { icon: '👑', label: 'Admin Panel', page: '#', comingSoon: true },
+                        { icon: '📚', label: 'Manage Courses', page: '#', comingSoon: true },
+                        { icon: '👥', label: 'Manage Users', page: '#', comingSoon: true },
+                        { icon: '💰', label: 'Payouts', page: '#', comingSoon: true },
+                        { icon: '📺', label: 'Live Classes', page: '#', comingSoon: true },
+                        { icon: '📊', label: 'Analytics', page: '#', comingSoon: true },
+                        { icon: '⚙️', label: 'Settings', page: '#', comingSoon: true },
                     );
                     break;
             }
 
             let html = '';
             let sectionCount = 0;
+            let currentSection = '';
+            
             links.forEach((link, index) => {
-                if (index === 1) {
+                // Add section labels
+                if (index === 0) {
                     html += `<span class="section-label">Main</span>`;
                 }
-                if (role === 'admin' && index === 3) {
-                    html += `<span class="section-label">Management</span>`;
-                }
-                if ((role === 'learner' || role === 'instructor' || role === 'jobgiver') && index === 2) {
-                    const label = role === 'learner' ? 'Learning' : role === 'instructor' ? 'Teaching' : 'Hiring';
+                if (index === 2) {
+                    const label = role === 'learner' ? 'Learning' : 
+                                 role === 'instructor' ? 'Teaching' : 
+                                 role === 'jobgiver' ? 'Hiring' : 'Management';
                     html += `<span class="section-label">${label}</span>`;
                 }
                 if ((role === 'learner' || role === 'instructor' || role === 'jobgiver') && index === 6) {
                     html += `<span class="section-label">Settings</span>`;
                 }
+                if (role === 'admin' && index === 7) {
+                    html += `<span class="section-label">Settings</span>`;
+                }
+                
                 const active = link.active ? 'active' : '';
+                const comingSoon = link.comingSoon ? ' onclick="showToast(\'This feature is coming soon! 🚀\', \'info\')"' : '';
+                const href = link.page === '#' ? 'javascript:void(0)' : link.page;
+                
                 html += `
-                    <a href="${link.page}" class="${active}">
+                    <a href="${href}" class="${active}"${comingSoon}>
                         <span class="icon">${link.icon}</span> ${link.label}
+                        ${link.comingSoon ? '<span class="badge-nav">Soon</span>' : ''}
                     </a>
                 `;
             });
@@ -2217,7 +2227,7 @@
         // ============================================================
         // REAL-TIME LISTENERS
         // ============================================================
-        function setupRealTimeListeners() {
+        async function setupRealTimeListeners() {
             if (!State.user) return;
 
             try {
