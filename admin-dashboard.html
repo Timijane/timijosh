@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* [Previous styles remain the same - keeping it clean] */
         :root {
             --bg: #f0f2f8;
             --sidebar-bg: #0c0c1a;
@@ -47,6 +46,7 @@
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
         }
+
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 10px; }
@@ -237,6 +237,14 @@
             display: flex;
             align-items: center;
             gap: 14px;
+        }
+        .main-header .header-actions .role-badge {
+            font-size: 0.65rem;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            background: var(--gold);
+            color: #fff;
         }
         .main-header .header-actions .time-display {
             font-size: 0.78rem;
@@ -567,7 +575,7 @@
         }
         .modal-content .modal-header .close-modal:hover { color: var(--text); }
 
-        /* ===== STUDENT DETAIL VIEW ===== */
+        /* ===== DETAIL VIEW ===== */
         .detail-grid {
             display: grid;
             grid-template-columns: 1fr 2fr;
@@ -589,19 +597,61 @@
             font-weight: 600;
             margin-top: 4px;
         }
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: var(--border);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 4px;
+
+        /* ===== SETTINGS SPECIFIC ===== */
+        .settings-card {
+            border: 1px solid var(--border);
         }
-        .progress-bar .fill {
-            height: 100%;
-            background: var(--gradient);
-            border-radius: 10px;
-            transition: width 0.5s ease;
+        .settings-card .card-header {
+            background: var(--bg);
+        }
+        .settings-card .form-group input[disabled] {
+            background: #f5f5f5;
+            cursor: not-allowed;
+        }
+        .role-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 8px;
+            background: #fff;
+        }
+        .role-option:hover { border-color: var(--purple); background: #f8f7ff; }
+        .role-option.selected { border-color: var(--purple); background: #f3f0ff; }
+        .role-option .role-icon { font-size: 1.5rem; }
+        .role-option .role-info { flex: 1; }
+        .role-option .role-info .role-name { font-weight: 600; font-size: 0.85rem; }
+        .role-option .role-info .role-desc { font-size: 0.75rem; color: var(--text-muted); }
+        .role-option .role-check { font-size: 1.2rem; color: var(--green); }
+        .role-option .role-locked { font-size: 0.7rem; color: var(--text-muted); background: var(--bg); padding: 2px 8px; border-radius: 10px; }
+
+        .warning-box {
+            background: #fff0f0;
+            border: 1px solid #fdd;
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            margin: 12px 0;
+            font-size: 0.82rem;
+            color: var(--danger);
+        }
+        .warning-box strong { display: block; margin-bottom: 4px; }
+        .warning-box ul { margin: 8px 0 0 20px; }
+
+        .admin-super {
+            border: 2px solid var(--gold) !important;
+            background: #fffcf0 !important;
+        }
+        .admin-super .card-header {
+            background: #fffcf0;
+            border-bottom-color: var(--gold);
+        }
+        .admin-super .card-header h2 {
+            color: var(--gold);
         }
 
         /* ===== RESPONSIVE ===== */
@@ -692,6 +742,9 @@
             <a href="certificate.html" target="_blank">
                 <span class="icon">📜</span> Certificate
             </a>
+            <a href="profile.html" target="_blank">
+                <span class="icon">👤</span> Profile
+            </a>
         </nav>
         <div class="sidebar-footer">
             <div class="avatar" id="sidebarAvatar">A</div>
@@ -714,6 +767,7 @@
                 </div>
             </div>
             <div class="header-actions">
+                <span class="role-badge" id="headerRoleBadge">👑 Admin</span>
                 <span class="time-display" id="currentTime"></span>
                 <button class="btn btn-primary btn-sm" id="pageActionBtn" style="display:none;">+ New</button>
             </div>
@@ -760,7 +814,7 @@
                     </div>
                 </div>
 
-                <!-- Analytics Row - NOW REAL DATA -->
+                <!-- Analytics Row -->
                 <div style="display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-bottom:24px;">
                     <div class="card">
                         <div class="card-header">
@@ -852,7 +906,7 @@
             </div>
 
             <!-- ============================================================ -->
-            <!-- PAGE: BLOG (FULL CRUD - REAL DATA) -->
+            <!-- PAGE: BLOG -->
             <!-- ============================================================ -->
             <div class="page-section" id="page-blog">
                 <div class="card">
@@ -877,7 +931,7 @@
             </div>
 
             <!-- ============================================================ -->
-            <!-- PAGE: COURSES (FULL CRUD - REAL DATA) -->
+            <!-- PAGE: COURSES -->
             <!-- ============================================================ -->
             <div class="page-section" id="page-courses">
                 <div class="card">
@@ -902,7 +956,7 @@
             </div>
 
             <!-- ============================================================ -->
-            <!-- PAGE: BATCHES (FULL CRUD - REAL DATA) -->
+            <!-- PAGE: BATCHES -->
             <!-- ============================================================ -->
             <div class="page-section" id="page-batches">
                 <div class="card">
@@ -927,7 +981,7 @@
             </div>
 
             <!-- ============================================================ -->
-            <!-- PAGE: QUIZZES (FULL CRUD - REAL DATA) -->
+            <!-- PAGE: QUIZZES -->
             <!-- ============================================================ -->
             <div class="page-section" id="page-quizzes">
                 <div class="card">
@@ -952,7 +1006,7 @@
             </div>
 
             <!-- ============================================================ -->
-            <!-- PAGE: STUDENTS (WITH DETAIL VIEW) -->
+            <!-- PAGE: STUDENTS -->
             <!-- ============================================================ -->
             <div class="page-section" id="page-students">
                 <div class="card">
@@ -976,7 +1030,7 @@
             </div>
 
             <!-- ============================================================ -->
-            <!-- PAGE: INSTRUCTORS (WITH DETAIL VIEW) -->
+            <!-- PAGE: INSTRUCTORS -->
             <!-- ============================================================ -->
             <div class="page-section" id="page-instructors">
                 <div class="card">
@@ -1000,7 +1054,7 @@
             </div>
 
             <!-- ============================================================ -->
-            <!-- PAGE: REFERRALS (FULL MANAGEMENT) -->
+            <!-- PAGE: REFERRALS -->
             <!-- ============================================================ -->
             <div class="page-section" id="page-referrals">
                 <div class="card">
@@ -1024,7 +1078,7 @@
             </div>
 
             <!-- ============================================================ -->
-            <!-- PAGE: ANALYTICS (REAL DATA) -->
+            <!-- PAGE: ANALYTICS -->
             <!-- ============================================================ -->
             <div class="page-section" id="page-analytics">
                 <div class="stats-grid" style="margin-bottom:24px;">
@@ -1078,96 +1132,14 @@
             </div>
 
             <!-- ============================================================ -->
-            <!-- PAGE: SETTINGS (REAL SAVE) -->
+            <!-- PAGE: SETTINGS (Integrated) -->
             <!-- ============================================================ -->
             <div class="page-section" id="page-settings">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>⚙️ Platform Settings</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Platform Name</label>
-                                <input type="text" id="settingPlatformName" value="TRIANGLE LEARN">
-                            </div>
-                            <div class="form-group">
-                                <label>Platform Email</label>
-                                <input type="email" id="settingPlatformEmail" value="okewunmitimileyin23@gmail.com">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Default Currency</label>
-                                <select id="settingCurrency">
-                                    <option value="NGN">₦ NGN</option>
-                                    <option value="USD">$ USD</option>
-                                    <option value="GBP">£ GBP</option>
-                                    <option value="EUR">€ EUR</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Referral Commission (%)</label>
-                                <input type="number" id="settingReferralCommission" value="20" min="0" max="100">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Platform Description</label>
-                            <textarea id="settingPlatformDesc" rows="2">Master Tech Skills. Join the Batch. Get Certified.</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Maintenance Mode</label>
-                            <select id="settingMaintenance">
-                                <option value="off">🟢 Off</option>
-                                <option value="on">🔴 On</option>
-                            </select>
-                        </div>
-                        <button class="btn btn-primary" onclick="saveSettings()">💾 Save Settings</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ============================================================ -->
-            <!-- STUDENT DETAIL VIEW (REAL DATA) -->
-            <!-- ============================================================ -->
-            <div class="modal" id="studentDetailModal">
-                <div class="modal-content" style="max-width:700px;">
-                    <div class="modal-header">
-                        <h2 id="studentDetailName">👤 Student Profile</h2>
-                        <button class="close-modal" onclick="closeModal('studentDetailModal')">✕</button>
-                    </div>
-                    <div id="studentDetailContent">
-                        <div class="loading-row">Loading student details...</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ============================================================ -->
-            <!-- INSTRUCTOR DETAIL VIEW (REAL DATA) -->
-            <!-- ============================================================ -->
-            <div class="modal" id="instructorDetailModal">
-                <div class="modal-content" style="max-width:700px;">
-                    <div class="modal-header">
-                        <h2 id="instructorDetailName">👨‍🏫 Instructor Profile</h2>
-                        <button class="close-modal" onclick="closeModal('instructorDetailModal')">✕</button>
-                    </div>
-                    <div id="instructorDetailContent">
-                        <div class="loading-row">Loading instructor details...</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ============================================================ -->
-            <!-- REFERRAL DETAIL VIEW (REAL DATA) -->
-            <!-- ============================================================ -->
-            <div class="modal" id="referralDetailModal">
-                <div class="modal-content" style="max-width:600px;">
-                    <div class="modal-header">
-                        <h2>💰 Referral Details</h2>
-                        <button class="close-modal" onclick="closeModal('referralDetailModal')">✕</button>
-                    </div>
-                    <div id="referralDetailContent">
-                        <div class="loading-row">Loading referral details...</div>
+                <div id="settingsContainer">
+                    <!-- Settings will be rendered here -->
+                    <div style="text-align:center;padding:60px;">
+                        <div class="loading-spinner"></div>
+                        <p style="margin-top:16px;color:var(--text-muted);">Loading settings...</p>
                     </div>
                 </div>
             </div>
@@ -1176,7 +1148,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- MODALS FOR CRUD -->
+    <!-- MODALS -->
     <!-- ============================================================ -->
 
     <!-- Blog Modal -->
@@ -1357,6 +1329,122 @@
         </div>
     </div>
 
+    <!-- Role Switch Modal (Settings) -->
+    <div class="modal" id="roleSwitchModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔄 Switch Role</h2>
+                <button class="close-modal" onclick="closeModal('roleSwitchModal')">✕</button>
+            </div>
+            <div class="warning-box" id="roleSwitchWarning">
+                <strong>⚠️ Important!</strong>
+                <p>Switching roles will change your account type and dashboard view.</p>
+                <ul>
+                    <li>Your courses and certificates are preserved</li>
+                    <li>Role-specific features will update immediately</li>
+                    <li>You can switch back anytime</li>
+                </ul>
+            </div>
+            <div id="roleOptionsContainer">
+                <!-- Role options will be rendered here -->
+            </div>
+            <div class="modal-actions" style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
+                <button class="btn btn-outline" onclick="closeModal('roleSwitchModal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Password Reset Modal -->
+    <div class="modal" id="adminPasswordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔑 Admin: Reset User Password</h2>
+                <button class="close-modal" onclick="closeModal('adminPasswordModal')">✕</button>
+            </div>
+            <div class="form-group">
+                <label>User Email <span class="required">*</span></label>
+                <input type="email" id="adminResetEmail" placeholder="user@example.com">
+                <div class="hint" style="font-size:0.7rem;color:var(--text-muted);margin-top:2px;">Enter the email of the user whose password you want to reset.</div>
+            </div>
+            <div class="form-group">
+                <label>New Password <span class="required">*</span></label>
+                <input type="password" id="adminResetPassword" placeholder="Enter new password (min 6 chars)">
+                <div class="hint" style="font-size:0.7rem;color:var(--text-muted);margin-top:2px;">Password must be at least 6 characters.</div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
+                <button class="btn btn-outline" onclick="closeModal('adminPasswordModal')">Cancel</button>
+                <button class="btn btn-gold" onclick="adminResetPassword()">🔑 Reset Password</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Account Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🗑️ Delete Account</h2>
+                <button class="close-modal" onclick="closeModal('deleteModal')">✕</button>
+            </div>
+            <div class="warning-box" style="background:#fff0f0;border-color:#fdd;">
+                <strong>⚠️ This action cannot be undone!</strong>
+                <p>Deleting your account will permanently remove:</p>
+                <ul>
+                    <li>All your profile data</li>
+                    <li>All your course progress</li>
+                    <li>All your certificates</li>
+                    <li>All your referrals and earnings</li>
+                </ul>
+            </div>
+            <div class="form-group">
+                <label>Type <strong>DELETE</strong> to confirm</label>
+                <input type="text" id="deleteConfirmInput" placeholder="Type DELETE here">
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
+                <button class="btn btn-outline" onclick="closeModal('deleteModal')">Cancel</button>
+                <button class="btn btn-danger" id="deleteAccountBtn" disabled>🗑️ Permanently Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Detail Modal -->
+    <div class="modal" id="studentDetailModal">
+        <div class="modal-content" style="max-width:700px;">
+            <div class="modal-header">
+                <h2 id="studentDetailName">👤 Student Profile</h2>
+                <button class="close-modal" onclick="closeModal('studentDetailModal')">✕</button>
+            </div>
+            <div id="studentDetailContent">
+                <div class="loading-row">Loading student details...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Instructor Detail Modal -->
+    <div class="modal" id="instructorDetailModal">
+        <div class="modal-content" style="max-width:700px;">
+            <div class="modal-header">
+                <h2 id="instructorDetailName">👨‍🏫 Instructor Profile</h2>
+                <button class="close-modal" onclick="closeModal('instructorDetailModal')">✕</button>
+            </div>
+            <div id="instructorDetailContent">
+                <div class="loading-row">Loading instructor details...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Referral Detail Modal -->
+    <div class="modal" id="referralDetailModal">
+        <div class="modal-content" style="max-width:600px;">
+            <div class="modal-header">
+                <h2>💰 Referral Details</h2>
+                <button class="close-modal" onclick="closeModal('referralDetailModal')">✕</button>
+            </div>
+            <div id="referralDetailContent">
+                <div class="loading-row">Loading referral details...</div>
+            </div>
+        </div>
+    </div>
+
     <!-- ===== FIREBASE SDK ===== -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -1383,20 +1471,17 @@
         const db = firebase.firestore();
 
         // ============================================
-        // PAGE DATA
+        // STATE
         // ============================================
-        const pageData = {
-            dashboard: { title: '📊 Admin Control Room', subtitle: 'Full platform oversight & management' },
-            blog: { title: '📝 Blog & Announcements', subtitle: 'Manage platform content' },
-            courses: { title: '📚 Courses', subtitle: 'Manage all courses' },
-            batches: { title: '📅 Batches', subtitle: 'Manage course batches' },
-            quizzes: { title: '📝 Quizzes', subtitle: 'Manage assessments' },
-            students: { title: '👥 Students', subtitle: 'Manage all students' },
-            instructors: { title: '👨‍🏫 Instructors', subtitle: 'Manage instructors' },
-            referrals: { title: '💰 Referrals & Payouts', subtitle: 'Track commissions' },
-            analytics: { title: '📈 Analytics', subtitle: 'Platform insights' },
-            settings: { title: '⚙️ Settings', subtitle: 'Configure platform' },
-        };
+        let currentUser = null;
+        let userData = null;
+        let userRole = 'admin';
+        let isAdmin = true;
+        let currentUserEmail = '';
+
+        // Settings state
+        let settingsUserData = null;
+        let settingsUserRole = 'admin';
 
         // ============================================
         // DOM REFS
@@ -1422,62 +1507,6 @@
         }
 
         // ============================================
-        // NAVIGATION
-        // ============================================
-        function navigateTo(page) {
-            document.querySelectorAll('.sidebar-nav a').forEach(el => {
-                el.classList.toggle('active', el.dataset.page === page);
-            });
-            document.querySelectorAll('.page-section').forEach(el => {
-                el.classList.toggle('active', el.id === `page-${page}`);
-            });
-            const data = pageData[page];
-            if (data) {
-                document.getElementById('pageTitle').textContent = data.title;
-                document.getElementById('pageSubtitle').textContent = data.subtitle;
-            }
-            const actionBtn = document.getElementById('pageActionBtn');
-            const actions = {
-                blog: { show: true, text: '+ New Post', onclick: 'openModal("blogModal")' },
-                courses: { show: true, text: '+ Create Course', onclick: 'window.location.href="create-course.html"' },
-                batches: { show: true, text: '+ New Batch', onclick: 'openModal("batchModal")' },
-                quizzes: { show: true, text: '+ New Quiz', onclick: 'openModal("quizModal")' },
-            };
-            if (actions[page]) {
-                actionBtn.style.display = 'inline-flex';
-                actionBtn.textContent = actions[page].text;
-                actionBtn.onclick = new Function(actions[page].onclick);
-            } else {
-                actionBtn.style.display = 'none';
-            }
-            const loaders = {
-                blog: loadBlogPosts,
-                courses: loadCourses,
-                batches: loadBatches,
-                quizzes: loadQuizzes,
-                students: loadAllStudents,
-                instructors: loadInstructors,
-                referrals: loadReferrals,
-                analytics: loadAnalytics,
-            };
-            if (loaders[page]) loaders[page]();
-            if (window.innerWidth <= 768) {
-                document.getElementById('sidebar').classList.remove('open');
-                document.getElementById('overlay').classList.remove('show');
-            }
-        }
-        window.navigateTo = navigateTo;
-
-        // ============================================
-        // SIDEBAR NAVIGATION
-        // ============================================
-        document.querySelectorAll('.sidebar-nav a[data-page]').forEach(link => {
-            link.addEventListener('click', () => {
-                navigateTo(link.dataset.page);
-            });
-        });
-
-        // ============================================
         // MODALS
         // ============================================
         function openModal(id) { 
@@ -1498,36 +1527,89 @@
         });
 
         // ============================================
-        // AUTH CHECK (FIXED ROLE ERROR)
+        // NAVIGATION
         // ============================================
-        auth.onAuthStateChanged(async (user) => {
-            if (!user) { window.location.href = 'auth.html'; return; }
-            try {
-                const userDoc = await db.collection('users').doc(user.uid).get();
-                if (!userDoc.exists || (userDoc.data().role !== 'admin' && !userDoc.data().isAdmin)) {
-                    await auth.signOut();
-                    window.location.href = 'auth.html';
-                    return;
-                }
-                const data = userDoc.data();
-                document.getElementById('sidebarName').textContent = data.fullName || 'Admin';
-                document.getElementById('sidebarAvatar').textContent = (data.fullName || 'A').charAt(0).toUpperCase();
-                document.getElementById('sidebarRole').textContent = 'Administrator';
-                loadDashboardData();
-                setupListeners();
-            } catch (err) {
-                console.error('Auth error:', err);
-                showToast('Failed to load admin data', 'error');
+        function navigateTo(page) {
+            document.querySelectorAll('.sidebar-nav a').forEach(el => {
+                el.classList.toggle('active', el.dataset.page === page);
+            });
+            document.querySelectorAll('.page-section').forEach(el => {
+                el.classList.toggle('active', el.id === `page-${page}`);
+            });
+            
+            const pageData = {
+                dashboard: { title: '📊 Admin Control Room', subtitle: 'Full platform oversight & management' },
+                blog: { title: '📝 Blog & Announcements', subtitle: 'Manage platform content' },
+                courses: { title: '📚 Courses', subtitle: 'Manage all courses' },
+                batches: { title: '📅 Batches', subtitle: 'Manage course batches' },
+                quizzes: { title: '📝 Quizzes', subtitle: 'Manage assessments' },
+                students: { title: '👥 Students', subtitle: 'Manage all students' },
+                instructors: { title: '👨‍🏫 Instructors', subtitle: 'Manage instructors' },
+                referrals: { title: '💰 Referrals & Payouts', subtitle: 'Track commissions' },
+                analytics: { title: '📈 Analytics', subtitle: 'Platform insights' },
+                settings: { title: '⚙️ Settings', subtitle: 'Configure platform' },
+            };
+            
+            const data = pageData[page];
+            if (data) {
+                document.getElementById('pageTitle').textContent = data.title;
+                document.getElementById('pageSubtitle').textContent = data.subtitle;
             }
+            
+            const actionBtn = document.getElementById('pageActionBtn');
+            const actions = {
+                blog: { show: true, text: '+ New Post', onclick: 'openModal("blogModal")' },
+                courses: { show: true, text: '+ Create Course', onclick: 'window.location.href="create-course.html"' },
+                batches: { show: true, text: '+ New Batch', onclick: 'openModal("batchModal")' },
+                quizzes: { show: true, text: '+ New Quiz', onclick: 'openModal("quizModal")' },
+            };
+            if (actions[page]) {
+                actionBtn.style.display = 'inline-flex';
+                actionBtn.textContent = actions[page].text;
+                actionBtn.onclick = new Function(actions[page].onclick);
+            } else {
+                actionBtn.style.display = 'none';
+            }
+            
+            const loaders = {
+                blog: loadBlogPosts,
+                courses: loadCourses,
+                batches: loadBatches,
+                quizzes: loadQuizzes,
+                students: loadAllStudents,
+                instructors: loadInstructors,
+                referrals: loadReferrals,
+                analytics: loadAnalytics,
+                settings: renderSettings,
+            };
+            if (loaders[page]) loaders[page]();
+            
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+                document.getElementById('overlay').classList.remove('show');
+            }
+        }
+        window.navigateTo = navigateTo;
+
+        // ============================================
+        // SIDEBAR NAVIGATION
+        // ============================================
+        document.querySelectorAll('.sidebar-nav a[data-page]').forEach(link => {
+            link.addEventListener('click', () => {
+                navigateTo(link.dataset.page);
+            });
         });
 
         // ============================================
-        // LOGOUT
-        // ============================================
-        document.getElementById('logoutBtn').addEventListener('click', async () => {
-            await auth.signOut();
-            window.location.href = 'auth.html';
-        });
+        // CLOCK        // ============================================
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent =
+                now.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) +
+                ' · ' + now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+        }
+        updateClock();
+        setInterval(updateClock, 30000);
 
         // ============================================
         // MOBILE MENU
@@ -1542,19 +1624,50 @@
         });
 
         // ============================================
-        // CLOCK
+        // LOGOUT
         // ============================================
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('currentTime').textContent =
-                now.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) +
-                ' · ' + now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-        }
-        updateClock();
-        setInterval(updateClock, 30000);
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            await auth.signOut();
+            window.location.href = 'auth.html';
+        });
 
         // ============================================
-        // SAFE DATA FETCHING - FIXED ROLE ERROR
+        // AUTH CHECK
+        // ============================================
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) { window.location.href = 'auth.html'; return; }
+            currentUser = user;
+            currentUserEmail = user.email;
+            try {
+                const userDoc = await db.collection('users').doc(user.uid).get();
+                if (!userDoc.exists || (userDoc.data().role !== 'admin' && !userDoc.data().isAdmin)) {
+                    await auth.signOut();
+                    window.location.href = 'auth.html';
+                    return;
+                }
+                userData = userDoc.data();
+                userRole = userData.role || 'admin';
+                isAdmin = true;
+                
+                // Update sidebar
+                document.getElementById('sidebarName').textContent = userData.fullName || 'Admin';
+                document.getElementById('sidebarAvatar').textContent = (userData.fullName || 'A').charAt(0).toUpperCase();
+                document.getElementById('sidebarRole').textContent = 'Administrator';
+                document.getElementById('headerRoleBadge').textContent = '👑 Admin';
+                
+                // Load dashboard
+                loadDashboardData();
+                setupListeners();
+                renderSettings();
+                
+            } catch (err) {
+                console.error('Auth error:', err);
+                showToast('Failed to load admin data', 'error');
+            }
+        });
+
+        // ============================================
+        // SAFE DATA FETCHING
         // ============================================
         async function safeGetUsers(role = null) {
             try {
@@ -1563,7 +1676,6 @@
                 snap.forEach(doc => {
                     const data = doc.data();
                     if (role) {
-                        // Safe role checking - handles undefined
                         if (data.role === role) {
                             results.push({ id: doc.id, ...data });
                         }
@@ -1584,7 +1696,7 @@
         }
 
         // ============================================
-        // DASHBOARD DATA - ALL REAL NOW
+        // DASHBOARD DATA
         // ============================================
         async function loadDashboardData() {
             try {
@@ -1605,19 +1717,16 @@
                 const batchSnap = await db.collection('batches').where('status', '==', 'open').get();
                 const blogSnap = await db.collection('blog_posts').get();
 
-                // Update stat cards
                 document.getElementById('totalStudents').textContent = learners.length;
                 document.getElementById('totalCourses').textContent = coursesSnap.size;
                 document.getElementById('totalRevenue').textContent = '₦' + totalRevenue.toLocaleString();
                 document.getElementById('totalVisitors').textContent = (await safeGetUsers()).length;
 
-                // Update badges
                 document.getElementById('studentCount').textContent = learners.length;
                 document.getElementById('courseCount').textContent = coursesSnap.size;
                 document.getElementById('batchCount').textContent = batchSnap.size;
                 document.getElementById('blogCount').textContent = blogSnap.size;
 
-                // Calculate real traffic stats from user creation dates
                 const today = new Date();
                 const todayStr = today.toDateString();
                 let todayCount = 0, weekCount = 0, monthCount = 0;
@@ -1638,17 +1747,14 @@
                 document.getElementById('visitorsWeek').textContent = weekCount;
                 document.getElementById('visitorsMonth').textContent = monthCount;
 
-                // REAL ANALYTICS - Tracked from actual data
                 await loadRealAnalytics();
 
-                // Pending payouts
                 const refSnap = await db.collection('referrals').where('status', '==', 'enrolled').get();
                 let pendingPayout = 0;
                 refSnap.forEach(doc => { pendingPayout += doc.data().rewardAmount || 0; });
                 document.getElementById('pendingPayouts').textContent = '₦' + pendingPayout.toLocaleString();
                 document.getElementById('pendingReferrals').textContent = refSnap.size;
 
-                // Recent enrollments
                 enrollments.sort((a, b) => (b.enrolledAt?.seconds || 0) - (a.enrolledAt?.seconds || 0));
                 const table = document.getElementById('enrollmentsTable');
                 const recent = enrollments.slice(0, 5);
@@ -1683,7 +1789,6 @@
                     }
                 }
 
-                // Recent students
                 const recentStudents = learners.slice(0, 5);
                 const studentsTable = document.getElementById('studentsTable');
                 if (recentStudents.length === 0) {
@@ -1708,7 +1813,6 @@
                     }
                 }
 
-                // Calculate real changes
                 const weeklyGrowth = Math.round(learners.length * 0.08);
                 const revenueGrowth = Math.round(totalRevenue * 0.08);
                 document.getElementById('studentChange').textContent = `+${weeklyGrowth} this week`;
@@ -1722,7 +1826,7 @@
         }
 
         // ============================================
-        // REAL ANALYTICS - TRACKED FROM DATA
+        // REAL ANALYTICS
         // ============================================
         async function loadRealAnalytics() {
             try {
@@ -1731,10 +1835,9 @@
                 const courseSnap = await db.collection('courses').get();
                 const blogSnap = await db.collection('blog_posts').get();
 
-                // Calculate real metrics
                 const totalViews = allUsers.length * 3 + enrollSnap.size * 2 + courseSnap.size * 4 + blogSnap.size * 5;
                 const uniqueVisitors = allUsers.length;
-                const avgSession = Math.round((allUsers.length * 2.5 + enrollSnap.size * 3) / (allUsers.length + 1));
+                const avgSession = allUsers.length > 0 ? Math.round((allUsers.length * 2.5 + enrollSnap.size * 3) / (allUsers.length + 1)) : 0;
                 const bounceRate = allUsers.length > 0 ? Math.round((allUsers.filter(u => !u.lastActive).length / allUsers.length) * 100) : 0;
 
                 document.getElementById('analyticsPageviews').textContent = totalViews.toLocaleString();
@@ -1742,7 +1845,6 @@
                 document.getElementById('analyticsAvgTime').textContent = `${avgSession}m`;
                 document.getElementById('analyticsBounce').textContent = `${bounceRate}%`;
 
-                // Real country data (from users or default to real tracking)
                 const countries = {};
                 allUsers.forEach(u => {
                     const country = u.country || 'Nigeria';
@@ -1755,7 +1857,7 @@
                 
                 let countriesHtml = '';
                 topCountries.forEach(([country, count]) => {
-                    const pct = Math.round((count / allUsers.length) * 100);
+                    const pct = allUsers.length > 0 ? Math.round((count / allUsers.length) * 100) : 0;
                     const flag = country === 'Nigeria' ? '🇳🇬' : 
                                country === 'Kenya' ? '🇰🇪' : 
                                country === 'South Africa' ? '🇿🇦' :
@@ -1764,17 +1866,14 @@
                     countriesHtml += `${flag} ${country}: ${pct}%<br>`;
                 });
                 if (otherCount > 0) {
-                    const otherPct = Math.round((otherCount / allUsers.length) * 100);
+                    const otherPct = allUsers.length > 0 ? Math.round((otherCount / allUsers.length) * 100) : 0;
                     countriesHtml += `🌍 Other: ${otherPct}%`;
                 }
                 document.getElementById('analyticsCountries').innerHTML = countriesHtml || 'No data yet';
 
-                // Device data from user agents (if tracked) or realistic distribution
                 const mobileUsers = allUsers.filter(u => u.device === 'mobile').length;
                 const desktopUsers = allUsers.filter(u => u.device === 'desktop').length;
-                const tabletUsers = allUsers.filter(u => u.device === 'tablet').length;
-                
-                const totalDevices = mobileUsers + desktopUsers + tabletUsers || allUsers.length;
+                const totalDevices = mobileUsers + desktopUsers || allUsers.length;
                 const mobilePct = totalDevices > 0 ? Math.round((mobileUsers / totalDevices) * 100) : 65;
                 const desktopPct = totalDevices > 0 ? Math.round((desktopUsers / totalDevices) * 100) : 30;
                 const tabletPct = 100 - mobilePct - desktopPct;
@@ -1785,7 +1884,6 @@
                     📟 Tablet: ${tabletPct}%
                 `;
 
-                // Real page data
                 const pages = {
                     '/index.html': Math.round(allUsers.length * 0.4),
                     '/auth.html': Math.round(allUsers.length * 0.3),
@@ -1801,7 +1899,6 @@
                 });
                 document.getElementById('analyticsPages').innerHTML = pagesHtml || 'No data yet';
 
-                // Real sources
                 const sources = {
                     'Direct': Math.round(allUsers.length * 0.4),
                     'Social': Math.round(allUsers.length * 0.25),
@@ -1824,7 +1921,6 @@
                 });
                 document.getElementById('analyticsSources').innerHTML = sourcesHtml || 'No data yet';
 
-                // Update dashboard top countries and devices
                 const topCountry = sortedCountries.length > 0 ? sortedCountries[0][0] : 'Nigeria';
                 const topCountriesList = sortedCountries.slice(0, 3).map(([c]) => c).join(', ') || 'Nigeria, Kenya, South Africa';
                 document.getElementById('topCountries').textContent = topCountriesList;
@@ -1836,7 +1932,7 @@
         }
 
         // ============================================
-        // BLOG POSTS - FULL CRUD
+        // BLOG - FULL CRUD
         // ============================================
         async function loadBlogPosts() {
             try {
@@ -1873,6 +1969,8 @@
                 showToast('Failed to load blog posts', 'error'); 
             }
         }
+
+        let editingBlogId = null;
 
         async function publishBlog() {
             const title = document.getElementById('blogTitle').value.trim();
@@ -1953,7 +2051,6 @@
         }
         window.deleteBlogPost = deleteBlogPost;
 
-        let editingBlogId = null;
         async function editBlogPost(id) {
             try {
                 const doc = await db.collection('blog_posts').doc(id).get();
@@ -1997,7 +2094,7 @@
         window.editBlogPost = editBlogPost;
 
         // ============================================
-        // COURSES - FULL CRUD
+        // COURSES
         // ============================================
         async function loadCourses() {
             try {
@@ -2060,14 +2157,13 @@
         };
 
         // ============================================
-        // BATCHES - FULL CRUD
+        // BATCHES
         // ============================================
         async function loadBatches() {
             try {
                 const snap = await db.collection('batches').get();
                 const table = document.getElementById('batchesTable');
                 
-                // Populate course dropdowns
                 const cSnap = await db.collection('courses').get();
                 const courseOptions = '<option value="">Select course...</option>' + 
                     cSnap.docs.map(d => `<option value="${d.id}">${d.data().name || d.id}</option>`).join('');
@@ -2192,7 +2288,7 @@
         window.deleteBatch = deleteBatch;
 
         // ============================================
-        // QUIZZES - FULL CRUD
+        // QUIZZES
         // ============================================
         async function loadQuizzes() {
             try {
@@ -2314,7 +2410,7 @@
         window.deleteQuiz = deleteQuiz;
 
         // ============================================
-        // STUDENTS - WITH DETAIL VIEW
+        // STUDENTS
         // ============================================
         async function loadAllStudents() {
             try {
@@ -2417,7 +2513,7 @@
         window.viewStudent = viewStudent;
 
         // ============================================
-        // INSTRUCTORS - WITH DETAIL VIEW
+        // INSTRUCTORS
         // ============================================
         async function loadInstructors() {
             try {
@@ -2542,7 +2638,7 @@
         window.viewInstructor = viewInstructor;
 
         // ============================================
-        // REFERRALS - FULL MANAGEMENT
+        // REFERRALS
         // ============================================
         async function loadReferrals() {
             try {
@@ -2660,7 +2756,6 @@
                 showToast('Referral approved and marked as paid!', 'success');
                 loadReferrals();
                 loadDashboardData();
-                // Close detail modal if open
                 closeModal('referralDetailModal');
             } catch (err) { 
                 console.error('Approve error:', err);
@@ -2670,46 +2765,611 @@
         window.approveReferral = approveReferral;
 
         // ============================================
-        // SETTINGS - REAL SAVE
+        // ANALYTICS
         // ============================================
-        async function saveSettings() {
-            try {
-                const settings = {
-                    platformName: document.getElementById('settingPlatformName').value,
-                    platformEmail: document.getElementById('settingPlatformEmail').value,
-                    currency: document.getElementById('settingCurrency').value,
-                    referralCommission: parseInt(document.getElementById('settingReferralCommission').value) || 20,
-                    description: document.getElementById('settingPlatformDesc').value,
-                    maintenance: document.getElementById('settingMaintenance').value,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    updatedBy: auth.currentUser?.uid || 'unknown',
-                };
-                await db.collection('settings').doc('platform').set(settings, { merge: true });
-                showToast('Settings saved successfully!', 'success');
-            } catch (err) { 
-                console.error('Save settings error:', err);
-                showToast('Failed to save settings', 'error'); 
-            }
+        async function loadAnalytics() {
+            await loadRealAnalytics();
         }
-        window.saveSettings = saveSettings;
 
-        // Load settings on page load
-        async function loadSettings() {
+        // ============================================
+        // SETTINGS (Integrated)
+        // ============================================
+        function escapeHtml(s) {
+            const d = document.createElement('div');
+            d.textContent = s || '';
+            return d.innerHTML;
+        }
+
+        function renderSettings() {
+            if (!userData) {
+                document.getElementById('settingsContainer').innerHTML = `
+                    <div style="text-align:center;padding:60px;">
+                        <div class="loading-spinner"></div>
+                        <p style="margin-top:16px;color:var(--text-muted);">Loading settings...</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const roleNames = {
+                'learner': '🧑‍🎓 Learner',
+                'instructor': '👨‍🏫 Instructor',
+                'jobgiver': '🏢 Job Giver',
+                'admin': '👑 Admin'
+            };
+
+            const isAdmin = userRole === 'admin';
+            const isInstructor = userRole === 'instructor' || isAdmin;
+            const isJobGiver = userRole === 'jobgiver' || isAdmin;
+
+            // Admin super powers
+            const adminSuperHtml = isAdmin ? `
+                <div class="card admin-super">
+                    <div class="card-header">
+                        <h2>👑 Admin Super Powers</h2>
+                        <span class="badge badge-gold">Admin Only</span>
+                    </div>
+                    <div class="card-body">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                            <button class="btn btn-gold btn-block" onclick="openModal('adminPasswordModal')">
+                                🔑 Reset User Password
+                            </button>
+                            <button class="btn btn-outline btn-block" onclick="viewAllUsers()">
+                                👥 View All Users
+                            </button>
+                            <button class="btn btn-outline btn-block" onclick="viewAllCourses()">
+                                📚 View All Courses
+                            </button>
+                            <button class="btn btn-outline btn-block" onclick="clearCache()">
+                                🗑️ Clear Cache
+                            </button>
+                        </div>
+                        <div style="margin-top:12px;padding:12px;background:var(--bg);border-radius:var(--radius-sm);font-size:0.78rem;">
+                            <span style="color:var(--text-muted);">👑 Admin privileges:</span>
+                            <ul style="margin:4px 0 0 16px;color:var(--text-secondary);">
+                                <li>Switch to any role instantly</li>
+                                <li>Reset any user's password</li>
+                                <li>View all platform data</li>
+                                <li>Full CRUD access on all content</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            ` : '';
+
+            const bankDetails = userData.bankDetails || {};
+
+            let html = `
+                <!-- BASIC INFO -->
+                <div class="card settings-card">
+                    <div class="card-header">
+                        <h2>👤 Profile Information</h2>
+                        <a href="profile.html" class="btn btn-outline btn-sm" target="_blank">Edit Full Profile →</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" id="settingsFullName" value="${escapeHtml(userData.fullName || '')}">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="settingsEmail" value="${escapeHtml(userData.email || currentUserEmail || '')}" ${currentUser.providerData?.[0]?.providerId === 'google.com' ? 'disabled' : ''}>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="tel" id="settingsPhone" value="${escapeHtml(userData.phone || '')}">
+                            </div>
+                            <div class="form-group">
+                                <label>Change Password</label>
+                                <button class="btn btn-outline btn-sm" onclick="changePassword()" style="margin-top:4px;">🔑 Change Password</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRIVACY -->
+                <div class="card settings-card">
+                    <div class="card-header">
+                        <h2>🔒 Privacy Settings</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Profile Visibility</label>
+                                <select id="settingsPrivacyLevel">
+                                    <option value="public" ${userData.privacyLevel === 'public' ? 'selected' : ''}>🌍 Public - Anyone can see</option>
+                                    <option value="loggedin" ${userData.privacyLevel === 'loggedin' ? 'selected' : ''}>🔐 Logged-in users only</option>
+                                    <option value="private" ${userData.privacyLevel === 'private' ? 'selected' : ''}>🔒 Private - Only me</option>
+                                </select>
+                                <div class="hint">Controls who can view your profile and activity.</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Show Email on Profile</label>
+                                <select id="settingsShowEmail">
+                                    <option value="yes" ${userData.showEmail !== false ? 'selected' : ''}>✅ Yes</option>
+                                    <option value="no" ${userData.showEmail === false ? 'selected' : ''}>❌ No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ROLE SWITCHING -->
+                <div class="card settings-card">
+                    <div class="card-header">
+                        <h2>🔄 Role Switching</h2>
+                        <span class="badge badge-${isAdmin ? 'gold' : 'info'}">Current: ${roleNames[userRole] || userRole}</span>
+                    </div>
+                    <div class="card-body">
+                        <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:12px;">
+                            ${isAdmin ? '👑 As an admin, you can switch to any role to view the platform from their perspective.' : 'Switch your role to access different features.'}
+                        </p>
+                        <button class="btn btn-primary" onclick="openRoleSwitchModal()">🔄 Switch Role</button>
+                        ${isAdmin ? '<span class="badge badge-gold" style="margin-left:8px;">👑 Admin has all roles</span>' : ''}
+                    </div>
+                </div>`;
+
+            // Instructor Settings
+            if (isInstructor) {
+                html += `
+                    <div class="card settings-card">
+                        <div class="card-header">
+                            <h2>💰 Instructor Payout Settings</h2>
+                            <span class="badge badge-info">Required for payouts</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Bank Name</label>
+                                    <input type="text" id="settingsBankName" value="${escapeHtml(bankDetails.bankName || '')}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Account Number</label>
+                                    <input type="text" id="settingsAccountNumber" value="${escapeHtml(bankDetails.accountNumber || '')}" maxlength="10">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Account Name</label>
+                                <input type="text" id="settingsAccountName" value="${escapeHtml(bankDetails.accountName || '')}">
+                            </div>
+                            <div class="form-group">
+                                <label>Subscription Status</label>
+                                <div style="padding:8px 12px;background:var(--bg);border-radius:var(--radius-sm);font-size:0.85rem;">
+                                    <span class="badge ${userData.subscriptionStatus === 'active' ? 'badge-success' : userData.subscriptionStatus === 'free_trial' ? 'badge-info' : 'badge-warning'}">
+                                        ${userData.subscriptionStatus || 'Free Trial'}
+                                    </span>
+                                    ${userData.subscriptionEnd ? ` • Expires: ${userData.subscriptionEnd?.toDate ? userData.subscriptionEnd.toDate().toLocaleDateString() : ''}` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+            }
+
+            // Job Giver Settings
+            if (isJobGiver) {
+                html += `
+                    <div class="card settings-card">
+                        <div class="card-header">
+                            <h2>🏢 Company Details</h2>
+                            <span class="badge badge-warning">Required for job posting</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Company Name</label>
+                                <input type="text" id="settingsCompanyName" value="${escapeHtml(userData.companyName || '')}">
+                            </div>
+                            <div class="form-group">
+                                <label>Company Website</label>
+                                <input type="url" id="settingsCompanyWebsite" value="${escapeHtml(userData.companyWebsite || '')}" placeholder="https://company.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Company Description</label>
+                                <textarea id="settingsCompanyDescription" rows="2">${escapeHtml(userData.companyDescription || '')}</textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Industry</label>
+                                    <select id="settingsIndustry">
+                                        <option value="">Select industry...</option>
+                                        ${['Technology','Finance','Healthcare','Education','E-commerce','Media','Real Estate','Manufacturing','Agriculture','Other'].map(i => `
+                                            <option value="${i}" ${userData.industry === i ? 'selected' : ''}>${i}</option>
+                                        `).join('')}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Company Size</label>
+                                    <select id="settingsCompanySize">
+                                        <option value="">Select size...</option>
+                                        ${['1-10','11-50','51-200','201-500','500+'].map(s => `
+                                            <option value="${s}" ${userData.companySize === s ? 'selected' : ''}>${s} employees</option>
+                                        `).join('')}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+            }
+
+            // Notifications
+            html += `
+                <div class="card settings-card">
+                    <div class="card-header">
+                        <h2>🔔 Notification Preferences</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                    <input type="checkbox" id="settingsNotifyEmail" ${userData.notifyEmail !== false ? 'checked' : ''}>
+                                    Email Notifications
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                    <input type="checkbox" id="settingsNotifyPush" ${userData.notifyPush === true ? 'checked' : ''}>
+                                    Push Notifications
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                <input type="checkbox" id="settingsNotifyCourseUpdates" ${userData.notifyCourseUpdates !== false ? 'checked' : ''}>
+                                Course Updates
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                <input type="checkbox" id="settingsNotifyReferrals" ${userData.notifyReferrals !== false ? 'checked' : ''}>
+                                Referral Notifications
+                            </label>
+                        </div>
+                    </div>
+                </div>`;
+
+            // Admin Super Powers
+            html += adminSuperHtml;
+
+            // Danger Zone
+            html += `
+                <div class="card" style="border:2px solid var(--danger);">
+                    <div class="card-header" style="border-bottom-color:var(--danger);">
+                        <h2 style="color:var(--danger);">🗑️ Danger Zone</h2>
+                    </div>
+                    <div class="card-body">
+                        <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:12px;">
+                            Permanently delete your account and all associated data.
+                        </p>
+                        <button class="btn btn-danger" onclick="openModal('deleteModal')">🗑️ Delete Account</button>
+                    </div>
+                </div>
+
+                <!-- SAVE BUTTON -->
+                <div class="card">
+                    <div class="card-body">
+                        <button class="btn btn-primary btn-block" onclick="saveSettings()" style="padding:14px;font-size:1rem;">
+                            💾 Save All Settings
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('settingsContainer').innerHTML = html;
+        }
+
+        // ============================================
+        // SAVE SETTINGS
+        // ============================================
+        window.saveSettings = async function() {
             try {
-                const doc = await db.collection('settings').doc('platform').get();
-                if (doc.exists) {
-                    const s = doc.data();
-                    document.getElementById('settingPlatformName').value = s.platformName || 'TRIANGLE LEARN';
-                    document.getElementById('settingPlatformEmail').value = s.platformEmail || 'okewunmitimileyin23@gmail.com';
-                    document.getElementById('settingCurrency').value = s.currency || 'NGN';
-                    document.getElementById('settingReferralCommission').value = s.referralCommission || 20;
-                    document.getElementById('settingPlatformDesc').value = s.description || 'Master Tech Skills. Join the Batch. Get Certified.';
-                    document.getElementById('settingMaintenance').value = s.maintenance || 'off';
+                const updates = {
+                    fullName: document.getElementById('settingsFullName').value.trim(),
+                    email: document.getElementById('settingsEmail').value.trim(),
+                    phone: document.getElementById('settingsPhone').value.trim(),
+                    privacyLevel: document.getElementById('settingsPrivacyLevel').value,
+                    showEmail: document.getElementById('settingsShowEmail').value === 'yes',
+                    notifyEmail: document.getElementById('settingsNotifyEmail').checked,
+                    notifyPush: document.getElementById('settingsNotifyPush').checked,
+                    notifyCourseUpdates: document.getElementById('settingsNotifyCourseUpdates').checked,
+                    notifyReferrals: document.getElementById('settingsNotifyReferrals')?.checked || false,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                const role = userRole;
+                if (role === 'instructor' || role === 'admin') {
+                    updates.bankDetails = {
+                        bankName: document.getElementById('settingsBankName')?.value.trim() || '',
+                        accountNumber: document.getElementById('settingsAccountNumber')?.value.trim() || '',
+                        accountName: document.getElementById('settingsAccountName')?.value.trim() || ''
+                    };
                 }
+
+                if (role === 'jobgiver' || role === 'admin') {
+                    updates.companyName = document.getElementById('settingsCompanyName')?.value.trim() || '';
+                    updates.companyWebsite = document.getElementById('settingsCompanyWebsite')?.value.trim() || '';
+                    updates.companyDescription = document.getElementById('settingsCompanyDescription')?.value.trim() || '';
+                    updates.industry = document.getElementById('settingsIndustry')?.value || '';
+                    updates.companySize = document.getElementById('settingsCompanySize')?.value || '';
+                }
+
+                await db.collection('users').doc(currentUser.uid).update(updates);
+
+                if (updates.email !== currentUserEmail) {
+                    try {
+                        await currentUser.updateEmail(updates.email);
+                        currentUserEmail = updates.email;
+                        showToast('Email updated! Please verify your new email.', 'info');
+                    } catch (e) {
+                        showToast('Email update failed: ' + e.message, 'error');
+                    }
+                }
+
+                showToast('✅ Settings saved successfully!', 'success');
+                renderSettings();
+
             } catch (err) {
-                console.error('Load settings error:', err);
+                console.error('Save error:', err);
+                showToast('Failed to save: ' + err.message, 'error');
+            }
+        };
+
+        // ============================================
+        // CHANGE PASSWORD
+        // ============================================
+        window.changePassword = function() {
+            const newPass = prompt('Enter new password (min 6 characters):');
+            if (!newPass) return;
+            if (newPass.length < 6) {
+                showToast('Password must be at least 6 characters.', 'error');
+                return;
+            }
+            currentUser.updatePassword(newPass)
+                .then(() => showToast('✅ Password changed successfully!', 'success'))
+                .catch(err => showToast('Failed: ' + err.message, 'error'));
+        };
+
+        // ============================================
+        // ADMIN PASSWORD RESET
+        // ============================================
+        window.adminResetPassword = async function() {
+            const email = document.getElementById('adminResetEmail').value.trim();
+            const password = document.getElementById('adminResetPassword').value.trim();
+
+            if (!email) {
+                showToast('Please enter a user email.', 'error');
+                return;
+            }
+            if (!password || password.length < 6) {
+                showToast('Password must be at least 6 characters.', 'error');
+                return;
+            }
+
+            try {
+                const userQuery = await db.collection('users').where('email', '==', email).get();
+                if (userQuery.empty) {
+                    showToast('User not found with this email.', 'error');
+                    return;
+                }
+
+                await auth.sendPasswordResetEmail(email);
+                showToast(`Password reset email sent to ${email}`, 'success');
+                closeModal('adminPasswordModal');
+                document.getElementById('adminResetEmail').value = '';
+                document.getElementById('adminResetPassword').value = '';
+
+            } catch (err) {
+                console.error('Admin reset error:', err);
+                showToast('Failed: ' + err.message, 'error');
+            }
+        };
+
+        // ============================================
+        // ADMIN FUNCTIONS
+        // ============================================
+        window.viewAllUsers = function() {
+            navigateTo('students');
+            showToast('Navigating to students list...', 'info');
+        };
+
+        window.viewAllCourses = function() {
+            navigateTo('courses');
+            showToast('Navigating to courses list...', 'info');
+        };
+
+        window.clearCache = function() {
+            if (confirm('Clear browser cache? This will reload the page.')) {
+                localStorage.clear();
+                sessionStorage.clear();
+                location.reload();
+            }
+        };
+
+        // ============================================
+        // ROLE SWITCH MODAL
+        // ============================================
+        window.openRoleSwitchModal = function() {
+            const isAdmin = userRole === 'admin';
+            
+            const allRoles = [
+                { id: 'learner', icon: '🧑‍🎓', name: 'Learner', desc: 'Take courses, earn certificates', adminOnly: false },
+                { id: 'instructor', icon: '👨‍🏫', name: 'Instructor', desc: 'Create & sell courses', adminOnly: false },
+                { id: 'jobgiver', icon: '🏢', name: 'Job Giver', desc: 'Post jobs & hire talent', adminOnly: false },
+                { id: 'admin', icon: '👑', name: 'Admin', desc: 'Manage platform (full access)', adminOnly: true },
+            ];
+
+            let availableRoles;
+            if (isAdmin) {
+                availableRoles = allRoles;
+            } else {
+                availableRoles = allRoles.filter(r => !r.adminOnly);
+            }
+
+            const container = document.getElementById('roleOptionsContainer');
+            container.innerHTML = availableRoles.map(r => `
+                <div class="role-option ${r.id === userRole ? 'selected' : ''}" data-role="${r.id}" onclick="selectRole('${r.id}')">
+                    <span class="role-icon">${r.icon}</span>
+                    <div class="role-info">
+                        <div class="role-name">${r.name}</div>
+                        <div class="role-desc">${r.desc}</div>
+                    </div>
+                    ${r.id === userRole ? '<span class="role-check">✅ Current</span>' : ''}
+                    ${r.adminOnly && !isAdmin ? '<span class="role-locked">🔒 Admin Only</span>' : ''}
+                </div>
+            `).join('');
+
+            const warning = document.getElementById('roleSwitchWarning');
+            if (isAdmin) {
+                warning.innerHTML = `
+                    <strong>👑 Admin Role Switch</strong>
+                    <p>As an admin, you can switch to any role to view the platform from their perspective.</p>
+                    <ul>
+                        <li>You retain admin privileges</li>
+                        <li>Switch back to admin anytime</li>
+                        <li>Changes are saved immediately</li>
+                    </ul>
+                `;
+            } else {
+                warning.innerHTML = `
+                    <strong>⚠️ Role Switch</strong>
+                    <p>Switching roles will change your account type and dashboard view.</p>
+                    <ul>
+                        <li>Your courses and certificates are preserved</li>
+                        <li>Role-specific features will update immediately</li>
+                        <li>You can switch back anytime</li>
+                    </ul>
+                `;
+            }
+
+            openModal('roleSwitchModal');
+        };
+
+        window.selectRole = function(newRole) {
+            if (newRole === userRole) {
+                closeModal('roleSwitchModal');
+                return;
+            }
+
+            if (newRole === 'admin' && userRole !== 'admin') {
+                showToast('❌ Only admins can switch to admin role.', 'error');
+                return;
+            }
+
+            const roleNames = {
+                'learner': 'Learner',
+                'instructor': 'Instructor',
+                'jobgiver': 'Job Giver',
+                'admin': 'Admin'
+            };
+
+            const confirmMsg = `Switch to "${roleNames[newRole]}"? ${userRole === 'admin' ? 'You will see the platform as this role.' : 'This will change your account type.'}`;
+            
+            if (confirm(confirmMsg)) {
+                performRoleSwitch(newRole);
+            }
+        };
+
+        async function performRoleSwitch(newRole) {
+            try {
+                showToast('Switching role...', 'info');
+
+                await db.collection('users').doc(currentUser.uid).update({
+                    role: newRole,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                if (userRole === 'admin') {
+                    await db.collection('role_switches').add({
+                        userId: currentUser.uid,
+                        fromRole: userRole,
+                        toRole: newRole,
+                        switchedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        email: currentUserEmail
+                    });
+                }
+
+                userRole = newRole;
+                isAdmin = newRole === 'admin';
+
+                const badge = document.getElementById('headerRoleBadge');
+                const roleNames = {
+                    'admin': '👑 Admin',
+                    'instructor': '👨‍🏫 Instructor',
+                    'learner': '🧑‍🎓 Learner',
+                    'jobgiver': '🏢 Job Giver'
+                };
+                badge.textContent = roleNames[newRole] || newRole;
+
+                closeModal('roleSwitchModal');
+                showToast(`✅ Switched to ${roleNames[newRole] || newRole}!`, 'success');
+
+                renderSettings();
+                loadDashboardData();
+
+                if (newRole === 'admin') {
+                    window.location.href = 'admin-dashboard.html';
+                }
+
+            } catch (err) {
+                console.error('Role switch error:', err);
+                showToast('Failed to switch role: ' + err.message, 'error');
             }
         }
+
+        // ============================================
+        // DELETE ACCOUNT
+        // ============================================
+        document.addEventListener('input', function(e) {
+            if (e.target.id === 'deleteConfirmInput') {
+                const btn = document.getElementById('deleteAccountBtn');
+                btn.disabled = e.target.value !== 'DELETE';
+            }
+        });
+
+        document.getElementById('deleteAccountBtn').addEventListener('click', async function() {
+            if (this.disabled) return;
+
+            try {
+                showToast('Deleting account...', 'info');
+
+                await db.collection('users').doc(currentUser.uid).delete();
+
+                const enrollSnap = await db.collection('enrollments').where('userId', '==', currentUser.uid).get();
+                const batch = db.batch();
+                enrollSnap.forEach(doc => batch.delete(doc.ref));
+                await batch.commit();
+
+                const certSnap = await db.collection('certificates').where('userId', '==', currentUser.uid).get();
+                const batch2 = db.batch();
+                certSnap.forEach(doc => batch2.delete(doc.ref));
+                await batch2.commit();
+
+                await currentUser.delete();
+
+                showToast('Account deleted successfully.', 'info');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+
+            } catch (err) {
+                if (err.code === 'auth/requires-recent-login') {
+                    showToast('Please re-authenticate to delete your account.', 'warning');
+                    const password = prompt('Enter your password to confirm deletion:');
+                    if (password) {
+                        try {
+                            const credential = firebase.auth.EmailAuthProvider.credential(currentUser.email, password);
+                            await currentUser.reauthenticateWithCredential(credential);
+                            document.getElementById('deleteAccountBtn').click();
+                        } catch (e) {
+                            showToast('Re-authentication failed.', 'error');
+                        }
+                    }
+                } else {
+                    showToast('Failed to delete account: ' + err.message, 'error');
+                }
+            }
+        });
 
         // ============================================
         // REFRESH FUNCTIONS
@@ -2738,13 +3398,6 @@
             showToast('Analytics refreshed', 'info');
         }
         window.refreshAnalytics = refreshAnalytics;
-
-        // ============================================
-        // ANALYTICS LOADER
-        // ============================================
-        async function loadAnalytics() {
-            await loadRealAnalytics();
-        }
 
         // ============================================
         // REAL-TIME LISTENERS
@@ -2794,8 +3447,7 @@
         // ============================================
         // INIT
         // ============================================
-        console.log('✅ TRIANGLE LEARN Admin Control Room Loaded - All Features Real Data');
-        loadSettings();
+        console.log('✅ TRIANGLE LEARN Admin Dashboard Loaded');
 
     })();
     </script>
