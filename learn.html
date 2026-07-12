@@ -533,6 +533,16 @@
             return [];
         }
 
+        // ========== CONVERT TO NUMBER IF POSSIBLE ==========
+        function toNumber(value) {
+            if (typeof value === 'number') return value;
+            if (typeof value === 'string' && !isNaN(value)) {
+                const num = parseInt(value);
+                return isNaN(num) ? value : num;
+            }
+            return value;
+        }
+
         // ========== AUTH ==========
         auth.onAuthStateChanged(async (user) => {
             if (!user) { window.location.href = 'auth.html'; return; }
@@ -576,17 +586,21 @@
 
                 await loadProgress();
 
+                // Determine which module to show
                 if (MODULE_ID) {
-                    // Convert MODULE_ID to number if needed (since your IDs are numbers)
-                    const moduleIdNum = parseInt(MODULE_ID);
+                    // Convert to number for comparison
+                    const moduleIdNum = toNumber(MODULE_ID);
                     const idx = modules.findIndex(m => {
-                        // Handle both number and string IDs
-                        return String(m.id) === String(MODULE_ID) || m.id === moduleIdNum;
+                        const mId = toNumber(m.id);
+                        return mId === moduleIdNum;
                     });
                     if (idx !== -1) currentModuleIndex = idx;
                 } else {
-                    // Find first incomplete module
-                    const incompleteIdx = modules.findIndex(m => !completedModules.includes(m.id));
+                    // Find first incomplete module - use strict comparison with converted IDs
+                    const incompleteIdx = modules.findIndex(m => {
+                        const mId = toNumber(m.id);
+                        return !completedModules.some(c => toNumber(c) === mId);
+                    });
                     currentModuleIndex = incompleteIdx !== -1 ? incompleteIdx : 0;
                 }
 
@@ -608,7 +622,7 @@
             }
         }
 
-        // ========== LOAD PROGRESS (FULLY FIXED) ==========
+        // ========== LOAD PROGRESS ==========
         async function loadProgress() {
             try {
                 const snap = await db.collection('progress')
@@ -617,32 +631,20 @@
                     .limit(1)
                     .get();
 
-                console.log('📊 Progress snapshot exists:', !snap.empty);
-
                 if (!snap.empty) {
                     const doc = snap.docs[0];
                     const data = doc.data();
                     progressDocId = doc.id;
                     
-                    console.log('📊 Raw progress data:', data);
-                    console.log('📊 completedModules type:', typeof data.completedModules);
-                    console.log('📊 completedModules value:', data.completedModules);
-                    
-                    // FIX: Properly handle completedModules
+                    // FIX: Properly handle completedModules with type conversion
                     if (data.completedModules === undefined || data.completedModules === null) {
                         completedModules = [];
                     } else if (Array.isArray(data.completedModules)) {
-                        completedModules = data.completedModules.map(id => {
-                            // Convert to number if ID is numeric
-                            return typeof id === 'string' && !isNaN(id) ? parseInt(id) : id;
-                        });
+                        completedModules = data.completedModules.map(id => toNumber(id));
                     } else if (typeof data.completedModules === 'object') {
-                        // If it's an object, try to convert to array
                         try {
                             const arr = Object.values(data.completedModules);
-                            completedModules = arr.map(id => {
-                                return typeof id === 'string' && !isNaN(id) ? parseInt(id) : id;
-                            });
+                            completedModules = arr.map(id => toNumber(id));
                         } catch (e) {
                             completedModules = [];
                         }
@@ -650,15 +652,7 @@
                         completedModules = [];
                     }
                     
-                    console.log('📊 completedModules after fix:', completedModules);
-                    
-                    // Update progress document if completedModules was not an array
-                    if (!Array.isArray(data.completedModules)) {
-                        await db.collection('progress').doc(progressDocId).update({
-                            completedModules: completedModules
-                        });
-                        console.log('📊 Updated progress document with array format');
-                    }
+                    console.log('📊 Completed modules:', completedModules);
                 } else {
                     // Create progress document
                     const ref = await db.collection('progress').add({
@@ -760,8 +754,19 @@
                 return;
             }
 
-            const isDone = completedModules.includes(module.id);
-            const isLocked = index > 0 && !completedModules.includes(modules[index-1]?.id);
+            // FIX: Check if module is completed using type-safe comparison
+            const moduleIdNum = toNumber(module.id);
+            const isDone = completedModules.some(c => toNumber(c) === moduleIdNum);
+            
+            // Check if previous module is completed
+            let isLocked = false;
+            if (index > 0) {
+                const prevModule = modules[index - 1];
+                const prevIdNum = toNumber(prevModule.id);
+                const isPrevDone = completedModules.some(c => toNumber(c) === prevIdNum);
+                isLocked = !isPrevDone;
+            }
+
             const total = modules.length;
 
             if (isLocked) {
@@ -850,7 +855,7 @@
                             </div>
                             <div style="display:flex;gap:8px;flex-wrap:wrap;">
                                 ${!isDone ? `
-                                    <button class="btn btn-success" onclick="markComplete('${module.id}')">
+                                    <button class="btn btn-success" onclick="markComplete(${module.id})">
                                         ✅ Mark as Complete
                                     </button>
                                 ` : ''}
@@ -876,14 +881,20 @@
 
         // ========== MARK COMPLETE ==========
         window.markComplete = async function(moduleId) {
-            // Convert to number if needed
-            const moduleIdNum = typeof moduleId === 'string' && !isNaN(moduleId) ? parseInt(moduleId) : moduleId;
+            // Convert to number for consistent comparison
+            const moduleIdNum = toNumber(moduleId);
             
-            if (completedModules.includes(moduleIdNum)) return;
+            // Check if already completed using type-safe comparison
+            if (completedModules.some(c => toNumber(c) === moduleIdNum)) {
+                showToast('Module already completed ✅', 'info');
+                return;
+            }
 
             try {
+                // Add to completed modules
                 completedModules.push(moduleIdNum);
 
+                // Update in Firebase
                 if (progressDocId) {
                     await db.collection('progress').doc(progressDocId).update({
                         completedModules: completedModules,
@@ -907,13 +918,21 @@
                 }
 
                 showToast('✅ Module completed!', 'success');
+                
+                // Check if all modules are complete
+                const allDone = modules.every(m => {
+                    const mId = toNumber(m.id);
+                    return completedModules.some(c => toNumber(c) === mId);
+                });
+                
+                if (allDone) {
+                    showToast('🎉 Congratulations! You\'ve completed all modules!', 'success');
+                }
+                
+                // Re-render the current module to show it as completed
                 renderModule(currentModuleIndex);
                 renderProgressList();
                 updateHeaderProgress();
-
-                if (completedModules.length === modules.length) {
-                    showToast('🎉 Congratulations! You\'ve completed all modules!', 'success');
-                }
 
             } catch (err) {
                 console.error('Mark complete error:', err);
@@ -944,7 +963,8 @@
             }
 
             container.innerHTML = modules.map((m, i) => {
-                const isDone = completedModules.includes(m.id);
+                const mId = toNumber(m.id);
+                const isDone = completedModules.some(c => toNumber(c) === mId);
                 const isActive = i === currentModuleIndex;
                 return `
                     <div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border);${isActive ? 'background:var(--bg-alt);border-radius:6px;padding:6px 10px;' : ''}">
@@ -1076,6 +1096,7 @@
         console.log('✅ Learn page loaded');
         console.log('📚 Course ID:', COURSE_ID);
         console.log('📝 Modules:', modules.length);
+        console.log('✅ Completed modules:', completedModules);
 
     })();
     </script>
