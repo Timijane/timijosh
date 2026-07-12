@@ -515,6 +515,7 @@
         let completedModules = [];
         let notesData = {};
         let discussionListener = null;
+        let progressDocId = null;
 
         const contentArea = document.getElementById('contentArea');
         const courseTitle = document.getElementById('courseTitle');
@@ -576,9 +577,15 @@
                 await loadProgress();
 
                 if (MODULE_ID) {
-                    const idx = modules.findIndex(m => m.id === MODULE_ID);
+                    // Convert MODULE_ID to number if needed (since your IDs are numbers)
+                    const moduleIdNum = parseInt(MODULE_ID);
+                    const idx = modules.findIndex(m => {
+                        // Handle both number and string IDs
+                        return String(m.id) === String(MODULE_ID) || m.id === moduleIdNum;
+                    });
                     if (idx !== -1) currentModuleIndex = idx;
                 } else {
+                    // Find first incomplete module
                     const incompleteIdx = modules.findIndex(m => !completedModules.includes(m.id));
                     currentModuleIndex = incompleteIdx !== -1 ? incompleteIdx : 0;
                 }
@@ -601,7 +608,7 @@
             }
         }
 
-        // ========== LOAD PROGRESS (FIXED) ==========
+        // ========== LOAD PROGRESS (FULLY FIXED) ==========
         async function loadProgress() {
             try {
                 const snap = await db.collection('progress')
@@ -610,19 +617,58 @@
                     .limit(1)
                     .get();
 
+                console.log('📊 Progress snapshot exists:', !snap.empty);
+
                 if (!snap.empty) {
-                    const data = snap.docs[0].data();
-                    // FIX: Always ensure completedModules is an array
-                    completedModules = safeArray(data.completedModules);
-                    console.log('📊 Loaded completed modules:', completedModules.length);
+                    const doc = snap.docs[0];
+                    const data = doc.data();
+                    progressDocId = doc.id;
+                    
+                    console.log('📊 Raw progress data:', data);
+                    console.log('📊 completedModules type:', typeof data.completedModules);
+                    console.log('📊 completedModules value:', data.completedModules);
+                    
+                    // FIX: Properly handle completedModules
+                    if (data.completedModules === undefined || data.completedModules === null) {
+                        completedModules = [];
+                    } else if (Array.isArray(data.completedModules)) {
+                        completedModules = data.completedModules.map(id => {
+                            // Convert to number if ID is numeric
+                            return typeof id === 'string' && !isNaN(id) ? parseInt(id) : id;
+                        });
+                    } else if (typeof data.completedModules === 'object') {
+                        // If it's an object, try to convert to array
+                        try {
+                            const arr = Object.values(data.completedModules);
+                            completedModules = arr.map(id => {
+                                return typeof id === 'string' && !isNaN(id) ? parseInt(id) : id;
+                            });
+                        } catch (e) {
+                            completedModules = [];
+                        }
+                    } else {
+                        completedModules = [];
+                    }
+                    
+                    console.log('📊 completedModules after fix:', completedModules);
+                    
+                    // Update progress document if completedModules was not an array
+                    if (!Array.isArray(data.completedModules)) {
+                        await db.collection('progress').doc(progressDocId).update({
+                            completedModules: completedModules
+                        });
+                        console.log('📊 Updated progress document with array format');
+                    }
                 } else {
-                    await db.collection('progress').add({
+                    // Create progress document
+                    const ref = await db.collection('progress').add({
                         userId: currentUser.uid,
                         courseId: COURSE_ID,
                         completedModules: [],
                         startedAt: firebase.firestore.FieldValue.serverTimestamp(),
                         lastAccessed: firebase.firestore.FieldValue.serverTimestamp()
                     });
+                    progressDocId = ref.id;
                     completedModules = [];
                     console.log('📊 Created new progress document');
                 }
@@ -830,22 +876,34 @@
 
         // ========== MARK COMPLETE ==========
         window.markComplete = async function(moduleId) {
-            if (completedModules.includes(moduleId)) return;
+            // Convert to number if needed
+            const moduleIdNum = typeof moduleId === 'string' && !isNaN(moduleId) ? parseInt(moduleId) : moduleId;
+            
+            if (completedModules.includes(moduleIdNum)) return;
 
             try {
-                completedModules.push(moduleId);
+                completedModules.push(moduleIdNum);
 
-                const snap = await db.collection('progress')
-                    .where('userId', '==', currentUser.uid)
-                    .where('courseId', '==', COURSE_ID)
-                    .limit(1)
-                    .get();
-
-                if (!snap.empty) {
-                    await snap.docs[0].ref.update({
+                if (progressDocId) {
+                    await db.collection('progress').doc(progressDocId).update({
                         completedModules: completedModules,
                         lastAccessed: firebase.firestore.FieldValue.serverTimestamp()
                     });
+                } else {
+                    // Fallback: find and update
+                    const snap = await db.collection('progress')
+                        .where('userId', '==', currentUser.uid)
+                        .where('courseId', '==', COURSE_ID)
+                        .limit(1)
+                        .get();
+                    
+                    if (!snap.empty) {
+                        await snap.docs[0].ref.update({
+                            completedModules: completedModules,
+                            lastAccessed: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                        progressDocId = snap.docs[0].id;
+                    }
                 }
 
                 showToast('✅ Module completed!', 'success');
@@ -858,6 +916,7 @@
                 }
 
             } catch (err) {
+                console.error('Mark complete error:', err);
                 showToast('Error: ' + err.message, 'error');
             }
         };
@@ -909,7 +968,7 @@
             discussionListener = db.collection('courses')
                 .doc(COURSE_ID)
                 .collection('modules')
-                .doc(moduleId)
+                .doc(String(moduleId))
                 .collection('discussions')
                 .orderBy('createdAt', 'desc')
                 .onSnapshot((snapshot) => {
@@ -953,7 +1012,7 @@
                 await db.collection('courses')
                     .doc(COURSE_ID)
                     .collection('modules')
-                    .doc(moduleId)
+                    .doc(String(moduleId))
                     .collection('discussions')
                     .add({
                         userId: currentUser.uid,
