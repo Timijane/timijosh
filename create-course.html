@@ -10,7 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ... Keep existing styles ... */
         :root {
             --bg: #f8f9fc;
             --bg-card: #ffffff;
@@ -293,13 +292,13 @@
 
     <header class="header">
         <div class="header-inner">
-            <a href="admin-dashboard.html" class="logo-link">
+            <a href="dashboard.html" class="logo-link">
                 <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="TRIANGLE LEARN" width="36" height="36">
                 <span>TRIANGLE LEARN</span>
             </a>
             <div style="display:flex;gap:10px;align-items:center;">
-                <span style="font-size:0.8rem;color:var(--text-muted);">Course Studio</span>
-                <a href="admin-dashboard.html" class="btn btn-ghost btn-sm">← Admin</a>
+                <span style="font-size:0.8rem;color:var(--text-muted);" id="userRoleDisplay">Course Studio</span>
+                <a href="dashboard.html" class="btn btn-ghost btn-sm">← Dashboard</a>
             </div>
         </div>
     </header>
@@ -602,23 +601,41 @@
         let resources = [];
         let currentCourseId = null;
         let currentUser = null;
+        let userRole = null;
         let isEditMode = false;
 
         // ============================================
-        // AUTH CHECK
+        // AUTH CHECK - FIXED FOR INSTRUCTORS
         // ============================================
         auth.onAuthStateChanged(async (user) => {
             if (!user) { 
-                window.location.href = 'auth.html'; 
+                // Don't redirect immediately - wait for Firebase to load
+                setTimeout(() => {
+                    if (!auth.currentUser) {
+                        window.location.href = 'auth.html';
+                    }
+                }, 500);
                 return; 
             }
             currentUser = user;
             
             try {
                 const userDoc = await db.collection('users').doc(user.uid).get();
-                if (!userDoc.exists || (userDoc.data().role !== 'admin' && !userDoc.data().isAdmin)) {
-                    await auth.signOut();
-                    window.location.href = 'auth.html';
+                if (!userDoc.exists) {
+                    showToast('User profile not found', 'error');
+                    setTimeout(() => { window.location.href = 'auth.html'; }, 1500);
+                    return;
+                }
+                
+                userRole = userDoc.data().role || 'learner';
+                document.getElementById('userRoleDisplay').textContent = userRole.charAt(0).toUpperCase() + userRole.slice(1);
+                
+                // ✅ FIXED: Allow both instructors AND admins
+                if (userRole !== 'instructor' && userRole !== 'admin') {
+                    showToast('Only instructors and admins can create courses.', 'error');
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 2000);
                     return;
                 }
                 
@@ -631,6 +648,7 @@
                     await loadExistingCourse(editId);
                 }
                 initStudio();
+                
             } catch (err) {
                 console.error('Auth error:', err);
                 showToast('Failed to load user data', 'error');
@@ -746,12 +764,10 @@
                 if (!file) return;
                 const m = modules.find(mod => mod.id === id);
                 if (m) {
-                    // Store file info for real upload later
                     m.attachments.push({
                         name: file.name,
                         size: (file.size / 1024).toFixed(1) + ' KB',
                         type: file.type,
-                        // In production, upload to Cloudinary/Storage
                         url: URL.createObjectURL(file),
                         file: file
                     });
@@ -1389,6 +1405,7 @@
         });
 
         console.log('✅ Course Creation Studio loaded');
+        console.log('👤 User role:', userRole);
 
     })();
     </script>
