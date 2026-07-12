@@ -91,7 +91,6 @@
             letter-spacing: -0.3px;
         }
 
-        /* Profile Section in Sidebar */
         .sidebar-profile {
             padding: 16px 20px;
             border-bottom: 1px solid rgba(255,255,255,0.06);
@@ -293,9 +292,7 @@
         }
         .main-content { padding: 28px; flex: 1; }
 
-        /* ============================================================
-           COMPLETION BANNER
-           ============================================================ */
+        /* ===== COMPLETION BANNER ===== */
         .completion-banner {
             background: var(--card-bg);
             border-radius: var(--radius-md);
@@ -336,9 +333,7 @@
         }
         .completion-banner .btn { flex-shrink: 0; }
 
-        /* ============================================================
-           WELCOME SECTION
-           ============================================================ */
+        /* ===== WELCOME SECTION ===== */
         .welcome-section {
             margin-bottom: 24px;
             display: flex;
@@ -397,9 +392,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* ============================================================
-           STATS GRID
-           ============================================================ */
+        /* ===== STATS GRID ===== */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -474,9 +467,7 @@
         .stat-change.down { background: #fff0f0; color: var(--red); }
         .stat-change.neutral { background: var(--bg); color: var(--text-muted); }
 
-        /* ============================================================
-           CARDS
-           ============================================================ */
+        /* ===== CARDS ===== */
         .card {
             background: var(--card-bg);
             border-radius: var(--radius-md);
@@ -508,9 +499,7 @@
         .card-body { padding: 14px 18px; }
         .card-body.no-padding { padding: 0; }
 
-        /* ============================================================
-           GRID LAYOUT
-           ============================================================ */
+        /* ===== GRID LAYOUT ===== */
         .dashboard-grid {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -519,9 +508,7 @@
         .dashboard-grid .main-col { display: flex; flex-direction: column; gap: 20px; }
         .dashboard-grid .side-col { display: flex; flex-direction: column; gap: 20px; }
 
-        /* ============================================================
-           TABLES
-           ============================================================ */
+        /* ===== TABLES ===== */
         .table-wrapper { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; }
         th {
@@ -546,9 +533,7 @@
         tr:last-child td { border-bottom: none; }
         tr:hover td { background: #fafbfc; }
 
-        /* ============================================================
-           BADGES
-           ============================================================ */
+        /* ===== BADGES ===== */
         .badge {
             display: inline-block;
             padding: 1px 8px;
@@ -564,9 +549,7 @@
         .badge-gold { background: #fff8e8; color: var(--gold); }
         .badge-purple { background: #f3f0ff; color: var(--purple); }
 
-        /* ============================================================
-           BUTTONS
-           ============================================================ */
+        /* ===== BUTTONS ===== */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -595,9 +578,7 @@
         .btn-danger:hover { background: #ffe5e5; }
         .btn-block { width: 100%; justify-content: center; }
 
-        /* ============================================================
-           EMPTY STATE
-           ============================================================ */
+        /* ===== EMPTY STATE ===== */
         .empty-state {
             text-align: center;
             padding: 24px 16px;
@@ -607,9 +588,7 @@
         .empty-state h3 { font-weight: 600; font-size: 0.85rem; color: var(--text); margin-bottom: 2px; }
         .empty-state p { font-size: 0.75rem; }
 
-        /* ============================================================
-           PROGRESS BAR
-           ============================================================ */
+        /* ===== PROGRESS BAR ===== */
         .progress-container { margin-bottom: 6px; }
         .progress-label {
             display: flex;
@@ -632,9 +611,7 @@
             transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* ============================================================
-           TOAST
-           ============================================================ */
+        /* ===== TOAST ===== */
         .toast-container {
             position: fixed;
             bottom: 30px;
@@ -674,9 +651,7 @@
             font-size: 1rem;
         }
 
-        /* ============================================================
-           OVERLAY
-           ============================================================ */
+        /* ===== OVERLAY ===== */
         .overlay {
             display: none;
             position: fixed;
@@ -689,14 +664,10 @@
         }
         .overlay.show { display: block; }
 
-        /* ============================================================
-           LOADING
-           ============================================================ */
+        /* ===== LOADING ===== */
         .loading-row { text-align: center; padding: 16px; color: var(--text-muted); font-size: 0.8rem; }
 
-        /* ============================================================
-           LIVE DOT
-           ============================================================ */
+        /* ===== LIVE DOT ===== */
         @keyframes pulse-live {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.5; transform: scale(1.5); }
@@ -711,9 +682,7 @@
             margin-right: 4px;
         }
 
-        /* ============================================================
-           COURSE ITEM
-           ============================================================ */
+        /* ===== COURSE ITEM ===== */
         .course-item {
             display: flex;
             align-items: center;
@@ -790,7 +759,6 @@
             <span>TRIANGLE LEARN</span>
         </a>
 
-        <!-- Profile Section -->
         <div class="sidebar-profile">
             <div class="avatar" id="sidebarAvatar">
                 <div class="fallback" id="avatarFallback">U</div>
@@ -803,7 +771,7 @@
         </div>
 
         <nav class="sidebar-nav" id="sidebarNav">
-            <!-- Dynamic sidebar links -->
+            <!-- Dynamically generated -->
         </nav>
 
         <div class="sidebar-footer">
@@ -832,7 +800,7 @@
 
         <div class="main-content">
 
-            <!-- ===== COMPLETION BANNER ===== -->
+            <!-- COMPLETION BANNER -->
             <div class="completion-banner" id="completionBanner">
                 <span style="font-weight:600;font-size:0.8rem;">📝 Profile</span>
                 <div class="progress-track">
@@ -843,7 +811,7 @@
                 <a href="profile.html" class="btn btn-primary btn-sm">Complete →</a>
             </div>
 
-            <!-- ===== WELCOME SECTION ===== -->
+            <!-- WELCOME -->
             <div class="welcome-section">
                 <div class="greeting">
                     <h1>Welcome back, <span id="welcomeName">Learner</span> 👋</h1>
@@ -866,46 +834,38 @@
                 </div>
             </div>
 
-            <!-- ===== STATS GRID ===== -->
+            <!-- STATS -->
             <div class="stats-grid" id="statsGrid">
                 <div class="stat-card">
-                    <div class="stat-top">
-                        <div class="stat-icon purple">📚</div>
-                    </div>
+                    <div class="stat-top"><div class="stat-icon purple">📚</div></div>
                     <div class="stat-value" id="statCourses">0</div>
                     <div class="stat-label" id="statCoursesLabel">Enrolled Courses</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-top">
-                        <div class="stat-icon gold">🏆</div>
-                    </div>
+                    <div class="stat-top"><div class="stat-icon gold">🏆</div></div>
                     <div class="stat-value" id="statCompleted">0</div>
                     <div class="stat-label" id="statCompletedLabel">Completed</div>
                 </div>
                 <div class="stat-card" id="certStatCard">
-                    <div class="stat-top">
-                        <div class="stat-icon pink">📜</div>
-                    </div>
+                    <div class="stat-top"><div class="stat-icon pink">📜</div></div>
                     <div class="stat-value" id="statCerts">0</div>
                     <div class="stat-label">Certificates</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-top">
-                        <div class="stat-icon green">💰</div>
-                    </div>
+                    <div class="stat-top"><div class="stat-icon green">💰</div></div>
                     <div class="stat-value" id="statEarnings">₦0</div>
                     <div class="stat-label">Referral Earnings</div>
                     <span class="stat-change up" id="statEarningsChange">+₦0 this month</span>
                 </div>
             </div>
 
-            <!-- ===== DASHBOARD GRID ===== -->
+            <!-- DASHBOARD GRID -->
             <div class="dashboard-grid">
 
                 <!-- MAIN COLUMN -->
                 <div class="main-col">
 
-                    <!-- MY COURSES (Role-based) -->
+                    <!-- MY COURSES -->
                     <div class="card" id="myCoursesCard">
                         <div class="card-header">
                             <h2 id="myCoursesTitle">📖 My Courses</h2>
@@ -938,7 +898,7 @@
                         </div>
                     </div>
 
-                    <!-- INSTRUCTOR: My Students -->
+                    <!-- INSTRUCTOR STUDENTS -->
                     <div class="card" id="instructorStudentsCard" style="display:none;">
                         <div class="card-header">
                             <h2>👨‍🎓 My Students</h2>
@@ -953,7 +913,7 @@
                         </div>
                     </div>
 
-                    <!-- JOB GIVER: Job Applications -->
+                    <!-- JOB APPLICATIONS -->
                     <div class="card" id="jobGiverApplicationsCard" style="display:none;">
                         <div class="card-header">
                             <h2>📋 Job Applications</h2>
@@ -1049,7 +1009,7 @@
                         </div>
                     </div>
 
-                    <!-- LIVE CLASS STATUS -->
+                    <!-- LIVE CLASS -->
                     <div class="card" id="liveClassCard">
                         <div class="card-header">
                             <h2>📺 Live Classroom</h2>
@@ -1256,22 +1216,12 @@
                 State.userRole = State.userData.role || 'learner';
                 State.profileComplete = State.userData.profileComplete || 0;
 
-                // Update UI
                 updateProfileUI();
-
-                // Build sidebar
                 buildSidebar(State.userRole);
-
-                // Profile completion
                 updateCompletionBanner();
 
-                // Load data based on role
                 await loadRoleSpecificData();
-
-                // Role-specific actions
                 renderRoleSpecificActions(State.userRole);
-
-                // Update stats
                 updateStats();
 
                 // Show/hide enroll button
@@ -1281,7 +1231,7 @@
                     DOM.enrollBtn.style.display = 'inline-flex';
                 }
 
-                // Hide/show role-specific cards
+                // Role-specific cards
                 if (State.userRole === 'instructor' || State.userRole === 'admin') {
                     DOM.instructorStudentsCard.style.display = 'block';
                 } else {
@@ -1302,16 +1252,13 @@
                     DOM.certStatCard.style.display = 'block';
                 }
 
-                // Hide job recommendations for non-learners
                 if (State.userRole !== 'learner') {
                     DOM.jobRecommendationsCard.style.display = 'none';
                 } else {
                     DOM.jobRecommendationsCard.style.display = 'block';
                 }
 
-                // Show appropriate quick stats
                 updateQuickStats();
-
                 State.lastUpdated = new Date();
 
             } catch (error) {
@@ -1328,11 +1275,9 @@
             const name = data?.fullName || 'User';
             const initial = name.charAt(0).toUpperCase();
 
-            // Name
             DOM.sidebarName.textContent = name;
             DOM.welcomeName.textContent = name.split(' ')[0] || 'Learner';
 
-            // Role
             const roleDisplay = State.userRole.charAt(0).toUpperCase() + State.userRole.slice(1);
             DOM.sidebarRole.textContent = roleDisplay;
             DOM.roleBadge.textContent = roleDisplay;
@@ -1340,7 +1285,6 @@
             DOM.sidebarRoleBadge.textContent = roleDisplay;
             DOM.sidebarRoleBadge.className = `badge-role ${State.userRole}`;
 
-            // Avatar
             if (data?.profilePicture) {
                 DOM.sidebarAvatar.innerHTML = `<img src="${data.profilePicture}" alt="Profile">`;
                 DOM.avatarFallback.style.display = 'none';
@@ -1350,7 +1294,6 @@
                 DOM.avatarFallback.style.display = 'flex';
             }
 
-            // Page title
             const roleTitles = {
                 'learner': '📚 Your Learning Dashboard',
                 'instructor': '👨‍🏫 Instructor Dashboard',
@@ -1365,18 +1308,19 @@
         }
 
         // ============================================================
-        // BUILD SIDEBAR
+        // BUILD SIDEBAR - ALL LINKS WORKING
         // ============================================================
         function buildSidebar(role) {
             const nav = DOM.sidebarNav;
             let links = [];
 
-            // Common
+            // Common links
             links.push(
                 { icon: '📊', label: 'Dashboard', page: 'dashboard.html', active: true },
                 { icon: '👤', label: 'Profile', page: 'profile.html' },
             );
 
+            // Role-specific links - ALL WITH REAL PAGES
             switch (role) {
                 case 'learner':
                     links.push(
@@ -1384,6 +1328,7 @@
                         { icon: '📜', label: 'Certificates', page: 'certificate.html' },
                         { icon: '💼', label: 'Job Board', page: 'job-board.html' },
                         { icon: '📺', label: 'Classroom', page: 'classroom.html' },
+                        { icon: '💬', label: 'Discussions', page: 'discussions.html' },
                         { icon: '⚙️', label: 'Settings', page: 'settings.html' },
                     );
                     break;
@@ -1393,6 +1338,8 @@
                         { icon: '➕', label: 'Create Course', page: 'create-course.html' },
                         { icon: '👨‍🎓', label: 'My Students', page: 'teacher-students.html' },
                         { icon: '📺', label: 'Classroom', page: 'teacher-teach.html' },
+                        { icon: '📊', label: 'Analytics', page: 'teacher-analytics.html' },
+                        { icon: '💰', label: 'Earnings', page: 'teacher-earnings.html' },
                         { icon: '⚙️', label: 'Settings', page: 'settings.html' },
                     );
                     break;
@@ -1401,6 +1348,7 @@
                         { icon: '📋', label: 'Post Job', page: 'create-job.html' },
                         { icon: '💼', label: 'My Jobs', page: 'jobgiver-jobs.html' },
                         { icon: '👥', label: 'Candidates', page: 'jobgiver-candidates.html' },
+                        { icon: '📊', label: 'Hiring Stats', page: 'jobgiver-analytics.html' },
                         { icon: '⚙️', label: 'Settings', page: 'settings.html' },
                     );
                     break;
@@ -1411,13 +1359,14 @@
                         { icon: '👥', label: 'Manage Users', page: 'admin-students.html' },
                         { icon: '💰', label: 'Payouts', page: 'admin-referrals.html' },
                         { icon: '📺', label: 'Live Classes', page: 'admin-live.html' },
+                        { icon: '📊', label: 'Analytics', page: 'admin-analytics.html' },
                         { icon: '⚙️', label: 'Settings', page: 'admin-settings.html' },
                     );
                     break;
             }
 
             let html = '';
-            let sectionIndex = 0;
+            let sectionCount = 0;
             links.forEach((link, index) => {
                 if (index === 1) {
                     html += `<span class="section-label">Main</span>`;
@@ -1425,14 +1374,12 @@
                 if (role === 'admin' && index === 3) {
                     html += `<span class="section-label">Management</span>`;
                 }
-                if ((role === 'learner') && index === 2) {
-                    html += `<span class="section-label">Learning</span>`;
+                if ((role === 'learner' || role === 'instructor' || role === 'jobgiver') && index === 2) {
+                    const label = role === 'learner' ? 'Learning' : role === 'instructor' ? 'Teaching' : 'Hiring';
+                    html += `<span class="section-label">${label}</span>`;
                 }
-                if ((role === 'instructor') && index === 2) {
-                    html += `<span class="section-label">Teaching</span>`;
-                }
-                if ((role === 'jobgiver') && index === 2) {
-                    html += `<span class="section-label">Hiring</span>`;
+                if ((role === 'learner' || role === 'instructor' || role === 'jobgiver') && index === 6) {
+                    html += `<span class="section-label">Settings</span>`;
                 }
                 const active = link.active ? 'active' : '';
                 html += `
@@ -1554,46 +1501,35 @@
         async function loadRoleSpecificData() {
             const uid = State.user.uid;
 
-            // Load enrollments (learners)
             if (State.userRole === 'learner' || State.userRole === 'admin') {
                 await loadEnrollments(uid);
             }
 
-            // Load created courses (instructors)
             if (State.userRole === 'instructor' || State.userRole === 'admin') {
                 await loadCreatedCourses(uid);
             }
 
-            // Load certificates (learners & instructors)
             if (State.userRole !== 'jobgiver') {
                 await loadCertificates(uid);
             }
 
-            // Load referrals (all)
             await loadReferrals(uid);
-
-            // Load announcements (all)
             await loadAnnouncements();
 
-            // Load job recommendations (learners only)
             if (State.userRole === 'learner') {
                 await loadJobRecommendations();
             }
 
-            // Load live sessions (all)
             await loadLiveSessions();
 
-            // Load instructor students (instructors only)
             if (State.userRole === 'instructor' || State.userRole === 'admin') {
                 await loadInstructorStudents(uid);
             }
 
-            // Load job applications (job givers only)
             if (State.userRole === 'jobgiver' || State.userRole === 'admin') {
                 await loadJobApplications(uid);
             }
 
-            // Load profile stats (all)
             await loadProfileStats(uid);
         }
 
@@ -1663,7 +1599,6 @@
                 DOM.myCoursesEmptyAction.href = 'create-course.html';
             }
 
-            // Update stats
             DOM.statCourses.textContent = courses.length;
             DOM.statCoursesLabel.textContent = role === 'learner' ? 'Enrolled Courses' : 'Created Courses';
 
@@ -1724,7 +1659,6 @@
 
             container.innerHTML = html;
 
-            // Update completed count
             const completed = courses.filter(c => c.status === 'completed' || c.enrolledCount > 0).length;
             DOM.statCompleted.textContent = completed;
             DOM.statCompletedLabel.textContent = role === 'learner' ? 'Completed' : 'Students';
@@ -1842,7 +1776,6 @@
                 DOM.refCode.textContent = State.userData.referralCode;
             }
 
-            // Monthly earnings change (simplified)
             const monthlyChange = totalEarned > 0 ? Math.round(totalEarned * 0.15) : 0;
             DOM.statEarnings.textContent = '₦' + totalEarned.toLocaleString();
             DOM.statEarningsChange.textContent = monthlyChange > 0 ? `+₦${monthlyChange.toLocaleString()} this month` : '₦0 this month';
@@ -1897,9 +1830,6 @@
             });
         };
 
-        // ============================================================
-        // CLAIM REWARDS
-        // ============================================================
         window.claimRewards = function() {
             const pending = State.referrals.filter(r => r.status === 'enrolled');
             if (pending.length === 0) {
@@ -2271,8 +2201,6 @@
             DOM.statCompleted.textContent = completed;
             DOM.statCerts.textContent = certs;
             DOM.statEarnings.textContent = '₦' + earnings.toLocaleString();
-
-            // Update quick stats
             updateQuickStats();
         }
 
@@ -2293,7 +2221,6 @@
             if (!State.user) return;
 
             try {
-                // Enrollments (learners)
                 if (State.userRole === 'learner' || State.userRole === 'admin') {
                     const unsub1 = db.collection('enrollments')
                         .where('userId', '==', State.user.uid)
@@ -2306,7 +2233,6 @@
                     State.activeListeners.push(unsub1);
                 }
 
-                // Created courses (instructors)
                 if (State.userRole === 'instructor' || State.userRole === 'admin') {
                     const unsub2 = db.collection('courses')
                         .where('instructorId', '==', State.user.uid)
@@ -2319,7 +2245,6 @@
                     State.activeListeners.push(unsub2);
                 }
 
-                // Certificates
                 if (State.userRole !== 'jobgiver') {
                     const unsub3 = db.collection('certificates')
                         .where('userId', '==', State.user.uid)
@@ -2333,7 +2258,6 @@
                     State.activeListeners.push(unsub3);
                 }
 
-                // Referrals
                 const unsub4 = db.collection('referrals')
                     .where('referrerUid', '==', State.user.uid)
                     .onSnapshot(snap => {
@@ -2344,7 +2268,6 @@
                     });
                 State.activeListeners.push(unsub4);
 
-                // Announcements
                 const unsub5 = db.collection('announcements').doc('current')
                     .onSnapshot(doc => {
                         if (doc.exists) {
@@ -2354,7 +2277,6 @@
                     });
                 State.activeListeners.push(unsub5);
 
-                // User data
                 const unsub6 = db.collection('users').doc(State.user.uid)
                     .onSnapshot(doc => {
                         if (doc.exists) {
@@ -2368,13 +2290,11 @@
                     });
                 State.activeListeners.push(unsub6);
 
-                // Live sessions
                 const unsub7 = db.collection('liveClassSessions')
                     .where('status', '==', 'live')
                     .onSnapshot(() => loadLiveSessions());
                 State.activeListeners.push(unsub7);
 
-                // Instructor students (instructors only)
                 if (State.userRole === 'instructor' || State.userRole === 'admin') {
                     const courseSnap = await db.collection('courses')
                         .where('instructorId', '==', State.user.uid)
@@ -2389,7 +2309,6 @@
                     }
                 }
 
-                // Job applications (job givers only)
                 if (State.userRole === 'jobgiver' || State.userRole === 'admin') {
                     const jobSnap = await db.collection('jobs')
                         .where('jobGiverId', '==', State.user.uid)
@@ -2445,7 +2364,7 @@
             State.activeListeners.forEach(fn => { try { fn(); } catch (e) {} });
         });
 
-        console.log('✅ TRIANGLE LEARN Dashboard v2.0 Loaded');
+        console.log('✅ TRIANGLE LEARN Dashboard v2.0 - All Navigation Working');
 
     })();
     </script>
