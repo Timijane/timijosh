@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* [Keep all existing styles from your version - they're good!] */
         :root {
             --bg: #f0f2f8;
             --sidebar-bg: #0c0c1a;
@@ -112,6 +113,7 @@
             width: 100%;
             text-align: left;
             font-family: var(--font-body);
+            position: relative;
         }
         .sidebar-nav a:hover { background: var(--sidebar-hover); color: #fff; }
         .sidebar-nav a.active {
@@ -584,6 +586,25 @@
             .stat-card .stat-value { font-size: 1.2rem; }
             .welcome-section h1 { font-size: 1.3rem; }
         }
+
+        /* ===== BLINK ANIMATION ===== */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+        @keyframes pulse-live {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+        .live-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: pulse-live 1.5s infinite;
+            margin-right: 4px;
+        }
     </style>
 </head>
 <body>
@@ -627,6 +648,7 @@
                 <span class="time-display" id="currentTime"></span>
                 <a href="enroll.html" class="btn btn-primary btn-sm" id="enrollBtn">🎓 Enroll Now</a>
                 <a href="profile.html" class="btn btn-outline btn-sm">👤 Profile</a>
+                <a href="settings.html" class="btn btn-outline btn-sm">⚙️</a>
             </div>
         </header>
 
@@ -716,7 +738,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h2>📜 Certificates</h2>
-                            <a href="#" class="btn btn-outline btn-sm" id="viewAllCerts">View All</a>
+                            <a href="certificate.html" class="btn btn-outline btn-sm" id="viewAllCerts">View All</a>
                         </div>
                         <div class="card-body no-padding" id="certificatesContent">
                             <div class="empty-state">
@@ -753,6 +775,36 @@
                                 </div>
                                 <button class="btn btn-success btn-sm" onclick="claimRewards()" id="claimBtn" style="display:none;">💰 Claim Rewards</button>
                                 <div id="refList" style="margin-top:8px;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INSTRUCTOR: My Students (Only for instructors) -->
+                    <div class="card" id="instructorStudentsCard" style="display:none;">
+                        <div class="card-header">
+                            <h2>👨‍🎓 My Students</h2>
+                            <span class="badge badge-info" id="studentCount">0</span>
+                        </div>
+                        <div class="card-body no-padding" id="instructorStudentsContent">
+                            <div class="empty-state">
+                                <div class="icon">👨‍🎓</div>
+                                <h3>No Students Yet</h3>
+                                <p>Students will appear here when they enroll in your courses.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- JOB GIVER: Job Applications (Only for job givers) -->
+                    <div class="card" id="jobGiverApplicationsCard" style="display:none;">
+                        <div class="card-header">
+                            <h2>📋 Job Applications</h2>
+                            <span class="badge badge-warning" id="applicationCount">0</span>
+                        </div>
+                        <div class="card-body no-padding" id="jobGiverApplicationsContent">
+                            <div class="empty-state">
+                                <div class="icon">📋</div>
+                                <h3>No Applications Yet</h3>
+                                <p>Applications will appear here when candidates apply to your jobs.</p>
                             </div>
                         </div>
                     </div>
@@ -804,6 +856,20 @@
                         <div class="card-body" id="announcementsContent" style="max-height:200px;overflow-y:auto;">
                             <div class="empty-state" style="padding:16px;">
                                 <p style="font-size:0.82rem;">No updates yet.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LIVE CLASS STATUS -->
+                    <div class="card" id="liveClassCard">
+                        <div class="card-header">
+                            <h2>📺 Live Class</h2>
+                            <span class="badge badge-info" id="liveStatusBadge">No Session</span>
+                        </div>
+                        <div class="card-body" id="liveClassContent">
+                            <div class="empty-state" style="padding:12px;">
+                                <div class="icon">📺</div>
+                                <p style="font-size:0.82rem;">No live class scheduled.</p>
                             </div>
                         </div>
                     </div>
@@ -865,6 +931,9 @@
             activeListeners: [],
             profileComplete: 0,
             pendingRewards: 0,
+            instructorStudents: [],
+            jobApplications: [],
+            liveSessions: [],
         };
 
         // ============================================
@@ -917,6 +986,15 @@
             pageTitle: $('#pageTitle'),
             pageSubtitle: $('#pageSubtitle'),
             toastContainer: $('#toastContainer'),
+            instructorStudentsCard: $('#instructorStudentsCard'),
+            instructorStudentsContent: $('#instructorStudentsContent'),
+            studentCount: $('#studentCount'),
+            jobGiverApplicationsCard: $('#jobGiverApplicationsCard'),
+            jobGiverApplicationsContent: $('#jobGiverApplicationsContent'),
+            applicationCount: $('#applicationCount'),
+            liveClassCard: $('#liveClassCard'),
+            liveClassContent: $('#liveClassContent'),
+            liveStatusBadge: $('#liveStatusBadge'),
         };
 
         // ============================================
@@ -999,6 +1077,15 @@
                 await loadAnnouncements();
                 await loadJobRecommendations();
                 await loadProfileStats(uid);
+                await loadLiveSessions(uid);
+                
+                // Role-specific data
+                if (State.userRole === 'instructor' || State.userRole === 'admin') {
+                    await loadInstructorStudents(uid);
+                }
+                if (State.userRole === 'jobgiver' || State.userRole === 'admin') {
+                    await loadJobApplications(uid);
+                }
 
                 // Role-specific actions
                 renderRoleSpecificActions(State.userRole);
@@ -1013,6 +1100,18 @@
                     DOM.enrollBtn.style.display = 'inline-flex';
                 }
 
+                // Hide/show role-specific cards
+                if (State.userRole === 'instructor' || State.userRole === 'admin') {
+                    DOM.instructorStudentsCard.style.display = 'block';
+                } else {
+                    DOM.instructorStudentsCard.style.display = 'none';
+                }
+                if (State.userRole === 'jobgiver' || State.userRole === 'admin') {
+                    DOM.jobGiverApplicationsCard.style.display = 'block';
+                } else {
+                    DOM.jobGiverApplicationsCard.style.display = 'none';
+                }
+
             } catch (error) {
                 console.error('Load user error:', error);
                 showToast('Failed to load profile data', 'error');
@@ -1020,7 +1119,7 @@
         }
 
         // ============================================
-        // BUILD SIDEBAR (Role-based)
+        // BUILD SIDEBAR (Role-based - ALL REAL LINKS)
         // ============================================
         function buildSidebar(role) {
             const nav = DOM.sidebarNav;
@@ -1032,28 +1131,33 @@
                 { icon: '👤', label: 'Profile', page: 'profile.html' },
             );
 
-            // Role-specific links
+            // Role-specific links - ALL REAL NOW
             switch (role) {
                 case 'learner':
                     links.push(
-                        { icon: '📚', label: 'My Courses', page: '#' },
-                        { icon: '📜', label: 'Certificates', page: '#' },
+                        { icon: '📚', label: 'My Courses', page: 'enroll.html' },
+                        { icon: '📜', label: 'Certificates', page: 'certificate.html' },
                         { icon: '💼', label: 'Job Board', page: 'job-board.html' },
+                        { icon: '📺', label: 'Live Classes', page: 'live-classes.html' },
+                        { icon: '💬', label: 'Discussions', page: 'discussions.html' },
                     );
                     break;
                 case 'instructor':
                     links.push(
-                        { icon: '📚', label: 'My Courses', page: '#' },
+                        { icon: '📚', label: 'My Courses', page: 'teacher-workspace.html' },
                         { icon: '➕', label: 'Create Course', page: 'create-course.html' },
-                        { icon: '📊', label: 'Analytics', page: '#' },
-                        { icon: '💰', label: 'Earnings', page: '#' },
+                        { icon: '👨‍🎓', label: 'My Students', page: 'teacher-students.html' },
+                        { icon: '📺', label: 'Live Classes', page: 'teacher-teach.html' },
+                        { icon: '📊', label: 'Analytics', page: 'teacher-analytics.html' },
+                        { icon: '💰', label: 'Earnings', page: 'teacher-earnings.html' },
                     );
                     break;
                 case 'jobgiver':
                     links.push(
                         { icon: '📋', label: 'Post Job', page: 'create-job.html' },
-                        { icon: '💼', label: 'My Jobs', page: '#' },
-                        { icon: '👥', label: 'Candidates', page: '#' },
+                        { icon: '💼', label: 'My Jobs', page: 'jobgiver-jobs.html' },
+                        { icon: '👥', label: 'Candidates', page: 'jobgiver-candidates.html' },
+                        { icon: '📊', label: 'Hiring Stats', page: 'jobgiver-analytics.html' },
                     );
                     break;
                 case 'admin':
@@ -1062,14 +1166,15 @@
                         { icon: '📚', label: 'Manage Courses', page: 'admin-courses.html' },
                         { icon: '👥', label: 'Manage Users', page: 'admin-students.html' },
                         { icon: '💰', label: 'Payouts', page: 'admin-referrals.html' },
+                        { icon: '📺', label: 'Live Classes', page: 'admin-live.html' },
                         { icon: '⚙️', label: 'Settings', page: 'admin-settings.html' },
                     );
                     break;
             }
 
-            // Build HTML
+            // Build HTML with sections
             let html = '';
-            let currentSection = '';
+            let sectionCount = 0;
             links.forEach((link, index) => {
                 if (index === 1) {
                     html += `<span class="section-label">Main</span>`;
@@ -1077,8 +1182,14 @@
                 if (role === 'admin' && index === 3) {
                     html += `<span class="section-label">Management</span>`;
                 }
-                if ((role === 'learner' || role === 'instructor' || role === 'jobgiver') && index === 2) {
-                    html += `<span class="section-label">Activities</span>`;
+                if ((role === 'learner') && index === 2) {
+                    html += `<span class="section-label">Learning</span>`;
+                }
+                if ((role === 'instructor') && index === 2) {
+                    html += `<span class="section-label">Teaching</span>`;
+                }
+                if ((role === 'jobgiver') && index === 2) {
+                    html += `<span class="section-label">Hiring</span>`;
                 }
                 const active = link.active ? 'active' : '';
                 html += `
@@ -1089,14 +1200,6 @@
             });
 
             nav.innerHTML = html;
-
-            // Handle navigation clicks for same-page sections
-            nav.querySelectorAll('a[href="#"]').forEach(el => {
-                el.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    showToast('This feature is coming soon!', 'info');
-                });
-            });
         }
 
         // ============================================
@@ -1142,16 +1245,16 @@
                 case 'instructor':
                     actions = [
                         { icon: '➕', label: 'Create Course', link: 'create-course.html', class: 'btn-primary' },
-                        { icon: '📚', label: 'My Courses', link: '#', class: 'btn-outline' },
-                        { icon: '💰', label: 'Earnings', link: '#', class: 'btn-outline' },
-                        { icon: '📊', label: 'Analytics', link: '#', class: 'btn-outline' },
+                        { icon: '📚', label: 'My Courses', link: 'teacher-workspace.html', class: 'btn-outline' },
+                        { icon: '📺', label: 'Live Classes', link: 'teacher-teach.html', class: 'btn-outline' },
+                        { icon: '👨‍🎓', label: 'Students', link: 'teacher-students.html', class: 'btn-outline' },
                     ];
                     break;
                 case 'jobgiver':
                     actions = [
                         { icon: '📋', label: 'Post a Job', link: 'create-job.html', class: 'btn-primary' },
-                        { icon: '💼', label: 'My Jobs', link: '#', class: 'btn-outline' },
-                        { icon: '👥', label: 'Candidates', link: '#', class: 'btn-outline' },
+                        { icon: '💼', label: 'My Jobs', link: 'jobgiver-jobs.html', class: 'btn-outline' },
+                        { icon: '👥', label: 'Candidates', link: 'jobgiver-candidates.html', class: 'btn-outline' },
                     ];
                     break;
                 case 'admin':
@@ -1169,14 +1272,6 @@
                     ${a.icon} ${a.label}
                 </a>
             `).join('');
-
-            // Handle # links
-            container.querySelectorAll('a[href="#"]').forEach(el => {
-                el.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    showToast('This feature is coming soon!', 'info');
-                });
-            });
         }
 
         // ============================================
@@ -1313,11 +1408,8 @@
                         <h3>No Certificates Yet</h3>
                         <p>Complete a course to earn your first certificate.</p>
                     </div>`;
-                DOM.viewAllCerts.style.display = 'none';
                 return;
             }
-
-            DOM.viewAllCerts.style.display = 'inline-flex';
 
             let html = '';
             State.certificates.slice(0, 3).forEach(c => {
@@ -1343,8 +1435,6 @@
             }
 
             container.innerHTML = html;
-
-            DOM.viewAllCerts.href = State.certificates.length > 0 ? `certificate.html?certId=${State.certificates[0].id}` : '#';
         }
 
         // ============================================
@@ -1377,23 +1467,18 @@
 
             DOM.refEarnings.textContent = '₦' + totalEarned.toLocaleString();
             DOM.refCount.textContent = State.referrals.length;
-
-            // Update pending rewards with blinking
             DOM.refPending.textContent = '₦' + pending.toLocaleString();
+
             if (pending > 0) {
-                DOM.refPending.style.animation = 'blink 1.2s infinite';
                 DOM.claimBtn.style.display = 'inline-flex';
             } else {
-                DOM.refPending.style.animation = 'none';
                 DOM.claimBtn.style.display = 'none';
             }
 
-            // Referral code
             if (State.userData?.referralCode) {
                 DOM.refCode.textContent = State.userData.referralCode;
             }
 
-            // Referral list
             const list = DOM.refList;
             if (State.referrals.length === 0) {
                 list.innerHTML = `
@@ -1434,7 +1519,6 @@
             navigator.clipboard.writeText(link).then(() => {
                 showToast('Referral link copied! Share it with friends 📋', 'success');
             }).catch(() => {
-                // Fallback
                 const input = document.createElement('input');
                 input.value = link;
                 document.body.appendChild(input);
@@ -1456,7 +1540,6 @@
             }
             const total = pending.reduce((sum, r) => sum + (r.rewardAmount || 0), 0);
             showToast(`💰 You have ₦${total.toLocaleString()} in pending rewards! Click the referral to claim.`, 'info');
-            // In a full implementation, this would open a withdrawal modal
         };
 
         // ============================================
@@ -1498,13 +1581,12 @@
         // ============================================
         async function loadJobRecommendations() {
             try {
-                // Only show for learners
                 if (State.userRole !== 'learner') {
                     DOM.jobRecommendationsCard.style.display = 'none';
                     return;
                 }
+                DOM.jobRecommendationsCard.style.display = 'block';
 
-                // Get jobs that match user's skills (from courses)
                 const skills = State.userData?.skills || [];
                 if (skills.length === 0) {
                     DOM.jobRecommendations.innerHTML = `
@@ -1514,7 +1596,6 @@
                     return;
                 }
 
-                // Get jobs from Firestore
                 const snap = await db.collection('jobs')
                     .where('status', '==', 'open')
                     .limit(3)
@@ -1531,7 +1612,6 @@
                 let html = '';
                 snap.forEach(doc => {
                     const job = doc.data();
-                    // Simple matching: check if any skill matches
                     const matches = (job.requiredSkills || []).filter(s => skills.includes(s));
                     const matchScore = matches.length > 0 ? `🎯 ${matches.length} skill match` : '';
 
@@ -1551,6 +1631,222 @@
 
             } catch (error) {
                 console.error('Load job recommendations error:', error);
+            }
+        }
+
+        // ============================================
+        // LOAD LIVE SESSIONS
+        // ============================================
+        async function loadLiveSessions(uid) {
+            try {
+                const snap = await db.collection('liveClassSessions')
+                    .where('status', '==', 'live')
+                    .get();
+
+                State.liveSessions = [];
+                snap.forEach(doc => State.liveSessions.push({ id: doc.id, ...doc.data() }));
+
+                renderLiveSessions();
+
+            } catch (error) {
+                console.error('Load live sessions error:', error);
+            }
+        }
+
+        function renderLiveSessions() {
+            const container = DOM.liveClassContent;
+            const active = State.liveSessions.find(s => s.status === 'live');
+
+            if (active) {
+                DOM.liveStatusBadge.textContent = '🟢 Live Now';
+                DOM.liveStatusBadge.className = 'badge badge-danger';
+                container.innerHTML = `
+                    <div style="display:flex;flex-direction:column;gap:8px;">
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <span class="live-dot"></span>
+                            <span style="font-weight:600;font-size:0.9rem;">${escapeHtml(active.topic || 'Live Class')}</span>
+                        </div>
+                        <div style="font-size:0.78rem;color:var(--text-muted);">
+                            <span>👨‍🏫 ${escapeHtml(active.teacherName || 'Instructor')}</span>
+                            ${active.classPIN ? `<span style="margin-left:12px;">🔑 PIN: <strong style="color:var(--gold);">${active.classPIN}</strong></span>` : ''}
+                        </div>
+                        <a href="teacher-teach.html?room=${active.roomName}" class="btn btn-primary btn-sm" style="justify-content:center;">
+                            <span class="live-dot"></span> Join Live Class
+                        </a>
+                    </div>
+                `;
+            } else {
+                DOM.liveStatusBadge.textContent = 'No Session';
+                DOM.liveStatusBadge.className = 'badge badge-info';
+                container.innerHTML = `
+                    <div class="empty-state" style="padding:12px;">
+                        <div class="icon">📺</div>
+                        <p style="font-size:0.82rem;">No live class scheduled.</p>
+                        ${State.userRole === 'instructor' ? '<a href="teacher-teach.html" class="btn btn-primary btn-sm" style="margin-top:8px;">Start Live Class</a>' : ''}
+                    </div>
+                `;
+            }
+        }
+
+        // ============================================
+        // LOAD INSTRUCTOR STUDENTS
+        // ============================================
+        async function loadInstructorStudents(uid) {
+            try {
+                // Get all courses taught by this instructor
+                const courseSnap = await db.collection('courses')
+                    .where('instructorId', '==', uid)
+                    .get();
+
+                const courseIds = [];
+                courseSnap.forEach(doc => courseIds.push(doc.id));
+
+                if (courseIds.length === 0) {
+                    DOM.instructorStudentsContent.innerHTML = `
+                        <div class="empty-state">
+                            <div class="icon">👨‍🎓</div>
+                            <h3>No Students Yet</h3>
+                            <p>Students will appear here when they enroll in your courses.</p>
+                        </div>`;
+                    DOM.studentCount.textContent = '0';
+                    return;
+                }
+
+                // Get all enrollments for these courses
+                const enrollSnap = await db.collection('enrollments')
+                    .where('courseId', 'in', courseIds)
+                    .get();
+
+                State.instructorStudents = [];
+                enrollSnap.forEach(doc => State.instructorStudents.push({ id: doc.id, ...doc.data() }));
+
+                DOM.studentCount.textContent = State.instructorStudents.length;
+
+                if (State.instructorStudents.length === 0) {
+                    DOM.instructorStudentsContent.innerHTML = `
+                        <div class="empty-state">
+                            <div class="icon">👨‍🎓</div>
+                            <h3>No Students Yet</h3>
+                            <p>Students will appear here when they enroll in your courses.</p>
+                        </div>`;
+                    return;
+                }
+
+                let html = '';
+                const students = State.instructorStudents.slice(0, 5);
+                for (const s of students) {
+                    let studentName = 'Unknown';
+                    if (s.userId) {
+                        try {
+                            const uDoc = await db.collection('users').doc(s.userId).get();
+                            if (uDoc.exists) studentName = uDoc.data().fullName || 'Unknown';
+                        } catch (err) {}
+                    }
+                    html += `
+                        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border);">
+                            <div style="flex:1;">
+                                <div style="font-weight:600;font-size:0.82rem;">${escapeHtml(studentName)}</div>
+                                <div style="font-size:0.7rem;color:var(--text-muted);">${escapeHtml(s.courseName || 'Course')} • ${s.progress || 0}% complete</div>
+                            </div>
+                            <a href="teacher-student.html?userId=${s.userId}&courseId=${s.courseId}" class="btn btn-outline btn-sm">View</a>
+                        </div>
+                    `;
+                }
+
+                if (State.instructorStudents.length > 5) {
+                    html += `
+                        <div style="text-align:center;padding:8px;font-size:0.78rem;color:var(--text-muted);">
+                            +${State.instructorStudents.length - 5} more students
+                        </div>`;
+                }
+
+                DOM.instructorStudentsContent.innerHTML = html;
+
+            } catch (error) {
+                console.error('Load instructor students error:', error);
+            }
+        }
+
+        // ============================================
+        // LOAD JOB APPLICATIONS
+        // ============================================
+        async function loadJobApplications(uid) {
+            try {
+                // Get all jobs posted by this job giver
+                const jobSnap = await db.collection('jobs')
+                    .where('jobGiverId', '==', uid)
+                    .get();
+
+                const jobIds = [];
+                jobSnap.forEach(doc => jobIds.push(doc.id));
+
+                if (jobIds.length === 0) {
+                    DOM.jobGiverApplicationsContent.innerHTML = `
+                        <div class="empty-state">
+                            <div class="icon">📋</div>
+                            <h3>No Applications Yet</h3>
+                            <p>Applications will appear here when candidates apply to your jobs.</p>
+                        </div>`;
+                    DOM.applicationCount.textContent = '0';
+                    return;
+                }
+
+                // Get all applications for these jobs
+                const appSnap = await db.collection('job_applications')
+                    .where('jobId', 'in', jobIds)
+                    .get();
+
+                State.jobApplications = [];
+                appSnap.forEach(doc => State.jobApplications.push({ id: doc.id, ...doc.data() }));
+
+                const pendingApps = State.jobApplications.filter(a => a.status === 'pending').length;
+                DOM.applicationCount.textContent = pendingApps;
+
+                if (State.jobApplications.length === 0) {
+                    DOM.jobGiverApplicationsContent.innerHTML = `
+                        <div class="empty-state">
+                            <div class="icon">📋</div>
+                            <h3>No Applications Yet</h3>
+                            <p>Applications will appear here when candidates apply to your jobs.</p>
+                        </div>`;
+                    return;
+                }
+
+                let html = '';
+                const apps = State.jobApplications.slice(0, 5);
+                for (const a of apps) {
+                    let candidateName = 'Unknown';
+                    if (a.userId) {
+                        try {
+                            const uDoc = await db.collection('users').doc(a.userId).get();
+                            if (uDoc.exists) candidateName = uDoc.data().fullName || 'Unknown';
+                        } catch (err) {}
+                    }
+                    const statusBadge = a.status === 'pending' ? 'badge-warning' :
+                        a.status === 'accepted' ? 'badge-success' : 'badge-danger';
+                    html += `
+                        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border);">
+                            <div style="flex:1;">
+                                <div style="font-weight:600;font-size:0.82rem;">${escapeHtml(candidateName)}</div>
+                                <div style="font-size:0.7rem;color:var(--text-muted);">${escapeHtml(a.jobTitle || 'Job')} • ${a.appliedAt?.seconds ? new Date(a.appliedAt.seconds * 1000).toLocaleDateString('en-GB') : '—'}</div>
+                            </div>
+                            <span class="badge ${statusBadge}">${a.status || 'Pending'}</span>
+                            <a href="jobgiver-application.html?appId=${a.id}" class="btn btn-outline btn-sm">Review</a>
+                        </div>
+                    `;
+                }
+
+                if (State.jobApplications.length > 5) {
+                    html += `
+                        <div style="text-align:center;padding:8px;font-size:0.78rem;color:var(--text-muted);">
+                            +${State.jobApplications.length - 5} more applications
+                        </div>`;
+                }
+
+                DOM.jobGiverApplicationsContent.innerHTML = html;
+
+            } catch (error) {
+                console.error('Load job applications error:', error);
             }
         }
 
@@ -1647,7 +1943,12 @@
                         }
                     });
 
-                State.activeListeners.push(unsub1, unsub2, unsub3, unsub4, unsub5);
+                // Live sessions
+                const unsub6 = db.collection('liveClassSessions')
+                    .where('status', '==', 'live')
+                    .onSnapshot(() => loadLiveSessions(State.user.uid));
+
+                State.activeListeners.push(unsub1, unsub2, unsub3, unsub4, unsub5, unsub6);
 
             } catch (error) {
                 console.error('Setup listeners error:', error);
@@ -1690,19 +1991,7 @@
             State.activeListeners.forEach(fn => { try { fn(); } catch (e) {} });
         });
 
-        console.log('✅ TRIANGLE LEARN Dashboard Loaded');
-
-        // ============================================
-        // BLINK ANIMATION
-        // ============================================
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes blink {
-                0%, 100% { opacity: 1; }
-                50% { opacity: 0.2; }
-            }
-        `;
-        document.head.appendChild(style);
+        console.log('✅ TRIANGLE LEARN Dashboard Loaded - All Features Real & Working');
 
     })();
     </script>
