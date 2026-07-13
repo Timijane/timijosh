@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learner Dashboard — TRIANGLE LEARN</title>
-    <meta name="description" content="Your personalized learning dashboard. Track courses, earn certificates, and grow your skills.">
+    <meta name="description" content="Your personalized learning dashboard. Track courses, earn certificates, chat with employers, and grow your skills.">
     <link rel="icon" href="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,7 +40,7 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html {
-            font-size: 16px;
+            font-size: 18px;
             -webkit-text-size-adjust: 100%;
             scroll-behavior: smooth;
         }
@@ -93,7 +93,6 @@
             z-index: 1000;
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             overflow-y: auto;
             overflow-x: hidden;
         }
@@ -126,11 +125,11 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 10px 14px;
+            padding: 12px 14px;
             border-radius: var(--radius-sm);
             color: rgba(255,255,255,0.7);
             text-decoration: none;
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             font-weight: 500;
             transition: all 0.2s;
             margin-bottom: 2px;
@@ -159,12 +158,12 @@
             background: var(--gold);
             border-radius: 0 4px 4px 0;
         }
-        .sidebar-nav a .icon { font-size: 1.1rem; width: 24px; text-align: center; flex-shrink: 0; }
+        .sidebar-nav a .icon { font-size: 1.2rem; width: 24px; text-align: center; flex-shrink: 0; }
         .sidebar-nav a .badge-nav {
             margin-left: auto;
             background: var(--pink);
             color: #fff;
-            font-size: 0.55rem;
+            font-size: 0.6rem;
             padding: 2px 8px;
             border-radius: 12px;
             font-weight: 700;
@@ -175,7 +174,6 @@
             padding: 16px;
             border-top: 1px solid rgba(255,255,255,0.06);
             border-bottom: 1px solid rgba(255,255,255,0.06);
-            margin: 0;
         }
         .sidebar-cover-wrapper {
             width: 100%;
@@ -185,11 +183,7 @@
             background: var(--gradient);
             margin-bottom: -20px;
         }
-        .sidebar-cover-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .sidebar-cover-wrapper img { width: 100%; height: 100%; object-fit: cover; }
         .sidebar-avatar-row {
             display: flex;
             align-items: flex-end;
@@ -213,16 +207,8 @@
             flex-shrink: 0;
             overflow: hidden;
         }
-        .sidebar-avatar-large img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .sidebar-user-info {
-            flex: 1;
-            min-width: 0;
-            padding-bottom: 4px;
-        }
+        .sidebar-avatar-large img { width: 100%; height: 100%; object-fit: cover; }
+        .sidebar-user-info { flex: 1; min-width: 0; padding-bottom: 4px; }
         .sidebar-user-info .name {
             font-weight: 700;
             font-size: 0.88rem;
@@ -232,7 +218,7 @@
             text-overflow: ellipsis;
         }
         .sidebar-user-info .email {
-            font-size: 0.68rem;
+            font-size: 0.7rem;
             color: rgba(255,255,255,0.5);
             white-space: nowrap;
             overflow: hidden;
@@ -273,18 +259,13 @@
             top: 0;
             z-index: 100;
         }
-        .main-header .left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
         .main-header h1 {
             font-family: var(--font-heading);
             font-size: 1.15rem;
             font-weight: 700;
         }
         .main-header .subtitle {
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             color: var(--text-muted);
             font-weight: 400;
             display: block;
@@ -295,7 +276,7 @@
             gap: 14px;
         }
         .main-header .time-display {
-            font-size: 0.78rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
             font-weight: 500;
         }
@@ -317,11 +298,7 @@
             position: relative;
             overflow: hidden;
         }
-        .profile-cover-card .cover-image-area img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .profile-cover-card .cover-image-area img { width: 100%; height: 100%; object-fit: cover; }
         .profile-cover-card .cover-overlay {
             position: absolute;
             bottom: 0;
@@ -349,32 +326,18 @@
             overflow: hidden;
             box-shadow: var(--shadow-md);
         }
-        .profile-cover-card .avatar-xl img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .profile-cover-card .user-details {
-            color: #fff;
-            flex: 1;
-            min-width: 0;
-        }
+        .profile-cover-card .avatar-xl img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-cover-card .user-details { color: #fff; flex: 1; min-width: 0; }
         .profile-cover-card .user-details h2 {
             font-family: var(--font-heading);
             font-size: 1.3rem;
             font-weight: 700;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
         .profile-cover-card .user-details p {
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             opacity: 0.85;
             text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-        }
-        .profile-cover-card .edit-profile-btn {
-            flex-shrink: 0;
         }
 
         /* ===== COMPLETION BANNER ===== */
@@ -410,10 +373,7 @@
             min-width: 50px;
             color: var(--purple);
         }
-        .completion-banner .msg {
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-        }
+        .completion-banner .msg { font-size: 0.85rem; color: var(--text-secondary); }
 
         /* ===== STATS ===== */
         .stats-grid {
@@ -429,15 +389,8 @@
             border: 1px solid var(--border);
             transition: all 0.3s;
         }
-        .stat-card:hover {
-            box-shadow: var(--shadow-md);
-            transform: translateY(-2px);
-        }
-        .stat-card .stat-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
+        .stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+        .stat-card .stat-top { display: flex; justify-content: space-between; align-items: flex-start; }
         .stat-card .stat-icon {
             font-size: 1.4rem;
             width: 40px;
@@ -458,11 +411,7 @@
             font-weight: 800;
             margin-top: 6px;
         }
-        .stat-card .stat-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
+        .stat-card .stat-label { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
 
         /* ===== CARDS ===== */
         .card {
@@ -507,9 +456,9 @@
         /* ===== BADGES ===== */
         .badge {
             display: inline-block;
-            padding: 2px 10px;
+            padding: 3px 12px;
             border-radius: 20px;
-            font-size: 0.65rem;
+            font-size: 0.68rem;
             font-weight: 600;
             white-space: nowrap;
         }
@@ -525,10 +474,10 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 8px 18px;
-            border-radius: 20px;
+            padding: 10px 20px;
+            border-radius: 22px;
             font-weight: 600;
-            font-size: 0.78rem;
+            font-size: 0.82rem;
             cursor: pointer;
             border: none;
             font-family: var(--font-body);
@@ -536,7 +485,7 @@
             transition: all 0.3s;
             white-space: nowrap;
         }
-        .btn-sm { padding: 4px 12px; font-size: 0.7rem; }
+        .btn-sm { padding: 6px 14px; font-size: 0.75rem; }
         .btn-primary { background: var(--gradient); color: #fff; }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(232,67,147,0.25); }
         .btn-outline { background: #fff; color: var(--text); border: 1.5px solid var(--border); }
@@ -553,43 +502,19 @@
             border: 1.5px solid rgba(255,255,255,0.4);
             backdrop-filter: blur(4px);
         }
-        .btn-white-outline:hover {
-            background: rgba(255,255,255,0.25);
-            border-color: #fff;
-        }
+        .btn-white-outline:hover { background: rgba(255,255,255,0.25); border-color: #fff; }
 
         /* ===== EMPTY STATE ===== */
-        .empty-state {
-            text-align: center;
-            padding: 30px 20px;
-            color: var(--text-muted);
-        }
+        .empty-state { text-align: center; padding: 30px 20px; color: var(--text-muted); }
         .empty-state .icon { font-size: 2.5rem; margin-bottom: 10px; }
         .empty-state h3 { font-weight: 600; font-size: 0.95rem; color: var(--text); margin-bottom: 4px; }
-        .empty-state p { font-size: 0.82rem; }
+        .empty-state p { font-size: 0.85rem; }
 
         /* ===== PROGRESS BAR ===== */
         .progress-container { margin-bottom: 8px; }
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.72rem;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: var(--bg);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            border-radius: 10px;
-            background: var(--gradient);
-            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .progress-label { display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 600; margin-bottom: 4px; }
+        .progress-bar { width: 100%; height: 8px; background: var(--bg); border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 10px; background: var(--gradient); transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
 
         /* ===== COURSE ITEM ===== */
         .course-item {
@@ -603,91 +528,175 @@
         .course-item:last-child { border-bottom: none; }
         .course-item:hover { background: var(--bg); }
         .course-item .course-info { flex: 1; min-width: 0; }
-        .course-item .course-info .title {
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
-        .course-item .course-info .meta {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-        }
+        .course-item .course-info .title { font-weight: 600; font-size: 0.88rem; }
+        .course-item .course-info .meta { font-size: 0.75rem; color: var(--text-muted); }
         .course-item .course-action { flex-shrink: 0; display: flex; gap: 6px; }
 
         /* ===== LIVE DOT ===== */
-        @keyframes pulse-live {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.5); }
-        }
-        .live-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #22c55e;
-            animation: pulse-live 1.5s infinite;
-            margin-right: 4px;
-        }
+        @keyframes pulse-live { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.5); } }
+        .live-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #22c55e; animation: pulse-live 1.5s infinite; margin-right: 4px; }
 
         /* ===== TOAST ===== */
-        .toast-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            max-width: 400px;
-        }
-        .toast {
-            padding: 14px 20px;
-            border-radius: var(--radius-sm);
-            font-weight: 500;
-            font-size: 0.85rem;
-            box-shadow: var(--shadow-lg);
-            animation: slideIn 0.4s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #fff;
-        }
+        .toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; max-width: 400px; }
+        .toast { padding: 14px 20px; border-radius: var(--radius-sm); font-weight: 500; font-size: 0.88rem; box-shadow: var(--shadow-lg); animation: slideIn 0.4s ease; display: flex; align-items: center; gap: 10px; color: #fff; }
         .toast-success { background: var(--green); }
         .toast-error { background: var(--red); }
         .toast-info { background: var(--purple); }
         .toast-warning { background: var(--gold); color: #1a1a2e; }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(30px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        .toast .toast-close {
-            margin-left: auto;
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.7);
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+        .toast .toast-close { margin-left: auto; background: none; border: none; color: rgba(255,255,255,0.7); cursor: pointer; font-size: 1.1rem; }
 
         /* ===== VIEW TOGGLING ===== */
         .view-panel { display: none; }
         .view-panel.active { display: block; }
 
         /* ===== REFERRAL ===== */
-        .ref-info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border);
-            font-size: 0.82rem;
-        }
+        .ref-info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
         .ref-info-row:last-child { border-bottom: none; }
         .ref-info-row .label { color: var(--text-muted); }
         .ref-info-row .value { font-weight: 600; }
 
         /* ===== ROLE SWITCHER OVERRIDES ===== */
-        #roleSwitcherContainer {
+        #roleSwitcherContainer { display: flex; align-items: center; }
+
+        /* ===== CONVERSATION LIST ===== */
+        .conversation-item {
             display: flex;
             align-items: center;
+            gap: 14px;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .conversation-item:hover { background: var(--bg); }
+        .conversation-item .conv-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .conversation-item .conv-info { flex: 1; min-width: 0; }
+        .conversation-item .conv-info .conv-name { font-weight: 600; font-size: 0.9rem; }
+        .conversation-item .conv-info .conv-preview { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .conversation-item .conv-time { font-size: 0.72rem; color: var(--text-muted); flex-shrink: 0; }
+
+        /* ===== CHAT PANEL ===== */
+        .chat-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 420px;
+            height: 100vh;
+            background: #fff;
+            z-index: 1500;
+            box-shadow: var(--shadow-lg);
+            flex-direction: column;
+            animation: slideLeft 0.3s ease;
+        }
+        .chat-panel.open { display: flex; }
+        @keyframes slideLeft { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        .chat-header {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+        .chat-header .chat-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .chat-header .chat-user-info { flex: 1; min-width: 0; }
+        .chat-header .chat-user-info .name { font-weight: 700; font-size: 0.92rem; }
+        .chat-header .chat-user-info .job { font-size: 0.75rem; color: var(--text-muted); }
+        .chat-close { background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--text-muted); }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #f8f9fc;
+        }
+        .chat-bubble {
+            max-width: 75%;
+            padding: 10px 14px;
+            border-radius: 16px;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            word-wrap: break-word;
+            position: relative;
+        }
+        .chat-bubble.sent { align-self: flex-end; background: var(--gradient); color: #fff; border-bottom-right-radius: 4px; }
+        .chat-bubble.received { align-self: flex-start; background: #fff; border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+        .chat-bubble .msg-time { font-size: 0.65rem; opacity: 0.7; margin-top: 4px; text-align: right; }
+        .chat-bubble .msg-file { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(255,255,255,0.2); border-radius: 10px; margin-top: 4px; }
+        .chat-bubble .msg-voice audio { height: 32px; margin-top: 4px; }
+        .chat-bubble .msg-video-link { display: inline-block; padding: 6px 12px; background: var(--green); color: #fff; border-radius: 14px; font-size: 0.8rem; font-weight: 600; text-decoration: none; margin-top: 4px; }
+        .chat-input-area {
+            padding: 12px 16px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-shrink: 0;
+            background: #fff;
+        }
+        .chat-input-area input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 22px;
+            font-family: var(--font-body);
+            font-size: 0.88rem;
+            outline: none;
+        }
+        .chat-input-area input:focus { border-color: var(--purple); }
+        .chat-input-area .icon-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1.5px solid var(--border);
+            background: #fff;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .chat-input-area .icon-btn:hover { border-color: var(--purple); background: #f8f7ff; }
+        .chat-input-area .send-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--gradient);
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>
@@ -728,11 +737,9 @@
     <!-- ===== MAIN ===== -->
     <div class="main">
         <header class="main-header">
-            <div class="left">
-                <div>
-                    <h1 id="pageTitle">📊 Dashboard</h1>
-                    <span class="subtitle" id="pageSubtitle">Welcome back!</span>
-                </div>
+            <div>
+                <h1 id="pageTitle">📊 Dashboard</h1>
+                <span class="subtitle" id="pageSubtitle">Welcome back!</span>
             </div>
             <div class="header-actions">
                 <span class="time-display" id="currentTime"></span>
@@ -758,14 +765,14 @@
                             <h2 id="welcomeName">Learner</h2>
                             <p id="welcomeSub">🧑‍🎓 Learner</p>
                         </div>
-                        <a href="profile.html" class="btn btn-white-outline btn-sm edit-profile-btn">✏️ Edit Profile</a>
+                        <a href="profile.html" class="btn btn-white-outline btn-sm">✏️ Edit Profile</a>
                     </div>
                 </div>
             </div>
 
             <!-- COMPLETION BANNER -->
             <div class="completion-banner" id="completionBanner">
-                <span style="font-weight:600;font-size:0.85rem;">📝 Profile Completion</span>
+                <span style="font-weight:600;font-size:0.88rem;">📝 Profile Completion</span>
                 <div class="progress-track">
                     <div class="fill" id="completionFill" style="width:0%;"></div>
                 </div>
@@ -865,7 +872,7 @@
                         <div class="card">
                             <div class="card-header"><h2>⚡ Quick Actions</h2></div>
                             <div class="card-body">
-                                <div style="display:flex;flex-direction:column;gap:6px;">
+                                <div style="display:flex;flex-direction:column;gap:8px;">
                                     <a href="enroll.html" class="btn btn-primary btn-sm" style="justify-content:center;">🎓 Enroll in Course</a>
                                     <a href="profile.html" class="btn btn-outline btn-sm" style="justify-content:center;">👤 Update Profile</a>
                                     <a href="job-board.html" class="btn btn-outline btn-sm" style="justify-content:center;">💼 Browse Jobs</a>
@@ -897,7 +904,7 @@
                             <div class="card-header"><h2>📢 Updates</h2></div>
                             <div class="card-body" id="announcementsContent" style="max-height:200px;overflow-y:auto;">
                                 <div class="empty-state" style="padding:12px;">
-                                    <p style="font-size:0.82rem;">No updates yet.</p>
+                                    <p style="font-size:0.85rem;">No updates yet.</p>
                                 </div>
                             </div>
                         </div>
@@ -910,7 +917,7 @@
                             </div>
                             <div class="card-body" id="jobRecommendations" style="max-height:200px;overflow-y:auto;">
                                 <div class="empty-state" style="padding:12px;">
-                                    <p style="font-size:0.82rem;">Complete courses to get job recommendations.</p>
+                                    <p style="font-size:0.85rem;">Complete courses to get job recommendations.</p>
                                 </div>
                             </div>
                         </div>
@@ -924,7 +931,7 @@
                             <div class="card-body" id="liveClassPreview">
                                 <div class="empty-state" style="padding:12px;">
                                     <div class="icon">📺</div>
-                                    <p style="font-size:0.82rem;">No live classes right now.</p>
+                                    <p style="font-size:0.85rem;">No live classes right now.</p>
                                 </div>
                             </div>
                         </div>
@@ -938,7 +945,7 @@
                     <div class="card-body" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
                         <div>
                             <h2 style="font-family:var(--font-heading);font-size:1.1rem;">📚 My Courses</h2>
-                            <p style="font-size:0.8rem;color:var(--text-muted);">All your enrolled courses in one place.</p>
+                            <p style="font-size:0.82rem;color:var(--text-muted);">All your enrolled courses in one place.</p>
                         </div>
                         <a href="enroll.html" class="btn btn-primary btn-sm">+ Enroll New</a>
                     </div>
@@ -951,10 +958,28 @@
                 <div class="card" style="margin-bottom:20px;">
                     <div class="card-body">
                         <h2 style="font-family:var(--font-heading);font-size:1.1rem;">📜 My Certificates</h2>
-                        <p style="font-size:0.8rem;color:var(--text-muted);">All your earned certificates.</p>
+                        <p style="font-size:0.82rem;color:var(--text-muted);">All your earned certificates.</p>
                     </div>
                 </div>
                 <div id="certificatesFullList"></div>
+            </div>
+
+            <!-- ===== MESSAGES VIEW ===== -->
+            <div class="view-panel" id="viewMessages">
+                <div class="card" style="margin-bottom:20px;">
+                    <div class="card-body">
+                        <h2 style="font-family:var(--font-heading);font-size:1.1rem;">💬 Messages</h2>
+                        <p style="font-size:0.82rem;color:var(--text-muted);">Chat with employers who have reviewed your applications.</p>
+                    </div>
+                </div>
+                <div id="conversationsList">
+                    <div class="empty-state">
+                        <div class="icon">💬</div>
+                        <h3>No Messages Yet</h3>
+                        <p>Apply to jobs and employers may reach out to you.</p>
+                        <a href="job-board.html" class="btn btn-primary btn-sm" style="margin-top:8px;">Browse Jobs</a>
+                    </div>
+                </div>
             </div>
 
             <!-- ===== REFERRALS VIEW ===== -->
@@ -962,7 +987,7 @@
                 <div class="card" style="margin-bottom:20px;">
                     <div class="card-body">
                         <h2 style="font-family:var(--font-heading);font-size:1.1rem;">💰 Referral Program</h2>
-                        <p style="font-size:0.8rem;color:var(--text-muted);">Share your link and earn 20% commission on every enrollment.</p>
+                        <p style="font-size:0.82rem;color:var(--text-muted);">Share your link and earn 20% commission on every enrollment.</p>
                     </div>
                 </div>
                 <div class="card">
@@ -970,20 +995,20 @@
                         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:20px;">
                             <div style="background:var(--bg);padding:14px;border-radius:var(--radius-sm);text-align:center;">
                                 <div style="font-weight:700;font-size:1.3rem;" id="refTotalCount">0</div>
-                                <div style="font-size:0.72rem;color:var(--text-muted);">Total Referrals</div>
+                                <div style="font-size:0.75rem;color:var(--text-muted);">Total Referrals</div>
                             </div>
                             <div style="background:var(--bg);padding:14px;border-radius:var(--radius-sm);text-align:center;">
                                 <div style="font-weight:700;font-size:1.3rem;color:var(--green);" id="refTotalEarnings">₦0</div>
-                                <div style="font-size:0.72rem;color:var(--text-muted);">Total Earned</div>
+                                <div style="font-size:0.75rem;color:var(--text-muted);">Total Earned</div>
                             </div>
                             <div style="background:var(--bg);padding:14px;border-radius:var(--radius-sm);text-align:center;">
                                 <div style="font-weight:700;font-size:1.3rem;color:var(--pink);" id="refTotalPending">₦0</div>
-                                <div style="font-size:0.72rem;color:var(--text-muted);">Pending</div>
+                                <div style="font-size:0.75rem;color:var(--text-muted);">Pending</div>
                             </div>
                         </div>
                         <div style="background:var(--bg);padding:12px 16px;border-radius:var(--radius-sm);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-                            <span style="font-size:0.85rem;font-weight:600;">Your Referral Link:</span>
-                            <span style="font-family:monospace;font-size:0.8rem;color:var(--purple);" id="refFullLink">——</span>
+                            <span style="font-size:0.88rem;font-weight:600;">Your Referral Link:</span>
+                            <span style="font-family:monospace;font-size:0.82rem;color:var(--purple);" id="refFullLink">——</span>
                             <button class="btn btn-primary btn-sm" onclick="copyReferralLink()">📋 Copy</button>
                         </div>
                     </div>
@@ -996,7 +1021,7 @@
                 <div class="card" style="margin-bottom:20px;">
                     <div class="card-body">
                         <h2 style="font-family:var(--font-heading);font-size:1.1rem;">⚙️ Settings</h2>
-                        <p style="font-size:0.8rem;color:var(--text-muted);">Quick access to your account settings.</p>
+                        <p style="font-size:0.82rem;color:var(--text-muted);">Quick access to your account settings.</p>
                     </div>
                 </div>
                 <div class="card">
@@ -1011,6 +1036,27 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <!-- ===== CHAT PANEL ===== -->
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-header">
+            <div class="chat-avatar" id="chatAvatar">?</div>
+            <div class="chat-user-info">
+                <div class="name" id="chatUserName">Employer</div>
+                <div class="job" id="chatJobTitle">Job Title</div>
+            </div>
+            <button class="chat-close" onclick="closeChat()">✕</button>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-area">
+            <input type="file" id="chatFileInput" style="display:none;" onchange="sendChatFile(this)">
+            <button class="icon-btn" onclick="document.getElementById('chatFileInput').click()" title="Attach File">📎</button>
+            <button class="icon-btn" onclick="startVoiceRecord()" title="Voice Note" id="voiceBtn">🎤</button>
+            <button class="icon-btn" onclick="sendVideoCallLink()" title="Video Call">📹</button>
+            <input type="text" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendChatMessage()">
+            <button class="send-btn" onclick="sendChatMessage()">➤</button>
         </div>
     </div>
 
@@ -1057,6 +1103,11 @@
             profileComplete: 0,
             currentView: 'overview',
             liveSessions: [],
+            conversations: [],
+            activeChat: null,
+            chatListener: null,
+            isRecording: false,
+            mediaRecorder: null,
         };
 
         // ============ DOM REFS ============
@@ -1096,12 +1147,21 @@
             return d.innerHTML;
         }
 
+        // ============ TIME AGO ============
+        function timeAgo(date) {
+            const diff = Math.floor((Date.now() - date) / 1000);
+            if (diff < 60) return 'Just now';
+            if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+            if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+            if (diff < 604800) return Math.floor(diff / 86400) + 'd ago';
+            return date.toDateString();
+        }
+
         // ============ UPDATE PROFILE IMAGES ============
         function updateProfileImages() {
             const data = State.userData;
             if (!data) return;
 
-            // Sidebar cover
             const sidebarCoverImg = $('#sidebarCoverImage');
             const sidebarCoverPlaceholder = $('#sidebarCoverPlaceholder');
             if (data.coverImage) {
@@ -1113,7 +1173,6 @@
                 if (sidebarCoverPlaceholder) sidebarCoverPlaceholder.style.display = 'block';
             }
 
-            // Sidebar avatar
             const sidebarAvatarImg = $('#sidebarAvatarImg');
             const sidebarAvatarInitial = $('#sidebarAvatarInitial');
             if (data.profilePicture) {
@@ -1128,7 +1187,6 @@
                 }
             }
 
-            // Main cover
             const coverImage = $('#coverImage');
             const coverPlaceholder = $('#coverPlaceholder');
             if (data.coverImage) {
@@ -1140,7 +1198,6 @@
                 if (coverPlaceholder) coverPlaceholder.style.display = 'block';
             }
 
-            // Main avatar
             const avatarXLImg = $('#avatarXLImg');
             const avatarXLInitial = $('#avatarXLInitial');
             if (data.profilePicture) {
@@ -1171,6 +1228,7 @@
                 overview: '📊 Dashboard',
                 courses: '📚 My Courses',
                 certificates: '📜 Certificates',
+                messages: '💬 Messages',
                 referrals: '💰 Referral Program',
                 settings: '⚙️ Settings'
             };
@@ -1179,6 +1237,7 @@
 
             if (view === 'courses') renderFullCourses();
             if (view === 'certificates') renderFullCertificates();
+            if (view === 'messages') loadConversations();
             if (view === 'referrals') renderFullReferrals();
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1191,6 +1250,7 @@
                 { icon: '📊', label: 'Overview', view: 'overview', active: true },
                 { icon: '📚', label: 'My Courses', view: 'courses' },
                 { icon: '📜', label: 'Certificates', view: 'certificates' },
+                { icon: '💬', label: 'Messages', view: 'messages' },
                 { icon: '💼', label: 'Job Board', external: 'job-board.html' },
                 { icon: '📺', label: 'Classroom', external: 'classroom.html' },
                 { icon: '💰', label: 'Referrals', view: 'referrals' },
@@ -1246,20 +1306,16 @@
                 State.userData = doc.data();
                 State.profileComplete = State.userData.profileComplete || 0;
 
-                // Update profile images
                 updateProfileImages();
 
-                // Update names
                 const firstName = (State.userData.fullName || 'Learner').split(' ')[0];
                 $('#welcomeName').textContent = State.userData.fullName || 'Learner';
                 $('#sidebarName').textContent = State.userData.fullName || 'Learner';
                 $('#sidebarEmail').textContent = State.userData.email || State.user?.email || '';
                 $('#welcomeSub').textContent = '🧑‍🎓 Learner';
 
-                // Completion
                 updateCompletionBanner();
 
-                // Stats
                 $('#profileViews').textContent = State.userData.profileViews || 0;
                 $('#profileContacts').textContent = State.userData.contacts || 0;
                 $('#profileComplete').textContent = State.profileComplete + '%';
@@ -1271,6 +1327,7 @@
                     loadAnnouncements(),
                     loadLiveSessions(),
                     loadJobRecommendations(),
+                    loadConversations(),
                 ]);
 
                 updateAllStats();
@@ -1367,7 +1424,7 @@
                             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
                                 <div style="flex:1;min-width:200px;">
                                     <h3 style="font-size:1rem;font-weight:700;">${escapeHtml(c.courseName || 'Course')}</h3>
-                                    <p style="font-size:0.8rem;color:var(--text-muted);">${escapeHtml(c.stage || 'Stage')}</p>
+                                    <p style="font-size:0.82rem;color:var(--text-muted);">${escapeHtml(c.stage || 'Stage')}</p>
                                     <div class="progress-container" style="max-width:300px;margin-top:8px;">
                                         <div class="progress-label"><span>Progress</span><span>${pct}%</span></div>
                                         <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;"></div></div>
@@ -1423,7 +1480,7 @@
             let html = '';
             certs.forEach(c => {
                 const date = c.issuedAt?.toDate ? c.issuedAt.toDate().toLocaleDateString('en-GB') : '—';
-                html += `<div class="card"><div class="card-body"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;"><div><h3 style="font-size:1rem;">${escapeHtml(c.courseName || 'Certificate')}</h3><p style="font-size:0.8rem;color:var(--text-muted);">${escapeHtml(c.stage || '')} • Issued ${date}</p></div><a href="certificate.html?certId=${c.id}" class="btn btn-gold btn-sm">📜 View Certificate</a></div></div></div>`;
+                html += `<div class="card"><div class="card-body"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;"><div><h3 style="font-size:1rem;">${escapeHtml(c.courseName || 'Certificate')}</h3><p style="font-size:0.82rem;color:var(--text-muted);">${escapeHtml(c.stage || '')} • Issued ${date}</p></div><a href="certificate.html?certId=${c.id}" class="btn btn-gold btn-sm">📜 View Certificate</a></div></div></div>`;
             });
             container.innerHTML = html;
         }
@@ -1468,7 +1525,7 @@
                     'failed': { label: '❌ Failed', cls: 'badge-danger' },
                 };
                 const status = statusMap[r.status] || { label: r.status, cls: 'badge-warning' };
-                html += `<div class="card"><div class="card-body"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;"><div><div style="font-weight:600;">${escapeHtml(r.referredName || r.referredEmail || 'Someone')}</div><div style="font-size:0.72rem;color:var(--text-muted);">Code: ${escapeHtml(r.referralCode || '—')}</div></div><div style="display:flex;align-items:center;gap:8px;"><span class="badge ${status.cls}">${status.label}</span>${r.rewardAmount ? `<span style="font-weight:700;color:var(--green);">₦${r.rewardAmount.toLocaleString()}</span>` : ''}</div></div></div></div>`;
+                html += `<div class="card"><div class="card-body"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;"><div><div style="font-weight:600;">${escapeHtml(r.referredName || r.referredEmail || 'Someone')}</div><div style="font-size:0.75rem;color:var(--text-muted);">Code: ${escapeHtml(r.referralCode || '—')}</div></div><div style="display:flex;align-items:center;gap:8px;"><span class="badge ${status.cls}">${status.label}</span>${r.rewardAmount ? `<span style="font-weight:700;color:var(--green);">₦${r.rewardAmount.toLocaleString()}</span>` : ''}</div></div></div></div>`;
             });
             container.innerHTML = html;
         }
@@ -1493,10 +1550,10 @@
         function renderAnnouncements() {
             const container = $('#announcementsContent');
             if (State.announcements.length === 0) {
-                container.innerHTML = '<div class="empty-state" style="padding:12px;"><p style="font-size:0.82rem;">No updates yet.</p></div>';
+                container.innerHTML = '<div class="empty-state" style="padding:12px;"><p style="font-size:0.85rem;">No updates yet.</p></div>';
                 return;
             }
-            container.innerHTML = State.announcements.map(msg => `<div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:0.8rem;line-height:1.4;">${escapeHtml(msg)}</div>`).join('');
+            container.innerHTML = State.announcements.map(msg => `<div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:0.82rem;line-height:1.4;">${escapeHtml(msg)}</div>`).join('');
         }
 
         // ============ LOAD LIVE SESSIONS ============
@@ -1517,11 +1574,11 @@
             if (State.liveSessions.length > 0) {
                 badge.textContent = '🟢 Live';
                 badge.className = 'badge badge-danger';
-                container.innerHTML = State.liveSessions.map(s => `<div style="padding:10px 0;border-bottom:1px solid var(--border);"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><span class="live-dot"></span><span style="font-weight:600;font-size:0.82rem;">${escapeHtml(s.topic || 'Live Class')}</span></div><div style="font-size:0.72rem;color:var(--text-muted);">PIN: ${escapeHtml(s.classPIN || '----')}</div><a href="classroom.html?courseId=${s.courseId}" class="btn btn-primary btn-sm" style="margin-top:6px;">Join →</a></div>`).join('');
+                container.innerHTML = State.liveSessions.map(s => `<div style="padding:10px 0;border-bottom:1px solid var(--border);"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><span class="live-dot"></span><span style="font-weight:600;font-size:0.85rem;">${escapeHtml(s.topic || 'Live Class')}</span></div><div style="font-size:0.75rem;color:var(--text-muted);">PIN: ${escapeHtml(s.classPIN || '----')}</div><a href="classroom.html?courseId=${s.courseId}" class="btn btn-primary btn-sm" style="margin-top:6px;">Join →</a></div>`).join('');
             } else {
                 badge.textContent = 'No Sessions';
                 badge.className = 'badge badge-info';
-                container.innerHTML = `<div class="empty-state" style="padding:12px;"><div class="icon">📺</div><p style="font-size:0.82rem;">No live classes right now.</p></div>`;
+                container.innerHTML = `<div class="empty-state" style="padding:12px;"><div class="icon">📺</div><p style="font-size:0.85rem;">No live classes right now.</p></div>`;
             }
         }
 
@@ -1531,17 +1588,225 @@
                 const container = $('#jobRecommendations');
                 const snap = await db.collection('jobs').where('status', '==', 'open').limit(3).get();
                 if (snap.empty) {
-                    container.innerHTML = `<div class="empty-state" style="padding:12px;"><p style="font-size:0.82rem;">Complete courses to get job recommendations.</p></div>`;
+                    container.innerHTML = `<div class="empty-state" style="padding:12px;"><p style="font-size:0.85rem;">Complete courses to get job recommendations.</p></div>`;
                     return;
                 }
                 let html = '';
                 snap.forEach(doc => {
                     const job = doc.data();
-                    html += `<div style="padding:10px 0;border-bottom:1px solid var(--border);"><div style="font-weight:600;font-size:0.82rem;">${escapeHtml(job.title || 'Job')}</div><div style="font-size:0.72rem;color:var(--text-muted);">${escapeHtml(job.company || 'Company')}</div><a href="job-board.html" class="btn btn-outline btn-sm" style="margin-top:4px;">View</a></div>`;
+                    html += `<div style="padding:10px 0;border-bottom:1px solid var(--border);"><div style="font-weight:600;font-size:0.85rem;">${escapeHtml(job.title || 'Job')}</div><div style="font-size:0.75rem;color:var(--text-muted);">${escapeHtml(job.companyName || 'Company')}</div><a href="job-board.html" class="btn btn-outline btn-sm" style="margin-top:4px;">View</a></div>`;
                 });
                 container.innerHTML = html;
             } catch (error) { console.error('Load job recommendations error:', error); }
         }
+
+        // ============ CONVERSATIONS & CHAT ============
+        async function loadConversations() {
+            if (!State.user) return;
+            try {
+                const snap = await db.collection('job_applications').where('userId', '==', State.user.uid).get();
+                State.conversations = [];
+                snap.forEach(doc => {
+                    const a = doc.data();
+                    if (a.jobGiverId) {
+                        State.conversations.push({
+                            id: doc.id,
+                            employerId: a.jobGiverId,
+                            employerName: a.companyName || 'Employer',
+                            jobTitle: a.jobTitle || '',
+                        });
+                    }
+                });
+                renderConversationsList();
+            } catch (e) { console.error('Load conversations error:', e); }
+        }
+
+        function renderConversationsList() {
+            const container = $('#conversationsList');
+            if (!container) return;
+            if (State.conversations.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">💬</div>
+                        <h3>No Messages Yet</h3>
+                        <p>Apply to jobs and employers may reach out to you.</p>
+                        <a href="job-board.html" class="btn btn-primary btn-sm" style="margin-top:8px;">Browse Jobs</a>
+                    </div>`;
+                return;
+            }
+            container.innerHTML = State.conversations.map(c => `
+                <div class="conversation-item" onclick="openChat('${c.employerId}', '${escapeHtml(c.employerName)}', '${escapeHtml(c.jobTitle)}')">
+                    <div class="conv-avatar">${(c.employerName || 'E').charAt(0).toUpperCase()}</div>
+                    <div class="conv-info">
+                        <div class="conv-name">${escapeHtml(c.employerName)}</div>
+                        <div class="conv-preview">${escapeHtml(c.jobTitle)}</div>
+                    </div>
+                    <span class="conv-time">💬</span>
+                </div>
+            `).join('');
+        }
+
+        window.openChat = function(otherUserId, userName, jobTitle) {
+            State.activeChat = { userId: otherUserId, userName, jobTitle };
+            $('#chatAvatar').textContent = (userName || '?').charAt(0).toUpperCase();
+            $('#chatUserName').textContent = userName || 'User';
+            $('#chatJobTitle').textContent = jobTitle || '';
+            $('#chatPanel').classList.add('open');
+            $('#chatMessages').innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:20px;">Loading messages...</div>';
+            loadChatMessages();
+        };
+
+        window.closeChat = function() {
+            $('#chatPanel').classList.remove('open');
+            if (State.chatListener) { State.chatListener(); State.chatListener = null; }
+            State.activeChat = null;
+        };
+
+        function getChatId() {
+            if (!State.activeChat || !State.user) return null;
+            const ids = [State.user.uid, State.activeChat.userId].sort();
+            return ids.join('_');
+        }
+
+        function loadChatMessages() {
+            const chatId = getChatId();
+            if (!chatId) return;
+            if (State.chatListener) State.chatListener();
+            State.chatListener = db.collection('chats').doc(chatId).collection('messages')
+                .orderBy('createdAt', 'asc')
+                .onSnapshot(snap => {
+                    const container = $('#chatMessages');
+                    container.innerHTML = '';
+                    if (snap.empty) {
+                        container.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:20px;font-size:0.88rem;">Start the conversation!</div>';
+                        return;
+                    }
+                    snap.forEach(doc => {
+                        const m = doc.data();
+                        const isSent = m.senderId === State.user.uid;
+                        container.innerHTML += `
+                            <div class="chat-bubble ${isSent ? 'sent' : 'received'}">
+                                <div>${escapeHtml(m.message || '')}</div>
+                                ${m.fileUrl ? `<a href="${m.fileUrl}" target="_blank" class="msg-file">📎 ${escapeHtml(m.fileName || 'File')}</a>` : ''}
+                                ${m.voiceUrl ? `<div class="msg-voice"><audio controls src="${m.voiceUrl}"></audio></div>` : ''}
+                                ${m.videoLink ? `<a href="${m.videoLink}" target="_blank" class="msg-video-link">📹 Join Video Call</a>` : ''}
+                                <div class="msg-time">${m.createdAt?.toDate ? timeAgo(m.createdAt.toDate()) : ''}</div>
+                            </div>`;
+                    });
+                    container.scrollTop = container.scrollHeight;
+                });
+        }
+
+        window.sendChatMessage = async function() {
+            const input = $('#chatInput');
+            const msg = input.value.trim();
+            if (!msg || !State.activeChat) return;
+            const chatId = getChatId();
+            if (!chatId) return;
+            await db.collection('chats').doc(chatId).collection('messages').add({
+                senderId: State.user.uid,
+                senderName: State.userData?.fullName || 'Learner',
+                message: msg,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            });
+            input.value = '';
+        };
+
+        window.sendChatFile = async function(input) {
+            const file = input.files[0];
+            if (!file || !State.activeChat) return;
+            showToast('📎 Uploading file...', 'info');
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', 'pelumi');
+            formData.append('folder', 'triangle_learn/chats');
+            try {
+                const res = await fetch('https://api.cloudinary.com/v1_1/dmbjrohtn/upload', { method: 'POST', body: formData });
+                const data = await res.json();
+                if (data.secure_url) {
+                    const chatId = getChatId();
+                    await db.collection('chats').doc(chatId).collection('messages').add({
+                        senderId: State.user.uid,
+                        senderName: State.userData?.fullName || 'Learner',
+                        message: '',
+                        fileUrl: data.secure_url,
+                        fileName: file.name,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    });
+                    showToast('File sent!');
+                }
+            } catch (e) { showToast('Upload failed', 'error'); }
+            input.value = '';
+        };
+
+        window.sendVideoCallLink = async function() {
+            if (!State.activeChat) return;
+            const roomName = 'chat-' + Date.now().toString(36);
+            const link = `https://meet.jit.si/${roomName}#config.prejoinPageEnabled=true&userInfo.displayName=${encodeURIComponent(State.userData?.fullName || 'Learner')}`;
+            const chatId = getChatId();
+            await db.collection('chats').doc(chatId).collection('messages').add({
+                senderId: State.user.uid,
+                senderName: State.userData?.fullName || 'Learner',
+                message: '📹 Video call invitation',
+                videoLink: link,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            });
+            window.open(link, '_blank');
+        };
+
+        window.startVoiceRecord = async function() {
+            if (State.isRecording) {
+                State.mediaRecorder.stop();
+                State.isRecording = false;
+                $('#voiceBtn').textContent = '🎤';
+                $('#voiceBtn').style.background = '';
+                $('#voiceBtn').style.color = '';
+                return;
+            }
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                State.mediaRecorder = new MediaRecorder(stream);
+                const chunks = [];
+                State.mediaRecorder.ondataavailable = e => chunks.push(e.data);
+                State.mediaRecorder.onstop = async () => {
+                    const blob = new Blob(chunks, { type: 'audio/webm' });
+                    const formData = new FormData();
+                    formData.append('file', blob, 'voice-note.webm');
+                    formData.append('upload_preset', 'pelumi');
+                    formData.append('folder', 'triangle_learn/voice');
+                    try {
+                        const res = await fetch('https://api.cloudinary.com/v1_1/dmbjrohtn/upload', { method: 'POST', body: formData });
+                        const data = await res.json();
+                        if (data.secure_url && State.activeChat) {
+                            const chatId = getChatId();
+                            await db.collection('chats').doc(chatId).collection('messages').add({
+                                senderId: State.user.uid,
+                                senderName: State.userData?.fullName || 'Learner',
+                                message: '🎤 Voice note',
+                                voiceUrl: data.secure_url,
+                                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            });
+                        }
+                    } catch (e) { showToast('Voice upload failed', 'error'); }
+                    stream.getTracks().forEach(t => t.stop());
+                };
+                State.mediaRecorder.start();
+                State.isRecording = true;
+                $('#voiceBtn').textContent = '⏹';
+                $('#voiceBtn').style.background = '#e74c3c';
+                $('#voiceBtn').style.color = '#fff';
+                showToast('🎤 Recording... Click again to stop.', 'info');
+                setTimeout(() => {
+                    if (State.isRecording) {
+                        State.mediaRecorder.stop();
+                        State.isRecording = false;
+                        $('#voiceBtn').textContent = '🎤';
+                        $('#voiceBtn').style.background = '';
+                        $('#voiceBtn').style.color = '';
+                    }
+                }, 60000);
+            } catch (e) { showToast('Microphone access denied', 'error'); }
+        };
 
         // ============ UPDATE STATS ============
         function updateAllStats() {
@@ -1618,7 +1883,7 @@
             State.activeListeners.forEach(fn => { try { fn(); } catch (e) {} });
         });
 
-        console.log('✅ TRIANGLE LEARN Learner Dashboard — Ready');
+        console.log('✅ TRIANGLE LEARN Learner Dashboard v3 — Full Messaging System Ready');
     })();
     </script>
 </body>
