@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In — TRIANGLE LEARN</title>
     <meta name="description" content="Sign in to TRIANGLE LEARN. Access your courses, certificates, and community.">
     <link rel="icon" href="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
@@ -33,9 +33,13 @@
             --danger-bg: #fff0f0;
             --success: #0d9488;
             --success-bg: #e8f8f0;
+            --base-width: 1200px;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+        html {
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%;
+        }
         body {
             font-family: var(--font-body);
             background: var(--bg-alt);
@@ -46,10 +50,32 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 40px 20px;
+            width: var(--base-width);
+            min-width: var(--base-width);
+            margin: 0 auto;
+            position: relative;
+        }
+        @media screen and (max-width: 1220px) {
+            body {
+                transform-origin: top left;
+                transform: scale(calc(100vw / var(--base-width)));
+                width: var(--base-width);
+                min-width: var(--base-width);
+                height: calc(100vh / (100vw / var(--base-width)));
+            }
+        }
+        @supports (-webkit-overflow-scrolling: touch) {
+            @media screen and (max-width: 1220px) {
+                html { width: 100vw; overflow-x: hidden; }
+                body {
+                    transform-origin: top left;
+                    transform: scale(calc(100vw / var(--base-width)));
+                }
+            }
         }
 
-        .auth-wrapper { width: 100%; max-width: 480px; }
+        .auth-wrapper { width: 100%; max-width: 520px; }
 
         .back-link {
             display: inline-flex; align-items: center; gap: 6px;
@@ -104,117 +130,58 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .referral-banner .avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--gold);
-            flex-shrink: 0;
+            width: 44px; height: 44px;
+            border-radius: 50%; object-fit: cover;
+            border: 2px solid var(--gold); flex-shrink: 0;
             background: #f0f0f5;
         }
         .referral-banner .avatar-placeholder {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: var(--gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: 700;
-            font-size: 1.1rem;
+            width: 44px; height: 44px; border-radius: 50%;
+            background: var(--gradient); display: flex;
+            align-items: center; justify-content: center;
+            color: #fff; font-weight: 700; font-size: 1.1rem;
             flex-shrink: 0;
         }
         .referral-banner .ref-text {
-            flex: 1;
-            font-size: 0.88rem;
-            font-weight: 500;
-            color: var(--text);
+            flex: 1; font-size: 0.88rem; font-weight: 500; color: var(--text);
         }
-        .referral-banner .ref-text strong {
-            color: var(--purple);
-        }
+        .referral-banner .ref-text strong { color: var(--purple); }
         .referral-banner .ref-badge {
-            font-size: 0.7rem;
-            background: var(--gold);
-            color: #fff;
-            padding: 2px 12px;
-            border-radius: 12px;
-            font-weight: 700;
-            white-space: nowrap;
+            font-size: 0.7rem; background: var(--gold); color: #fff;
+            padding: 2px 12px; border-radius: 12px; font-weight: 700; white-space: nowrap;
         }
-        .referral-banner .ref-badge.invalid {
-            background: var(--danger);
-        }
+        .referral-banner .ref-badge.invalid { background: var(--danger); }
 
-        /* ===== SELF-REFERRAL WARNING ===== */
         .self-referral-warning {
             display: none;
-            background: var(--danger-bg);
-            border: 1px solid #fdd;
-            border-radius: var(--radius-sm);
-            padding: 12px 16px;
-            margin-bottom: 20px;
-            align-items: center;
-            gap: 10px;
-            color: var(--danger);
-            font-weight: 500;
-            font-size: 0.85rem;
+            background: var(--danger-bg); border: 1px solid #fdd;
+            border-radius: var(--radius-sm); padding: 12px 16px;
+            margin-bottom: 20px; align-items: center; gap: 10px;
+            color: var(--danger); font-weight: 500; font-size: 0.85rem;
         }
         .self-referral-warning.show { display: flex; }
 
         /* ===== TOAST NOTIFICATIONS ===== */
         .toast-container {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 99999;
-            width: 90%;
-            max-width: 440px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            pointer-events: none;
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            z-index: 99999; width: 90%; max-width: 440px;
+            display: flex; flex-direction: column; gap: 8px; pointer-events: none;
         }
         .toast {
-            padding: 14px 20px;
-            border-radius: var(--radius-sm);
-            font-weight: 500;
-            font-size: 0.88rem;
-            box-shadow: var(--shadow-lg);
+            padding: 14px 20px; border-radius: var(--radius-sm);
+            font-weight: 500; font-size: 0.88rem; box-shadow: var(--shadow-lg);
             animation: toastIn 0.4s ease, toastOut 0.4s ease 3.6s forwards;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            pointer-events: auto;
-            border: 1px solid transparent;
+            display: flex; align-items: center; gap: 10px;
+            pointer-events: auto; border: 1px solid transparent;
         }
-        .toast-success {
-            background: #0d9488;
-            color: #fff;
-            border-color: #0f766e;
-        }
-        .toast-error {
-            background: var(--danger);
-            color: #fff;
-            border-color: #c0392b;
-        }
-        .toast-info {
-            background: var(--purple);
-            color: #fff;
-            border-color: #5a4bd1;
-        }
+        .toast-success { background: #0d9488; color: #fff; border-color: #0f766e; }
+        .toast-error { background: var(--danger); color: #fff; border-color: #c0392b; }
+        .toast-info { background: var(--purple); color: #fff; border-color: #5a4bd1; }
         .toast .toast-emoji { font-size: 1.2rem; }
         .toast .toast-close {
-            margin-left: auto;
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.7);
-            cursor: pointer;
-            font-size: 1.1rem;
-            padding: 0 4px;
-            transition: color 0.2s;
+            margin-left: auto; background: none; border: none;
+            color: rgba(255,255,255,0.7); cursor: pointer; font-size: 1.1rem;
+            padding: 0 4px; transition: color 0.2s;
         }
         .toast .toast-close:hover { color: #fff; }
         @keyframes toastIn {
@@ -228,8 +195,7 @@
 
         .auth-title {
             font-family: var(--font-heading); font-size: 1.5rem;
-            font-weight: 700; text-align: center; margin-bottom: 6px;
-            letter-spacing: -0.5px;
+            font-weight: 700; text-align: center; margin-bottom: 6px; letter-spacing: -0.5px;
         }
         .auth-subtitle {
             text-align: center; color: var(--text-secondary);
@@ -249,7 +215,6 @@
             font-family: var(--font-body); font-size: 0.9rem;
             color: var(--text); background: #fff;
             transition: all 0.25s ease; outline: none;
-            appearance: auto;
         }
         .form-group select {
             cursor: pointer;
@@ -269,15 +234,30 @@
             box-shadow: 0 0 0 3px rgba(231,76,60,0.08);
         }
         .form-group .input-hint {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            margin-top: 4px;
+            font-size: 0.7rem; color: var(--text-muted); margin-top: 4px;
         }
+
+        /* ===== PHONE INPUT WITH COUNTRY CODE ===== */
+        .phone-input-group {
+            display: flex; gap: 8px;
+        }
+        .country-code-select {
+            width: 130px !important;
+            flex-shrink: 0;
+            padding: 12px 10px !important;
+            font-size: 0.85rem !important;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+        .phone-number-input {
+            flex: 1;
+        }
+
         .toggle-password {
             position: absolute; right: 12px; background: none;
             border: none; cursor: pointer; color: var(--text-muted);
             padding: 4px; display: flex; align-items: center;
-            font-size: 1.1rem; transition: color 0.2s;
+            font-size: 1.1rem; transition: color 0.2s; z-index: 2;
         }
         .toggle-password:hover { color: var(--text); }
 
@@ -317,31 +297,6 @@
         .btn-submit.loading .btn-text { display: none; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .divider {
-            display: flex; align-items: center; gap: 14px;
-            margin: 24px 0; color: var(--text-muted);
-            font-size: 0.75rem; font-weight: 500;
-        }
-        .divider::before, .divider::after {
-            content: ''; flex: 1; height: 1px; background: var(--border);
-        }
-
-        .btn-google {
-            width: 100%; padding: 12px 20px;
-            background: #fff; color: var(--text);
-            border: 1.5px solid var(--border); border-radius: 25px;
-            font-family: var(--font-body); font-weight: 600;
-            font-size: 0.88rem; cursor: pointer;
-            transition: all 0.3s ease; display: flex;
-            align-items: center; justify-content: center; gap: 10px;
-        }
-        .btn-google:hover {
-            border-color: var(--purple);
-            box-shadow: var(--shadow-sm); transform: translateY(-1px);
-        }
-        .btn-google:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-        .btn-google svg { width: 20px; height: 20px; flex-shrink: 0; }
-
         .auth-toggle {
             text-align: center; margin-top: 22px;
             font-size: 0.85rem; color: var(--text-secondary);
@@ -373,11 +328,11 @@
         .role-selector {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 16px;
+            gap: 10px;
+            margin-bottom: 4px;
         }
         .role-option {
-            padding: 12px 8px;
+            padding: 14px 10px;
             border: 2px solid var(--border);
             border-radius: var(--radius-sm);
             text-align: center;
@@ -394,40 +349,13 @@
             background: #f3f0ff;
             box-shadow: 0 0 0 3px rgba(108,92,231,0.15);
         }
-        .role-option .role-icon {
-            font-size: 1.5rem;
-            display: block;
-            margin-bottom: 4px;
-        }
-        .role-option .role-name {
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: var(--text);
-        }
-        .role-option .role-desc {
-            font-size: 0.6rem;
-            color: var(--text-muted);
-        }
+        .role-option .role-icon { font-size: 1.6rem; display: block; margin-bottom: 4px; }
+        .role-option .role-name { font-size: 0.72rem; font-weight: 700; color: var(--text); }
+        .role-option .role-desc { font-size: 0.62rem; color: var(--text-muted); line-height: 1.3; }
 
         /* Admin Code Input */
-        .admin-code-group {
-            display: none;
-        }
-        .admin-code-group.show {
-            display: block;
-        }
-
-        @media (max-width: 480px) {
-            body { padding: 12px; align-items: flex-start; padding-top: 30px; }
-            .auth-card { padding: 28px 20px; border-radius: var(--radius-md); }
-            .auth-title { font-size: 1.3rem; }
-            .auth-logo img { height: 32px; }
-            .referral-banner { flex-wrap: wrap; padding: 12px; }
-            .referral-banner .ref-text { font-size: 0.8rem; }
-            .toast-container { width: 95%; bottom: 16px; }
-            .toast { font-size: 0.82rem; padding: 12px 16px; }
-            .role-selector { grid-template-columns: 1fr; gap: 6px; }
-        }
+        .admin-code-group { display: none; }
+        .admin-code-group.show { display: block; }
     </style>
 </head>
 <body>
@@ -489,13 +417,6 @@
                     </button>
                 </form>
 
-                <div class="divider">or continue with</div>
-
-                <button class="btn-google" id="googleLogin">
-                    <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-                    Sign in with Google
-                </button>
-
                 <p class="auth-toggle">
                     Don't have an account? <a id="showSignup">Create one</a>
                 </p>
@@ -519,7 +440,26 @@
                     </div>
                     <div class="form-group">
                         <label for="signupPhone">Phone Number</label>
-                        <input type="tel" id="signupPhone" placeholder="+234 800 000 0000" autocomplete="tel">
+                        <div class="phone-input-group">
+                            <select class="country-code-select" id="signupCountryCode">
+                                <option value="+234">🇳🇬 +234</option>
+                                <option value="+1">🇺🇸 +1</option>
+                                <option value="+44">🇬🇧 +44</option>
+                                <option value="+233">🇬🇭 +233</option>
+                                <option value="+254">🇰🇪 +254</option>
+                                <option value="+27">🇿🇦 +27</option>
+                                <option value="+971">🇦🇪 +971</option>
+                                <option value="+91">🇮🇳 +91</option>
+                                <option value="+61">🇦🇺 +61</option>
+                                <option value="+49">🇩🇪 +49</option>
+                                <option value="+33">🇫🇷 +33</option>
+                                <option value="+81">🇯🇵 +81</option>
+                                <option value="+86">🇨🇳 +86</option>
+                                <option value="+55">🇧🇷 +55</option>
+                                <option value="+52">🇲🇽 +52</option>
+                            </select>
+                            <input type="tel" id="signupPhone" class="phone-number-input" placeholder="800 000 0000" autocomplete="tel">
+                        </div>
                         <div class="field-error" id="signupPhoneError"></div>
                     </div>
 
@@ -527,19 +467,19 @@
                     <div class="form-group">
                         <label>I want to join as... *</label>
                         <div class="role-selector" id="roleSelector">
-                            <div class="role-option selected" data-role="learner" onclick="selectRole('learner')">
+                            <div class="role-option selected" data-role="learner" onclick="window.selectRole('learner')">
                                 <span class="role-icon">🧑‍🎓</span>
                                 <div class="role-name">Learner</div>
                                 <div class="role-desc">Take courses & earn certificates</div>
                             </div>
-                            <div class="role-option" data-role="instructor" onclick="selectRole('instructor')">
+                            <div class="role-option" data-role="instructor" onclick="window.selectRole('instructor')">
                                 <span class="role-icon">👨‍🏫</span>
                                 <div class="role-name">Instructor</div>
                                 <div class="role-desc">Create & sell courses</div>
                             </div>
-                            <div class="role-option" data-role="jobgiver" onclick="selectRole('jobgiver')">
+                            <div class="role-option" data-role="employer" onclick="window.selectRole('employer')">
                                 <span class="role-icon">🏢</span>
-                                <div class="role-name">Job Giver</div>
+                                <div class="role-name">Employer</div>
                                 <div class="role-desc">Post jobs & hire talent</div>
                             </div>
                         </div>
@@ -580,13 +520,6 @@
                     </button>
                 </form>
 
-                <div class="divider">or continue with</div>
-
-                <button class="btn-google" id="googleSignup">
-                    <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-                    Sign up with Google
-                </button>
-
                 <p class="auth-toggle">
                     Already have an account? <a id="showLogin">Sign in</a>
                 </p>
@@ -622,6 +555,9 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
+    <!-- ROLE SWITCHER (shared module) -->
+    <script src="role-switcher.js"></script>
+
     <script>
     (function() {
         'use strict';
@@ -639,7 +575,12 @@
             measurementId: "G-ZPS8VP8ZBX"
         };
 
-        firebase.initializeApp(firebaseConfig);
+        // Prevent double initialization if role-switcher already initialized
+        if (!window._firebaseInitialized) {
+            firebase.initializeApp(firebaseConfig);
+            window._firebaseInitialized = true;
+        }
+
         const auth = firebase.auth();
         const db = firebase.firestore();
 
@@ -659,6 +600,7 @@
             isValidReferral: false,
             selectedRole: 'learner',
             isAdmin: false,
+            adminSecretFromFirestore: null,
         };
 
         // ============================================
@@ -681,8 +623,8 @@
             signupForm: $('#signupForm'),
             signupName: $('#signupName'),
             signupEmail: $('#signupEmail'),
+            signupCountryCode: $('#signupCountryCode'),
             signupPhone: $('#signupPhone'),
-            signupRole: $('#signupRole'),
             signupAdminCode: $('#signupAdminCode'),
             signupReferral: $('#signupReferral'),
             signupPassword: $('#signupPassword'),
@@ -709,12 +651,23 @@
 
             toastContainer: $('#toastContainer'),
 
-            googleLogin: $('#googleLogin'),
-            googleSignup: $('#googleSignup'),
-
             roleSelector: $('#roleSelector'),
             adminCodeGroup: $('#adminCodeGroup'),
         };
+
+        // ============================================
+        // FETCH ADMIN CODE FROM FIRESTORE
+        // ============================================
+        async function fetchAdminSecret() {
+            try {
+                const doc = await db.collection('settings').doc('admin').get();
+                if (doc.exists && doc.data().adminCode) {
+                    State.adminSecretFromFirestore = doc.data().adminCode;
+                }
+            } catch (e) {
+                console.error('Failed to fetch admin settings:', e);
+            }
+        }
 
         // ============================================
         // ROLE SELECTION
@@ -725,21 +678,19 @@
                 el.classList.toggle('selected', el.dataset.role === role);
             });
 
-            // Show admin code input if selecting admin (hidden role)
             if (role === 'admin') {
                 DOM.adminCodeGroup.classList.add('show');
             } else {
                 DOM.adminCodeGroup.classList.remove('show');
-                DOM.signupAdminCode.value = '';
+                if (DOM.signupAdminCode) DOM.signupAdminCode.value = '';
             }
         };
 
-        // Add admin option secretly (click on logo 5 times to reveal)
+        // Reveal admin option by clicking logo 5 times
         let logoClickCount = 0;
         document.querySelector('.auth-logo')?.addEventListener('click', function() {
             logoClickCount++;
             if (logoClickCount === 5) {
-                // Add admin option to role selector
                 const roleSelector = DOM.roleSelector;
                 if (!roleSelector.querySelector('[data-role="admin"]')) {
                     const adminOption = document.createElement('div');
@@ -750,7 +701,7 @@
                         <div class="role-name">Admin</div>
                         <div class="role-desc">Manage everything</div>
                     `;
-                    adminOption.onclick = function() { selectRole('admin'); };
+                    adminOption.onclick = function() { window.selectRole('admin'); };
                     roleSelector.appendChild(adminOption);
                     showToast('👑 Admin role revealed!', 'info', '🔓');
                 }
@@ -845,7 +796,6 @@
                 'auth/invalid-credential': 'Invalid email or password.',
                 'auth/too-many-requests': 'Too many attempts. Wait a moment.',
                 'auth/network-request-failed': 'Network error.',
-                'auth/popup-closed-by-user': 'Popup closed.',
                 'auth/requires-recent-login': 'Please sign in again.',
             };
             return map[error?.code] || error?.message || 'An error occurred.';
@@ -860,7 +810,7 @@
         }
         function setProcessingState(processing) {
             State.isProcessing = processing;
-            [DOM.loginSubmit, DOM.signupSubmit, DOM.resetSubmit, DOM.googleLogin, DOM.googleSignup]
+            [DOM.loginSubmit, DOM.signupSubmit, DOM.resetSubmit]
                 .forEach(b => { if (b) b.disabled = processing; });
         }
 
@@ -880,6 +830,23 @@
         function validateName(name) {
             if (!name?.trim()) return 'Full name is required.';
             if (name.trim().length < 2) return 'Minimum 2 characters.';
+            return null;
+        }
+        function validatePhone(phone, countryCode) {
+            if (!phone?.trim()) return null; // Phone is optional
+            const digits = phone.replace(/\D/g, '');
+            // Different expected lengths by country
+            const lengthMap = {
+                '+234': 10, // Nigeria
+                '+1': 10,   // USA/Canada
+                '+44': 10,  // UK
+                '+233': 9,  // Ghana
+                '+254': 9,  // Kenya
+                '+27': 9,   // South Africa
+            };
+            const expected = lengthMap[countryCode] || 8;
+            if (digits.length < expected) return `Phone number seems too short for ${countryCode}.`;
+            if (digits.length > 15) return 'Phone number is too long.';
             return null;
         }
 
@@ -1001,11 +968,7 @@
                 showSection('signup');
 
                 setTimeout(() => {
-                    showToast(
-                        'Invalid referral code. You can still sign up!',
-                        'error',
-                        '⚠️'
-                    );
+                    showToast('Invalid referral code. You can still sign up!', 'error', '⚠️');
                 }, 500);
             }
         }
@@ -1016,16 +979,30 @@
         async function createUserDocument(user, extraData = {}) {
             const name = extraData.fullName || user.displayName || user.email?.split('@')[0] || 'Learner';
             const referralCode = generateReferralCode(name);
-            const phone = extraData.phone || user.phoneNumber || '';
+            const countryCode = extraData.countryCode || '+234';
+            const phoneRaw = extraData.phone || user.phoneNumber || '';
+            const fullPhone = phoneRaw ? `${countryCode}${phoneRaw.replace(/\D/g, '')}` : '';
             const role = extraData.role || 'learner';
             const isAdmin = extraData.isAdmin || false;
 
-            // Base user document
+            // Default roles array — everyone is at least a learner
+            const roles = ['learner'];
+            if (role === 'instructor' && !roles.includes('instructor')) roles.push('instructor');
+            if (role === 'employer' && !roles.includes('employer')) roles.push('employer');
+            if (isAdmin) roles.push('admin');
+
+            // Set free trial for instructor signup
+            const freeTrialEnd = role === 'instructor'
+                ? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+                : null;
+
             const userDoc = {
                 fullName: name,
                 email: user.email,
-                phone: phone,
-                role: isAdmin ? 'admin' : role,
+                phone: fullPhone,
+                countryCode: countryCode,
+                roles: roles,
+                activeRole: isAdmin ? 'admin' : role,
                 referralCode: referralCode,
                 referralLink: `${window.location.origin}/auth.html?ref=${referralCode}`,
                 referredBy: extraData.referredBy || null,
@@ -1041,7 +1018,6 @@
                 privacyLevel: 'public',
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                // Profile fields (empty initially)
                 profilePicture: null,
                 coverImage: null,
                 bio: null,
@@ -1052,21 +1028,17 @@
                 workExperience: [],
                 education: [],
                 resumeUrl: null,
-                // Role-specific fields
-                teachingExperience: null, // Instructor
-                expertiseAreas: [], // Instructor
-                bankDetails: null, // Instructor (for payouts)
-                companyName: null, // Job Giver
-                companyWebsite: null, // Job Giver
-                companyDescription: null, // Job Giver
-                industry: null, // Job Giver
-                // Admin fields
+                teachingExperience: null,
+                expertiseAreas: [],
+                bankDetails: null,
+                companyName: null,
+                companyWebsite: null,
+                companyDescription: null,
+                industry: null,
                 isAdmin: isAdmin,
-                // Subscription (Instructor)
-                subscriptionStatus: 'free_trial', // 'free_trial' | 'active' | 'expired' | 'cancelled'
+                subscriptionStatus: role === 'instructor' ? 'free_trial' : null,
                 subscriptionEnd: null,
-                freeTrialEnd: null,
-                // Enrolled courses (stored as array of references)
+                freeTrialEnd: freeTrialEnd,
                 enrolledCourses: [],
                 certificates: [],
             };
@@ -1102,10 +1074,8 @@
                 const userDocSnap = await db.collection('users').doc(user.uid).get();
                 const data = userDocSnap.exists ? userDocSnap.data() : {};
 
-                // If user doc doesn't exist, create it
                 if (!userDocSnap.exists) {
-                    // This should not happen as we create on signup
-                    await createUserDocument(user, { 
+                    await createUserDocument(user, {
                         role: State.selectedRole,
                         isAdmin: State.isAdmin,
                         fullName: user.displayName || 'Learner',
@@ -1116,34 +1086,29 @@
                     return;
                 }
 
-                // Show referral welcome message for new signups
                 if (isNewSignup && data.referredByName) {
                     showToast(
                         `🎉 Welcome ${data.fullName || 'Learner'}! You were referred by ${data.referredByName}. You both get rewards! 🎊`,
-                        'success',
-                        '🎊'
+                        'success', '🎊'
                     );
                     setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 2000);
                     return;
                 }
 
-                // Admin redirect - can perform all roles
-                if (data.isAdmin || data.role === 'admin') {
+                // Admin redirect
+                if (data.isAdmin || data.roles?.includes('admin')) {
                     showToast('👑 Welcome Admin!', 'info', '👑');
                     setTimeout(() => { window.location.href = 'admin-dashboard.html'; }, 1000);
                     return;
                 }
 
-                // Check if profile is complete enough (40% minimum)
                 const profileComplete = data.profileComplete || 0;
-
                 if (profileComplete < 40) {
                     showToast('📝 Please complete your profile to continue.', 'info', '📝');
                     setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 1500);
                     return;
                 }
 
-                // Redirect based on role
                 showToast(`Welcome back, ${data.fullName || 'Learner'}! 👋`, 'success', '👋');
                 setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
 
@@ -1194,6 +1159,7 @@
 
             const name = DOM.signupName.value.trim();
             const email = DOM.signupEmail.value.trim();
+            const countryCode = DOM.signupCountryCode.value;
             const phone = DOM.signupPhone.value.trim();
             const referralInput = DOM.signupReferral.value.trim();
             const pw = DOM.signupPassword.value;
@@ -1203,17 +1169,22 @@
             const nameErr = validateName(name);
             const emailErr = validateEmail(email);
             const pwErr = validatePassword(pw);
+            const phoneErr = validatePhone(phone, countryCode);
+
             if (nameErr) showFieldError(DOM.signupNameError, nameErr);
             if (emailErr) showFieldError(DOM.signupEmailError, emailErr);
             if (pwErr) showFieldError(DOM.signupPasswordError, pwErr);
-            if (nameErr || emailErr || pwErr) return;
+            if (phoneErr) showFieldError(DOM.signupPhoneError, phoneErr);
+            if (nameErr || emailErr || pwErr || phoneErr) return;
 
             // Check if admin
             let isAdmin = false;
             if (role === 'admin') {
-                // Verify admin code (you can change this)
-                const ADMIN_SECRET = 'TRIANGLE2026'; // Change this to your secret code
-                if (adminCode === ADMIN_SECRET) {
+                if (!State.adminSecretFromFirestore) {
+                    showFieldError(DOM.signupAdminCodeError, 'Admin verification unavailable. Try again.');
+                    return;
+                }
+                if (adminCode === State.adminSecretFromFirestore) {
                     isAdmin = true;
                 } else {
                     showFieldError(DOM.signupAdminCodeError, 'Invalid admin code.');
@@ -1248,12 +1219,12 @@
                 const referrerEmail = referralData?.email || State.referrerEmail || null;
                 const referralCode = referralData?.referralCode || State.referralFromUrl || null;
 
-                // Handle case where user clicked admin but didn't enter code
                 const finalRole = isAdmin ? 'admin' : role;
 
                 await createUserDocument(cred.user, {
                     fullName: name,
                     phone: phone,
+                    countryCode: countryCode,
                     role: finalRole,
                     isAdmin: isAdmin,
                     referredBy: referrerUid,
@@ -1263,25 +1234,22 @@
                     referralSource: State.referralSource || 'direct',
                 });
 
-                // Show role-specific welcome message
                 const roleMessages = {
                     'learner': 'Start your learning journey! 🚀',
                     'instructor': 'Create your first course! 📚',
-                    'jobgiver': 'Post your first job! 💼',
+                    'employer': 'Post your first job! 💼',
                     'admin': 'Welcome to the admin panel! 👑'
                 };
 
                 if (referrerName) {
                     showToast(
-                        `🎉 Welcome ${name}! You were referred by ${referrerName}. Role: ${finalRole}. ${roleMessages[finalRole] || ''}`,
-                        'success',
-                        '🎊'
+                        `🎉 Welcome ${name}! Referred by ${referrerName}. Role: ${role === 'employer' ? 'Employer' : finalRole.charAt(0).toUpperCase() + finalRole.slice(1)}. ${roleMessages[finalRole] || ''}`,
+                        'success', '🎊'
                     );
                 } else {
                     showToast(
-                        `🎉 Account created! Role: ${finalRole}. ${roleMessages[finalRole] || ''}`,
-                        'success',
-                        '🎊'
+                        `🎉 Account created! Role: ${role === 'employer' ? 'Employer' : finalRole.charAt(0).toUpperCase() + finalRole.slice(1)}. ${roleMessages[finalRole] || ''}`,
+                        'success', '🎊'
                     );
                 }
 
@@ -1293,53 +1261,6 @@
                 setButtonLoading(DOM.signupSubmit, false);
             }
         });
-
-        // ============================================
-        // GOOGLE AUTH
-        // ============================================
-        async function handleGoogleSignIn() {
-            if (State.isProcessing) return;
-            setProcessingState(true);
-
-            try {
-                const provider = new firebase.auth.GoogleAuthProvider();
-                provider.setCustomParameters({ prompt: 'select_account' });
-                const result = await auth.signInWithPopup(provider);
-
-                const isNewUser = result.additionalUserInfo?.isNewUser || false;
-
-                if (isNewUser && State.isValidReferral) {
-                    await createUserDocument(result.user, {
-                        fullName: result.user.displayName || 'Learner',
-                        phone: result.user.phoneNumber || '',
-                        role: State.selectedRole || 'learner',
-                        isAdmin: State.isAdmin,
-                        referredBy: State.referrerUid,
-                        referredByCode: State.referralFromUrl,
-                        referredByName: State.referrerName,
-                        referredByEmail: State.referrerEmail,
-                        referralSource: State.referralSource || 'direct',
-                    });
-                    if (State.referrerName) {
-                        showToast(
-                            `🎉 Welcome! You were referred by ${State.referrerName}. You both get rewards! 🎊`,
-                            'success',
-                            '🎊'
-                        );
-                        setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 2000);
-                        return;
-                    }
-                }
-
-                await handlePostAuthRedirect(result.user, isNewUser);
-            } catch (err) {
-                showToast(getFirebaseError(err), 'error', '❌');
-                setProcessingState(false);
-            }
-        }
-
-        DOM.googleLogin.addEventListener('click', handleGoogleSignIn);
-        DOM.googleSignup.addEventListener('click', handleGoogleSignIn);
 
         // ============================================
         // PASSWORD RESET
@@ -1394,6 +1315,19 @@
             });
         });
 
+        // Phone validation on blur
+        if (DOM.signupPhone) {
+            DOM.signupPhone.addEventListener('blur', () => {
+                const phone = DOM.signupPhone.value.trim();
+                const countryCode = DOM.signupCountryCode.value;
+                if (phone) {
+                    const msg = validatePhone(phone, countryCode);
+                    if (msg) showFieldError(DOM.signupPhoneError, msg);
+                    else clearFieldError(DOM.signupPhoneError);
+                }
+            });
+        }
+
         document.addEventListener('input', (e) => {
             if (!e.target.closest('input, select')) return;
             const fg = e.target.closest('.form-group');
@@ -1417,14 +1351,16 @@
         // ============================================
         // INIT
         // ============================================
-        // Default role selection
-        selectRole('learner');
+        async function init() {
+            await fetchAdminSecret();
+            window.selectRole('learner');
+            setTimeout(async () => {
+                await detectReferralFromUrl();
+            }, 300);
+            console.log('✅ TRIANGLE LEARN Auth — Multi-role with Firestore admin validation');
+        }
 
-        setTimeout(async () => {
-            await detectReferralFromUrl();
-        }, 300);
-
-        console.log('✅ TRIANGLE LEARN Auth – Updated with roles and admin');
+        init();
     })();
     </script>
 </body>
