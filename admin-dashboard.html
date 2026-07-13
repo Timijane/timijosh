@@ -35,9 +35,14 @@
             --font-body: 'Plus Jakarta Sans', sans-serif;
             --sidebar-width: 260px;
             --header-height: 64px;
+            --base-width: 1200px;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { font-size: 16px; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+        html {
+            font-size: 18px;
+            -webkit-text-size-adjust: 100%;
+            scroll-behavior: smooth;
+        }
         body {
             font-family: var(--font-body);
             background: var(--bg);
@@ -45,6 +50,29 @@
             display: flex;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
+            width: var(--base-width);
+            min-width: var(--base-width);
+            margin: 0 auto;
+            position: relative;
+            overflow-x: hidden;
+        }
+        @media screen and (max-width: 1220px) {
+            body {
+                transform-origin: top left;
+                transform: scale(calc(100vw / var(--base-width)));
+                width: var(--base-width);
+                min-width: var(--base-width);
+                height: calc(100vh / (100vw / var(--base-width)));
+            }
+        }
+        @supports (-webkit-overflow-scrolling: touch) {
+            @media screen and (max-width: 1220px) {
+                html { width: 100vw; overflow-x: hidden; }
+                body {
+                    transform-origin: top left;
+                    transform: scale(calc(100vw / var(--base-width)));
+                }
+            }
         }
 
         ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -69,7 +97,7 @@
             overflow-x: hidden;
         }
         .sidebar-brand {
-            padding: 22px 20px;
+            padding: 20px 18px;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -97,11 +125,11 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 10px 14px;
+            padding: 12px 14px;
             border-radius: var(--radius-sm);
             color: var(--text-light);
             text-decoration: none;
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             font-weight: 500;
             transition: all 0.2s;
             margin-bottom: 2px;
@@ -130,7 +158,7 @@
             background: var(--gold);
             border-radius: 0 4px 4px 0;
         }
-        .sidebar-nav a .icon { font-size: 1.1rem; width: 24px; text-align: center; flex-shrink: 0; }
+        .sidebar-nav a .icon { font-size: 1.2rem; width: 24px; text-align: center; flex-shrink: 0; }
         .sidebar-nav a .badge-nav {
             margin-left: auto;
             background: var(--pink);
@@ -140,6 +168,73 @@
             border-radius: 12px;
             font-weight: 700;
         }
+        /* ===== SIDEBAR PROFILE CARD ===== */
+        .sidebar-profile-card {
+            padding: 14px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .sidebar-cover-wrapper {
+            width: 100%;
+            height: 56px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            background: var(--gradient);
+            margin-bottom: -18px;
+        }
+        .sidebar-cover-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+        .sidebar-avatar-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            padding: 0 4px;
+            position: relative;
+            z-index: 1;
+        }
+        .sidebar-avatar-large {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 3px solid var(--sidebar-bg);
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #fff;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .sidebar-avatar-large img { width: 100%; height: 100%; object-fit: cover; }
+        .sidebar-user-info { flex: 1; min-width: 0; padding-bottom: 4px; }
+        .sidebar-user-info .name {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sidebar-user-info .email {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.5);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sidebar-logout-btn {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.5);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 6px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .sidebar-logout-btn:hover { color: var(--red); background: rgba(231,76,60,0.15); }
         .sidebar-footer {
             padding: 14px 18px;
             border-top: 1px solid rgba(255,255,255,0.06);
@@ -252,6 +347,77 @@
             font-weight: 500;
         }
         .main-content { padding: 28px; flex: 1; }
+
+        /* ===== PROFILE COVER CARD ===== */
+        .profile-cover-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+        .profile-cover-card .cover-image-area {
+            width: 100%;
+            height: 130px;
+            background: var(--gradient);
+            position: relative;
+            overflow: hidden;
+        }
+        .profile-cover-card .cover-image-area img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-cover-card .cover-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 14px 20px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.5));
+            display: flex;
+            align-items: flex-end;
+            gap: 14px;
+        }
+        .profile-cover-card .avatar-xl {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: #fff;
+            flex-shrink: 0;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+        .profile-cover-card .avatar-xl img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-cover-card .user-details { color: #fff; flex: 1; min-width: 0; }
+        .profile-cover-card .user-details h2 {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .profile-cover-card .user-details p {
+            font-size: 0.82rem;
+            opacity: 0.85;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        .btn-white-outline {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+            border: 1.5px solid rgba(255,255,255,0.4);
+            backdrop-filter: blur(4px);
+            font-size: 0.78rem;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .btn-white-outline:hover { background: rgba(255,255,255,0.25); border-color: #fff; }
 
         /* ===== PAGE SECTIONS ===== */
         .page-section {
@@ -664,6 +830,28 @@
             color: var(--gold);
         }
 
+        /* ===== COMMISSION SETTINGS ===== */
+        .commission-slider-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .commission-slider-group input[type="range"] {
+            flex: 1;
+            min-width: 150px;
+            accent-color: var(--purple);
+        }
+        .commission-display {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 800;
+            min-width: 70px;
+            text-align: center;
+        }
+        /* ===== ROLE SWITCHER ===== */
+        #roleSwitcherContainer { display: flex; align-items: center; }
+
         /* ===== RATING MODAL ===== */
         .rating-stars {
             display: flex;
@@ -683,39 +871,9 @@
         .rating-stars span.inactive {
             color: #ddd;
         }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 1200px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .form-row { grid-template-columns: 1fr; }
-            .detail-grid { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); }
-            .sidebar.open { transform: translateX(0); }
-            .menu-toggle { display: block; }
-            .main { margin-left: 0; }
-            .stats-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-            .main-content { padding: 16px; }
-            .main-header { padding: 0 16px; flex-wrap: wrap; height: auto; min-height: var(--header-height); gap: 8px; }
-            .main-header h1 { font-size: 1rem; }
-            .main-header .subtitle { display: none; }
-            .header-actions .time-display { display: none; }
-            .card-header { flex-direction: column; align-items: flex-start; gap: 8px; }
-            th, td { padding: 8px 12px; font-size: 0.78rem; }
-            .toast-container { right: 16px; bottom: 16px; left: 16px; max-width: none; }
-            .modal-content { padding: 24px; margin: 10px; }
-        }
-        @media (max-width: 480px) {
-            .stats-grid { grid-template-columns: 1fr; }
-            .stat-card .stat-value { font-size: 1.3rem; }
-        }
     </style>
 </head>
 <body>
-
-    <!-- OVERLAY -->
-    <div class="overlay" id="overlay"></div>
 
     <!-- TOAST CONTAINER -->
     <div class="toast-container" id="toastContainer"></div>
@@ -723,87 +881,87 @@
     <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar" id="sidebar">
         <a href="index.html" class="sidebar-brand">
-            <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="Logo" width="34" height="34">
+            <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="Logo" width="32" height="32">
             <span>TRIANGLE LEARN</span>
         </a>
-        <nav class="sidebar-nav">
-            <a class="active" data-page="dashboard">
-                <span class="icon">📊</span> Dashboard
-            </a>
-            <span class="section-label">Content</span>
-            <a data-page="blog">
-                <span class="icon">📝</span> Blog & Announcements
-                <span class="badge-nav" id="blogCount">0</span>
-            </a>
-            <a data-page="courses">
-                <span class="icon">📚</span> Courses
-                <span class="badge-nav" id="courseCount">0</span>
-            </a>
-            <a data-page="batches">
-                <span class="icon">📅</span> Batches
-                <span class="badge-nav" id="batchCount">0</span>
-            </a>
-            <a data-page="quizzes">
-                <span class="icon">📝</span> Quizzes
-            </a>
-            <span class="section-label">People</span>
-            <a data-page="students">
-                <span class="icon">👥</span> Students
-                <span class="badge-nav" id="studentCount">0</span>
-            </a>
-            <a data-page="instructors">
-                <span class="icon">👨‍🏫</span> Instructors
-            </a>
-            <a data-page="referrals">
-                <span class="icon">💰</span> Referrals & Payouts
-            </a>
-            <span class="section-label">Analytics</span>
-            <a data-page="analytics">
-                <span class="icon">📈</span> Analytics
-            </a>
-            <span class="section-label">Settings</span>
-            <a data-page="settings">
-                <span class="icon">⚙️</span> Settings
-            </a>
-            <span class="section-label">Separate Pages</span>
-            <a href="create-course.html" target="_blank">
-                <span class="icon">➕</span> Create Course
-            </a>
-            <a href="certificate.html" target="_blank">
-                <span class="icon">📜</span> Certificate
-            </a>
-            <a href="profile.html" target="_blank">
-                <span class="icon">👤</span> Profile
-            </a>
-        </nav>
-        <div class="sidebar-footer">
-            <div class="avatar" id="sidebarAvatar">A</div>
-            <div class="info">
-                <div class="name" id="sidebarName">Admin</div>
-                <div class="role" id="sidebarRole">Administrator</div>
+
+        <div class="sidebar-profile-card">
+            <div class="sidebar-cover-wrapper" id="sidebarCoverWrapper">
+                <div id="sidebarCoverPlaceholder" style="width:100%;height:100%;"></div>
+                <img id="sidebarCoverImage" src="" alt="Cover" style="display:none;">
             </div>
-            <button class="logout-btn" id="logoutBtn" title="Logout">🚪</button>
+            <div class="sidebar-avatar-row">
+                <div class="sidebar-avatar-large" id="sidebarAvatarLarge">
+                    <span id="sidebarAvatarInitial">A</span>
+                    <img id="sidebarAvatarImg" src="" alt="Profile" style="display:none;">
+                </div>
+                <div class="sidebar-user-info">
+                    <div class="name" id="sidebarName">Admin</div>
+                    <div class="email" id="sidebarEmail">admin@email.com</div>
+                </div>
+                <button class="sidebar-logout-btn" id="logoutBtn" title="Logout">🚪</button>
+            </div>
         </div>
+
+        <nav class="sidebar-nav">
+            <a class="active" data-page="dashboard"><span class="icon">📊</span> Dashboard</a>
+            <span class="section-label">Content</span>
+            <a data-page="blog"><span class="icon">📝</span> Blog & Announcements<span class="badge-nav" id="blogCount">0</span></a>
+            <a data-page="courses"><span class="icon">📚</span> Courses<span class="badge-nav" id="courseCount">0</span></a>
+            <a data-page="batches"><span class="icon">📅</span> Batches<span class="badge-nav" id="batchCount">0</span></a>
+            <a data-page="quizzes"><span class="icon">📝</span> Quizzes</a>
+            <span class="section-label">People</span>
+            <a data-page="students"><span class="icon">👥</span> Students<span class="badge-nav" id="studentCount">0</span></a>
+            <a data-page="instructors"><span class="icon">👨‍🏫</span> Instructors</a>
+            <a data-page="subscriptions"><span class="icon">💳</span> Subscriptions</a>
+            <span class="section-label">Finance</span>
+            <a data-page="commission"><span class="icon">📊</span> Commission Settings</a>
+            <a data-page="referrals"><span class="icon">💰</span> Referrals & Payouts</a>
+            <span class="section-label">Insights</span>
+            <a data-page="analytics"><span class="icon">📈</span> Analytics</a>
+            <span class="section-label">System</span>
+            <a data-page="settings"><span class="icon">⚙️</span> Settings</a>
+            <span class="section-label">Quick Links</span>
+            <a href="create-course.html" target="_blank"><span class="icon">➕</span> Create Course</a>
+            <a href="certificate.html" target="_blank"><span class="icon">📜</span> Certificate</a>
+            <a href="profile.html" target="_blank"><span class="icon">👤</span> Profile</a>
+        </nav>
     </aside>
 
     <!-- ===== MAIN ===== -->
     <div class="main">
         <header class="main-header">
-            <div class="left">
-                <button class="menu-toggle" id="menuToggle">☰</button>
-                <div>
-                    <h1 id="pageTitle">📊 Admin Control Room</h1>
-                    <span class="subtitle" id="pageSubtitle">Full platform oversight & management</span>
-                </div>
+            <div>
+                <h1 id="pageTitle">📊 Admin Control Room</h1>
+                <span class="subtitle" id="pageSubtitle">Full platform oversight & management</span>
             </div>
             <div class="header-actions">
-                <span class="role-badge" id="headerRoleBadge">👑 Admin</span>
                 <span class="time-display" id="currentTime"></span>
+                <div id="roleSwitcherContainer"></div>
                 <button class="btn btn-primary btn-sm" id="pageActionBtn" style="display:none;">+ New</button>
             </div>
         </header>
 
         <div class="main-content">
+
+            <!-- PROFILE COVER CARD -->
+            <div class="profile-cover-card" id="profileCoverCard">
+                <div class="cover-image-area">
+                    <div id="coverPlaceholder" style="width:100%;height:100%;"></div>
+                    <img id="coverImage" src="" alt="Cover" style="display:none;">
+                    <div class="cover-overlay">
+                        <div class="avatar-xl" id="avatarXL">
+                            <span id="avatarXLInitial">A</span>
+                            <img id="avatarXLImg" src="" alt="Profile" style="display:none;">
+                        </div>
+                        <div class="user-details">
+                            <h2 id="welcomeName">Admin</h2>
+                            <p id="welcomeSub">👑 Platform Administrator</p>
+                        </div>
+                        <a href="profile.html" class="btn-white-outline">✏️ Edit Profile</a>
+                    </div>
+                </div>
+            </div>
 
             <!-- ============================================================ -->
             <!-- PAGE: DASHBOARD -->
@@ -1059,6 +1217,11 @@
                 </div>
             </div>
 
+            <!-- ===== SUBSCRIPTIONS ===== -->
+            <div class="page-section" id="page-subscriptions">
+                <div class="card"><div class="card-header"><h2>💳 Instructor Subscriptions</h2><button class="btn btn-outline btn-sm" onclick="refreshSection('subscriptions')">🔄</button></div><div class="card-body no-padding"><div class="table-wrapper"><table><thead><tr><th>Instructor</th><th>Status</th><th>Trial Ends</th><th>Subscription</th><th>Courses</th><th>Action</th></tr></thead><tbody id="subscriptionsTable"><tr><td colspan="6" class="loading-row">Loading subscriptions...</td></tr></tbody></table></div></div></div>
+            </div>
+
             <!-- ============================================================ -->
             <!-- PAGE: INSTRUCTORS -->
             <!-- ============================================================ -->
@@ -1105,6 +1268,26 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- ===== COMMISSION SETTINGS ===== -->
+            <div class="page-section" id="page-commission">
+                <div class="card"><div class="card-header"><h2>📊 Commission Settings</h2></div><div class="card-body">
+                    <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:16px;">Set the percentage the platform takes from each course sale. Instructors receive the remaining percentage.</p>
+                    <div class="commission-slider-group" style="margin-bottom:20px;">
+                        <span style="font-weight:600;font-size:0.9rem;">Platform:</span>
+                        <input type="range" id="commissionSlider" min="0" max="100" value="40" oninput="updateCommissionDisplay()">
+                        <span class="commission-display" id="commissionDisplay" style="color:var(--red);">40%</span>
+                    </div>
+                    <div class="commission-slider-group" style="margin-bottom:20px;">
+                        <span style="font-weight:600;font-size:0.9rem;">Instructor:</span>
+                        <div style="flex:1;min-width:150px;height:8px;background:var(--border);border-radius:10px;overflow:hidden;"><div id="instructorBar" style="height:100%;background:var(--green);border-radius:10px;width:60%;"></div></div>
+                        <span class="commission-display" id="instructorDisplay" style="color:var(--green);">60%</span>
+                    </div>
+                    <div class="form-group"><label>Admin Code (for creating admin accounts)</label><input type="text" id="adminCodeInput" placeholder="Enter admin access code"></div>
+                    <button class="btn btn-primary" onclick="saveCommissionSettings()" style="width:100%;justify-content:center;">💾 Save Commission Settings</button>
+                    <div style="margin-top:12px;padding:10px;background:var(--bg);border-radius:var(--radius-sm);font-size:0.78rem;color:var(--text-muted);">Last updated: <span id="lastCommissionUpdate">Never</span></div>
+                </div></div>
             </div>
 
             <!-- ============================================================ -->
@@ -1602,6 +1785,8 @@
                 quizzes: { title: '📝 Quizzes', subtitle: 'Manage assessments' },
                 students: { title: '👥 Students', subtitle: 'Manage all students' },
                 instructors: { title: '👨‍🏫 Instructors', subtitle: 'Manage instructors' },
+                subscriptions: { title: '💳 Subscriptions', subtitle: 'Manage instructor subscriptions' },
+                commission: { title: '📊 Commission Settings', subtitle: 'Set platform commission percentage' },
                 referrals: { title: '💰 Referrals & Payouts', subtitle: 'Track commissions' },
                 analytics: { title: '📈 Analytics', subtitle: 'Platform insights' },
                 settings: { title: '⚙️ Settings', subtitle: 'Configure platform' },
@@ -1635,16 +1820,13 @@
                 quizzes: loadQuizzes,
                 students: loadAllStudents,
                 instructors: loadInstructors,
+                subscriptions: loadSubscriptions,
+                commission: loadCommissionSettings,
                 referrals: loadReferrals,
                 analytics: loadAnalytics,
                 settings: renderSettings,
             };
             if (loaders[page]) loaders[page]();
-            
-            if (window.innerWidth <= 768) {
-                document.getElementById('sidebar').classList.remove('open');
-                document.getElementById('overlay').classList.remove('show');
-            }
         }
         window.navigateTo = navigateTo;
 
@@ -1668,18 +1850,6 @@
         }
         updateClock();
         setInterval(updateClock, 30000);
-
-        // ============================================
-        // MOBILE MENU
-        // ============================================
-        document.getElementById('menuToggle').addEventListener('click', () => {
-            document.getElementById('sidebar').classList.toggle('open');
-            document.getElementById('overlay').classList.toggle('show');
-        });
-        document.getElementById('overlay').addEventListener('click', () => {
-            document.getElementById('sidebar').classList.remove('open');
-            document.getElementById('overlay').classList.remove('show');
-        });
 
         // ============================================
         // LOGOUT
@@ -1708,11 +1878,13 @@
                 isAdmin = true;
                 
                 document.getElementById('sidebarName').textContent = userData.fullName || 'Admin';
-                document.getElementById('sidebarAvatar').textContent = (userData.fullName || 'A').charAt(0).toUpperCase();
-                document.getElementById('sidebarRole').textContent = 'Administrator';
-                document.getElementById('headerRoleBadge').textContent = '👑 Admin';
+                document.getElementById('sidebarEmail').textContent = userData.email || '';
+                document.getElementById('welcomeName').textContent = userData.fullName || 'Admin';
+                document.getElementById('welcomeSub').textContent = '👑 Platform Administrator';
+                updateAdminProfileImages();
                 
                 loadDashboardData();
+                loadCommissionSettings();
                 setupListeners();
                 renderSettings();
                 
@@ -2227,7 +2399,6 @@
                     
                     const eSnap = await db.collection('enrollments').where('courseId', '==', doc.id).get();
                     
-                    // ✅ REAL RATINGS from Firestore
                     let ratingHtml = '⭐ No reviews';
                     try {
                         const reviewSnap = await db.collection('course_reviews')
@@ -2301,7 +2472,6 @@
             document.getElementById('selectedRating').value = '0';
             document.getElementById('reviewText').value = '';
             
-            // Reset stars
             document.querySelectorAll('#ratingStars span').forEach(star => {
                 star.textContent = '☆';
                 star.style.color = '#ddd';
@@ -2345,14 +2515,12 @@
                     return;
                 }
 
-                // Check if user already rated this course
                 const existing = await db.collection('course_reviews')
                     .where('courseId', '==', courseId)
                     .where('userId', '==', user.uid)
                     .get();
 
                 if (!existing.empty) {
-                    // Update existing rating
                     await existing.docs[0].ref.update({
                         rating: rating,
                         review: review,
@@ -2360,7 +2528,6 @@
                     });
                     showToast('Rating updated!', 'success');
                 } else {
-                    // Create new rating
                     const userDoc = await db.collection('users').doc(user.uid).get();
                     const userName = userDoc.exists ? userDoc.data().fullName : 'Anonymous';
                     
@@ -3070,7 +3237,6 @@
             const bankDetails = userData.bankDetails || {};
 
             let html = `
-                <!-- BASIC INFO -->
                 <div class="card settings-card">
                     <div class="card-header">
                         <h2>👤 Profile Information</h2>
@@ -3100,7 +3266,6 @@
                     </div>
                 </div>
 
-                <!-- PRIVACY -->
                 <div class="card settings-card">
                     <div class="card-header">
                         <h2>🔒 Privacy Settings</h2>
@@ -3127,7 +3292,6 @@
                     </div>
                 </div>
 
-                <!-- ROLE SWITCHING -->
                 <div class="card settings-card">
                     <div class="card-header">
                         <h2>🔄 Role Switching</h2>
@@ -3283,9 +3447,6 @@
             document.getElementById('settingsContainer').innerHTML = html;
         }
 
-        // ============================================
-        // SAVE SETTINGS
-        // ============================================
         window.saveSettings = async function() {
             try {
                 const updates = {
@@ -3339,9 +3500,6 @@
             }
         };
 
-        // ============================================
-        // CHANGE PASSWORD
-        // ============================================
         window.changePassword = function() {
             const newPass = prompt('Enter new password (min 6 characters):');
             if (!newPass) return;
@@ -3354,9 +3512,6 @@
                 .catch(err => showToast('Failed: ' + err.message, 'error'));
         };
 
-        // ============================================
-        // ADMIN PASSWORD RESET
-        // ============================================
         window.adminResetPassword = async function() {
             const email = document.getElementById('adminResetEmail').value.trim();
             const password = document.getElementById('adminResetPassword').value.trim();
@@ -3389,9 +3544,6 @@
             }
         };
 
-        // ============================================
-        // ADMIN FUNCTIONS
-        // ============================================
         window.viewAllUsers = function() {
             navigateTo('students');
             showToast('Navigating to students list...', 'info');
@@ -3410,9 +3562,6 @@
             }
         };
 
-        // ============================================
-        // ROLE SWITCH MODAL
-        // ============================================
         window.openRoleSwitchModal = function() {
             const isAdmin = userRole === 'admin';
             
@@ -3516,19 +3665,16 @@
                 userRole = newRole;
                 isAdmin = newRole === 'admin';
 
-                const badge = document.getElementById('headerRoleBadge');
                 const roleNames = {
                     'admin': '👑 Admin',
                     'instructor': '👨‍🏫 Instructor',
                     'learner': '🧑‍🎓 Learner',
                     'jobgiver': '🏢 Job Giver'
                 };
-                badge.textContent = roleNames[newRole] || newRole;
 
                 closeModal('roleSwitchModal');
                 showToast(`✅ Switched to ${roleNames[newRole] || newRole}!`, 'success');
 
-                // ✅ FIX: Redirect based on role
                 if (newRole === 'admin') {
                     window.location.href = 'admin-dashboard.html';
                 } else {
@@ -3541,9 +3687,6 @@
             }
         }
 
-        // ============================================
-        // DELETE ACCOUNT
-        // ============================================
         document.addEventListener('input', function(e) {
             if (e.target.id === 'deleteConfirmInput') {
                 const btn = document.getElementById('deleteAccountBtn');
@@ -3595,9 +3738,6 @@
             }
         });
 
-        // ============================================
-        // REFRESH FUNCTIONS
-        // ============================================
         function refreshSection(section) {
             const loaders = {
                 blog: loadBlogPosts,
@@ -3606,6 +3746,8 @@
                 quizzes: loadQuizzes,
                 students: loadAllStudents,
                 instructors: loadInstructors,
+                subscriptions: loadSubscriptions,
+                commission: loadCommissionSettings,
                 referrals: loadReferrals,
                 analytics: loadAnalytics,
             };
@@ -3623,9 +3765,6 @@
         }
         window.refreshAnalytics = refreshAnalytics;
 
-        // ============================================
-        // REAL-TIME LISTENERS
-        // ============================================
         function setupListeners() {
             db.collection('enrollments').orderBy('enrolledAt', 'desc').limit(1).onSnapshot(() => {
                 if (document.getElementById('page-dashboard').classList.contains('active')) {
@@ -3666,6 +3805,9 @@
                 }
                 loadDashboardData();
             });
+            db.collection('commission_settings').onSnapshot(() => {
+                loadCommissionSettings();
+            });
             db.collection('course_reviews').onSnapshot(() => {
                 if (document.getElementById('page-courses').classList.contains('active')) {
                     loadCourses();
@@ -3677,8 +3819,124 @@
         }
 
         // ============================================
-        // INIT
+        // COMMISSION SETTINGS
         // ============================================
+        let currentCommission = 40;
+
+        async function loadCommissionSettings() {
+            try {
+                const snap = await db.collection('commission_settings').orderBy('updatedAt', 'desc').limit(1).get();
+                if (!snap.empty) {
+                    const data = snap.docs[0].data();
+                    currentCommission = data.platform_percentage || 40;
+                    document.getElementById('commissionSlider').value = currentCommission;
+                    document.getElementById('lastCommissionUpdate').textContent = data.updatedAt?.toDate ? data.updatedAt.toDate().toLocaleString('en-GB') : 'Unknown';
+                }
+                const adminDoc = await db.collection('settings').doc('admin').get();
+                if (adminDoc.exists && adminDoc.data().adminCode) {
+                    document.getElementById('adminCodeInput').value = adminDoc.data().adminCode;
+                }
+                updateCommissionDisplay();
+            } catch (e) { console.error('Load commission error:', e); }
+        }
+
+        function updateCommissionDisplay() {
+            const val = parseInt(document.getElementById('commissionSlider').value);
+            currentCommission = val;
+            document.getElementById('commissionDisplay').textContent = val + '%';
+            document.getElementById('instructorDisplay').textContent = (100 - val) + '%';
+            document.getElementById('instructorBar').style.width = (100 - val) + '%';
+        }
+        window.updateCommissionDisplay = updateCommissionDisplay;
+
+        async function saveCommissionSettings() {
+            const val = parseInt(document.getElementById('commissionSlider').value);
+            const adminCode = document.getElementById('adminCodeInput').value.trim();
+            try {
+                await db.collection('commission_settings').add({
+                    platform_percentage: val,
+                    instructor_percentage: 100 - val,
+                    updatedBy: currentUser.uid,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                if (adminCode) {
+                    await db.collection('settings').doc('admin').set({ adminCode: adminCode }, { merge: true });
+                }
+                document.getElementById('lastCommissionUpdate').textContent = new Date().toLocaleString('en-GB');
+                showToast('✅ Commission settings saved!', 'success');
+            } catch (e) { showToast('Failed to save: ' + e.message, 'error'); }
+        }
+        window.saveCommissionSettings = saveCommissionSettings;
+
+        // ============================================
+        // INSTRUCTOR SUBSCRIPTIONS
+        // ============================================
+        async function loadSubscriptions() {
+            try {
+                const instructors = await safeGetUsers('instructor');
+                const table = document.getElementById('subscriptionsTable');
+                if (instructors.length === 0) {
+                    table.innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="icon">💳</div><h3>No instructors yet</h3></div></td></tr>';
+                    return;
+                }
+                table.innerHTML = '';
+                for (const s of instructors) {
+                    const cSnap = await db.collection('courses').where('instructorId', '==', s.id).get();
+                    const status = s.subscriptionStatus === 'active' ? '<span class="badge badge-success">Active</span>' :
+                        s.subscriptionStatus === 'free_trial' ? '<span class="badge badge-info">Free Trial</span>' :
+                        '<span class="badge badge-danger">Expired</span>';
+                    const trialEnd = s.freeTrialEnd?.toDate ? s.freeTrialEnd.toDate().toLocaleDateString('en-GB') : '—';
+                    const subEnd = s.subscriptionEnd?.toDate ? s.subscriptionEnd.toDate().toLocaleDateString('en-GB') : '—';
+                    table.innerHTML += `<tr><td><strong>${s.fullName || '—'}</strong></td><td>${status}</td><td>${trialEnd}</td><td>${subEnd}</td><td>${cSnap.size}</td><td>
+                        <button class="btn btn-outline btn-sm" onclick="toggleSubscription('${s.id}', '${s.subscriptionStatus}')">${s.subscriptionStatus === 'active' ? '❌ Deactivate' : '✅ Activate'}</button>
+                        ${s.subscriptionStatus !== 'active' ? `<button class="btn btn-sm" style="background:var(--red);color:#fff;border:none;padding:4px 10px;border-radius:16px;cursor:pointer;" onclick="takeDownCourses('${s.id}')">📥 Takedown</button>` : ''}
+                    </td></tr>`;
+                }
+            } catch (e) { console.error('Subscriptions error:', e); }
+        }
+
+        window.toggleSubscription = async function(uid, currentStatus) {
+            const newStatus = currentStatus === 'active' ? 'expired' : 'active';
+            try {
+                await db.collection('users').doc(uid).update({
+                    subscriptionStatus: newStatus,
+                    subscriptionEnd: newStatus === 'active' ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) : null,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                showToast(`Subscription ${newStatus === 'active' ? 'activated' : 'deactivated'}!`, 'success');
+                loadSubscriptions();
+            } catch (e) { showToast('Failed: ' + e.message, 'error'); }
+        };
+
+        window.takeDownCourses = async function(uid) {
+            if (!confirm('Take down all courses by this instructor?')) return;
+            try {
+                const snap = await db.collection('courses').where('instructorId', '==', uid).get();
+                const batch = db.batch();
+                snap.forEach(doc => batch.update(doc.ref, { active: false, status: 'taken_down', takenDownAt: firebase.firestore.FieldValue.serverTimestamp() }));
+                await batch.commit();
+                showToast(`✅ ${snap.size} courses taken down.`, 'success');
+                loadSubscriptions();
+            } catch (e) { showToast('Failed: ' + e.message, 'error'); }
+        };
+
+        // ============================================
+        // UPDATE PROFILE IMAGES
+        // ============================================
+        function updateAdminProfileImages() {
+            if (!userData) return;
+            const setImg = (imgId, phId, initId, src, fb) => {
+                const img = document.getElementById(imgId), ph = document.getElementById(phId), init = document.getElementById(initId);
+                if (src) { if (img) { img.src = src; img.style.display = 'block'; } if (ph) ph.style.display = 'none'; if (init) init.style.display = 'none'; }
+                else { if (img) img.style.display = 'none'; if (ph) ph.style.display = 'block'; if (init) { init.style.display = 'inline'; init.textContent = fb; } }
+            };
+            const init = (userData.fullName || 'A').charAt(0).toUpperCase();
+            setImg('sidebarCoverImage', 'sidebarCoverPlaceholder', null, userData.coverImage, '');
+            setImg('sidebarAvatarImg', null, 'sidebarAvatarInitial', userData.profilePicture, init);
+            setImg('coverImage', 'coverPlaceholder', null, userData.coverImage, '');
+            setImg('avatarXLImg', null, 'avatarXLInitial', userData.profilePicture, init);
+        }
+
         console.log('✅ TRIANGLE LEARN Admin Dashboard Loaded - All Features Real Data');
 
     })();
