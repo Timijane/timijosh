@@ -1075,13 +1075,15 @@
                 const data = userDocSnap.exists ? userDocSnap.data() : {};
 
                 if (!userDocSnap.exists) {
+                    const newUserRole = State.isAdmin ? 'admin' : (State.selectedRole || 'learner');
                     await createUserDocument(user, {
-                        role: State.selectedRole,
+                        role: newUserRole,
                         isAdmin: State.isAdmin,
                         fullName: user.displayName || 'Learner',
                         phone: user.phoneNumber || '',
                     });
-                    showToast('🎉 Account created! Redirecting to profile...', 'success', '🎊');
+                    const roleNames = { 'learner': 'Learner', 'instructor': 'Instructor', 'employer': 'Employer', 'admin': 'Admin' };
+                    showToast(`🎉 Welcome! Account created as ${roleNames[newUserRole] || 'Learner'}. Complete your profile.`, 'success', '🎊');
                     setTimeout(() => { window.location.href = 'profile.html?complete=true'; }, 1500);
                     return;
                 }
@@ -1096,11 +1098,13 @@
                 }
 
                 // Admin redirect
-                if (data.isAdmin || data.roles?.includes('admin')) {
+                if (data.isAdmin || (data.roles && data.roles.includes('admin'))) {
                     showToast('👑 Welcome Admin!', 'info', '👑');
                     setTimeout(() => { window.location.href = 'admin-dashboard.html'; }, 1000);
                     return;
                 }
+
+                const activeRole = data.activeRole || (data.roles && data.roles.length > 0 ? data.roles[0] : 'learner');
 
                 const profileComplete = data.profileComplete || 0;
                 if (profileComplete < 40) {
@@ -1109,8 +1113,16 @@
                     return;
                 }
 
+                // Redirect based on active role
+                const dashboardMap = {
+                    'learner': 'learner-dashboard.html',
+                    'instructor': 'instructor-dashboard.html',
+                    'employer': 'employer-dashboard.html',
+                    'admin': 'admin-dashboard.html'
+                };
+                const redirectUrl = dashboardMap[activeRole] || 'learner-dashboard.html';
                 showToast(`Welcome back, ${data.fullName || 'Learner'}! 👋`, 'success', '👋');
-                setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+                setTimeout(() => { window.location.href = redirectUrl; }, 1000);
 
             } catch (e) {
                 State.redirectScheduled = false;
