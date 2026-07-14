@@ -110,6 +110,8 @@
         .btn-outline:hover { border-color: var(--purple); color: var(--purple); }
         .btn-success { background: var(--success); color: #fff; }
         .btn-gold { background: var(--gold); color: #fff; }
+        .btn-demo { background: #f59e0b; color: #fff; }
+        .btn-demo:hover { background: #d97706; transform: translateY(-2px); }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
 
         .main-container { max-width: 900px; margin: 0 auto; padding: 90px 20px 60px; }
@@ -163,7 +165,7 @@
         .course-card {
             border: 2px solid var(--border); border-radius: var(--radius-md);
             padding: 18px; cursor: pointer; transition: all 0.3s ease;
-            background: #fff;
+            background: #fff; position: relative;
         }
         .course-card:hover { border-color: var(--purple); box-shadow: var(--shadow-md); }
         .course-card.selected { border-color: var(--purple); background: #f8f7ff; box-shadow: 0 0 0 4px rgba(108,92,231,0.08); }
@@ -218,25 +220,19 @@
         .next-steps ul { list-style: none; padding: 0; }
         .next-steps ul li { padding: 6px 0; font-size: 0.85rem; color: var(--text-secondary); display: flex; align-items: center; gap: 8px; }
 
+        .demo-notice {
+            background: #fff3e0; border: 1px solid #ffd699;
+            border-radius: var(--radius-sm); padding: 14px;
+            margin-bottom: 18px; text-align: center; font-weight: 500;
+            font-size: 0.85rem; color: var(--warning);
+        }
+
         .error-banner {
             background: #fff0f0; border: 1px solid #fdd; border-radius: var(--radius-sm);
             padding: 12px 16px; margin-bottom: 16px; font-size: 0.85rem; color: var(--danger);
             display: none; align-items: center; gap: 8px;
         }
         .error-banner.show { display: flex; }
-
-        .toast {
-            position: fixed; bottom: 24px; right: 24px;
-            background: var(--purple); color: #fff;
-            padding: 14px 24px; border-radius: var(--radius-sm);
-            box-shadow: var(--shadow-lg); z-index: 9999;
-            display: none; font-weight: 500; font-size: 0.88rem;
-            animation: slideUp 0.3s ease; max-width: 400px;
-        }
-        .toast.show { display: block; }
-        .toast.error { background: var(--danger); }
-        .toast.success { background: var(--success); }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -251,6 +247,29 @@
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
         .modal-header h2 { font-family: var(--font-heading); font-size: 1.1rem; font-weight: 700; }
         .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); }
+
+        .spinner {
+            width: 20px; height: 20px;
+            border: 2.5px solid rgba(255,255,255,0.3);
+            border-top-color: #fff; border-radius: 50%;
+            animation: spin 0.7s linear infinite; display: none;
+        }
+        .btn.loading .spinner { display: inline-block; }
+        .btn.loading .btn-text { display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .toast {
+            position: fixed; bottom: 24px; right: 24px;
+            background: var(--purple); color: #fff;
+            padding: 14px 24px; border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-lg); z-index: 9999;
+            display: none; font-weight: 500; font-size: 0.88rem;
+            animation: slideUp 0.3s ease; max-width: 400px;
+        }
+        .toast.show { display: block; }
+        .toast.error { background: var(--danger); }
+        .toast.success { background: var(--success); }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -330,10 +349,14 @@
                 <div class="section-header"><h2>Review & Pay</h2><p>Confirm your selection and complete payment.</p></div>
                 <div class="summary-box" id="orderSummary"></div>
                 <div id="freeCourseNotice" style="display:none;padding:14px;background:#e8f8f0;border-radius:var(--radius-sm);margin-bottom:14px;text-align:center;font-weight:600;color:var(--success);">🎉 This course is free! No payment needed.</div>
+                <div class="demo-notice" id="demoNotice">
+                    ⚠️ <strong>Test Mode</strong> — No real payment will be made.<br>
+                    <small>Use test card: 4084084084084081 | CVV: 408 | Exp: 12/26</small>
+                </div>
                 <div style="display:flex;gap:10px;flex-wrap:wrap;">
                     <button class="btn btn-outline" id="backToStep2">← Back</button>
-                    <button class="btn btn-success" id="payNow" style="padding:12px 28px;font-size:0.9rem;">💳 Pay with Paystack</button>
-                    <button class="btn btn-primary" id="enrollFree" style="display:none;padding:12px 28px;font-size:0.9rem;">🎓 Enroll Now (Free)</button>
+                    <button class="btn btn-success" id="payNow"><span class="spinner"></span><span class="btn-text">💳 Pay with Paystack</span></button>
+                    <button class="btn btn-primary" id="enrollFree" style="display:none;">🎓 Enroll Now (Free)</button>
                 </div>
             </div>
         </div>
@@ -374,313 +397,348 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="https://js.paystack.co/v2/inline.js"></script>
 
-    <script>
-    (function() {
-        'use strict';
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyAvvB3C9SP8tDTqMmqzc6craI4d_0kSVX0",
-            authDomain: "timijosh-b8bee.firebaseapp.com",
-            projectId: "timijosh-b8bee",
-            storageBucket: "timijosh-b8bee.firebasestorage.app",
-            messagingSenderId: "779082784462",
-            appId: "1:779082784462:web:a9e9aca2177c7e343c3a9f"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+<script>
+(function() {
+    'use strict';
 
-        const PAYSTACK_PUBLIC_KEY = 'pk_live_xxxxxxxxxxxxxxxxxxxxxxxx';
+    // ========== FIREBASE CONFIG ==========
+    const firebaseConfig = {
+        apiKey: "AIzaSyAvvB3C9SP8tDTqMmqzc6craI4d_0kSVX0",
+        authDomain: "timijosh-b8bee.firebaseapp.com",
+        projectId: "timijosh-b8bee",
+        storageBucket: "timijosh-b8bee.firebasestorage.app",
+        messagingSenderId: "779082784462",
+        appId: "1:779082784462:web:a9e9aca2177c7e343c3a9f",
+        measurementId: "G-ZPS8VP8ZBX"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-        const State = {
-            currentUser: null,
-            userData: null,
-            currentStep: 1,
-            allCourses: [],
-            filteredCourses: [],
-            selectedCourse: null,
-            validatedReferral: null,
-            paymentReference: null,
-            enrollmentId: null
-        };
+    // ========== PAYSTACK CONFIG ==========
+    const PAYSTACK_PUBLIC_KEY = 'pk_test_11cfaa047a2ef7b89532fab14542e5cdfb28fc90';
+    const IS_DEMO = true;
 
-        const $ = (sel) => document.querySelector(sel);
-        const $$ = (sel) => document.querySelectorAll(sel);
+    // ========== STATE ==========
+    const State = {
+        currentUser: null,
+        userData: null,
+        currentStep: 1,
+        allCourses: [],
+        filteredCourses: [],
+        selectedCourse: null,
+        validatedReferral: null,
+        paymentReference: null,
+        enrollmentId: null,
+        activeListeners: [],
+    };
 
-        function showToast(msg, type = 'success', dur = 3000) {
-            const t = $('#toast');
-            t.textContent = msg;
-            t.className = 'toast ' + (type === 'error' ? 'error' : 'success');
-            t.classList.add('show');
-            clearTimeout(t._timeout);
-            t._timeout = setTimeout(() => t.classList.remove('show'), dur);
-        }
-        function showError(msg) {
-            $('#errorMessage').textContent = msg;
-            $('#errorBanner').classList.add('show');
-            setTimeout(() => $('#errorBanner').classList.remove('show'), 4000);
-        }
-        function escapeHtml(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
-        function generateId() { return 'enr_' + Date.now().toString(36) + '_' + Math.random().toString(36).substr(2, 6); }
+    const $ = (sel) => document.querySelector(sel);
+    const $$ = (sel) => document.querySelectorAll(sel);
 
-        function goToStep(n) {
-            State.currentStep = n;
-            ['step1Section','step2Section','step3Section','step4Section'].forEach((id, i) => {
-                const el = document.getElementById(id);
-                if (el) el.classList.toggle('active', i + 1 === n);
-            });
-            document.querySelectorAll('.step').forEach((s, i) => {
-                s.classList.remove('active', 'completed');
-                if (i + 1 === n) s.classList.add('active');
-                else if (i + 1 < n) s.classList.add('completed');
-            });
-            document.querySelectorAll('.step-line').forEach((l, i) => l.classList.toggle('completed', i + 1 < n));
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+    function showToast(msg, type = 'success', dur = 3000) {
+        const t = $('#toast');
+        t.textContent = msg;
+        t.className = 'toast ' + (type === 'error' ? 'error' : 'success');
+        t.classList.add('show');
+        clearTimeout(t._timeout);
+        t._timeout = setTimeout(() => t.classList.remove('show'), dur);
+    }
+    function showError(msg) {
+        $('#errorMessage').textContent = msg;
+        $('#errorBanner').classList.add('show');
+        setTimeout(() => $('#errorBanner').classList.remove('show'), 4000);
+    }
+    function escapeHtml(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+    function generateId() { return 'enr_' + Date.now().toString(36) + '_' + Math.random().toString(36).substr(2, 6); }
+    function setBtnLoading(btn, loading) {
+        btn.classList.toggle('loading', loading);
+        btn.disabled = loading;
+    }
 
-        // ============ AUTH ============
-        auth.onAuthStateChanged(async (user) => {
-            if (!user) { window.location.href = 'auth.html'; return; }
-            State.currentUser = user;
-            $('#userBadge').style.display = 'flex';
-            const name = user.displayName || user.email.split('@')[0];
-            $('#userName').textContent = name;
-            $('#userAvatar').textContent = name.charAt(0).toUpperCase();
-            await prefillUserData();
-            loadCourses();
+    function goToStep(n) {
+        State.currentStep = n;
+        ['step1Section','step2Section','step3Section','step4Section'].forEach((id, i) => {
+            const el = document.getElementById(id);
+            if (el) el.classList.toggle('active', i + 1 === n);
         });
-
-        async function prefillUserData() {
-            try {
-                const doc = await db.collection('users').doc(State.currentUser.uid).get();
-                if (doc.exists) {
-                    State.userData = doc.data();
-                    $('#fullName').value = State.userData.fullName || '';
-                    $('#email').value = State.userData.email || State.currentUser.email || '';
-                    $('#phone').value = State.userData.phone || '';
-                    $('#whatsapp').value = State.userData.whatsapp || '';
-                }
-            } catch (e) {}
-            if (!$('#fullName').value) $('#fullName').value = State.currentUser.displayName || '';
-            if (!$('#email').value) $('#email').value = State.currentUser.email || '';
-        }
-
-        // ============ LOAD COURSES ============
-        async function loadCourses() {
-            try {
-                const snap = await db.collection('courses').where('active', '==', true).get();
-                State.allCourses = [];
-                snap.forEach(doc => State.allCourses.push({ id: doc.id, ...doc.data() }));
-                State.filteredCourses = [...State.allCourses];
-                renderCourses();
-            } catch (e) { showToast('Failed to load courses', 'error'); }
-        }
-
-        function renderCourses() {
-            const grid = $('#courseGrid');
-            if (State.filteredCourses.length === 0) {
-                grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:20px;">No courses found.</p>';
-                return;
-            }
-            grid.innerHTML = State.filteredCourses.map(c => `
-                <div class="course-card${State.selectedCourse?.id === c.id ? ' selected' : ''}" onclick="selectCourse('${c.id}')" style="position:relative;">
-                    ${State.selectedCourse?.id === c.id ? '<div class="check">✓</div>' : ''}
-                    ${c.imageUrl ? `<img src="${c.imageUrl}" class="course-image" alt="${escapeHtml(c.name)}">` : `<div class="course-icon">${c.icon || '📘'}</div>`}
-                    <h3>${escapeHtml(c.name)}</h3>
-                    <span class="stage-tag">${escapeHtml(c.stage || 'Stage')}</span>
-                    <div class="price-tag">${c.price === 0 ? '<span class="free-tag">FREE</span>' : '₦' + (c.price || 0).toLocaleString()}</div>
-                    <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">${c.durationWeeks || '?'} weeks • ${c.totalModules || 0} modules</div>
-                </div>
-            `).join('');
-        }
-
-        window.filterCourses = function() {
-            const search = ($('#courseSearch').value || '').toLowerCase();
-            const stage = $('#courseStageFilter').value;
-            State.filteredCourses = State.allCourses.filter(c => {
-                const matchSearch = !search || (c.name || '').toLowerCase().includes(search) || (c.shortDescription || '').toLowerCase().includes(search);
-                const matchStage = !stage || c.stage === stage;
-                return matchSearch && matchStage;
-            });
-            renderCourses();
-        };
-
-        window.selectCourse = function(id) {
-            State.selectedCourse = State.allCourses.find(c => c.id === id) || null;
-            $('#goToStep2').disabled = !State.selectedCourse;
-            renderCourses();
-        };
-
-        window.previewSelectedCourse = function() {
-            if (!State.selectedCourse) { showToast('Select a course first', 'warning'); return; }
-            const c = State.selectedCourse;
-            const modules = Array.isArray(c.modules) ? c.modules : [];
-            $('#previewContent').innerHTML = `
-                <div class="modal-header"><h2>${escapeHtml(c.name)}</h2><button class="modal-close" onclick="closePreview()">✕</button></div>
-                ${c.imageUrl ? `<img src="${c.imageUrl}" style="width:100%;max-height:180px;object-fit:cover;border-radius:var(--radius-sm);margin-bottom:14px;">` : ''}
-                <p style="margin-bottom:12px;">${c.description || 'No description.'}</p>
-                <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:12px;font-size:0.85rem;">
-                    <span>🎯 ${escapeHtml(c.stage || 'Stage')}</span><span>⏱️ ${c.durationWeeks || '?'} weeks</span><span>📚 ${modules.length} modules</span><span>💰 ${c.price === 0 ? 'FREE' : '₦' + (c.price || 0).toLocaleString()}</span>
-                </div>
-                ${modules.length > 0 ? `<strong style="font-size:0.9rem;">📑 What You'll Learn:</strong><ul style="margin:8px 0 0 20px;font-size:0.85rem;">${modules.map(m => `<li>${escapeHtml(m.title || 'Module')}</li>`).join('')}</ul>` : ''}
-                <button class="btn btn-primary" onclick="selectCourse('${c.id}');closePreview();" style="margin-top:12px;">Select This Course</button>
-            `;
-            $('#previewModal').classList.add('open');
-        };
-
-        window.closePreview = function() { $('#previewModal').classList.remove('open'); };
-        $('#previewModal').addEventListener('click', function(e) { if (e.target === this) closePreview(); });
-
-        // ============ NAVIGATION ============
-        $('#goToStep2').addEventListener('click', () => { if (State.selectedCourse) goToStep(2); else showError('Please select a course.'); });
-        $('#backToStep1').addEventListener('click', () => goToStep(1));
-        $('#goToStep3').addEventListener('click', () => {
-            if (!$('#fullName').value.trim() || !$('#email').value.trim() || !$('#phone').value.trim()) {
-                showError('Please fill all required fields.'); return;
-            }
-            buildSummary();
-            const isFree = State.selectedCourse && State.selectedCourse.price === 0;
-            $('#payNow').style.display = isFree ? 'none' : 'inline-flex';
-            $('#enrollFree').style.display = isFree ? 'inline-flex' : 'none';
-            $('#freeCourseNotice').style.display = isFree ? 'block' : 'none';
-            goToStep(3);
+        document.querySelectorAll('.step').forEach((s, i) => {
+            s.classList.remove('active', 'completed');
+            if (i + 1 === n) s.classList.add('active');
+            else if (i + 1 < n) s.classList.add('completed');
         });
-        $('#backToStep2').addEventListener('click', () => goToStep(2));
+        document.querySelectorAll('.step-line').forEach((l, i) => l.classList.toggle('completed', i + 1 < n));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-        function buildSummary() {
-            const c = State.selectedCourse;
-            const price = c.price || 0;
-            const discount = State.validatedReferral?.isValid ? Math.round(price * 0.05) : 0;
-            const total = Math.max(0, price - discount);
-            $('#orderSummary').innerHTML = `
-                <div class="summary-row"><span class="label">Course</span><span class="value">${escapeHtml(c.name)}</span></div>
-                <div class="summary-row"><span class="label">Stage</span><span class="value">${escapeHtml(c.stage || 'N/A')}</span></div>
-                <div class="summary-row"><span class="label">Duration</span><span class="value">${c.durationWeeks || '?'} weeks</span></div>
-                ${discount > 0 ? `<div class="summary-row"><span class="label">Referral Discount (5%)</span><span class="value" style="color:var(--success);">-₦${discount.toLocaleString()}</span></div>` : ''}
-                <div class="summary-row total"><span class="label">Total</span><span class="value">${total === 0 ? 'FREE' : '₦' + total.toLocaleString()}</span></div>
-                ${State.validatedReferral?.isValid ? `<div style="font-size:0.75rem;color:var(--success);margin-top:4px;">Referral: ${escapeHtml(State.validatedReferral.code)}</div>` : ''}`;
+    // ========== AUTH ==========
+    auth.onAuthStateChanged(async (user) => {
+        if (!user) { window.location.href = 'auth.html'; return; }
+        State.currentUser = user;
+        $('#userBadge').style.display = 'flex';
+        const name = user.displayName || user.email.split('@')[0];
+        $('#userName').textContent = name;
+        $('#userAvatar').textContent = name.charAt(0).toUpperCase();
+        await prefillUserData();
+        loadCourses();
+    });
+
+    async function prefillUserData() {
+        try {
+            const doc = await db.collection('users').doc(State.currentUser.uid).get();
+            if (doc.exists) {
+                State.userData = doc.data();
+                $('#fullName').value = State.userData.fullName || '';
+                $('#email').value = State.userData.email || State.currentUser.email || '';
+                $('#phone').value = State.userData.phone || '';
+                $('#whatsapp').value = State.userData.whatsapp || '';
+            }
+        } catch (e) {}
+        if (!$('#fullName').value) $('#fullName').value = State.currentUser.displayName || '';
+        if (!$('#email').value) $('#email').value = State.currentUser.email || '';
+    }
+
+    // ========== LOAD COURSES ==========
+    async function loadCourses() {
+        try {
+            const snap = await db.collection('courses').where('active', '==', true).get();
+            State.allCourses = [];
+            snap.forEach(doc => State.allCourses.push({ id: doc.id, ...doc.data() }));
+            State.filteredCourses = [...State.allCourses];
+            renderCourses();
+        } catch (e) { showToast('Failed to load courses', 'error'); }
+    }
+
+    function renderCourses() {
+        const grid = $('#courseGrid');
+        if (State.filteredCourses.length === 0) {
+            grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:20px;">No courses found.</p>';
+            return;
         }
+        grid.innerHTML = State.filteredCourses.map(c => `
+            <div class="course-card${State.selectedCourse?.id === c.id ? ' selected' : ''}" onclick="selectCourse('${c.id}')">
+                ${State.selectedCourse?.id === c.id ? '<div class="check">✓</div>' : ''}
+                ${c.imageUrl ? `<img src="${c.imageUrl}" class="course-image" alt="${escapeHtml(c.name)}">` : `<div class="course-icon">${c.icon || '📘'}</div>`}
+                <h3>${escapeHtml(c.name)}</h3>
+                <span class="stage-tag">${escapeHtml(c.stage || 'Stage')}</span>
+                <div class="price-tag">${c.price === 0 ? '<span class="free-tag">FREE</span>' : '₦' + (c.price || 0).toLocaleString()}</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">${c.durationWeeks || '?'} weeks • ${(c.modules || []).length || 0} modules</div>
+            </div>
+        `).join('');
+    }
 
-        // ============ REFERRAL ============
-        window.validateReferral = async function() {
-            const code = $('#referralCode').value.trim().toUpperCase();
-            if (!code) return;
-            try {
-                const snap = await db.collection('users').where('referralCode', '==', code).limit(1).get();
-                const status = $('#refStatus');
-                status.classList.add('show');
-                if (snap.empty) {
-                    status.textContent = '❌ Invalid referral code.';
-                    status.className = 'ref-status show invalid';
-                    State.validatedReferral = null;
-                } else {
-                    const r = snap.docs[0].data();
-                    status.textContent = `✅ Valid! 5% discount applied.`;
-                    status.className = 'ref-status show valid';
-                    State.validatedReferral = { code, referrerUid: snap.docs[0].id, isValid: true };
-                    if (State.currentStep === 3) buildSummary();
-                }
-            } catch (e) { showToast('Validation failed', 'error'); }
-        };
+    window.filterCourses = function() {
+        const search = ($('#courseSearch').value || '').toLowerCase();
+        const stage = $('#courseStageFilter').value;
+        State.filteredCourses = State.allCourses.filter(c => {
+            const matchSearch = !search || (c.name || '').toLowerCase().includes(search) || (c.shortDescription || '').toLowerCase().includes(search);
+            const matchStage = !stage || c.stage === stage;
+            return matchSearch && matchStage;
+        });
+        renderCourses();
+    };
 
-        // ============ PAYMENT ============
-        $('#payNow').addEventListener('click', () => {
-            if (!State.selectedCourse) return;
-            const c = State.selectedCourse;
-            const price = c.price || 0;
-            const discount = State.validatedReferral?.isValid ? Math.round(price * 0.05) : 0;
-            const total = Math.max(0, price - discount);
-            if (total <= 0) { completeEnrollment('FREE_' + Date.now()); return; }
+    window.selectCourse = function(id) {
+        State.selectedCourse = State.allCourses.find(c => c.id === id) || null;
+        $('#goToStep2').disabled = !State.selectedCourse;
+        renderCourses();
+    };
 
-            const handler = PaystackPop.setup({
-                key: PAYSTACK_PUBLIC_KEY,
+    window.previewSelectedCourse = function() {
+        if (!State.selectedCourse) { showToast('Select a course first', 'warning'); return; }
+        const c = State.selectedCourse;
+        const modules = Array.isArray(c.modules) ? c.modules : [];
+        $('#previewContent').innerHTML = `
+            <div class="modal-header"><h2>${escapeHtml(c.name)}</h2><button class="modal-close" onclick="closePreview()">✕</button></div>
+            ${c.imageUrl ? `<img src="${c.imageUrl}" style="width:100%;max-height:180px;object-fit:cover;border-radius:var(--radius-sm);margin-bottom:14px;">` : ''}
+            <p style="margin-bottom:12px;">${c.description || 'No description.'}</p>
+            <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:12px;font-size:0.85rem;">
+                <span>🎯 ${escapeHtml(c.stage || 'Stage')}</span><span>⏱️ ${c.durationWeeks || '?'} weeks</span><span>📚 ${modules.length} modules</span><span>💰 ${c.price === 0 ? 'FREE' : '₦' + (c.price || 0).toLocaleString()}</span>
+            </div>
+            ${modules.length > 0 ? `<strong style="font-size:0.9rem;">📑 What You'll Learn:</strong><ul style="margin:8px 0 0 20px;font-size:0.85rem;">${modules.map(m => `<li>${escapeHtml(m.title || 'Module')}</li>`).join('')}</ul>` : ''}
+            <button class="btn btn-primary" onclick="selectCourse('${c.id}');closePreview();" style="margin-top:12px;">Select This Course</button>
+        `;
+        $('#previewModal').classList.add('open');
+    };
+
+    window.closePreview = function() { $('#previewModal').classList.remove('open'); };
+    $('#previewModal').addEventListener('click', function(e) { if (e.target === this) closePreview(); });
+
+    // ========== NAVIGATION ==========
+    $('#goToStep2').addEventListener('click', () => { if (State.selectedCourse) goToStep(2); else showError('Please select a course.'); });
+    $('#backToStep1').addEventListener('click', () => goToStep(1));
+    $('#goToStep3').addEventListener('click', () => {
+        if (!$('#fullName').value.trim() || !$('#email').value.trim() || !$('#phone').value.trim()) {
+            showError('Please fill all required fields.'); return;
+        }
+        buildSummary();
+        const isFree = State.selectedCourse && State.selectedCourse.price === 0;
+        $('#payNow').style.display = isFree ? 'none' : 'inline-flex';
+        $('#enrollFree').style.display = isFree ? 'inline-flex' : 'none';
+        $('#freeCourseNotice').style.display = isFree ? 'block' : 'none';
+        if (IS_DEMO && !isFree) {
+            $('#payNow').querySelector('.btn-text').textContent = '🧪 Simulate Payment (Demo)';
+            $('#payNow').style.background = '#f59e0b';
+        }
+        goToStep(3);
+    });
+    $('#backToStep2').addEventListener('click', () => goToStep(2));
+
+    function buildSummary() {
+        const c = State.selectedCourse;
+        const price = c.price || 0;
+        const discount = State.validatedReferral?.isValid ? Math.round(price * 0.05) : 0;
+        const total = Math.max(0, price - discount);
+        $('#orderSummary').innerHTML = `
+            <div class="summary-row"><span class="label">Course</span><span class="value">${escapeHtml(c.name)}</span></div>
+            <div class="summary-row"><span class="label">Stage</span><span class="value">${escapeHtml(c.stage || 'N/A')}</span></div>
+            <div class="summary-row"><span class="label">Duration</span><span class="value">${c.durationWeeks || '?'} weeks</span></div>
+            ${discount > 0 ? `<div class="summary-row"><span class="label">Referral Discount (5%)</span><span class="value" style="color:var(--success);">-₦${discount.toLocaleString()}</span></div>` : ''}
+            <div class="summary-row total"><span class="label">Total</span><span class="value">${total === 0 ? 'FREE' : '₦' + total.toLocaleString()}</span></div>
+            ${State.validatedReferral?.isValid ? `<div style="font-size:0.75rem;color:var(--success);margin-top:4px;">Referral: ${escapeHtml(State.validatedReferral.code)}</div>` : ''}`;
+    }
+
+    // ========== REFERRAL ==========
+    window.validateReferral = async function() {
+        const code = $('#referralCode').value.trim().toUpperCase();
+        if (!code) return;
+        try {
+            const snap = await db.collection('users').where('referralCode', '==', code).limit(1).get();
+            const status = $('#refStatus');
+            status.classList.add('show');
+            if (snap.empty) {
+                status.textContent = '❌ Invalid referral code.';
+                status.className = 'ref-status show invalid';
+                State.validatedReferral = null;
+            } else {
+                const r = snap.docs[0].data();
+                status.textContent = `✅ Valid! 5% discount applied.`;
+                status.className = 'ref-status show valid';
+                State.validatedReferral = { code, referrerUid: snap.docs[0].id, isValid: true };
+                if (State.currentStep === 3) buildSummary();
+            }
+        } catch (e) { showToast('Validation failed', 'error'); }
+    };
+
+    // ========== PAYMENT ==========
+    $('#payNow').addEventListener('click', () => {
+        if (IS_DEMO) {
+            simulatePayment();
+            return;
+        }
+        if (!State.selectedCourse) return;
+        const c = State.selectedCourse;
+        const price = c.price || 0;
+        const discount = State.validatedReferral?.isValid ? Math.round(price * 0.05) : 0;
+        const total = Math.max(0, price - discount);
+        if (total <= 0) { completeEnrollment('FREE_' + Date.now()); return; }
+
+        const handler = PaystackPop.setup({
+            key: PAYSTACK_PUBLIC_KEY,
+            email: $('#email').value.trim(),
+            amount: total * 100,
+            currency: 'NGN',
+            ref: 'TL_' + Date.now(),
+            metadata: { courseId: c.id, courseName: c.name, userId: State.currentUser.uid },
+            onClose: () => showToast('Payment cancelled', 'warning'),
+            callback: function(response) {
+                State.paymentReference = response.reference;
+                completeEnrollment(response.reference);
+            }
+        });
+        handler.openIframe();
+    });
+
+    function simulatePayment() {
+        if (!State.selectedCourse) return;
+        const fakeRef = 'SIM_' + Date.now();
+        State.paymentReference = fakeRef;
+        State.enrollmentId = generateId();
+        showToast('🧪 Demo payment simulated!', 'info');
+        completeEnrollment(fakeRef);
+    }
+
+    $('#enrollFree').addEventListener('click', () => completeEnrollment('FREE_' + Date.now()));
+
+    // ========== COMPLETE ENROLLMENT ==========
+    async function completeEnrollment(paymentRef) {
+        const c = State.selectedCourse;
+        const price = c.price || 0;
+        const discount = State.validatedReferral?.isValid ? Math.round(price * 0.05) : 0;
+        const finalAmount = Math.max(0, price - discount);
+        State.enrollmentId = generateId();
+        const uid = State.currentUser.uid;
+
+        try {
+            const enrollmentData = {
+                userId: uid,
+                courseId: c.id,
+                courseName: c.name,
+                stage: c.stage,
+                fullName: $('#fullName').value.trim(),
                 email: $('#email').value.trim(),
-                amount: total * 100,
-                currency: 'NGN',
-                ref: 'TL_' + Date.now(),
-                metadata: { courseId: c.id, courseName: c.name, userId: State.currentUser.uid },
-                onClose: () => showToast('Payment cancelled', 'warning'),
-                callback: function(response) {
-                    State.paymentReference = response.reference;
-                    completeEnrollment(response.reference);
-                }
+                phone: $('#phone').value.trim(),
+                whatsapp: $('#whatsapp').value.trim(),
+                paymentRef: paymentRef,
+                amount: finalAmount,
+                referralCode: State.validatedReferral?.code || null,
+                referrerUid: State.validatedReferral?.referrerUid || null,
+                enrolledAt: firebase.firestore.FieldValue.serverTimestamp(),
+                status: 'active',
+                progress: 0
+            };
+
+            await db.collection('enrollments').doc(State.enrollmentId).set(enrollmentData);
+            await db.collection('payments').doc(paymentRef).set({
+                reference: paymentRef, status: 'success', amount: finalAmount,
+                courseId: c.id, courseName: c.name, userId: uid,
+                userFullName: $('#fullName').value.trim(), userEmail: $('#email').value.trim(),
+                paidAt: firebase.firestore.FieldValue.serverTimestamp()
             });
-            handler.openIframe();
-        });
+            await db.collection('users').doc(uid).set({
+                fullName: $('#fullName').value.trim(), phone: $('#phone').value.trim(),
+                enrolledCourses: firebase.firestore.FieldValue.arrayUnion(c.id)
+            }, { merge: true });
 
-        $('#enrollFree').addEventListener('click', () => completeEnrollment('FREE_' + Date.now()));
-
-        // ============ COMPLETE ENROLLMENT ============
-        async function completeEnrollment(paymentRef) {
-            const c = State.selectedCourse;
-            const price = c.price || 0;
-            const discount = State.validatedReferral?.isValid ? Math.round(price * 0.05) : 0;
-            const finalAmount = Math.max(0, price - discount);
-            State.enrollmentId = generateId();
-            const uid = State.currentUser.uid;
-
-            try {
-                const enrollmentData = {
-                    userId: uid,
-                    courseId: c.id,
-                    courseName: c.name,
-                    stage: c.stage,
-                    fullName: $('#fullName').value.trim(),
-                    email: $('#email').value.trim(),
-                    phone: $('#phone').value.trim(),
-                    whatsapp: $('#whatsapp').value.trim(),
-                    paymentRef: paymentRef,
-                    amount: finalAmount,
-                    referralCode: State.validatedReferral?.code || null,
-                    referrerUid: State.validatedReferral?.referrerUid || null,
-                    enrolledAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    status: 'active',
-                    progress: 0
-                };
-
-                await db.collection('enrollments').doc(State.enrollmentId).set(enrollmentData);
-                await db.collection('payments').doc(paymentRef).set({
-                    reference: paymentRef, status: 'success', amount: finalAmount,
-                    courseId: c.id, courseName: c.name, userId: uid,
-                    userFullName: $('#fullName').value.trim(), userEmail: $('#email').value.trim(),
-                    paidAt: firebase.firestore.FieldValue.serverTimestamp()
+            if (State.validatedReferral?.isValid && State.validatedReferral.referrerUid) {
+                await db.collection('referrals').add({
+                    referrerUid: State.validatedReferral.referrerUid, referredUid: uid,
+                    referredName: $('#fullName').value.trim(), referredEmail: $('#email').value.trim(),
+                    courseName: c.name, paymentRef: paymentRef,
+                    rewardAmount: Math.round(finalAmount * 0.2), status: 'enrolled',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
-                await db.collection('users').doc(uid).set({
-                    fullName: $('#fullName').value.trim(), phone: $('#phone').value.trim(),
-                    enrolledCourses: firebase.firestore.FieldValue.arrayUnion(c.id)
-                }, { merge: true });
+            }
 
-                if (State.validatedReferral?.isValid && State.validatedReferral.referrerUid) {
-                    await db.collection('referrals').add({
-                        referrerUid: State.validatedReferral.referrerUid, referredUid: uid,
-                        referredName: $('#fullName').value.trim(), referredEmail: $('#email').value.trim(),
-                        courseName: c.name, paymentRef: paymentRef,
-                        commissionAmount: Math.round(finalAmount * 0.2), status: 'enrolled',
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                }
+            const certRef = await db.collection('certificates').add({
+                userId: uid, fullName: $('#fullName').value.trim(),
+                courseName: c.name, stage: c.stage,
+                issuedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
 
-                const certRef = await db.collection('certificates').add({
-                    userId: uid, fullName: $('#fullName').value.trim(),
-                    courseName: c.name, stage: c.stage,
-                    issuedAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
+            $('#enrollmentIdDisplay').textContent = State.enrollmentId;
+            $('#confirmationSummary').innerHTML = `
+                <div class="summary-row"><span class="label">Course</span><span class="value">${escapeHtml(c.name)}</span></div>
+                <div class="summary-row"><span class="label">Payment Ref</span><span class="value">${paymentRef}</span></div>
+                <div class="summary-row"><span class="label">Amount</span><span class="value">${finalAmount === 0 ? 'FREE' : '₦' + finalAmount.toLocaleString()}</span></div>`;
+            $('#startLearningBtn').href = 'learn.html?courseId=' + c.id;
 
-                $('#enrollmentIdDisplay').textContent = State.enrollmentId;
-                $('#confirmationSummary').innerHTML = `
-                    <div class="summary-row"><span class="label">Course</span><span class="value">${escapeHtml(c.name)}</span></div>
-                    <div class="summary-row"><span class="label">Payment Ref</span><span class="value">${paymentRef}</span></div>
-                    <div class="summary-row"><span class="label">Amount</span><span class="value">${finalAmount === 0 ? 'FREE' : '₦' + finalAmount.toLocaleString()}</span></div>`;
-                $('#startLearningBtn').attr('href', 'learn.html?courseId=' + c.id);
+            goToStep(4);
+            showToast('✅ Enrollment successful!');
 
-                goToStep(4);
-                showToast('✅ Enrollment successful!');
+        } catch (e) { showError('Enrollment failed: ' + e.message); }
+    }
 
-            } catch (e) { showError('Enrollment failed: ' + e.message); }
-        }
+    // ========== CLEANUP ==========
+    window.addEventListener('beforeunload', () => {
+        State.activeListeners.forEach(fn => { try { fn(); } catch(e) {} });
+    });
 
-        console.log('✅ Enroll Page Ready');
-    })();
-    </script>
+    console.log('✅ Enroll Page Ready');
+    console.log('🔑 Paystack Key:', PAYSTACK_PUBLIC_KEY);
+    console.log('🧪 Demo Mode:', IS_DEMO);
+})();
+</script>
 </body>
 </html>
