@@ -1,0 +1,9 @@
+{
+  "name": "triangle-webhook",
+  "version": "1.0.0",
+  "description": "Paystack webhook handler for TRIANGLE LEARN",
+  "main": "webhook.js",
+  "dependencies": {
+    "firebase-admin": "^11.8.0"
+  }
+}
