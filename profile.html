@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Complete Profile — TRIANGLE LEARN</title>
     <meta name="description" content="Complete your TRIANGLE LEARN profile. Add your professional information, skills, experience, and more.">
     <link rel="icon" href="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
@@ -39,74 +39,146 @@
             --success-bg: #e8f8f0;
             --warning: #e65100;
             --warning-bg: #fff3e0;
+            --max-width: 1000px;
+            
+            /* Fluid typography */
+            --text-xs: clamp(0.6rem, 0.6vw + 0.3rem, 0.7rem);
+            --text-sm: clamp(0.7rem, 0.8vw + 0.35rem, 0.8rem);
+            --text-base: clamp(0.85rem, 1vw + 0.4rem, 0.95rem);
+            --text-lg: clamp(1rem, 1.2vw + 0.5rem, 1.15rem);
+            --text-xl: clamp(1.2rem, 1.5vw + 0.6rem, 1.4rem);
+            --text-2xl: clamp(1.4rem, 2vw + 0.7rem, 1.8rem);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; font-size: 16px; -webkit-text-size-adjust: 100%; }
+        html { 
+            scroll-behavior: smooth; 
+            font-size: 16px; 
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
         body {
             font-family: var(--font-body);
             background: var(--bg-alt);
             color: var(--text);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         /* HEADER */
         .header {
-            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-            padding: 12px 0; background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            z-index: 1000;
+            padding: 10px 0; 
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(18px); 
+            -webkit-backdrop-filter: blur(18px);
             border-bottom: 1px solid var(--border);
         }
-        .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
-        .logo-link { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        .logo-link img { height: 32px; width: auto; }
-        .logo-link span { font-family: var(--font-heading); font-weight: 700; font-size: 0.95rem; color: var(--text); letter-spacing: -0.5px; }
-        .header-right { display: flex; align-items: center; gap: 12px; }
+        .header-inner { 
+            max-width: var(--max-width); 
+            margin: 0 auto; 
+            padding: 0 16px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+        }
+        @media (min-width: 768px) {
+            .header-inner { padding: 0 24px; }
+        }
+        .logo-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo-link img { 
+            height: clamp(28px, 4vw, 32px); 
+            width: auto; 
+        }
+        .logo-link span { 
+            font-family: var(--font-heading); 
+            font-weight: 700; 
+            font-size: var(--text-sm);
+            color: var(--text); 
+            letter-spacing: -0.5px; 
+        }
+        .header-right { display: flex; align-items: center; gap: 10px; }
+        .header-right .role-tag {
+            font-size: var(--text-xs);
+            color: var(--text-muted);
+            background: var(--bg-alt);
+            padding: 4px 12px;
+            border-radius: 14px;
+            font-weight: 600;
+        }
 
-        .profile-container { max-width: 1000px; margin: 0 auto; padding: 100px 24px 60px; }
+        .profile-container { 
+            max-width: var(--max-width); 
+            margin: 0 auto; 
+            padding: 80px 12px 40px; 
+        }
+        @media (min-width: 480px) {
+            .profile-container { padding: 90px 16px 50px; }
+        }
+        @media (min-width: 768px) {
+            .profile-container { padding: 100px 24px 60px; }
+        }
 
         /* TOAST */
         .toast-container {
             position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 99999;
-            width: 90%;
+            bottom: 16px;
+            left: 10px;
+            right: 10px;
+            width: auto;
             max-width: 440px;
+            margin: 0 auto;
+            z-index: 99999;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
             pointer-events: none;
         }
+        @media (min-width: 480px) {
+            .toast-container {
+                bottom: 30px;
+                left: 50%;
+                right: auto;
+                transform: translateX(-50%);
+            }
+        }
         .toast {
-            padding: 14px 20px;
+            padding: 10px 14px;
             border-radius: var(--radius-sm);
             font-weight: 500;
-            font-size: 0.88rem;
+            font-size: var(--text-sm);
             box-shadow: var(--shadow-lg);
             animation: toastIn 0.4s ease, toastOut 0.4s ease 3.6s forwards;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             pointer-events: auto;
             border: 1px solid transparent;
+        }
+        @media (min-width: 480px) {
+            .toast { padding: 14px 20px; font-size: var(--text-base); }
         }
         .toast-success { background: #0d9488; color: #fff; border-color: #0f766e; }
         .toast-error { background: var(--danger); color: #fff; border-color: #c0392b; }
         .toast-info { background: var(--purple); color: #fff; border-color: #5a4bd1; }
         .toast-warning { background: var(--warning); color: #fff; border-color: #bf5000; }
-        .toast .toast-emoji { font-size: 1.2rem; }
+        .toast .toast-emoji { font-size: var(--text-base); }
         .toast .toast-close {
             margin-left: auto;
             background: none;
             border: none;
             color: rgba(255,255,255,0.7);
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: var(--text-base);
             padding: 0 4px;
             transition: color 0.2s;
+            min-height: 32px;
         }
         .toast .toast-close:hover { color: #fff; }
         @keyframes toastIn {
@@ -118,15 +190,19 @@
             to { opacity: 0; transform: translateY(20px) scale(0.95); }
         }
 
-        /* PROFILE HEADER */
+        /* ============================================
+           PROFILE HEADER - LINKEDIN STYLE
+           ============================================ */
         .profile-header {
             background: #fff;
             border-radius: var(--radius-lg);
             overflow: hidden;
             box-shadow: var(--shadow-sm);
             border: 1px solid var(--border);
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
+
+        /* COVER IMAGE - LinkedIn Style */
         .profile-cover {
             width: 100%;
             height: 200px;
@@ -144,23 +220,26 @@
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 20px 24px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.5));
+            padding: 20px 32px;
+            background: linear-gradient(transparent 0%, rgba(0,0,0,0.5) 100%);
             display: flex;
             align-items: flex-end;
-            gap: 16px;
+            gap: 20px;
             flex-wrap: wrap;
         }
+
+        /* AVATAR - LinkedIn Style (large, prominent) */
         .profile-avatar-wrapper {
             position: relative;
-            width: 100px;
-            height: 100px;
+            width: 152px;
+            height: 152px;
+            flex-shrink: 0;
             border-radius: 50%;
             border: 4px solid #fff;
             overflow: hidden;
-            flex-shrink: 0;
             background: var(--bg-alt);
-            box-shadow: var(--shadow-sm);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            margin-bottom: -40px;
         }
         .profile-avatar-wrapper img {
             width: 100%;
@@ -173,76 +252,86 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
+            font-size: 3.5rem;
             font-weight: 700;
             color: var(--text-muted);
             background: var(--bg-alt);
         }
         .profile-avatar-wrapper .upload-badge {
             position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 30px;
-            height: 30px;
+            bottom: 4px;
+            right: 4px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             background: var(--gradient);
-            border: 2px solid #fff;
+            border: 3px solid #fff;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #fff;
-            font-size: 0.7rem;
+            font-size: var(--text-sm);
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 2;
         }
         .profile-avatar-wrapper .upload-badge:hover {
             transform: scale(1.1);
+            box-shadow: 0 4px 16px rgba(108,92,231,0.4);
         }
+
+        /* PROFILE NAME INFO */
         .profile-name-info {
             color: #fff;
             flex: 1;
+            padding-bottom: 8px;
         }
         .profile-name-info h1 {
             font-family: var(--font-heading);
             font-weight: 700;
-            font-size: 1.4rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-size: var(--text-2xl);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            margin-bottom: 2px;
         }
         .profile-name-info p {
-            font-size: 0.85rem;
-            opacity: 0.9;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            font-size: var(--text-base);
+            opacity: 0.95;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.3);
         }
         .profile-name-info .role-badge {
             display: inline-block;
-            font-size: 0.65rem;
+            font-size: var(--text-xs);
             font-weight: 700;
-            padding: 3px 12px;
-            border-radius: 12px;
+            padding: 4px 14px;
+            border-radius: 14px;
             background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             margin-top: 4px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
+
         .profile-actions {
             display: flex;
             gap: 8px;
-            margin-left: auto;
             flex-wrap: wrap;
+            padding-bottom: 8px;
         }
         .profile-actions .btn {
             padding: 8px 16px;
             border-radius: 20px;
             font-weight: 600;
-            font-size: 0.78rem;
+            font-size: var(--text-xs);
             border: none;
             cursor: pointer;
             transition: all 0.3s;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
+            min-height: 36px;
         }
         .btn-outline-white {
             background: transparent;
@@ -262,26 +351,176 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
 
-        /* PROGRESS BAR */
+        /* ============================================
+           RESPONSIVE: PROFILE HEADER
+           ============================================ */
+
+        /* Tablet */
+        @media (max-width: 900px) {
+            .profile-cover {
+                height: 160px;
+            }
+            .profile-cover .cover-overlay {
+                padding: 16px 24px;
+                gap: 16px;
+            }
+            .profile-avatar-wrapper {
+                width: 120px;
+                height: 120px;
+                margin-bottom: -30px;
+            }
+            .profile-avatar-wrapper .upload-badge {
+                width: 32px;
+                height: 32px;
+                font-size: var(--text-xs);
+            }
+            .profile-name-info h1 {
+                font-size: var(--text-xl);
+            }
+            .profile-name-info p {
+                font-size: var(--text-sm);
+            }
+        }
+
+        /* Mobile Large */
+        @media (max-width: 768px) {
+            .profile-cover {
+                height: 140px;
+            }
+            .profile-cover .cover-overlay {
+                padding: 12px 16px;
+                gap: 12px;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                background: linear-gradient(transparent 0%, rgba(0,0,0,0.7) 100%);
+            }
+            .profile-avatar-wrapper {
+                width: 100px;
+                height: 100px;
+                margin-bottom: -20px;
+                border-width: 3px;
+            }
+            .profile-avatar-wrapper .avatar-placeholder {
+                font-size: 2.5rem;
+            }
+            .profile-avatar-wrapper .upload-badge {
+                width: 28px;
+                height: 28px;
+                font-size: var(--text-xs);
+                bottom: 2px;
+                right: 2px;
+                border-width: 2px;
+            }
+            .profile-name-info {
+                width: 100%;
+                margin-top: -10px;
+            }
+            .profile-name-info h1 {
+                font-size: var(--text-lg);
+            }
+            .profile-name-info p {
+                font-size: var(--text-sm);
+            }
+            .profile-actions {
+                width: 100%;
+                justify-content: center;
+                margin-top: 4px;
+            }
+            .profile-actions .btn {
+                font-size: var(--text-xs);
+                padding: 6px 12px;
+            }
+        }
+
+        /* Mobile Small */
+        @media (max-width: 480px) {
+            .profile-cover {
+                height: 120px;
+                min-height: 120px;
+            }
+            .profile-cover .cover-overlay {
+                padding: 10px 12px;
+                gap: 8px;
+            }
+            .profile-avatar-wrapper {
+                width: 80px;
+                height: 80px;
+                margin-bottom: -15px;
+                border-width: 3px;
+            }
+            .profile-avatar-wrapper .avatar-placeholder {
+                font-size: 2rem;
+            }
+            .profile-avatar-wrapper .upload-badge {
+                width: 24px;
+                height: 24px;
+                font-size: var(--text-xs);
+                bottom: 1px;
+                right: 1px;
+                border-width: 2px;
+            }
+            .profile-name-info h1 {
+                font-size: var(--text-base);
+            }
+            .profile-name-info p {
+                font-size: var(--text-xs);
+            }
+            .profile-name-info .role-badge {
+                font-size: var(--text-xs);
+                padding: 2px 10px;
+            }
+            .profile-actions .btn {
+                font-size: var(--text-xs);
+                padding: 4px 10px;
+                min-height: 32px;
+            }
+        }
+
+        /* Very Small Screens */
+        @media (max-width: 360px) {
+            .profile-cover {
+                height: 100px;
+                min-height: 100px;
+            }
+            .profile-avatar-wrapper {
+                width: 65px;
+                height: 65px;
+                margin-bottom: -10px;
+            }
+            .profile-avatar-wrapper .avatar-placeholder {
+                font-size: 1.5rem;
+            }
+            .profile-name-info h1 {
+                font-size: var(--text-sm);
+            }
+        }
+
+        /* ============================================
+           COMPLETION BAR
+           ============================================ */
         .completion-bar {
             background: #fff;
             border-radius: var(--radius-sm);
-            padding: 16px 20px;
+            padding: 14px 16px;
             border: 1px solid var(--border);
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
             flex-wrap: wrap;
+        }
+        @media (min-width: 480px) {
+            .completion-bar { padding: 16px 20px; gap: 16px; }
         }
         .completion-bar .label {
             font-weight: 600;
-            font-size: 0.82rem;
+            font-size: var(--text-sm);
             white-space: nowrap;
         }
         .completion-bar .progress-track {
             flex: 1;
-            min-width: 120px;
+            min-width: 80px;
             height: 8px;
             background: var(--bg-alt);
             border-radius: 10px;
@@ -295,51 +534,81 @@
         }
         .completion-bar .percentage {
             font-weight: 700;
-            font-size: 1.1rem;
-            min-width: 50px;
+            font-size: var(--text-base);
+            min-width: 44px;
             text-align: right;
             color: var(--purple);
         }
         .completion-bar .status-msg {
-            font-size: 0.78rem;
+            font-size: var(--text-xs);
             color: var(--text-muted);
+            flex: 1 1 100%;
+            text-align: center;
+        }
+        @media (min-width: 480px) {
+            .completion-bar .status-msg {
+                flex: none;
+                text-align: left;
+            }
         }
 
-        /* PROFILE FORM */
+        /* ============================================
+           PROFILE FORM
+           ============================================ */
         .profile-form {
             display: grid;
-            grid-template-columns: 1fr 340px;
-            gap: 20px;
+            grid-template-columns: 1fr;
+            gap: 16px;
         }
-        .main-form { display: flex; flex-direction: column; gap: 20px; }
-        .sidebar-form { display: flex; flex-direction: column; gap: 20px; }
+        @media (min-width: 768px) {
+            .profile-form {
+                grid-template-columns: 1fr 320px;
+                gap: 20px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .profile-form {
+                grid-template-columns: 1fr 340px;
+            }
+        }
+        .main-form { display: flex; flex-direction: column; gap: 16px; }
+        .sidebar-form { display: flex; flex-direction: column; gap: 16px; }
 
+        /* ============================================
+           CARDS
+           ============================================ */
         .card {
             background: #fff;
             border-radius: var(--radius-md);
-            padding: 24px;
+            padding: 16px 14px;
             border: 1px solid var(--border);
             box-shadow: var(--shadow-sm);
+        }
+        @media (min-width: 480px) {
+            .card { padding: 20px 18px; }
+        }
+        @media (min-width: 768px) {
+            .card { padding: 24px; }
         }
         .card-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 6px;
         }
         .card-header h2 {
             font-family: var(--font-heading);
             font-weight: 700;
-            font-size: 1.05rem;
+            font-size: var(--text-base);
             letter-spacing: -0.3px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
         .card-header .card-badge {
-            font-size: 0.6rem;
+            font-size: var(--text-xs);
             font-weight: 700;
             padding: 2px 10px;
             border-radius: 12px;
@@ -349,13 +618,19 @@
         .card-badge.optional { background: var(--bg-alt); color: var(--text-muted); }
         .card-badge.required { background: var(--danger-bg); color: var(--danger); }
 
-        .form-group { margin-bottom: 16px; }
+        /* ============================================
+           FORM GROUPS
+           ============================================ */
+        .form-group { margin-bottom: 12px; }
+        @media (min-width: 480px) {
+            .form-group { margin-bottom: 16px; }
+        }
         .form-group label {
             display: block;
-            font-size: 0.78rem;
+            font-size: var(--text-xs);
             font-weight: 600;
             color: var(--text);
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
         .form-group label .required-star {
             color: var(--danger);
@@ -364,7 +639,7 @@
         .form-group label .optional-tag {
             font-weight: 400;
             color: var(--text-muted);
-            font-size: 0.7rem;
+            font-size: var(--text-xs);
         }
         .form-group .input-wrapper {
             position: relative;
@@ -375,15 +650,25 @@
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 10px 14px;
+            padding: 8px 12px;
             border: 1.5px solid var(--border);
             border-radius: var(--radius-sm);
             font-family: var(--font-body);
-            font-size: 0.88rem;
+            font-size: var(--text-sm);
             color: var(--text);
             background: #fff;
             transition: all 0.25s ease;
             outline: none;
+            min-height: 40px;
+        }
+        @media (min-width: 480px) {
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 10px 14px;
+                font-size: var(--text-base);
+                min-height: 44px;
+            }
         }
         .form-group input:focus,
         .form-group select:focus,
@@ -396,25 +681,29 @@
             min-height: 60px;
         }
         .form-group .field-hint {
-            font-size: 0.7rem;
+            font-size: var(--text-xs);
             color: var(--text-muted);
-            margin-top: 4px;
+            margin-top: 3px;
         }
         .form-group .field-error {
-            font-size: 0.72rem;
+            font-size: var(--text-xs);
             color: var(--danger);
-            margin-top: 4px;
+            margin-top: 3px;
             display: none;
         }
         .form-group .field-error.show { display: block; }
 
-        /* SKILLS TAGS */
+        /* ============================================
+           SKILLS TAGS
+           ============================================ */
         .skills-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            padding: 8px 4px;
+            gap: 6px;
+            padding: 8px 6px;
             min-height: 44px;
+            max-height: 180px;
+            overflow-y: auto;
             border: 1.5px dashed var(--border);
             border-radius: var(--radius-sm);
             background: var(--bg-alt);
@@ -422,53 +711,78 @@
         .skill-tag {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             padding: 4px 12px;
             background: var(--gradient);
             color: #fff;
             border-radius: 16px;
-            font-size: 0.78rem;
+            font-size: var(--text-xs);
             font-weight: 500;
+            animation: skillPop 0.3s ease;
+        }
+        @keyframes skillPop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
         .skill-tag .remove {
             cursor: pointer;
             opacity: 0.7;
-            font-size: 0.8rem;
+            font-size: var(--text-sm);
             transition: opacity 0.2s;
+            margin-left: 2px;
         }
         .skill-tag .remove:hover { opacity: 1; }
         .skills-input-group {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             margin-top: 8px;
+            flex-wrap: wrap;
         }
         .skills-input-group input {
-            flex: 1;
-            padding: 8px 12px;
+            flex: 1 1 120px;
+            min-width: 80px;
+            padding: 6px 10px;
             border: 1.5px solid var(--border);
             border-radius: var(--radius-sm);
-            font-size: 0.85rem;
+            font-size: var(--text-sm);
             outline: none;
+            min-height: 36px;
+        }
+        @media (min-width: 480px) {
+            .skills-input-group input { padding: 8px 12px; }
         }
         .skills-input-group input:focus {
             border-color: var(--purple);
             box-shadow: 0 0 0 3px rgba(108,92,231,0.1);
         }
         .skills-input-group select {
-            padding: 8px 12px;
+            flex: 1 1 100px;
+            min-width: 80px;
+            padding: 6px 10px;
             border: 1.5px solid var(--border);
             border-radius: var(--radius-sm);
-            font-size: 0.85rem;
+            font-size: var(--text-sm);
             outline: none;
             background: #fff;
             cursor: pointer;
+            min-height: 36px;
+        }
+        @media (max-width: 480px) {
+            .skills-input-group {
+                flex-direction: column;
+            }
+            .skills-input-group input,
+            .skills-input-group select {
+                width: 100%;
+                flex: none;
+            }
         }
         .skills-input-group select:focus {
             border-color: var(--purple);
             box-shadow: 0 0 0 3px rgba(108,92,231,0.1);
         }
         .skills-input-group .btn-add {
-            padding: 8px 16px;
+            padding: 6px 14px;
             border: none;
             border-radius: var(--radius-sm);
             background: var(--gradient);
@@ -477,39 +791,51 @@
             cursor: pointer;
             transition: all 0.2s;
             white-space: nowrap;
+            font-size: var(--text-sm);
+            min-height: 36px;
+        }
+        @media (min-width: 480px) {
+            .skills-input-group .btn-add { padding: 8px 16px; }
         }
         .skills-input-group .btn-add:hover {
             transform: scale(1.04);
         }
 
-        /* EXPERIENCE / EDUCATION ITEMS */
+        /* ============================================
+           EXPERIENCE / EDUCATION ITEMS
+           ============================================ */
         .entry-item {
             background: var(--bg-alt);
             border-radius: var(--radius-sm);
-            padding: 16px;
-            margin-bottom: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
             border: 1px solid var(--border);
             position: relative;
+        }
+        @media (min-width: 480px) {
+            .entry-item { padding: 16px; }
         }
         .entry-item .entry-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+            gap: 4px;
         }
         .entry-item .entry-header h4 {
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: var(--text-sm);
         }
         .entry-item .entry-header .entry-actions {
             display: flex;
-            gap: 6px;
+            gap: 4px;
         }
         .entry-item .entry-header .entry-actions button {
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: var(--text-sm);
             padding: 2px 6px;
             border-radius: 4px;
             transition: background 0.2s;
@@ -518,76 +844,114 @@
         .entry-item .entry-header .entry-actions .delete-btn:hover { background: var(--danger-bg); color: var(--danger); }
         .entry-item .entry-body {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+        @media (min-width: 600px) {
+            .entry-item .entry-body { grid-template-columns: 1fr 1fr; }
         }
         .entry-item .entry-body .full-width { grid-column: 1 / -1; }
         .entry-item .entry-body .form-group { margin-bottom: 0; }
+        .entry-item .entry-body .form-group input,
+        .entry-item .entry-body .form-group textarea {
+            font-size: var(--text-sm);
+            padding: 6px 10px;
+            min-height: 32px;
+        }
 
-        /* SIDEBAR */
+        /* ============================================
+           SIDEBAR
+           ============================================ */
         .sidebar-section {
             background: #fff;
             border-radius: var(--radius-md);
-            padding: 20px;
+            padding: 16px 14px;
             border: 1px solid var(--border);
+        }
+        @media (min-width: 480px) {
+            .sidebar-section { padding: 20px; }
         }
         .sidebar-section h3 {
             font-family: var(--font-heading);
             font-weight: 700;
-            font-size: 0.9rem;
-            margin-bottom: 12px;
+            font-size: var(--text-sm);
+            margin-bottom: 10px;
         }
         .sidebar-section .info-row {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
+            padding: 6px 0;
             border-bottom: 1px solid var(--border);
-            font-size: 0.82rem;
+            font-size: var(--text-sm);
         }
         .sidebar-section .info-row:last-child { border-bottom: none; }
         .sidebar-section .info-row .label { color: var(--text-muted); }
         .sidebar-section .info-row .value { font-weight: 600; }
 
-        /* SOCIAL LINKS */
+        /* ============================================
+           SOCIAL LINKS
+           ============================================ */
         .social-input {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 8px;
+            gap: 6px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+        @media (max-width: 480px) {
+            .social-input { flex-direction: column; align-items: stretch; gap: 4px; }
         }
         .social-input .social-icon {
-            font-size: 1.2rem;
-            width: 30px;
+            font-size: var(--text-base);
+            width: 26px;
             text-align: center;
+            flex-shrink: 0;
+        }
+        @media (max-width: 480px) {
+            .social-input .social-icon { text-align: left; font-size: var(--text-sm); }
         }
         .social-input input {
             flex: 1;
-            padding: 8px 12px;
+            min-width: 120px;
+            padding: 6px 10px;
             border: 1.5px solid var(--border);
             border-radius: var(--radius-sm);
-            font-size: 0.85rem;
+            font-size: var(--text-sm);
             outline: none;
+            min-height: 36px;
+        }
+        @media (min-width: 480px) {
+            .social-input input { padding: 8px 12px; font-size: var(--text-base); min-height: 40px; }
+        }
+        @media (max-width: 480px) {
+            .social-input input { min-width: auto; }
         }
         .social-input input:focus {
             border-color: var(--purple);
             box-shadow: 0 0 0 3px rgba(108,92,231,0.1);
         }
 
-        /* BUTTONS */
+        /* ============================================
+           BUTTONS
+           ============================================ */
         .btn {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 22px;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: var(--text-sm);
             cursor: pointer;
             transition: all 0.3s ease;
             border: none;
             text-decoration: none;
             font-family: var(--font-body);
             white-space: nowrap;
+            min-height: 40px;
+        }
+        @media (min-width: 480px) {
+            .btn { padding: 10px 20px; font-size: var(--text-base); min-height: 44px; }
         }
         .btn-filled {
             background: var(--gradient);
@@ -614,7 +978,14 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(13,148,136,0.3);
         }
-        .btn-sm { padding: 6px 14px; font-size: 0.75rem; }
+        .btn-sm { 
+            padding: 4px 12px; 
+            font-size: var(--text-xs); 
+            min-height: 32px;
+        }
+        @media (min-width: 480px) {
+            .btn-sm { padding: 6px 14px; font-size: var(--text-sm); min-height: 36px; }
+        }
         .btn-block { width: 100%; justify-content: center; }
         .btn:disabled {
             opacity: 0.6;
@@ -623,35 +994,42 @@
             box-shadow: none !important;
         }
 
+        /* ============================================
+           FORM ACTIONS
+           ============================================ */
         .form-actions {
             display: flex;
-            gap: 12px;
-            margin-top: 8px;
+            gap: 10px;
+            margin-top: 6px;
             flex-wrap: wrap;
         }
-
-        /* RESPONSIVE */
-        @media (max-width: 900px) {
-            .profile-form { grid-template-columns: 1fr; }
-            .profile-cover { height: 150px; }
-            .profile-avatar-wrapper { width: 80px; height: 80px; }
-            .profile-name-info h1 { font-size: 1.2rem; }
-            .profile-actions { margin-left: 0; width: 100%; }
-            .entry-item .entry-body { grid-template-columns: 1fr; }
-        }
         @media (max-width: 480px) {
-            .profile-container { padding: 90px 14px 40px; }
-            .profile-cover { height: 120px; }
-            .profile-cover .cover-overlay { padding: 12px 16px; flex-direction: column; align-items: center; text-align: center; }
-            .profile-avatar-wrapper { width: 70px; height: 70px; }
-            .profile-name-info h1 { font-size: 1rem; }
-            .card { padding: 16px; }
-            .completion-bar { flex-direction: column; text-align: center; }
-            .skills-input-group { flex-wrap: wrap; }
-            .skills-input-group input { flex: 1 1 100%; }
-            .social-input { flex-wrap: wrap; }
             .form-actions { flex-direction: column; }
             .form-actions .btn { width: 100%; justify-content: center; }
+        }
+
+        /* ============================================
+           MISC UTILITY
+           ============================================ */
+        .text-muted { color: var(--text-muted); }
+        .mt-1 { margin-top: 6px; }
+        .mb-1 { margin-bottom: 6px; }
+        .flex { display: flex; }
+        .flex-center { align-items: center; justify-content: center; }
+        .gap-1 { gap: 6px; }
+        .gap-2 { gap: 12px; }
+        .flex-wrap { flex-wrap: wrap; }
+        .w-full { width: 100%; }
+
+        /* ============================================
+           PRINT STYLES
+           ============================================ */
+        @media print {
+            .header { position: static; }
+            .profile-actions { display: none; }
+            .toast-container { display: none; }
+            .form-actions { display: none; }
+            .completion-bar { display: none; }
         }
     </style>
 </head>
@@ -665,7 +1043,7 @@
                 <span>TRIANGLE LEARN</span>
             </a>
             <div class="header-right">
-                <span style="font-size:0.75rem;color:var(--text-muted);" id="headerRole">Learner</span>
+                <span class="role-tag" id="headerRole">Learner</span>
             </div>
         </div>
     </header>
@@ -675,7 +1053,7 @@
 
     <div class="profile-container">
         
-        <!-- PROFILE HEADER -->
+        <!-- PROFILE HEADER - LinkedIn Style -->
         <div class="profile-header">
             <div class="profile-cover" id="coverArea">
                 <img id="coverImage" src="" alt="Cover" style="display:none;">
@@ -743,19 +1121,22 @@
                     </div>
                 </div>
 
-                <!-- SKILLS -->
+                <!-- SKILLS - No Limit -->
                 <div class="card">
                     <div class="card-header">
                         <h2>🛠️ Skills</h2>
-                        <span class="card-badge optional">Min 3 for completion</span>
+                        <span class="card-badge optional">Add as many as you want</span>
                     </div>
                     <div class="skills-container" id="skillsContainer"></div>
                     <div class="skills-input-group">
-                        <input type="text" id="skillInput" placeholder="Type a skill and press Enter..." onkeydown="if(event.key==='Enter'){event.preventDefault();addSkill();}">
-                        <select id="skillDropdown" onchange="if(this.value){addSkillFromDropdown(this.value);this.value='';}">
+                        <input type="text" id="skillInput" placeholder="Type a skill and press Enter...">
+                        <select id="skillDropdown">
                             <option value="">Or select from list...</option>
                         </select>
-                        <button class="btn-add" onclick="addSkill()">+ Add</button>
+                        <button class="btn-add" id="addSkillBtn">+ Add</button>
+                    </div>
+                    <div style="margin-top:6px;font-size:var(--text-xs);color:var(--text-muted);">
+                        💡 You can add unlimited skills. Type or select from the list.
                     </div>
                     <div class="field-error" id="skillError">Please add at least 3 skills</div>
                 </div>
@@ -793,24 +1174,24 @@
                     <div class="field-error" id="socialError">Please add at least 2 social links</div>
                 </div>
 
-                <!-- WORK EXPERIENCE (All Roles) -->
+                <!-- WORK EXPERIENCE -->
                 <div class="card">
                     <div class="card-header">
                         <h2>💼 Work Experience</h2>
                         <span class="card-badge optional">Up to 10 entries</span>
                     </div>
                     <div id="experienceContainer"></div>
-                    <button class="btn btn-ghost btn-sm" onclick="addExperience()">+ Add Experience</button>
+                    <button class="btn btn-ghost btn-sm" id="addExperienceBtn">+ Add Experience</button>
                 </div>
 
-                <!-- EDUCATION (All Roles) -->
+                <!-- EDUCATION -->
                 <div class="card">
                     <div class="card-header">
                         <h2>🎓 Education & Certifications</h2>
                         <span class="card-badge optional">Optional</span>
                     </div>
                     <div id="educationContainer"></div>
-                    <button class="btn btn-ghost btn-sm" onclick="addEducation()">+ Add Education</button>
+                    <button class="btn btn-ghost btn-sm" id="addEducationBtn">+ Add Education</button>
                 </div>
 
                 <!-- RESUME UPLOAD -->
@@ -821,7 +1202,7 @@
                     </div>
                     <div class="form-group">
                         <label>Upload your resume <span class="optional-tag">(PDF, DOC, DOCX, TXT)</span></label>
-                        <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx,.txt" onchange="uploadResume(this)">
+                        <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx,.txt">
                         <div class="field-hint" id="resumeStatus">No resume uploaded</div>
                     </div>
                 </div>
@@ -833,7 +1214,7 @@
                 <div class="card">
                     <div class="form-actions">
                         <button class="btn btn-filled btn-block" id="saveProfileBtn2">💾 Save Profile & Continue</button>
-                        <button class="btn btn-ghost" onclick="window.location.href='dashboard.html'">Skip for now</button>
+                        <button class="btn btn-ghost" id="skipBtn">Skip for now</button>
                     </div>
                 </div>
 
@@ -874,12 +1255,12 @@
                 <!-- Quick Tips -->
                 <div class="sidebar-section">
                     <h3>💡 Profile Tips</h3>
-                    <ul style="font-size:0.78rem;color:var(--text-secondary);list-style:none;padding:0;">
-                        <li style="padding:4px 0;">📸 Add a professional photo</li>
-                        <li style="padding:4px 0;">📝 Write a compelling bio</li>
-                        <li style="padding:4px 0;">🛠️ Add at least 3 skills</li>
-                        <li style="padding:4px 0;">🔗 Connect your social profiles</li>
-                        <li style="padding:4px 0;">📄 Upload your resume</li>
+                    <ul style="font-size:var(--text-sm);color:var(--text-secondary);list-style:none;padding:0;line-height:2;">
+                        <li>📸 Add a professional photo</li>
+                        <li>📝 Write a compelling bio</li>
+                        <li>🛠️ Add at least 3 skills</li>
+                        <li>🔗 Connect your social profiles</li>
+                        <li>📄 Upload your resume</li>
                     </ul>
                 </div>
             </div>
@@ -946,39 +1327,29 @@
         const $$ = (sel) => document.querySelectorAll(sel);
 
         const DOM = {
-            // Header
             headerRole: $('#headerRole'),
             profileName: $('#profileName'),
             profileTitle: $('#profileTitle'),
             roleBadge: $('#roleBadge'),
-
-            // Avatar & Cover
             avatarImage: $('#avatarImage'),
             avatarPlaceholder: $('#avatarPlaceholder'),
             uploadAvatarBtn: $('#uploadAvatarBtn'),
             coverImage: $('#coverImage'),
             uploadCoverBtn: $('#uploadCoverBtn'),
-
-            // Completion
             completionFill: $('#completionFill'),
             completionPercent: $('#completionPercent'),
             completionMsg: $('#completionMsg'),
-
-            // Basic Info
             fullName: $('#fullName'),
             fullNameError: $('#fullNameError'),
             jobTitle: $('#jobTitle'),
             company: $('#company'),
             location: $('#location'),
             bio: $('#bio'),
-
-            // Skills
             skillsContainer: $('#skillsContainer'),
             skillInput: $('#skillInput'),
             skillDropdown: $('#skillDropdown'),
             skillError: $('#skillError'),
-
-            // Social
+            addSkillBtn: $('#addSkillBtn'),
             socialWebsite: $('#socialWebsite'),
             socialLinkedin: $('#socialLinkedin'),
             socialX: $('#socialX'),
@@ -986,34 +1357,23 @@
             socialFacebook: $('#socialFacebook'),
             socialInstagram: $('#socialInstagram'),
             socialError: $('#socialError'),
-
-            // Experience
             experienceContainer: $('#experienceContainer'),
-
-            // Education
             educationContainer: $('#educationContainer'),
-
-            // Resume
+            addExperienceBtn: $('#addExperienceBtn'),
+            addEducationBtn: $('#addEducationBtn'),
             resumeUpload: $('#resumeUpload'),
             resumeStatus: $('#resumeStatus'),
-
-            // Role-specific
             roleSpecificFields: $('#roleSpecificFields'),
-
-            // Sidebar
             sidebarRole: $('#sidebarRole'),
             sidebarEmail: $('#sidebarEmail'),
             sidebarSince: $('#sidebarSince'),
             sidebarViews: $('#sidebarViews'),
             sidebarContacts: $('#sidebarContacts'),
-
-            // Privacy
             privacyLevel: $('#privacyLevel'),
             showEmail: $('#showEmail'),
-
-            // Actions
             saveProfileBtn: $('#saveProfileBtn'),
             saveProfileBtn2: $('#saveProfileBtn2'),
+            skipBtn: $('#skipBtn'),
             toastContainer: $('#toastContainer'),
         };
 
@@ -1060,12 +1420,11 @@
                 }
 
                 State.userData = doc.data();
-                State.userRole = State.userData.role || 'learner';
+                State.userRole = State.userData.activeRole || State.userData.role || 'learner';
                 State.skills = State.userData.skills || [];
                 State.experience = State.userData.workExperience || [];
                 State.education = State.userData.education || [];
 
-                // Populate form
                 populateForm(State.userData);
                 renderRoleSpecificFields(State.userRole);
                 renderSkills();
@@ -1073,12 +1432,10 @@
                 renderEducation();
                 updateCompletion();
 
-                // Update header
                 DOM.headerRole.textContent = State.userRole.charAt(0).toUpperCase() + State.userRole.slice(1);
                 DOM.roleBadge.textContent = State.userRole.charAt(0).toUpperCase() + State.userRole.slice(1);
                 DOM.sidebarRole.textContent = State.userRole.charAt(0).toUpperCase() + State.userRole.slice(1);
 
-                // Update sidebar stats
                 DOM.sidebarViews.textContent = State.userData.profileViews || 0;
                 DOM.sidebarContacts.textContent = State.userData.contacts || 0;
                 if (State.userData.createdAt?.toDate) {
@@ -1089,7 +1446,6 @@
                     });
                 }
 
-                // Populate skill dropdown
                 populateSkillDropdown();
 
             } catch (error) {
@@ -1108,7 +1464,6 @@
             DOM.location.value = data.location || '';
             DOM.bio.value = data.bio || '';
 
-            // Social links
             const social = data.socialLinks || {};
             DOM.socialWebsite.value = social.website || '';
             DOM.socialLinkedin.value = social.linkedin || '';
@@ -1117,7 +1472,6 @@
             DOM.socialFacebook.value = social.facebook || '';
             DOM.socialInstagram.value = social.instagram || '';
 
-            // Profile picture
             if (data.profilePicture) {
                 DOM.avatarImage.src = data.profilePicture;
                 DOM.avatarImage.style.display = 'block';
@@ -1125,24 +1479,20 @@
                 State.avatarUrl = data.profilePicture;
             }
 
-            // Cover image
             if (data.coverImage) {
                 DOM.coverImage.src = data.coverImage;
                 DOM.coverImage.style.display = 'block';
                 State.coverUrl = data.coverImage;
             }
 
-            // Resume
             if (data.resumeUrl) {
                 DOM.resumeStatus.textContent = `✅ Resume uploaded: ${data.resumeUrl.split('/').pop()}`;
                 State.resumeUrl = data.resumeUrl;
             }
 
-            // Privacy
             DOM.privacyLevel.value = data.privacyLevel || 'public';
             DOM.showEmail.value = data.showEmail !== undefined ? (data.showEmail ? 'yes' : 'no') : 'yes';
 
-            // Name display
             DOM.profileName.textContent = data.fullName || 'Your Name';
             DOM.profileTitle.textContent = `${data.jobTitle || 'Job Title'}${data.company ? ` • ${data.company}` : ''}`;
         }
@@ -1184,9 +1534,9 @@
                             </div>
                             <div class="form-group">
                                 <label>Subscription Status</label>
-                                <div style="padding:8px 12px;background:var(--bg-alt);border-radius:var(--radius-sm);font-size:0.85rem;">
-                                    <span id="subscriptionStatus">${State.userData.subscriptionStatus || 'Free Trial'}</span>
-                                    ${State.userData.subscriptionEnd ? ` • Expires: ${State.userData.subscriptionEnd.toDate ? State.userData.subscriptionEnd.toDate().toLocaleDateString() : ''}` : ''}
+                                <div style="padding:8px 12px;background:var(--bg-alt);border-radius:var(--radius-sm);font-size:var(--text-sm);">
+                                    <span id="subscriptionStatus">${State.userData?.subscriptionStatus || 'Free Trial'}</span>
+                                    ${State.userData?.subscriptionEnd?.toDate ? ` • Expires: ${State.userData.subscriptionEnd.toDate().toLocaleDateString()}` : ''}
                                 </div>
                             </div>
                         </div>
@@ -1250,7 +1600,7 @@
                                 <h2>👑 Admin Panel</h2>
                                 <span class="card-badge" style="background:var(--gold);color:#fff;">Admin</span>
                             </div>
-                            <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:12px;">
+                            <p style="color:var(--text-secondary);font-size:var(--text-sm);margin-bottom:12px;">
                                 As an admin, you have full access to all platform features.
                             </p>
                             <div style="display:flex;gap:10px;flex-wrap:wrap;">
@@ -1262,7 +1612,7 @@
                     `;
                     break;
 
-                default: // learner
+                default:
                     html = `
                         <div class="card">
                             <div class="card-header">
@@ -1279,7 +1629,6 @@
 
             container.innerHTML = html;
 
-            // Populate role-specific fields if data exists
             if (State.userData) {
                 const data = State.userData;
                 switch (role) {
@@ -1305,34 +1654,133 @@
         }
 
         // ============================================
-        // SKILLS
+        // SKILLS - Expanded List (All Categories)
         // ============================================
         const SKILL_LIST = [
+            // Technology & IT
+            'Cyber Security', 'Software Developer', 'Software Engineer', 'Prompt Engineer',
+            'Frontend Developer', 'Backend Developer', 'Full Stack Developer', 'DevOps Engineer',
+            'Cloud Engineer', 'Data Engineer', 'Data Scientist', 'Machine Learning Engineer',
+            'AI Specialist', 'Blockchain Developer', 'Mobile Developer', 'Game Developer',
+            'Systems Administrator', 'Network Engineer', 'Database Administrator', 'Security Analyst',
+            'Ethical Hacker', 'Penetration Tester', 'Solution Architect', 'Technical Lead',
+            'Quality Assurance', 'Automation Engineer', 'Site Reliability Engineer',
+            
             // Programming Languages
-            'JavaScript', 'Python', 'Java', 'C++', 'C#', 'Ruby', 'PHP', 'Swift', 'Kotlin', 'Go', 'Rust', 'TypeScript',
-            'HTML', 'CSS', 'Sass', 'Less', 'SQL', 'NoSQL', 'GraphQL',
-            // Frameworks & Libraries
-            'React', 'Angular', 'Vue.js', 'Next.js', 'Nuxt.js', 'Svelte', 'jQuery', 'Bootstrap', 'Tailwind CSS',
-            'Node.js', 'Express.js', 'Django', 'Flask', 'Spring Boot', 'Laravel', 'Ruby on Rails', 'ASP.NET',
-            'TensorFlow', 'PyTorch', 'Scikit-learn', 'Pandas', 'NumPy', 'Matplotlib',
-            // Databases
-            'MongoDB', 'PostgreSQL', 'MySQL', 'Firebase', 'Redis', 'Elasticsearch', 'Cassandra', 'DynamoDB',
-            // DevOps & Cloud
-            'AWS', 'Azure', 'GCP', 'Docker', 'Kubernetes', 'Jenkins', 'Git', 'GitHub Actions', 'Terraform', 'Ansible',
-            'Linux', 'Bash', 'PowerShell',
-            // Design
-            'UI/UX Design', 'Figma', 'Adobe XD', 'Sketch', 'Photoshop', 'Illustrator', 'InDesign', 'After Effects',
-            'Blender', '3D Modeling', 'Animation',
-            // Data & Analytics
-            'Data Analysis', 'Data Science', 'Machine Learning', 'Deep Learning', 'NLP', 'Computer Vision',
-            'Power BI', 'Tableau', 'Excel', 'SPSS', 'R', 'SAS',
-            // Business & Soft Skills
-            'Project Management', 'Agile', 'Scrum', 'Leadership', 'Communication', 'Problem Solving',
-            'Critical Thinking', 'Teamwork', 'Adaptability', 'Creativity', 'Time Management',
-            'Digital Marketing', 'SEO', 'SEM', 'Social Media Marketing', 'Content Creation',
-            // Additional
-            'Blockchain', 'Smart Contracts', 'Web3', 'AR/VR', 'IoT', 'Robotics', 'Cybersecurity',
-            'Ethical Hacking', 'Penetration Testing', 'Network Security', 'Cloud Security'
+            'Python', 'JavaScript', 'TypeScript', 'Java', 'C++', 'C#', 'PHP', 'Ruby',
+            'Swift', 'Kotlin', 'Go', 'Rust', 'SQL', 'HTML', 'CSS', 'Sass',
+            
+            // Design & Creative
+            'UI/UX Designer', 'Graphic Designer', 'Product Designer', 'Web Designer',
+            'Motion Designer', '3D Artist', 'Animator', 'Video Editor', 'Photographer',
+            'Illustrator', 'Brand Designer', 'Typography', 'Color Theory', 'Figma', 'Adobe XD',
+            
+            // Business & Management
+            'Business Analyst', 'Project Manager', 'Product Manager', 'Scrum Master',
+            'Agile Coach', 'Business Development', 'Sales Manager', 'Marketing Manager',
+            'Operations Manager', 'Strategy Consultant', 'Management Consultant',
+            'Entrepreneur', 'Startup Founder', 'CEO', 'COO', 'CFO', 'CTO',
+            
+            // Marketing & Sales
+            'Digital Marketing', 'SEO Specialist', 'SEM Specialist', 'Content Marketer',
+            'Social Media Manager', 'Community Manager', 'Brand Manager', 'Growth Hacker',
+            'Email Marketing', 'Copywriter', 'Content Creator', 'Influencer Marketing',
+            'Affiliate Marketing', 'Analytics', 'Marketing Strategy',
+            
+            // Finance & Accounting
+            'Accountant', 'Financial Analyst', 'Investment Banker', 'Financial Advisor',
+            'Auditor', 'Tax Consultant', 'Risk Manager', 'Compliance Officer',
+            'Financial Controller', 'Treasury', 'Bookkeeper',
+            
+            // Human Resources
+            'HR Manager', 'Talent Acquisition', 'Recruiter', 'Training Specialist',
+            'Organizational Development', 'Employee Relations', 'Compensation Analyst',
+            'HR Business Partner', 'Learning & Development',
+            
+            // Education & Training
+            'Teacher', 'Lecturer', 'Professor', 'Instructor', 'Trainer', 'Coach',
+            'Mentor', 'Curriculum Developer', 'Education Consultant', 'Academic Advisor',
+            'Lesson Planning', 'Classroom Management', 'Educational Technology',
+            
+            // Healthcare & Medical
+            'Doctor', 'Nurse', 'Pharmacist', 'Physiotherapist', 'Medical Researcher',
+            'Public Health', 'Healthcare Administrator', 'Clinical Specialist',
+            'Medical Writer', 'Health Coach',
+            
+            // Legal & Compliance
+            'Lawyer', 'Paralegal', 'Legal Consultant', 'Corporate Counsel',
+            'Compliance Officer', 'Regulatory Affairs', 'Contract Manager',
+            'IP Attorney', 'Legal Researcher',
+            
+            // Engineering & Technical
+            'Civil Engineer', 'Mechanical Engineer', 'Electrical Engineer',
+            'Chemical Engineer', 'Structural Engineer', 'Environmental Engineer',
+            'Industrial Engineer', 'Aerospace Engineer', 'Biomedical Engineer',
+            'Petroleum Engineer', 'Mining Engineer',
+            
+            // Construction & Trades
+            'Architect', 'Construction Manager', 'Quantity Surveyor',
+            'Project Engineer', 'Building Inspector', 'Electrician', 'Plumber',
+            'Carpenter', 'Welder', 'HVAC Technician',
+            
+            // Agriculture & Science
+            'Agriculturist', 'Soil Scientist', 'Crop Scientist', 'Agronomist',
+            'Biotechnologist', 'Biochemist', 'Microbiologist', 'Zoologist',
+            'Botanist', 'Environmental Scientist', 'Geologist',
+            
+            // Creative Arts & Media
+            'Writer', 'Author', 'Journalist', 'Editor', 'Content Writer',
+            'Screenwriter', 'Poet', 'Novelist', 'Creative Director',
+            'Art Director', 'Photographer', 'Videographer',
+            
+            // Hospitality & Service
+            'Chef', 'Restaurant Manager', 'Hotel Manager', 'Event Planner',
+            'Tour Guide', 'Hospitality Consultant', 'Food Stylist',
+            
+            // Transportation & Logistics
+            'Logistics Manager', 'Supply Chain Manager', 'Procurement Specialist',
+            'Fleet Manager', 'Warehouse Manager', 'Transportation Planner',
+            
+            // Sports & Fitness
+            'Fitness Trainer', 'Sports Coach', 'Physical Therapist',
+            'Sports Analyst', 'Athlete', 'Nutritionist', 'Yoga Instructor',
+            'Personal Trainer', 'Wellness Coach',
+            
+            // Public Service
+            'Government Official', 'Policy Analyst', 'Public Administrator',
+            'Social Worker', 'Community Organizer', 'Nonprofit Leader',
+            
+            // Trades & Technical
+            'Mechanic', 'Technician', 'Maintenance Engineer', 'Field Service Tech',
+            'Instrumentation Tech', 'Control Systems Engineer',
+            
+            // Real Estate & Property
+            'Real Estate Agent', 'Property Manager', 'Appraiser', 'Real Estate Developer',
+            'Leasing Consultant', 'Facilities Manager',
+            
+            // Soft Skills (for all roles)
+            'Communication', 'Leadership', 'Problem Solving', 'Critical Thinking',
+            'Team Collaboration', 'Time Management', 'Adaptability', 'Creativity',
+            'Emotional Intelligence', 'Conflict Resolution', 'Negotiation',
+            'Public Speaking', 'Presentation Skills', 'Networking',
+            'Mentoring', 'Coaching', 'Strategic Thinking', 'Decision Making',
+            'Empathy', 'Influence', 'Storytelling', 'Active Listening',
+            
+            // Languages
+            'English', 'French', 'Spanish', 'Arabic', 'Chinese', 'German',
+            'Portuguese', 'Russian', 'Japanese', 'Korean', 'Italian',
+            
+            // Industry-Specific
+            'Telecommunications', 'Banking', 'Consulting', 'E-commerce',
+            'Media', 'Education', 'Healthcare', 'Manufacturing', 'Retail',
+            'Insurance', 'Real Estate', 'Construction', 'Agriculture',
+            'Energy', 'Mining', 'Technology', 'Entertainment',
+            
+            // Certifications & Specializations
+            'Certified Professional', 'Project Management Professional (PMP)',
+            'Certified Scrum Master', 'Six Sigma', 'Lean Management',
+            'Digital Transformation', 'Agile Methodologies',
+            'Change Management', 'Continuous Improvement'
         ];
 
         function populateSkillDropdown() {
@@ -1346,12 +1794,23 @@
                     dropdown.appendChild(option);
                 }
             });
+            if (dropdown.options.length === 1) {
+                const option = document.createElement('option');
+                option.value = '';
+                option.textContent = 'All skills added!';
+                option.disabled = true;
+                dropdown.appendChild(option);
+            }
         }
 
         function renderSkills() {
             const container = DOM.skillsContainer;
+            if (State.skills.length === 0) {
+                container.innerHTML = `<p style="color:var(--text-muted);font-size:var(--text-sm);padding:4px 0;width:100%;text-align:center;">Add your skills below. You can add as many as you want!</p>`;
+                return;
+            }
             container.innerHTML = State.skills.map(skill =>
-                `<span class="skill-tag">${skill} <span class="remove" onclick="removeSkill('${skill}')">×</span></span>`
+                `<span class="skill-tag">${skill} <span class="remove" data-skill="${skill}">×</span></span>`
             ).join('');
             populateSkillDropdown();
             updateCompletion();
@@ -1360,63 +1819,93 @@
         function addSkill() {
             const input = DOM.skillInput;
             const skill = input.value.trim();
-            if (skill && !State.skills.includes(skill)) {
-                State.skills.push(skill);
-                input.value = '';
-                renderSkills();
-                updateCompletion();
-                DOM.skillError.classList.remove('show');
+            if (!skill) {
+                showToast('Please enter a skill', 'warning', '⚠️');
+                return;
             }
+            if (State.skills.includes(skill)) {
+                showToast(`"${skill}" is already in your skills list`, 'warning', '⚠️');
+                input.value = '';
+                return;
+            }
+            State.skills.push(skill);
+            input.value = '';
+            renderSkills();
+            updateCompletion();
+            DOM.skillError.classList.remove('show');
+            showToast(`Added "${skill}" to your skills`, 'success', '✅');
         }
 
         function addSkillFromDropdown(skill) {
-            if (skill && !State.skills.includes(skill)) {
-                State.skills.push(skill);
-                renderSkills();
-                updateCompletion();
-                DOM.skillError.classList.remove('show');
+            if (!skill) return;
+            if (State.skills.includes(skill)) {
+                showToast(`"${skill}" is already in your skills list`, 'warning', '⚠️');
+                return;
             }
+            State.skills.push(skill);
+            renderSkills();
+            updateCompletion();
+            DOM.skillError.classList.remove('show');
+            showToast(`Added "${skill}" to your skills`, 'success', '✅');
         }
 
         function removeSkill(skill) {
             State.skills = State.skills.filter(s => s !== skill);
             renderSkills();
             updateCompletion();
+            showToast(`Removed "${skill}" from your skills`, 'info', '🗑️');
         }
 
+        // ============================================
+        // SKILLS EVENT LISTENERS
+        // ============================================
+        DOM.addSkillBtn.addEventListener('click', addSkill);
         DOM.skillInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 addSkill();
             }
         });
+        DOM.skillDropdown.addEventListener('change', function() {
+            if (this.value) {
+                addSkillFromDropdown(this.value);
+                this.value = '';
+            }
+        });
+
+        // Event delegation for skill removal
+        DOM.skillsContainer.addEventListener('click', function(e) {
+            const removeBtn = e.target.closest('.remove');
+            if (removeBtn) {
+                const skill = removeBtn.dataset.skill;
+                if (skill) removeSkill(skill);
+            }
+        });
 
         // ============================================
-        // EXPERIENCE
+        // EXPERIENCE - Event Delegation
         // ============================================
-        let expCounter = 0;
-
         function renderExperience() {
             const container = DOM.experienceContainer;
             if (State.experience.length === 0) {
-                container.innerHTML = `<p style="color:var(--text-muted);font-size:0.82rem;padding:8px 0;">No experience added yet.</p>`;
+                container.innerHTML = `<p style="color:var(--text-muted);font-size:var(--text-sm);padding:8px 0;">No experience added yet.</p>`;
                 return;
             }
             container.innerHTML = State.experience.map((exp, index) => `
-                <div class="entry-item" data-index="${index}">
+                <div class="entry-item" data-exp-index="${index}">
                     <div class="entry-header">
                         <h4>${exp.title || 'Untitled'} @ ${exp.company || 'Company'}</h4>
                         <div class="entry-actions">
-                            <button class="edit-btn" onclick="editExperience(${index})">✏️</button>
-                            <button class="delete-btn" onclick="removeExperience(${index})">🗑️</button>
+                            <button class="edit-btn" data-action="edit-exp" data-index="${index}">✏️</button>
+                            <button class="delete-btn" data-action="delete-exp" data-index="${index}">🗑️</button>
                         </div>
                     </div>
                     <div class="entry-body">
-                        <div class="form-group"><label>Job Title</label><input type="text" value="${exp.title || ''}" onchange="updateExperience(${index},'title',this.value)"></div>
-                        <div class="form-group"><label>Company</label><input type="text" value="${exp.company || ''}" onchange="updateExperience(${index},'company',this.value)"></div>
-                        <div class="form-group"><label>Start Date</label><input type="date" value="${exp.startDate || ''}" onchange="updateExperience(${index},'startDate',this.value)"></div>
-                        <div class="form-group"><label>End Date</label><input type="date" value="${exp.endDate || ''}" onchange="updateExperience(${index},'endDate',this.value)"></div>
-                        <div class="full-width form-group"><label>Description</label><textarea rows="2" onchange="updateExperience(${index},'description',this.value)">${exp.description || ''}</textarea></div>
+                        <div class="form-group"><label>Job Title</label><input type="text" value="${exp.title || ''}" data-field="title" data-index="${index}"></div>
+                        <div class="form-group"><label>Company</label><input type="text" value="${exp.company || ''}" data-field="company" data-index="${index}"></div>
+                        <div class="form-group"><label>Start Date</label><input type="date" value="${exp.startDate || ''}" data-field="startDate" data-index="${index}"></div>
+                        <div class="form-group"><label>End Date</label><input type="date" value="${exp.endDate || ''}" data-field="endDate" data-index="${index}"></div>
+                        <div class="full-width form-group"><label>Description</label><textarea rows="2" data-field="description" data-index="${index}">${exp.description || ''}</textarea></div>
                     </div>
                 </div>
             `).join('');
@@ -1438,14 +1927,8 @@
             updateCompletion();
         }
 
-        function updateExperience(index, field, value) {
-            State.experience[index][field] = value;
-            updateCompletion();
-        }
-
         function editExperience(index) {
-            // Scroll to the entry and focus the title field
-            const entry = document.querySelector(`.entry-item[data-index="${index}"]`);
+            const entry = document.querySelector(`.entry-item[data-exp-index="${index}"]`);
             if (entry) {
                 entry.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 const titleInput = entry.querySelector('input[type="text"]');
@@ -1453,15 +1936,57 @@
             }
         }
 
-        // ============================================
-        // EDUCATION
-        // ============================================
-        let eduCounter = 0;
+        // Event delegation for experience
+        DOM.experienceContainer.addEventListener('click', function(e) {
+            const target = e.target.closest('button');
+            if (!target) return;
+            const entry = target.closest('.entry-item');
+            if (!entry) return;
+            const index = parseInt(entry.dataset.expIndex);
+            if (isNaN(index)) return;
 
+            if (target.dataset.action === 'delete-exp') {
+                removeExperience(index);
+            } else if (target.dataset.action === 'edit-exp') {
+                editExperience(index);
+            }
+        });
+
+        DOM.experienceContainer.addEventListener('input', function(e) {
+            const target = e.target;
+            if (!target.matches('input, textarea')) return;
+            const entry = target.closest('.entry-item');
+            if (!entry) return;
+            const index = parseInt(entry.dataset.expIndex);
+            if (isNaN(index)) return;
+            const field = target.dataset.field;
+            if (field && State.experience[index]) {
+                State.experience[index][field] = target.value;
+                updateCompletion();
+            }
+        });
+
+        DOM.experienceContainer.addEventListener('change', function(e) {
+            const target = e.target;
+            if (!target.matches('input[type="date"]')) return;
+            const entry = target.closest('.entry-item');
+            if (!entry) return;
+            const index = parseInt(entry.dataset.expIndex);
+            if (isNaN(index)) return;
+            const field = target.dataset.field;
+            if (field && State.experience[index]) {
+                State.experience[index][field] = target.value;
+                updateCompletion();
+            }
+        });
+
+        // ============================================
+        // EDUCATION - Event Delegation
+        // ============================================
         function renderEducation() {
             const container = DOM.educationContainer;
             if (State.education.length === 0) {
-                container.innerHTML = `<p style="color:var(--text-muted);font-size:0.82rem;padding:8px 0;">No education added yet.</p>`;
+                container.innerHTML = `<p style="color:var(--text-muted);font-size:var(--text-sm);padding:8px 0;">No education added yet.</p>`;
                 return;
             }
             container.innerHTML = State.education.map((edu, index) => `
@@ -1469,16 +1994,16 @@
                     <div class="entry-header">
                         <h4>${edu.school || 'School'} - ${edu.degree || 'Degree'}</h4>
                         <div class="entry-actions">
-                            <button class="edit-btn" onclick="editEducation(${index})">✏️</button>
-                            <button class="delete-btn" onclick="removeEducation(${index})">🗑️</button>
+                            <button class="edit-btn" data-action="edit-edu" data-index="${index}">✏️</button>
+                            <button class="delete-btn" data-action="delete-edu" data-index="${index}">🗑️</button>
                         </div>
                     </div>
                     <div class="entry-body">
-                        <div class="form-group"><label>School/Institution</label><input type="text" value="${edu.school || ''}" onchange="updateEducation(${index},'school',this.value)"></div>
-                        <div class="form-group"><label>Degree/Certification</label><input type="text" value="${edu.degree || ''}" onchange="updateEducation(${index},'degree',this.value)"></div>
-                        <div class="form-group"><label>Field of Study</label><input type="text" value="${edu.field || ''}" onchange="updateEducation(${index},'field',this.value)"></div>
-                        <div class="form-group"><label>Year</label><input type="text" value="${edu.year || ''}" onchange="updateEducation(${index},'year',this.value)"></div>
-                        <div class="full-width form-group"><label>Notes</label><textarea rows="2" onchange="updateEducation(${index},'notes',this.value)">${edu.notes || ''}</textarea></div>
+                        <div class="form-group"><label>School/Institution</label><input type="text" value="${edu.school || ''}" data-field="school" data-index="${index}"></div>
+                        <div class="form-group"><label>Degree/Certification</label><input type="text" value="${edu.degree || ''}" data-field="degree" data-index="${index}"></div>
+                        <div class="form-group"><label>Field of Study</label><input type="text" value="${edu.field || ''}" data-field="field" data-index="${index}"></div>
+                        <div class="form-group"><label>Year</label><input type="text" value="${edu.year || ''}" data-field="year" data-index="${index}"></div>
+                        <div class="full-width form-group"><label>Notes</label><textarea rows="2" data-field="notes" data-index="${index}">${edu.notes || ''}</textarea></div>
                     </div>
                 </div>
             `).join('');
@@ -1496,11 +2021,6 @@
             updateCompletion();
         }
 
-        function updateEducation(index, field, value) {
-            State.education[index][field] = value;
-            updateCompletion();
-        }
-
         function editEducation(index) {
             const entry = document.querySelector(`.entry-item[data-edu-index="${index}"]`);
             if (entry) {
@@ -1510,11 +2030,47 @@
             }
         }
 
+        // Event delegation for education
+        DOM.educationContainer.addEventListener('click', function(e) {
+            const target = e.target.closest('button');
+            if (!target) return;
+            const entry = target.closest('.entry-item');
+            if (!entry) return;
+            const index = parseInt(entry.dataset.eduIndex);
+            if (isNaN(index)) return;
+
+            if (target.dataset.action === 'delete-edu') {
+                removeEducation(index);
+            } else if (target.dataset.action === 'edit-edu') {
+                editEducation(index);
+            }
+        });
+
+        DOM.educationContainer.addEventListener('input', function(e) {
+            const target = e.target;
+            if (!target.matches('input, textarea')) return;
+            const entry = target.closest('.entry-item');
+            if (!entry) return;
+            const index = parseInt(entry.dataset.eduIndex);
+            if (isNaN(index)) return;
+            const field = target.dataset.field;
+            if (field && State.education[index]) {
+                State.education[index][field] = target.value;
+                updateCompletion();
+            }
+        });
+
         // ============================================
-        // RESUME UPLOAD - Cloudinary
+        // ADD EXPERIENCE & EDUCATION BUTTONS
         // ============================================
-        function uploadResume(input) {
-            const file = input.files[0];
+        DOM.addExperienceBtn.addEventListener('click', addExperience);
+        DOM.addEducationBtn.addEventListener('click', addEducation);
+
+        // ============================================
+        // RESUME UPLOAD
+        // ============================================
+        DOM.resumeUpload.addEventListener('change', function() {
+            const file = this.files[0];
             if (!file) return;
 
             const formData = new FormData();
@@ -1545,10 +2101,10 @@
                 DOM.resumeStatus.textContent = '❌ Upload error';
                 showToast('Failed to upload resume', 'error', '❌');
             });
-        }
+        });
 
         // ============================================
-        // CLOUDINARY WIDGET - Profile Picture & Cover
+        // CLOUDINARY WIDGET - Avatar & Cover
         // ============================================
         function openCloudinaryWidget(type) {
             const widget = cloudinary.createUploadWidget({
@@ -1631,79 +2187,51 @@
             let completed = 0;
             let total = 0;
 
-            // Profile Picture (15%)
             if (State.avatarUrl) completed += WEIGHTS.profilePicture;
             total += WEIGHTS.profilePicture;
 
-            // Cover Image (5%)
             if (State.coverUrl) completed += WEIGHTS.coverImage;
             total += WEIGHTS.coverImage;
 
-            // Full Name (10%)
             if (DOM.fullName.value.trim().length > 0) completed += WEIGHTS.fullName;
             total += WEIGHTS.fullName;
 
-            // Job Title (10%)
             if (DOM.jobTitle.value.trim().length > 0) completed += WEIGHTS.jobTitle;
             total += WEIGHTS.jobTitle;
 
-            // Company (5%)
             if (DOM.company.value.trim().length > 0) completed += WEIGHTS.company;
             total += WEIGHTS.company;
 
-            // Bio (10%)
             if (DOM.bio.value.trim().length > 20) completed += WEIGHTS.bio;
             total += WEIGHTS.bio;
 
-            // Skills (15%) - min 3 skills
             const skillCount = State.skills.length;
-            if (skillCount >= 3) {
-                completed += WEIGHTS.skills;
-            } else {
-                completed += (skillCount / 3) * WEIGHTS.skills;
-            }
+            if (skillCount >= 3) completed += WEIGHTS.skills;
+            else completed += (skillCount / 3) * WEIGHTS.skills;
             total += WEIGHTS.skills;
 
-            // Social Links (10%) - min 2 links
             const socialFields = [
-                DOM.socialWebsite.value,
-                DOM.socialLinkedin.value,
-                DOM.socialX.value,
-                DOM.socialGithub.value,
-                DOM.socialFacebook.value,
-                DOM.socialInstagram.value
+                DOM.socialWebsite.value, DOM.socialLinkedin.value, DOM.socialX.value,
+                DOM.socialGithub.value, DOM.socialFacebook.value, DOM.socialInstagram.value
             ];
             const socialCount = socialFields.filter(s => s.trim().length > 0).length;
-            if (socialCount >= 2) {
-                completed += WEIGHTS.socialLinks;
-            } else {
-                completed += (socialCount / 2) * WEIGHTS.socialLinks;
-            }
+            if (socialCount >= 2) completed += WEIGHTS.socialLinks;
+            else completed += (socialCount / 2) * WEIGHTS.socialLinks;
             total += WEIGHTS.socialLinks;
 
-            // Work Experience (10%)
             const expCount = State.experience.filter(e => e.title && e.company).length;
-            if (expCount >= 1) {
-                completed += WEIGHTS.workExperience;
-            } else {
-                completed += (expCount / 1) * WEIGHTS.workExperience;
-            }
+            if (expCount >= 1) completed += WEIGHTS.workExperience;
+            else completed += (expCount / 1) * WEIGHTS.workExperience;
             total += WEIGHTS.workExperience;
 
-            // Education (5%)
             const eduCount = State.education.filter(e => e.school && e.degree).length;
-            if (eduCount >= 1) {
-                completed += WEIGHTS.education;
-            } else {
-                completed += (eduCount / 1) * WEIGHTS.education;
-            }
+            if (eduCount >= 1) completed += WEIGHTS.education;
+            else completed += (eduCount / 1) * WEIGHTS.education;
             total += WEIGHTS.education;
 
-            // Resume (5%)
             if (State.resumeUrl) completed += WEIGHTS.resume;
             total += WEIGHTS.resume;
 
-            // Calculate percentage
             const percentage = Math.min(Math.round((completed / total) * 100), 100);
             State.profileComplete = percentage;
             return percentage;
@@ -1715,25 +2243,30 @@
             DOM.completionPercent.textContent = pct + '%';
 
             let msg = '';
-            let isComplete = pct >= 40;
-
-            if (pct >= 100) {
-                msg = '🎉 Perfect! Your profile is 100% complete!';
-            } else if (pct >= 80) {
-                msg = '🌟 Almost there! Just a few more details.';
-            } else if (pct >= 60) {
-                msg = '💪 Looking good! Keep going to improve your profile.';
-            } else if (pct >= 40) {
-                msg = '✅ Your profile is complete enough to access the dashboard.';
-                DOM.completionMsg.style.color = 'var(--success)';
-            } else {
-                msg = '📝 Complete your profile to unlock all features (minimum 40%).';
-                DOM.completionMsg.style.color = 'var(--warning)';
-            }
-
+            if (pct >= 100) msg = '🎉 Perfect! Your profile is 100% complete!';
+            else if (pct >= 80) msg = '🌟 Almost there! Just a few more details.';
+            else if (pct >= 60) msg = '💪 Looking good! Keep going to improve your profile.';
+            else if (pct >= 40) msg = '✅ Your profile is complete enough to access the dashboard.';
+            else msg = '📝 Complete your profile to unlock all features (minimum 40%).';
             DOM.completionMsg.textContent = msg;
-            return isComplete;
+            return pct >= 40;
         }
+
+        // ============================================
+        // SKIP HANDLER
+        // ============================================
+        function handleSkip() {
+            const pct = State.profileComplete;
+            if (pct < 40) {
+                if (confirm(`Your profile is only ${pct}% complete. You can still access the dashboard, but some features may be limited. Continue?`)) {
+                    window.location.href = 'dashboard.html?incomplete=true';
+                }
+            } else {
+                window.location.href = 'dashboard.html';
+            }
+        }
+
+        DOM.skipBtn.addEventListener('click', handleSkip);
 
         // ============================================
         // SAVE PROFILE
@@ -1745,7 +2278,6 @@
             DOM.saveProfileBtn2.disabled = true;
 
             try {
-                // Validate required fields
                 const name = DOM.fullName.value.trim();
                 if (!name) {
                     DOM.fullNameError.classList.add('show');
@@ -1758,7 +2290,6 @@
                 }
                 DOM.fullNameError.classList.remove('show');
 
-                // Collect social links
                 const socialLinks = {
                     website: DOM.socialWebsite.value.trim(),
                     linkedin: DOM.socialLinkedin.value.trim(),
@@ -1768,10 +2299,8 @@
                     instagram: DOM.socialInstagram.value.trim(),
                 };
 
-                // Collect role-specific data
-                const roleData = {};
                 const role = State.userRole;
-
+                const roleData = {};
                 switch (role) {
                     case 'instructor':
                         roleData.teachingExperience = parseInt(document.getElementById('teachingExperience')?.value) || 0;
@@ -1794,7 +2323,6 @@
                         break;
                 }
 
-                // Build update data
                 const updateData = {
                     fullName: name,
                     jobTitle: DOM.jobTitle.value.trim(),
@@ -1815,10 +2343,8 @@
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
                 };
 
-                // Save to Firestore
                 await db.collection('users').doc(State.user.uid).update(updateData);
 
-                // Also save profile completion to a separate collection for analytics
                 await db.collection('profile_completions').doc(State.user.uid).set({
                     userId: State.user.uid,
                     role: State.userRole,
@@ -1828,11 +2354,8 @@
 
                 showToast('Profile saved successfully! 🎉', 'success', '✅');
 
-                // Check if profile is complete enough to redirect
                 if (State.profileComplete >= 40) {
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1500);
+                    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
                 } else {
                     updateCompletion();
                 }
@@ -1850,32 +2373,60 @@
         DOM.saveProfileBtn.addEventListener('click', saveProfile);
         DOM.saveProfileBtn2.addEventListener('click', saveProfile);
 
-        // Auto-save on field changes (debounced)
+        // Auto-save completion update on field changes
         let saveTimeout = null;
         function autoSave() {
             if (saveTimeout) clearTimeout(saveTimeout);
-            saveTimeout = setTimeout(() => {
-                updateCompletion();
-                // Don't auto-save to Firestore on every change to avoid rate limits
-                // We'll save on button click only
-            }, 500);
+            saveTimeout = setTimeout(() => { updateCompletion(); }, 500);
         }
 
-        // Add event listeners for auto-completion update
         const autoSaveFields = [
             DOM.fullName, DOM.jobTitle, DOM.company, DOM.location, DOM.bio,
             DOM.socialWebsite, DOM.socialLinkedin, DOM.socialX, DOM.socialGithub,
             DOM.socialFacebook, DOM.socialInstagram, DOM.privacyLevel
         ];
         autoSaveFields.forEach(el => {
-            if (el) el.addEventListener('input', autoSave);
-            if (el) el.addEventListener('change', autoSave);
+            if (el) {
+                el.addEventListener('input', autoSave);
+                el.addEventListener('change', autoSave);
+            }
         });
 
         // ============================================
-        // INIT
+        // AUTO-SAVE ON UNLOAD
         // ============================================
-        console.log('✅ TRIANGLE LEARN Profile Page Loaded');
+        window.addEventListener('beforeunload', async () => {
+            if (State.user && State.profileComplete > 0) {
+                try {
+                    await db.collection('users').doc(State.user.uid).update({
+                        profileComplete: State.profileComplete,
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                } catch (e) {
+                    // Silently fail
+                }
+            }
+        });
+
+        // ============================================
+        // EXPOSE FUNCTIONS TO GLOBAL SCOPE
+        // ============================================
+        window.addSkill = addSkill;
+        window.addSkillFromDropdown = addSkillFromDropdown;
+        window.removeSkill = removeSkill;
+        window.addExperience = addExperience;
+        window.addEducation = addEducation;
+        window.removeExperience = removeExperience;
+        window.removeEducation = removeEducation;
+        window.editExperience = editExperience;
+        window.editEducation = editEducation;
+        window.openCloudinaryWidget = openCloudinaryWidget;
+        window.handleSkip = handleSkip;
+
+        console.log('✅ TRIANGLE LEARN Profile Page - All fixes applied');
+        console.log('📋 LinkedIn-style profile header with responsive images');
+        console.log('🛠️ Unlimited skills with expanded categories');
+        console.log('🔧 Event delegation for dynamic Experience & Education');
 
     })();
     </script>
