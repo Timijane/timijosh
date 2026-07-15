@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Processing — TRIANGLE LEARN</title>
+    <link rel="icon" href="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f0f2f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background: #fff;
+            border-radius: 24px;
+            padding: 40px 32px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            text-align: center;
+            border: 1px solid #eef0f5;
+        }
+        .icon { font-size: 4rem; margin-bottom: 16px; display: block; }
+        h1 { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 1.5rem; margin-bottom: 8px; }
+        p { color: #5a5a7a; font-size: 0.9rem; line-height: 1.6; }
+        .spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 4px solid #eef0f5;
+            border-top-color: #6c5ce7;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 20px 0;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .btn {
+            display: inline-block;
+            padding: 12px 32px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            background: linear-gradient(135deg, #f0a500, #e84393, #6c5ce7);
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin-top: 16px;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(232,67,147,0.3); }
+        .hidden { display: none; }
+        .status-box {
+            padding: 16px;
+            border-radius: 12px;
+            margin: 16px 0;
+        }
+        .status-box.success { background: #e8f8f0; color: #0d9488; border: 1px solid #0d9488; }
+        .status-box.error { background: #fff0f0; color: #e74c3c; border: 1px solid #e74c3c; }
+        .status-box.info { background: #f3f0ff; color: #6c5ce7; border: 1px solid #6c5ce7; }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="app">
+        <span class="icon" id="statusIcon">⏳</span>
+        <h1 id="statusTitle">Processing Payment...</h1>
+        <div class="spinner" id="spinner"></div>
+        <p id="statusMessage">Please wait while we verify your payment.</p>
+        <div id="resultBox" class="hidden status-box"></div>
+        <div id="actionButtons"></div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- FIREBASE SDK -->
+    <!-- ============================================================ -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // ============================================================
+        // CONFIGURATION
+        // ============================================================
+        const PAYSTACK_SECRET_KEY = 'sk_test_aaf7f6095e4579b17cc449df2563c096de124278';
+        const PAYSTACK_PUBLIC_KEY = 'pk_test_11cfaa047a2ef7b89532fab14542e5cdfb28fc90';
+
+        // ============================================================
+        // FIREBASE CONFIG
+        // ============================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyAvvB3C9SP8tDTqMmqzc6craI4d_0kSVX0",
+            authDomain: "timijosh-b8bee.firebaseapp.com",
+            projectId: "timijosh-b8bee",
+            storageBucket: "timijosh-b8bee.firebasestorage.app",
+            messagingSenderId: "779082784462",
+            appId: "1:779082784462:web:a9e9aca2177c7e343c3a9f",
+            measurementId: "G-ZPS8VP8ZBX"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // ============================================================
+        // DOM REFS
+        // ============================================================
+        const $ = (id) => document.getElementById(id);
+        const app = $('app');
+        const statusIcon = $('statusIcon');
+        const statusTitle = $('statusTitle');
+        const statusMessage = $('statusMessage');
+        const spinner = $('spinner');
+        const resultBox = $('resultBox');
+        const actionButtons = $('actionButtons');
+
+        // ============================================================
+        // MAIN PROCESSING FUNCTION
+        // ============================================================
+        async function processPayment() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const reference = urlParams.get('reference');
+
+            if (!reference) {
+                showError('No payment reference found. Please contact support.');
+                return;
+            }
+
+            try {
+                // Step 1: Verify payment with Paystack
+                statusMessage.textContent = 'Verifying payment with Paystack...';
+
+                const verifyResponse = await fetch(
+                    `https://api.paystack.co/transaction/verify/${reference}`,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${PAYSTACK_SECRET_KEY}`,
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                );
+
+                const verifyData = await verifyResponse.json();
+
+                if (!verifyData.status || verifyData.data.status !== 'success') {
+                    showError(
+                        `Payment verification failed. Status: ${verifyData.data?.status || 'unknown'}`);
+                    return;
+                }
+
+                const paymentData = verifyData.data;
+                const metadata = paymentData.metadata || {};
+
+                statusMessage.textContent = 'Payment verified! Saving data...';
+
+                // Step 2: Save payment to Firestore
+                await db.collection('payments').doc(reference).set({
+                    reference: reference,
+                    userId: metadata.userId,
+                    courseId: metadata.courseId,
+                    instructorId: metadata.instructorId,
+                    referrerId: metadata.referrerId || null,
+                    amount: paymentData.amount / 100,
+                    currency: paymentData.currency || 'NGN',
+                    status: 'success',
+                    paidAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    paymentMethod: paymentData.channel || 'paystack',
+                    fees: paymentData.fees || 0,
+                    customerEmail: paymentData.customer?.email || '',
+                    customerName: paymentData.customer?.first_name || '',
+                    metadata: metadata,
+                    paymentData: paymentData
+                });
+
+                statusMessage.textContent = 'Payment saved. Calculating commission...';
+
+                // Step 3: Calculate commission
+                const commissionSettings = await db.collection('settings').doc('commission').get();
+                const adminPercentage = commissionSettings.exists ? commissionSettings.data().adminPercentage || 30 : 30;
+                const instructorPercentage = 100 - adminPercentage;
+
+                const totalAmount = paymentData.amount / 100;
+                const adminAmount = totalAmount * (adminPercentage / 100);
+                const instructorAmount = totalAmount * (instructorPercentage / 100);
+
+                await db.collection('commissions').add({
+                    paymentReference: reference,
+                    instructorId: metadata.instructorId,
+                    courseId: metadata.courseId,
+                    userId: metadata.userId,
+                    totalAmount: totalAmount,
+                    adminPercentage: adminPercentage,
+                    instructorPercentage: instructorPercentage,
+                    adminAmount: adminAmount,
+                    instructorAmount: instructorAmount,
+                    status: 'pending',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                statusMessage.textContent = 'Commission calculated. Updating instructor...';
+
+                // Step 4: Credit instructor balance
+                await db.collection('users').doc(metadata.instructorId).update({
+                    'instructorEarnings.total': firebase.firestore.FieldValue.increment(instructorAmount),
+                    'instructorEarnings.pending': firebase.firestore.FieldValue.increment(instructorAmount),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                statusMessage.textContent = 'Instructor credited. Creating enrollment...';
+
+                // Step 5: Create enrollment
+                await db.collection('enrollments').add({
+                    userId: metadata.userId,
+                    courseId: metadata.courseId,
+                    paymentReference: reference,
+                    status: 'active',
+                    paymentStatus: 'paid',
+                    amount: totalAmount,
+                    enrolledAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                statusMessage.textContent = 'Enrollment created. Handling referral...';
+
+                // Step 6: Handle referral (2-term payment)
+                if (metadata.referrerId && metadata.referrerId !== metadata.userId) {
+                    await handleReferral(reference, metadata, totalAmount);
+                }
+
+                statusMessage.textContent = 'All done!';
+
+                // Step 7: Show success
+                showSuccess(totalAmount, metadata);
+
+            } catch (error) {
+                console.error('Payment processing error:', error);
+                showError('An error occurred while processing your payment: ' + error.message);
+            }
+        }
+
+        // ============================================================
+        // REFERRAL HANDLER (2-Term Payment)
+        // ============================================================
+        async function handleReferral(reference, metadata, totalAmount) {
+            try {
+                // Check existing referral
+                const referralQuery = await db.collection('referrals')
+                    .where('referredUid', '==', metadata.userId)
+                    .where('referrerUid', '==', metadata.referrerId)
+                    .get();
+
+                let referralDoc = null;
+                let currentStatus = 'registered';
+
+                if (!referralQuery.empty) {
+                    referralDoc = referralQuery.docs[0];
+                    currentStatus = referralDoc.data().status || 'registered';
+                }
+
+                let rewardAmount = 0;
+                let newStatus = currentStatus;
+
+                // Get referral commission percentage
+                const settings = await db.collection('settings').doc('subscription').get();
+                const referralCommission = settings.exists ? settings.data().referralCommission || 20 : 20;
+
+                if (currentStatus === 'registered') {
+                    // First payment: give full commission (20%)
+                    rewardAmount = totalAmount * (referralCommission / 100);
+                    newStatus = 'first_payment';
+                } else if (currentStatus === 'first_payment') {
+                    // Second payment: give reduced commission (10%)
+                    rewardAmount = totalAmount * ((referralCommission / 2) / 100);
+                    newStatus = 'second_payment';
+                } else {
+                    // Already completed (second_payment) - no more rewards
+                    return;
+                }
+
+                if (rewardAmount > 0) {
+                    const referralData = {
+                        status: newStatus,
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        lastPaymentAmount: totalAmount,
+                        lastPaymentReference: reference,
+                    };
+
+                    if (currentStatus === 'registered') {
+                        referralData.firstPaymentAmount = totalAmount;
+                        referralData.firstPaymentReference = reference;
+                    } else if (currentStatus === 'first_payment') {
+                        referralData.secondPaymentAmount = totalAmount;
+                        referralData.secondPaymentReference = reference;
+                        referralData.totalRewardAmount = firebase.firestore.FieldValue.increment(rewardAmount);
+                    } else {
+                        referralData.totalRewardAmount = firebase.firestore.FieldValue.increment(rewardAmount);
+                    }
+
+                    if (referralDoc) {
+                        await referralDoc.ref.update(referralData);
+                    } else {
+                        // Create new referral record
+                        const referrerDoc = await db.collection('users').doc(metadata.referrerId).get();
+                        const referrerData = referrerDoc.exists ? referrerDoc.data() : {};
+
+                        await db.collection('referrals').add({
+                            referrerUid: metadata.referrerId,
+                            referredUid: metadata.userId,
+                            referredName: metadata.userName || 'Student',
+                            referredEmail: metadata.userEmail || '',
+                            referralCode: metadata.referralCode || null,
+                            status: newStatus,
+                            rewardAmount: rewardAmount,
+                            totalRewardAmount: rewardAmount,
+                            firstPaymentAmount: currentStatus === 'registered' ? totalAmount : null,
+                            firstPaymentReference: currentStatus === 'registered' ? reference : null,
+                            lastPaymentAmount: totalAmount,
+                            lastPaymentReference: reference,
+                            source: metadata.referralSource || 'direct',
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    }
+
+                    // Credit referrer
+                    await db.collection('users').doc(metadata.referrerId).update({
+                        'referralEarnings': firebase.firestore.FieldValue.increment(rewardAmount),
+                        'referralPending': firebase.firestore.FieldValue.increment(rewardAmount),
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                    // Log referral reward
+                    await db.collection('referral_rewards').add({
+                        referrerId: metadata.referrerId,
+                        referredId: metadata.userId,
+                        paymentReference: reference,
+                        amount: rewardAmount,
+                        type: currentStatus === 'registered' ? 'first_payment' : 'second_payment',
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+
+            } catch (error) {
+                console.error('Referral handling error:', error);
+                // Don't fail the whole payment if referral fails
+            }
+        }
+
+        // ============================================================
+        // UI HELPERS
+        // ============================================================
+        function showSuccess(amount, metadata) {
+            spinner.classList.add('hidden');
+            statusIcon.textContent = '✅';
+            statusTitle.textContent = 'Payment Successful!';
+            statusMessage.textContent = `You have successfully paid ₦${amount.toLocaleString()}.`;
+
+            resultBox.className = 'status-box success';
+            resultBox.classList.remove('hidden');
+            resultBox.innerHTML = `
+                <strong>🎉 Enrolled Successfully!</strong>
+                <p style="margin-top:8px;">You now have access to the course.</p>
+                ${metadata.courseName ? `<p style="margin-top:4px;"><strong>Course:</strong> ${metadata.courseName}</p>` : ''}
+            `;
+
+            actionButtons.innerHTML = `
+                <a href="dashboard.html" class="btn">📊 Go to Dashboard</a>
+                <a href="enroll.html" class="btn" style="background:var(--text-muted);">📚 Browse More Courses</a>
+            `;
+        }
+
+        function showError(message) {
+            spinner.classList.add('hidden');
+            statusIcon.textContent = '❌';
+            statusTitle.textContent = 'Payment Failed';
+            statusMessage.textContent = message;
+
+            resultBox.className = 'status-box error';
+            resultBox.classList.remove('hidden');
+            resultBox.innerHTML = `
+                <strong>⚠️ Something went wrong</strong>
+                <p style="margin-top:8px;">Please contact support with your payment reference.</p>
+            `;
+
+            actionButtons.innerHTML = `
+                <a href="enroll.html" class="btn" style="background:var(--text-muted);">🔄 Try Again</a>
+                <a href="contact.html" class="btn">📧 Contact Support</a>
+            `;
+        }
+
+        // ============================================================
+        // AUTH CHECK
+        // ============================================================
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                showError('You must be logged in to complete payment.');
+                return;
+            }
+            await processPayment();
+        });
+
+        console.log('✅ Payment processing page loaded');
+    </script>
+
+</body>
+</html>
