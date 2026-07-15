@@ -38,6 +38,7 @@
             --font-heading: 'Sora', sans-serif;
             --font-body: 'Plus Jakarta Sans', sans-serif;
             --sidebar-width: 260px;
+            --sidebar-collapsed: 72px;
             --header-height: 64px;
         }
 
@@ -64,7 +65,7 @@
         ::-webkit-scrollbar-thumb:hover { background: var(--purple); }
 
         /* ============================================================
-           RESPONSIVE SIDEBAR
+           RESPONSIVE SIDEBAR - WITH COLLAPSE
            ============================================================ */
         .sidebar {
             width: var(--sidebar-width);
@@ -77,28 +78,167 @@
             z-index: 1000;
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             overflow-y: auto;
             overflow-x: hidden;
             transform: translateX(-100%);
         }
+
+        /* Collapsed state */
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed);
+        }
+        .sidebar.collapsed .sidebar-brand span,
+        .sidebar.collapsed .sidebar-nav a span:not(.icon),
+        .sidebar.collapsed .sidebar-nav .section-label,
+        .sidebar.collapsed .sidebar-user-info .name,
+        .sidebar.collapsed .sidebar-user-info .email,
+        .sidebar.collapsed .sidebar-nav a .badge-nav,
+        .sidebar.collapsed .sidebar-profile-card .sidebar-cover-wrapper {
+            display: none;
+        }
+        .sidebar.collapsed .sidebar-nav a {
+            justify-content: center;
+            padding: 12px;
+        }
+        .sidebar.collapsed .sidebar-nav a .icon {
+            font-size: 1.4rem;
+            width: auto;
+        }
+        .sidebar.collapsed .sidebar-avatar-row {
+            justify-content: center;
+        }
+        .sidebar.collapsed .sidebar-avatar-large {
+            width: 36px;
+            height: 36px;
+            font-size: 0.8rem;
+        }
+        .sidebar.collapsed .sidebar-logout-btn {
+            font-size: 1.2rem;
+        }
+        .sidebar.collapsed .sidebar-brand {
+            justify-content: center;
+            padding: 18px 10px;
+        }
+        .sidebar.collapsed .sidebar-brand img {
+            height: 32px;
+        }
+        .sidebar.collapsed .sidebar-profile-card {
+            padding: 10px 8px;
+        }
+
         .sidebar.open {
             transform: translateX(0);
+            width: var(--sidebar-width);
         }
+        .sidebar.open .sidebar-brand span,
+        .sidebar.open .sidebar-nav a span:not(.icon),
+        .sidebar.open .sidebar-nav .section-label,
+        .sidebar.open .sidebar-user-info .name,
+        .sidebar.open .sidebar-user-info .email,
+        .sidebar.open .sidebar-nav a .badge-nav,
+        .sidebar.open .sidebar-profile-card .sidebar-cover-wrapper {
+            display: block;
+        }
+        .sidebar.open .sidebar-nav a {
+            justify-content: flex-start;
+            padding: 10px 14px;
+        }
+        .sidebar.open .sidebar-nav a .icon {
+            font-size: 1.1rem;
+            width: 24px;
+        }
+        .sidebar.open .sidebar-avatar-row {
+            justify-content: flex-start;
+        }
+        .sidebar.open .sidebar-avatar-large {
+            width: 48px;
+            height: 48px;
+            font-size: 1.1rem;
+        }
+        .sidebar.open .sidebar-brand {
+            justify-content: flex-start;
+            padding: 18px 16px;
+        }
+
         @media (min-width: 768px) {
             .sidebar {
                 transform: translateX(0);
+                width: var(--sidebar-width);
+            }
+            .sidebar.collapsed {
+                width: var(--sidebar-collapsed);
+            }
+            .sidebar.collapsed .sidebar-brand span,
+            .sidebar.collapsed .sidebar-nav a span:not(.icon),
+            .sidebar.collapsed .sidebar-nav .section-label,
+            .sidebar.collapsed .sidebar-user-info .name,
+            .sidebar.collapsed .sidebar-user-info .email,
+            .sidebar.collapsed .sidebar-nav a .badge-nav,
+            .sidebar.collapsed .sidebar-profile-card .sidebar-cover-wrapper {
+                display: none;
+            }
+            .sidebar.collapsed .sidebar-nav a {
+                justify-content: center;
+                padding: 12px;
+            }
+            .sidebar.collapsed .sidebar-nav a .icon {
+                font-size: 1.4rem;
+                width: auto;
+            }
+            .sidebar.collapsed .sidebar-avatar-row {
+                justify-content: center;
+            }
+            .sidebar.collapsed .sidebar-avatar-large {
+                width: 36px;
+                height: 36px;
+                font-size: 0.8rem;
+            }
+            .sidebar.collapsed .sidebar-logout-btn {
+                font-size: 1.2rem;
+            }
+            .sidebar.collapsed .sidebar-brand {
+                justify-content: center;
+                padding: 18px 10px;
+            }
+            .sidebar.collapsed .sidebar-brand img {
+                height: 32px;
             }
         }
 
-        .sidebar-brand {
+        /* Sidebar Toggle Button */
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.5);
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 8px 12px;
+            transition: all 0.2s;
+            position: absolute;
+            right: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .sidebar-toggle:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+        }
+        .sidebar-brand-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             padding: 18px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            flex-shrink: 0;
+        }
+        .sidebar-brand {
             display: flex;
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-            flex-shrink: 0;
         }
         .sidebar-brand img { height: 30px; width: auto; }
         .sidebar-brand span {
@@ -107,6 +247,7 @@
             font-size: 0.9rem;
             color: #fff;
             letter-spacing: -0.3px;
+            white-space: nowrap;
         }
 
         .sidebar-nav {
@@ -169,6 +310,38 @@
             border-radius: 10px;
             font-weight: 700;
         }
+        .sidebar-nav a .nav-text { flex: 1; }
+
+        /* Sidebar Logout Button at bottom */
+        .sidebar-logout-section {
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding: 10px 8px;
+            flex-shrink: 0;
+        }
+        .sidebar-logout-section .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: var(--radius-sm);
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-family: var(--font-body);
+        }
+        .sidebar-logout-section .logout-btn:hover {
+            background: rgba(231,76,60,0.15);
+            color: var(--red);
+        }
+        .sidebar-logout-section .logout-btn .icon { font-size: 1.1rem; width: 22px; text-align: center; flex-shrink: 0; }
+        .sidebar-logout-section .logout-btn .nav-text { flex: 1; }
 
         /* Sidebar Profile Card */
         .sidebar-profile-card {
@@ -226,18 +399,6 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .sidebar-logout-btn {
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.5);
-            cursor: pointer;
-            font-size: 0.9rem;
-            padding: 4px 6px;
-            border-radius: 6px;
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-        .sidebar-logout-btn:hover { color: var(--red); background: rgba(231,76,60,0.15); }
 
         /* Sidebar Overlay */
         .sidebar-overlay {
@@ -262,10 +423,14 @@
             display: flex;
             flex-direction: column;
             width: 100%;
+            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         @media (min-width: 768px) {
             .main {
                 margin-left: var(--sidebar-width);
+            }
+            .main.sidebar-collapsed {
+                margin-left: var(--sidebar-collapsed);
             }
         }
 
@@ -319,6 +484,22 @@
         }
         @media (min-width: 768px) {
             .menu-toggle { display: none; }
+        }
+
+        /* Desktop sidebar toggle in header */
+        .sidebar-desktop-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            padding: 4px 8px;
+            transition: color 0.2s;
+        }
+        .sidebar-desktop-toggle:hover { color: var(--text); }
+        @media (min-width: 768px) {
+            .sidebar-desktop-toggle { display: block; }
         }
 
         .main-header .header-actions {
@@ -977,6 +1158,11 @@
             .stat-card .stat-value { font-size: 1rem; }
             .stat-card .stat-label { font-size: 0.6rem; }
             .dashboard-grid { gap: 12px; }
+            .sidebar.collapsed {
+                width: 0;
+                padding: 0;
+                overflow: hidden;
+            }
         }
     </style>
 </head>
@@ -990,10 +1176,14 @@
 
     <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar" id="sidebar">
-        <a href="index.html" class="sidebar-brand">
-            <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="TRIANGLE LEARN" width="30" height="30">
-            <span>TRIANGLE LEARN</span>
-        </a>
+        <!-- Brand with toggle -->
+        <div class="sidebar-brand-wrapper">
+            <a href="index.html" class="sidebar-brand">
+                <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="TRIANGLE LEARN" width="30" height="30">
+                <span>TRIANGLE LEARN</span>
+            </a>
+            <button class="sidebar-toggle" id="sidebarToggle" title="Toggle Sidebar">◀</button>
+        </div>
 
         <div class="sidebar-profile-card">
             <div class="sidebar-cover-wrapper" id="sidebarCoverWrapper">
@@ -1009,32 +1199,65 @@
                     <div class="name" id="sidebarName">Instructor</div>
                     <div class="email" id="sidebarEmail">user@email.com</div>
                 </div>
-                <button class="sidebar-logout-btn" id="logoutBtn" title="Logout">🚪</button>
             </div>
         </div>
 
         <nav class="sidebar-nav" id="sidebarNav">
-            <a class="active" data-view="overview" onclick="switchView('overview')"><span class="icon">📊</span> Overview</a>
+            <a class="active" data-view="overview" onclick="switchView('overview')">
+                <span class="icon">📊</span>
+                <span class="nav-text">Overview</span>
+            </a>
             <span class="section-label">Teaching</span>
-            <a data-view="courses" onclick="switchView('courses')"><span class="icon">📚</span> My Courses <span class="badge-nav" id="courseCountNav">0</span></a>
-            <a data-view="students" onclick="switchView('students')"><span class="icon">👨‍🎓</span> Students <span class="badge-nav" id="studentCountNav">0</span></a>
-            <a data-view="classroom" onclick="switchView('classroom')"><span class="icon">📺</span> Classroom</a>
+            <a data-view="courses" onclick="switchView('courses')">
+                <span class="icon">📚</span>
+                <span class="nav-text">My Courses</span>
+                <span class="badge-nav" id="courseCountNav">0</span>
+            </a>
+            <a data-view="students" onclick="switchView('students')">
+                <span class="icon">👨‍🎓</span>
+                <span class="nav-text">Students</span>
+                <span class="badge-nav" id="studentCountNav">0</span>
+            </a>
             <span class="section-label">Finance</span>
-            <a data-view="earnings" onclick="switchView('earnings')"><span class="icon">💰</span> Earnings</a>
-            <a data-view="withdrawals" onclick="switchView('withdrawals')"><span class="icon">💸</span> Withdrawals</a>
-            <a data-view="referrals" onclick="switchView('referrals')"><span class="icon">🔗</span> Referrals</a>
+            <a data-view="earnings" onclick="switchView('earnings')">
+                <span class="icon">💰</span>
+                <span class="nav-text">Earnings</span>
+            </a>
+            <a data-view="withdrawals" onclick="switchView('withdrawals')">
+                <span class="icon">💸</span>
+                <span class="nav-text">Withdrawals</span>
+            </a>
+            <a data-view="referrals" onclick="switchView('referrals')">
+                <span class="icon">🔗</span>
+                <span class="nav-text">Referrals</span>
+            </a>
             <span class="section-label">Insights</span>
-            <a data-view="analytics" onclick="switchView('analytics')"><span class="icon">📈</span> Analytics</a>
+            <a data-view="analytics" onclick="switchView('analytics')">
+                <span class="icon">📈</span>
+                <span class="nav-text">Analytics</span>
+            </a>
             <span class="section-label">Settings</span>
-            <a data-view="settings" onclick="switchView('settings')"><span class="icon">⚙️</span> Settings</a>
+            <a data-view="settings" onclick="switchView('settings')">
+                <span class="icon">⚙️</span>
+                <span class="nav-text">Settings</span>
+            </a>
         </nav>
+
+        <!-- Logout at bottom -->
+        <div class="sidebar-logout-section">
+            <button class="logout-btn" onclick="handleLogout()">
+                <span class="icon">🚪</span>
+                <span class="nav-text">Logout</span>
+            </button>
+        </div>
     </aside>
 
     <!-- ===== MAIN ===== -->
-    <div class="main">
+    <div class="main" id="mainContent">
         <header class="main-header">
             <div class="left">
                 <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+                <button class="sidebar-desktop-toggle" id="sidebarDesktopToggle" onclick="toggleSidebarDesktop()" title="Toggle Sidebar">☰</button>
                 <div>
                     <h1 id="pageTitle">📊 Instructor Dashboard</h1>
                     <span class="subtitle" id="pageSubtitle">Manage your courses and students</span>
@@ -1048,7 +1271,7 @@
             </div>
         </header>
 
-        <div class="main-content" id="mainContent">
+        <div class="main-content" id="mainContentArea">
 
             <!-- PROFILE COVER CARD -->
             <div class="profile-cover-card" id="profileCoverCard">
@@ -1185,17 +1408,6 @@
                     <div class="card-body"><h2 style="font-family:var(--font-heading);font-size:1rem;">👨‍🎓 My Students</h2><p style="font-size:0.78rem;color:var(--text-muted);">All students enrolled in your courses.</p></div>
                 </div>
                 <div id="studentsFullList"></div>
-            </div>
-
-            <!-- ===== CLASSROOM VIEW ===== -->
-            <div class="view-panel" id="viewClassroom">
-                <div class="card" style="margin-bottom:16px;">
-                    <div class="card-body">
-                        <h2 style="font-family:var(--font-heading);font-size:1rem;">📺 Classroom</h2>
-                        <p style="font-size:0.78rem;color:var(--text-muted);">Select a course to manage its classroom content.</p>
-                    </div>
-                </div>
-                <div id="classroomList"></div>
             </div>
 
             <!-- ===== EARNINGS VIEW ===== -->
@@ -1343,7 +1555,9 @@
                 commissionSettings: null,
                 subscription: { status: 'free_trial', end: null, trialEnd: null },
                 currentView: 'overview',
-                activeListeners: []
+                activeListeners: [],
+                isSidebarCollapsed: false,
+                isMobile: window.innerWidth < 768
             };
 
             // ============================================================
@@ -1369,20 +1583,64 @@
             window.showToast = showToast;
 
             // ============================================================
-            // SIDEBAR TOGGLE
+            // SIDEBAR FUNCTIONS
             // ============================================================
             window.toggleSidebar = function() {
                 const sidebar = $('#sidebar');
                 const overlay = $('#sidebarOverlay');
-                sidebar.classList.toggle('open');
-                overlay.classList.toggle('show');
+                if (window.innerWidth < 768) {
+                    sidebar.classList.toggle('open');
+                    overlay.classList.toggle('show');
+                }
             };
+
+            window.toggleSidebarDesktop = function() {
+                const sidebar = $('#sidebar');
+                const main = $('#mainContent');
+                State.isSidebarCollapsed = !State.isSidebarCollapsed;
+                sidebar.classList.toggle('collapsed', State.isSidebarCollapsed);
+                main.classList.toggle('sidebar-collapsed', State.isSidebarCollapsed);
+
+                // Update toggle button icon
+                const toggleBtn = $('#sidebarToggle');
+                if (toggleBtn) {
+                    toggleBtn.textContent = State.isSidebarCollapsed ? '▶' : '◀';
+                }
+
+                // Store preference
+                localStorage.setItem('sidebarCollapsed', State.isSidebarCollapsed);
+            };
+
+            // Load sidebar preference
+            function loadSidebarPreference() {
+                const saved = localStorage.getItem('sidebarCollapsed');
+                if (saved === 'true' && window.innerWidth >= 768) {
+                    State.isSidebarCollapsed = true;
+                    const sidebar = $('#sidebar');
+                    const main = $('#mainContent');
+                    sidebar.classList.add('collapsed');
+                    main.classList.add('sidebar-collapsed');
+                    const toggleBtn = $('#sidebarToggle');
+                    if (toggleBtn) toggleBtn.textContent = '▶';
+                }
+            }
 
             // Close sidebar on link click (mobile)
             document.querySelectorAll('.sidebar-nav a').forEach(link => {
                 link.addEventListener('click', () => {
                     if (window.innerWidth < 768) { toggleSidebar(); }
                 });
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                State.isMobile = window.innerWidth < 768;
+                if (!State.isMobile) {
+                    const overlay = $('#sidebarOverlay');
+                    if (overlay) overlay.classList.remove('show');
+                    const sidebar = $('#sidebar');
+                    if (sidebar) sidebar.classList.remove('open');
+                }
             });
 
             // ============================================================
@@ -1428,7 +1686,6 @@
                     overview: '📊 Instructor Dashboard',
                     courses: '📚 My Courses',
                     students: '👨‍🎓 Students',
-                    classroom: '📺 Classroom',
                     earnings: '💰 Earnings',
                     withdrawals: '💸 Withdrawals',
                     referrals: '🔗 Referrals',
@@ -1441,7 +1698,6 @@
                 // Load data for specific views
                 if (view === 'courses') renderFullCourses();
                 if (view === 'students') renderFullStudents();
-                if (view === 'classroom') renderClassroomList();
                 if (view === 'earnings') renderFullEarnings();
                 if (view === 'withdrawals') renderFullWithdrawals();
                 if (view === 'referrals') renderFullReferrals();
@@ -1457,22 +1713,20 @@
             auth.onAuthStateChanged(async (user) => {
                 if (!user) { window.location.href = 'auth.html'; return; }
                 State.user = user;
+                loadSidebarPreference();
                 await loadUserData(user.uid);
                 setupRealtimeListeners();
-                // Role switcher if available
-                if (window.TriangleRoleSwitcherUI) {
-                    await window.TriangleRoleSwitcherUI.render('#roleSwitcherContainer', (result) => { window
-                            .location.href = result.redirectUrl; });
-                }
             });
 
             // ============================================================
             // LOGOUT
             // ============================================================
-            $('#logoutBtn').addEventListener('click', async () => {
-                await auth.signOut();
-                window.location.href = 'index.html';
-            });
+            window.handleLogout = async function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    await auth.signOut();
+                    window.location.href = 'index.html';
+                }
+            };
 
             // ============================================================
             // LOAD USER DATA
@@ -1609,7 +1863,6 @@
 
             window.handleSubscribe = function() {
                 showToast('💳 Redirecting to subscription...', 'info');
-                // Redirect to Paystack subscription page
                 window.open('https://paystack.com/pay/triangle-instructor-sub', '_blank');
             };
 
@@ -1662,7 +1915,6 @@
                     renderRecentStudents();
                     renderFullCourses();
                     renderFullStudents();
-                    renderClassroomList();
                     renderFullAnalytics();
                     updateAllStats();
                 } catch (error) {
@@ -1694,8 +1946,8 @@
                             <div class="meta">${escapeHtml(c.stage || 'Stage')} • ${studentCount} student${studentCount !== 1 ? 's' : ''} • ₦${(c.price || 0).toLocaleString()}</div>
                         </div>
                         <div class="course-action">
-                            <a href="create-course.html?edit=${c.id}" class="btn btn-outline btn-sm">✏️</a>
-                            <a href="classroom.html?courseId=${c.id}" class="btn btn-outline btn-sm">📺</a>
+                            <a href="create-course.html?edit=${c.id}" class="btn btn-outline btn-sm">✏️ Edit</a>
+                            <a href="classroom.html?courseId=${c.id}" class="btn btn-primary btn-sm">📺 Classroom</a>
                         </div>
                     </div>`;
                 });
@@ -1763,7 +2015,7 @@
                                 </div>
                                 <div style="display:flex;gap:6px;flex-wrap:wrap;">
                                     <a href="create-course.html?edit=${c.id}" class="btn btn-outline btn-sm">✏️ Edit</a>
-                                    <a href="classroom.html?courseId=${c.id}" class="btn btn-outline btn-sm">📺 Classroom</a>
+                                    <a href="classroom.html?courseId=${c.id}" class="btn btn-primary btn-sm">📺 Classroom</a>
                                     <button class="btn btn-sm ${c.active ? 'btn-outline' : 'btn-success'}" onclick="toggleCourseVisibility('${c.id}')">${c.active ? '📴 Unpublish' : '📢 Publish'}</button>
                                     <button class="btn btn-sm btn-danger" onclick="deleteCourse('${c.id}')">🗑️</button>
                                 </div>
@@ -1796,35 +2048,6 @@
                                     <p style="font-size:0.78rem;color:var(--text-muted);">${escapeHtml(s.courseName || 'Course')} • ${pct}% complete</p>
                                 </div>
                                 <a href="classroom.html?courseId=${s.courseId}" class="btn btn-outline btn-sm">View</a>
-                            </div>
-                        </div>
-                    </div>`;
-                });
-                container.innerHTML = html;
-            }
-
-            // ============================================================
-            // RENDER CLASSROOM LIST
-            // ============================================================
-            function renderClassroomList() {
-                const container = $('#classroomList');
-                if (!container) return;
-                if (State.createdCourses.length === 0) {
-                    container.innerHTML =
-                        `<div class="card"><div class="card-body"><div class="empty-state"><div class="icon">📺</div><h3>No Courses</h3><p>Create a course to access the classroom.</p><a href="create-course.html" class="btn btn-primary btn-sm">Create Course</a></div></div></div>`;
-                    return;
-                }
-                let html = '';
-                State.createdCourses.forEach(c => {
-                    const studentCount = State.allStudents.filter(s => s.courseId === c.id).length;
-                    html += `<div class="card">
-                        <div class="card-body">
-                            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
-                                <div>
-                                    <h3 style="font-size:1rem;">${escapeHtml(c.name || 'Course')}</h3>
-                                    <p style="font-size:0.78rem;color:var(--text-muted);">${studentCount} students</p>
-                                </div>
-                                <a href="classroom.html?courseId=${c.id}" class="btn btn-primary btn-sm">📺 Open Classroom</a>
                             </div>
                         </div>
                     </div>`;
@@ -2024,13 +2247,13 @@
 
                 if (!bankName) { showToast('Please enter your bank name.', 'warning'); return; }
                 if (!accountNumber || accountNumber.length < 6) { showToast('Please enter a valid account number.',
-                    'warning'); return; }
+                        'warning'); return; }
                 if (!accountName) { showToast('Please enter the account name.', 'warning'); return; }
                 if (!amount || amount < 5000) { showToast('Minimum withdrawal is ₦5,000.', 'warning'); return; }
 
                 const e = calculateEarnings();
                 if (amount > e.net) { showToast('Insufficient balance. Available: ₦' + e.net.toLocaleString(),
-                    'warning'); return; }
+                        'warning'); return; }
 
                 if (!confirm(`Request withdrawal of ₦${amount.toLocaleString()} to ${accountName} (${bankName})?`))
                 return;
@@ -2176,15 +2399,12 @@
                 try {
                     const courseIds = State.createdCourses.map(c => c.id).filter(Boolean);
                     if (courseIds.length === 0) { $('#statLiveClasses').textContent = '0'; return; }
-                    // Check each course for live sessions
                     let liveCount = 0;
                     for (const id of courseIds) {
                         const snap = await db.collection('liveSessions').where('courseId', '==', id).where('status',
                             '==', 'live').get();
                         liveCount += snap.size;
                     }
-                    State.liveSessions = [];
-                    // Simplified for now - just count
                     $('#statLiveClasses').textContent = liveCount;
                 } catch (error) { console.error('Load live sessions error:', error); }
             }
@@ -2286,7 +2506,7 @@
                     <div class="card" style="border:2px solid var(--red);">
                         <div class="card-header"><h2 style="color:var(--red);">🗑️ Danger Zone</h2></div>
                         <div class="card-body">
-                            <button class="btn btn-danger btn-block" onclick="if(confirm('Are you sure?')){auth.signOut();window.location.href='index.html';}">🚪 Logout</button>
+                            <button class="btn btn-danger btn-block" onclick="handleLogout()">🚪 Logout</button>
                         </div>
                     </div>
                 `;
@@ -2349,7 +2569,6 @@
                     renderRecentStudents();
                     if (State.currentView === 'courses') renderFullCourses();
                     if (State.currentView === 'students') renderFullStudents();
-                    if (State.currentView === 'classroom') renderClassroomList();
                     if (State.currentView === 'analytics') renderFullAnalytics();
                     updateAllStats();
                     loadLiveSessions();
