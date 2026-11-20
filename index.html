@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>TRIANGLE LEARN — Master Tech Skills. Join the Batch. Get Certified.</title>
-    <meta name="description" content="Structured 3-stage cohort-based tech courses. Learn Vibe Coding, Web Dev, UI/UX Design & Software Engineering. Join Africa's next generation of builders.">
+    <title>TRIANGLE LEARN | Learn Practical Skills. Build Your Future.</title>
+    <meta name="description" content="Discover practical online courses, learn from knowledgeable instructors, build real-world skills, earn eligible certificates, and explore career opportunities with TRIANGLE LEARN.">
     <link rel="icon" href="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
-    <meta property="og:title" content="TRIANGLE LEARN — Master Tech Skills. Join the Batch. Get Certified.">
-    <meta property="og:description" content="Structured 3-stage tech courses. Learn with a community. Earn certificates.">
+    <meta property="og:title" content="TRIANGLE LEARN | Learn Practical Skills. Build Your Future.">
+    <meta property="og:description" content="Explore courses, build practical skills, learn with guidance, earn eligible certificates and take your next step.">
     <meta property="og:image" content="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -986,7 +986,7 @@
             line-height: 1.6;
         }
         .faq-item.open .faq-a {
-            max-height: 200px;
+            max-height: 420px;
             padding-top: 8px;
         }
         .faq-item.open .faq-q .ico {
@@ -1007,14 +1007,12 @@
             gap: 28px;
         }
         @media (min-width: 640px) {
-            .footer-inner {
-                grid-template-columns: 2fr 1fr 1fr;
-            }
+            .footer-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .footer-brand { grid-column: 1 / -1; }
         }
-        @media (min-width: 1024px) {
-            .footer-inner {
-                grid-template-columns: 2fr 1fr 1fr 1fr;
-            }
+        @media (min-width: 900px) {
+            .footer-inner { grid-template-columns: 1.6fr 1fr 1fr 1.15fr 1fr; gap: 24px; }
+            .footer-brand { grid-column: auto; }
         }
         .footer-brand img {
             height: clamp(26px, 3vw, 30px);
@@ -1024,7 +1022,7 @@
             color: var(--text-secondary);
             font-size: var(--text-sm);
             line-height: 1.5;
-            max-width: 260px;
+            max-width: 320px;
         }
         .footer-col h4 {
             font-family: var(--font-heading);
@@ -1041,9 +1039,10 @@
             transition: color 0.2s;
             padding: 4px 0;
         }
-        .footer-col a:hover {
-            color: var(--purple);
-        }
+        .footer-col a:hover { color: var(--purple); transform: translateX(2px); }
+        .footer-contact-note { color: var(--text-muted); font-size: var(--text-xs); line-height: 1.5; margin: -2px 0 8px; }
+        .footer-col a[aria-disabled="true"] { opacity: .55; cursor: not-allowed; }
+        .footer-col a { overflow-wrap: anywhere; }
         .footer-bottom {
             max-width: var(--max-width);
             margin: 24px auto 0;
@@ -1179,15 +1178,15 @@
                 <span>TRIANGLE LEARN</span>
             </a>
             <nav class="nav-links" id="navLinks">
+                <a href="course-catalog.html" data-nav>Courses</a>
+                <a href="#categories" data-nav>Learning Paths</a>
                 <a href="#how" data-nav>How It Works</a>
-                <a href="#courses" data-nav>Courses</a>
-                <a href="#pricing" data-nav>Pricing</a>
-                <a href="#updates" data-nav>Updates</a>
-                <a href="#faq" data-nav>FAQ</a>
+                <a href="job-board.html" data-nav>Careers</a>
+                <a href="#faq" data-nav>Help</a>
             </nav>
             <div class="header-actions">
                 <a href="auth.html" class="btn btn-ghost btn-sm">Login</a>
-                <a href="enroll.html" class="btn btn-filled btn-sm">Join Batch</a>
+                <a href="auth.html" class="btn btn-filled btn-sm">Get Started</a>
                 <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
                     <span></span>
                     <span></span>
@@ -1202,40 +1201,37 @@
 
     <!-- ============ MOBILE NAV ============ -->
     <nav class="mobile-nav" id="mobileNav" role="navigation" aria-label="Mobile navigation">
+        <a href="course-catalog.html" data-nav-mobile>Explore Courses</a>
+        <a href="#categories" data-nav-mobile>Learning Paths</a>
         <a href="#how" data-nav-mobile>How It Works</a>
-        <a href="#courses" data-nav-mobile>Courses</a>
-        <a href="#pricing" data-nav-mobile>Pricing</a>
-        <a href="#updates" data-nav-mobile>Updates</a>
-        <a href="#faq" data-nav-mobile>FAQ</a>
+        <a href="job-board.html" data-nav-mobile>Career Opportunities</a>
+        <a href="#faq" data-nav-mobile>Help & FAQ</a>
         <a href="auth.html" class="btn btn-ghost">Login</a>
-        <a href="enroll.html" class="btn btn-filled">Join Batch</a>
+        <a href="auth.html" class="btn btn-filled">Get Started</a>
     </nav>
 
     <!-- ============ HERO ============ -->
     <section class="hero">
         <div class="hero-grid">
             <div class="hero-images" id="heroGrid">
-                <div class="hero-img-slot"><img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/website-template_1346434-683_gbkoiw.jpg" alt="Web Dev" width="300" height="225" loading="eager"></div>
-                <div class="hero-img-slot"><img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/cyber-security-and-security-password-login-online-concept-hands-typing-and-touch-id-username-and-password-of-social-media-log-in-with-computer-to-online-important-information-data-protection-hacker-photo_v4hioy.jpg" alt="Cybersecurity" width="300" height="225" loading="eager"></div>
-                <div class="hero-img-slot"><img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/build-1_zngszv.webp" alt="Software Dev" width="300" height="225" loading="eager"></div>
-                <div class="hero-img-slot"><img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/two-data-analysts-working-on-data-analysis-dashboard-for-business-strategy_vn9wrl.jpg" alt="Data Analysis" width="300" height="225" loading="eager"></div>
+                <div class="hero-img-slot"><img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/website-template_1346434-683_gbkoiw.jpg" alt="Web development learning" width="300" height="225" loading="eager"></div>
+                <div class="hero-img-slot"><img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/cyber-security-and-security-password-login-online-concept-hands-typing-and-touch-id-username-and-password-of-social-media-log-in-with-computer-to-online-important-information-data-protection-hacker-photo_v4hioy.jpg" alt="Cybersecurity learning" width="300" height="225" loading="eager"></div>
+                <div class="hero-img-slot"><img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/build-1_zngszv.webp" alt="Software development project" width="300" height="225" loading="eager"></div>
+                <div class="hero-img-slot"><img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781347735/two-data-analysts-working-on-data-analysis-dashboard-for-business-strategy_vn9wrl.jpg" alt="Data analysis learning" width="300" height="225" loading="eager"></div>
             </div>
             <div class="hero-caption" id="heroCaption"><span></span></div>
             <div class="hero-text">
-                <div class="hero-badge"><span class="dot"></span> <span id="batchBadge">Batch Enrollment</span></div>
-                <div class="spots-badge" id="spotsBadge" style="display:none;">
-                    <span class="fire">🔥</span> <span id="spotsText">Spots available</span>
-                </div>
-                <h1>Master Tech Skills.<br><span class="hl">Join the Batch.</span><br>Get Certified.</h1>
-                <p>Structured 3-stage cohort-based tech courses in Vibe Coding, Web Dev, UI/UX Design & Software Engineering. Learn with a community of African builders.</p>
+                <p class="sec-label" style="margin-bottom:12px;">LEARN WITH PURPOSE. GROW WITH CONFIDENCE.</p>
+                <h1>Master In-Demand Skills.<br><span class="hl">Build Your Future.</span><br>Get Certified.</h1>
+                <p>Explore practical courses in technology, programming, artificial intelligence, cybersecurity, design and more. Learn from knowledgeable instructors, build real projects, track your progress and earn certificates that showcase what you can do.</p>
                 <div class="hero-btns">
-                    <a href="enroll.html" class="btn btn-filled">Join Next Batch</a>
-                    <a href="#courses" class="btn btn-ghost">Explore Courses</a>
+                    <a href="course-catalog.html" class="btn btn-filled">Explore All Courses</a>
+                    <a href="#how" class="btn btn-ghost">Discover How It Works</a>
                 </div>
                 <div class="hero-stats">
-                    <div><h3 id="statLearners">—</h3><p>Learners Trained</p></div>
-                    <div><h3>3</h3><p>Batches / Year</p></div>
-                    <div><h3>3</h3><p>Stages / Course</p></div>
+                    <div><h3>Learn</h3><p>Guided learning</p></div>
+                    <div><h3>Build</h3><p>Practical projects</p></div>
+                    <div><h3>Grow</h3><p>Career opportunities</p></div>
                 </div>
             </div>
         </div>
@@ -1252,54 +1248,104 @@
     <!-- ============ HOW IT WORKS ============ -->
     <section class="section" id="how">
         <div class="section-inner">
-            <span class="sec-label">The Process</span>
-            <h2 class="sec-title">How TRIANGLE LEARN Works</h2>
-            <p class="sec-desc">A structured, cohort-based approach that keeps you accountable — from beginner to professional in 3 stages.</p>
+            <span class="sec-label">Your Learning Journey</span>
+            <h2 class="sec-title">A Clear Path from Curiosity to Capability</h2>
+            <p class="sec-desc">Whether you are starting from scratch, strengthening what you know or preparing for a new career direction, TRIANGLE LEARN helps you take the next step with clarity.</p>
             <div class="card-grid col3">
-                <div class="card center"><div class="step-num">01</div><h3>Register for a Batch</h3><p>Portal opens, pick your stage, pay once. Limited spots ensure quality attention.</p></div>
-                <div class="card center"><div class="step-num">02</div><h3>Learn in 3 Stages</h3><p>Elementary → Advanced → Professional. Each stage builds on the last.</p></div>
-                <div class="card center"><div class="step-num">03</div><h3>Get Certified & Advance</h3><p>Earn a shareable certificate after each stage. Build your portfolio.</p></div>
+                <div class="card center"><div class="step-num">01</div><h3>Find the Right Course</h3><p>Explore learning categories, compare course details and choose a learning experience that fits your interests, goals and schedule.</p></div>
+                <div class="card center"><div class="step-num">02</div><h3>Learn, Practise & Improve</h3><p>Work through organised lessons and learning resources. Strengthen your understanding with activities, assignments and assessments.</p></div>
+                <div class="card center"><div class="step-num">03</div><h3>Show What You Can Do</h3><p>Track your progress, complete course requirements, earn certificates where offered and explore ways to apply your skills.</p></div>
             </div>
         </div>
     </section>
 
-    <!-- ============ COURSES ============ -->
-    <section class="section section-alt" id="courses">
+    <!-- ============ COURSE CATEGORIES ============ -->
+    <section class="section section-alt" id="categories">
         <div class="section-inner">
-            <span class="sec-label">What You'll Learn</span>
-            <h2 class="sec-title">Explore Our Tracks</h2>
-            <p class="sec-desc">Practical, industry-relevant courses designed to take you from zero to professional.</p>
-            <div class="card-grid col4" id="coursesGrid">
-                <!-- Skeleton placeholders rendered by JS -->
+            <span class="sec-label">Find Your Direction</span>
+            <h2 class="sec-title">Explore Learning Categories</h2>
+            <p class="sec-desc">Choose an area of interest and discover learning opportunities designed to help you grow.</p>
+            <div class="card-grid col3" id="categoriesGrid">
+                <a class="card category-card" href="course-catalog.html" style="text-decoration:none;color:inherit;"><div class="icon">💻</div><h3>Technology & Programming</h3><p>Explore web development, software engineering and the tools used to build digital products.</p><span class="btn btn-ghost btn-sm">Explore courses</span></a>
+                <a class="card category-card" href="course-catalog.html" style="text-decoration:none;color:inherit;"><div class="icon">🤖</div><h3>Artificial Intelligence & Data</h3><p>Discover AI, automation, data analysis and ways to turn information into useful insight.</p><span class="btn btn-ghost btn-sm">Explore courses</span></a>
+                <a class="card category-card" href="course-catalog.html" style="text-decoration:none;color:inherit;"><div class="icon">🛡️</div><h3>Cybersecurity</h3><p>Build awareness of digital security, responsible technology use and cyber defence fundamentals.</p><span class="btn btn-ghost btn-sm">Explore courses</span></a>
+                <a class="card category-card" href="course-catalog.html" style="text-decoration:none;color:inherit;"><div class="icon">🎨</div><h3>Design & Creativity</h3><p>Develop creative and digital design skills, from user experience to visual communication.</p><span class="btn btn-ghost btn-sm">Explore courses</span></a>
+                <a class="card category-card" href="course-catalog.html" style="text-decoration:none;color:inherit;"><div class="icon">📈</div><h3>Business & Entrepreneurship</h3><p>Learn practical approaches to business, productivity, digital work and building ideas.</p><span class="btn btn-ghost btn-sm">Explore courses</span></a>
+                <a class="card category-card" href="course-catalog.html" style="text-decoration:none;color:inherit;"><div class="icon">🧭</div><h3>Career & Professional Growth</h3><p>Strengthen workplace skills and prepare to communicate your abilities with confidence.</p><span class="btn btn-ghost btn-sm">Explore courses</span></a>
             </div>
+        </div>
+    </section>
+
+    <!-- ============ POPULAR COURSES ============ -->
+    <section class="section" id="popular-courses">
+        <div class="section-inner">
+            <span class="sec-label">Admin's Selection</span>
+            <h2 class="sec-title">Popular Courses</h2>
+            <p class="sec-desc">Explore selected courses recommended by the TRIANGLE LEARN team.</p>
+            <div class="card-grid col3" id="popularCoursesGrid">
+                <div class="card center" style="grid-column:1/-1;"><div class="icon">📚</div><h3>Your next skill starts here</h3><p>Browse the course catalogue to discover available learning opportunities. Featured courses will appear here as they are selected by the TRIANGLE LEARN team.</p><a href="course-catalog.html" class="btn btn-filled">Browse the Course Catalogue</a></div>
+            </div>
+            <div class="center mt-3"><a href="course-catalog.html" class="btn btn-filled">View All Courses</a></div>
         </div>
     </section>
 
     <!-- ============ WHY US ============ -->
-    <section class="section" id="why">
+    <section class="section section-alt" id="why">
         <div class="section-inner">
             <span class="sec-label">Why Us</span>
-            <h2 class="sec-title">What Makes TRIANGLE LEARN Different</h2>
-            <p class="sec-desc">We're not just another course platform. We're a structured academy built for real results.</p>
+            <h2 class="sec-title">Learning Should Lead Somewhere</h2>
+            <p class="sec-desc">A good learning experience does more than deliver information. It helps you understand, practise, make progress and put your growing skills to use.</p>
             <div class="card-grid col3">
-                <div class="why-card"><span class="wi">🏫</span><div><h4>Batch-Based Learning</h4><p>Learn with a cohort. Stay accountable. Real community, not lonely self-paced videos.</p></div></div>
-                <div class="why-card"><span class="wi">📱</span><div><h4>WhatsApp Community</h4><p>Each batch gets a private group. Peer support, Q&A, networking. <a href="#" id="communityLink" target="_blank" rel="noopener">Join our community →</a></p></div></div>
-                <div class="why-card"><span class="wi">💰</span><div><h4>Refer & Earn</h4><p>Refer friends, earn 20% commission on every enrollment. Withdrawable to your account.</p></div></div>
-                <div class="why-card"><span class="wi">📜</span><div><h4>Stage Certificates</h4><p>Get certified after every stage. Share on LinkedIn, Twitter, WhatsApp. Build your proof.</p></div></div>
-                <div class="why-card"><span class="wi">🎓</span><div><h4>Beginner to Pro Path</h4><p>Clear roadmap: Elementary → Advanced → Professional. No confusion about next steps.</p></div></div>
-                <div class="why-card"><span class="wi">🔒</span><div><h4>Limited Spots</h4><p>Small batches mean better attention, quality interactions, and a tighter community.</p></div></div>
+                <div class="why-card"><span class="wi">📚</span><div><h4>Learn with Structure</h4><p>Follow organised course content with clear learning goals, lessons and resources that make complex subjects easier to approach.</p></div></div>
+                <div class="why-card"><span class="wi">👩‍🏫</span><div><h4>Instructor-Led Knowledge</h4><p>Learn from instructors who bring subject knowledge, practical insight and guidance to the courses they teach.</p></div></div>
+                <div class="why-card"><span class="wi">📜</span><div><h4>Recognise Your Progress</h4><p>Complete the required course activities and assessments to earn certificates where a course offers certification.</p></div></div>
+                <div class="why-card"><span class="wi">💼</span><div><h4>Career Opportunities</h4><p>Discover job opportunities and connect your learning journey to the world of work.</p></div></div>
+                <div class="why-card"><span class="wi">🤝</span><div><h4>Learning Community</h4><p>Connect with other learners, share ideas, and grow through collaboration.</p></div></div>
+                <div class="why-card"><span class="wi">🚀</span><div><h4>Learn and Grow</h4><p>Track your progress, strengthen your profile, and keep building your capabilities.</p></div></div>
             </div>
         </div>
     </section>
 
-    <!-- ============ PRICING ============ -->
-    <section class="section section-alt" id="pricing">
+    <!-- ============ LEARNING EXPERIENCE ============ -->
+    <section class="section section-alt" id="learning-experience">
         <div class="section-inner">
-            <span class="sec-label">Pricing</span>
-            <h2 class="sec-title">One-Time Payment. No Subscriptions.</h2>
-            <p class="sec-desc">Pay per stage or save with the full track. Choose what works for you.</p>
-            <div class="card-grid col4" id="pricingGrid">
-                <!-- Skeleton placeholders rendered by JS -->
+            <span class="sec-label">More Than Watching Lessons</span>
+            <h2 class="sec-title" id="learningExperienceTitle">Learn by Doing. Grow with Confidence.</h2>
+            <p class="sec-desc" id="learningExperienceDescription">A meaningful learning journey combines clear instruction, hands-on practice, useful feedback and visible progress. TRIANGLE LEARN brings these pieces together in one place.</p>
+            <div class="card-grid col3">
+                <div class="why-card"><span class="wi">🎬</span><div><h4>Structured Lessons & Resources</h4><p>Follow organised course modules, study learning materials at your pace, and revisit key lessons whenever you need to strengthen your understanding.</p></div></div>
+                <div class="why-card"><span class="wi">🛠️</span><div><h4>Projects & Practical Assignments</h4><p>Turn concepts into practical work. Build projects, complete assignments and develop a portfolio that demonstrates what you can do.</p></div></div>
+                <div class="why-card"><span class="wi">🧠</span><div><h4>Quizzes & Assessments</h4><p>Check your understanding, identify knowledge gaps and measure your progress through course assessments.</p></div></div>
+                <div class="why-card"><span class="wi">👩‍🏫</span><div><h4>Instructor Guidance</h4><p>Learn from instructors, access guidance and participate in learning experiences designed to keep you moving forward.</p></div></div>
+                <div class="why-card"><span class="wi">📈</span><div><h4>Progress Tracking</h4><p>Keep track of your learning activity, completed lessons and course milestones so you can see how far you have come.</p></div></div>
+                <div class="why-card"><span class="wi">🏅</span><div><h4>Certificates & Career Growth</h4><p>Earn eligible course certificates, strengthen your professional profile and discover opportunities to apply your skills.</p></div></div>
+            </div>
+            <div class="center mt-3"><a href="course-catalog.html" class="btn btn-filled">Find a Course to Begin</a></div>
+        </div>
+    </section>
+
+    <!-- ============ BUILT FOR EVERY LEARNING JOURNEY ============ -->
+    <section class="section section-alt" id="learning-pathways">
+        <div class="section-inner">
+            <span class="sec-label">One Platform. Different Goals.</span>
+            <h2 class="sec-title">A Place to Learn, Teach and Discover Talent</h2>
+            <p class="sec-desc">TRIANGLE LEARN brings learners, instructors and employers into one connected learning ecosystem.</p>
+            <div class="card-grid col3">
+                <div class="card"><div class="icon">🎓</div><h3>For Learners</h3><p>Discover courses, build new capabilities, monitor your progress and prepare to take your next academic or professional step.</p><a href="course-catalog.html" class="btn btn-ghost">Find a Course</a></div>
+                <div class="card"><div class="icon">🧑‍🏫</div><h3>For Instructors</h3><p>Share your expertise, organise learning experiences and support students as they develop useful knowledge and practical skills.</p><a href="auth.html" class="btn btn-ghost">Join as an Instructor</a></div>
+                <div class="card"><div class="icon">🏢</div><h3>For Employers</h3><p>Present career opportunities, connect with potential candidates and discover people who are developing relevant skills.</p><a href="employer.html" class="btn btn-ghost">Explore Employer Access</a></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ CAREER OPPORTUNITIES ============ -->
+    <section class="section" id="career-opportunities">
+        <div class="section-inner">
+            <span class="sec-label">Take the Next Step</span>
+            <h2 class="sec-title">Career Opportunities</h2>
+            <p class="sec-desc">Explore opportunities shared by employers and take your next step professionally.</p>
+            <div class="card-grid col3" id="careerOpportunitiesGrid">
+                <div class="card center"><div class="icon">💼</div><h3>Find Opportunities</h3><p>Explore available roles and opportunities from employers.</p><a href="job-board.html" class="btn btn-ghost">Explore Jobs</a></div>
             </div>
         </div>
     </section>
@@ -1309,7 +1355,7 @@
         <div class="section-inner">
             <span class="sec-label">Latest Updates</span>
             <h2 class="sec-title">From the Admin</h2>
-            <p class="sec-desc">Stay informed — batch openings, new courses, and important announcements.</p>
+            <p class="sec-desc">Stay informed about platform news, learning opportunities, and community updates.</p>
             <div class="card-grid col3" id="blogGrid">
                 <!-- Skeleton placeholders rendered by JS -->
             </div>
@@ -1320,9 +1366,9 @@
     <section class="section">
         <div class="section-inner">
             <div class="ref-banner">
-                <h2>💰 Refer Friends & Earn 20% Commission</h2>
-                <p>Share your unique referral link. When someone enrolls, you earn. Withdrawable directly to your account.</p>
-                <a href="enroll.html" class="btn btn-white">Get Your Referral Link</a>
+                <h2>🤝 Grow With the TRIANGLE LEARN Community</h2>
+                <p>Invite friends to discover learning opportunities, build valuable skills, and grow together. Referral rewards and campaign details will be published on the platform.</p>
+                <a href="auth.html" class="btn btn-white">Join the Community</a>
             </div>
         </div>
     </section>
@@ -1333,29 +1379,57 @@
             <span class="sec-label">Got Questions?</span>
             <h2 class="sec-title">Frequently Asked Questions</h2>
             <div id="faqContainer">
-                <div class="faq-item"><div class="faq-q">When does the next batch start? <span class="ico">+</span></div><div class="faq-a">Batch enrollment opens periodically. Check the announcements section or join our community for updates.</div></div>
-                <div class="faq-item"><div class="faq-q">Can I join a batch after it has started? <span class="ico">+</span></div><div class="faq-a">No. Batches are cohort-based. Once enrollment closes, you'll need to wait for the next batch.</div></div>
-                <div class="faq-item"><div class="faq-q">How do referrals work? <span class="ico">+</span></div><div class="faq-a">Share your unique link. When someone enrolls, you earn 20% commission. Withdrawable to your bank account.</div></div>
-                <div class="faq-item"><div class="faq-q">Do I get a certificate? <span class="ico">+</span></div><div class="faq-a">Yes! Earn a certificate after each stage. All certificates are shareable on social media.</div></div>
-                <div class="faq-item"><div class="faq-q">What if I miss a lesson? <span class="ico">+</span></div><div class="faq-a">All lessons are pre-recorded and available 24/7 within your batch period. Learn at your pace.</div></div>
+                <div class="faq-item"><div class="faq-q">What is TRIANGLE LEARN? <span class="ico">+</span></div><div class="faq-a">TRIANGLE LEARN is a learning and career platform that connects learners, instructors, and employers.</div></div>
+                <div class="faq-item"><div class="faq-q">Can I explore courses before creating an account? <span class="ico">+</span></div><div class="faq-a">Yes. You can browse the public course catalogue and review available course information before registering. An account is required for enrolment and access to learner features.</div></div>
+                <div class="faq-item"><div class="faq-q">How do I choose the right course? <span class="ico">+</span></div><div class="faq-a">Start with your goal, experience level and the skills you want to develop. Review each course description, learning outcomes, requirements, duration and price before enrolling.</div></div>
+                <div class="faq-item"><div class="faq-q">Can I learn at my own pace? <span class="ico">+</span></div><div class="faq-a">Learning format and access conditions can vary by course. Check the course details for its schedule, lesson format, duration and any live-session requirements.</div></div>
+                <div class="faq-item"><div class="faq-q">Are certificates available for every course? <span class="ico">+</span></div><div class="faq-a">Certificate availability depends on the course. Where a certificate is offered, the course page will explain the completion requirements.</div></div>
+                <div class="faq-item"><div class="faq-q">Who can teach on TRIANGLE LEARN? <span class="ico">+</span></div><div class="faq-a">Qualified instructors can apply to join the platform. Instructor access and course publishing are subject to platform approval.</div></div>
+
+                <div class="faq-item"><div class="faq-q">Can employers post jobs? <span class="ico">+</span></div><div class="faq-a">Yes. Employers can create an account and use the platform's employer features to share opportunities and manage applications.</div></div>
             </div>
         </div>
     </section>
 
     <!-- ============ FOOTER ============ -->
-    <footer class="footer">
+    <footer class="footer" id="site-footer">
         <div class="footer-inner">
             <div class="footer-brand">
-                <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="Logo" width="30" height="30" loading="lazy">
-                <p>TRIANGLE LEARN — A Triangletech Company. Empowering Africa's next generation of tech builders.</p>
+                <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="TRIANGLE LEARN logo" width="30" height="30" loading="lazy">
+                <p id="footerBrandDescription">TRIANGLE LEARN is a learning and career platform built to make practical education more accessible. Discover courses, develop valuable skills, learn with guidance and take confident steps towards your future.</p>
             </div>
-            <div class="footer-col"><h4>Quick Links</h4><a href="#how">How It Works</a><a href="#courses">Courses</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
-            <div class="footer-col"><h4>Connect</h4><a href="#" id="footerLinkedin" target="_blank" rel="noopener">LinkedIn</a><a href="#" id="footerCommunity" target="_blank" rel="noopener">WhatsApp Community</a><a href="mailto:okewunmitimileyin23@gmail.com">Email Us</a></div>
-            <div class="footer-col"><h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Refund Policy</a></div>
+            <div class="footer-col">
+                <h4>Explore</h4>
+                <a href="#how">How It Works</a>
+                <a href="course-catalog.html">Explore Courses</a>
+                <a href="#categories">Learning Categories</a>
+                <a href="job-board.html">Career Opportunities</a>
+                <a href="#faq">Frequently Asked Questions</a>
+            </div>
+            <div class="footer-col">
+                <h4>Connect</h4>
+                <a href="#" id="footerLinkedin" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="#" id="footerCommunity" target="_blank" rel="noopener noreferrer">WhatsApp Community</a>
+                <a href="contact.html" id="footerEmail">Email Us</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact & Support</h4>
+                <p class="footer-contact-note">Need help with a course, enrolment or your account?</p>
+                <a href="https://wa.me/2349056658964" id="footerWhatsAppLink" target="_blank" rel="noopener noreferrer">WhatsApp Support</a>
+                <a href="https://wa.me/2348139529406" id="footerEmergencyLink" target="_blank" rel="noopener noreferrer">Emergency Contact</a>
+                <a href="contact.html">All Contact Channels</a>
+                <p class="footer-contact-note" id="footerEmailText">Our support team is ready to help.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-of-service.html">Terms of Service</a>
+                <a href="refund-policy.html">Refund Policy</a>
+            </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 TRIANGLE LEARN — A Triangletech Company. Built for Africa's next tech generation.</p>
-            <p>📧 okewunmitimileyin23@gmail.com</p>
+            <p id="footerCopyright">© 2026 TRIANGLE LEARN — A Triangletech Company. Built for curious minds and ambitious futures.</p>
+            <p>Learn with purpose. Grow with confidence.</p>
         </div>
     </footer>
 
@@ -1364,14 +1438,14 @@
         <div style="position:relative;">
             <div class="float-card" id="enquiryCard">
                 <h4>💬 Chat With Us</h4><p>Have a question? We're here to help.</p>
-                <a href="https://wa.me/2349056658964" target="_blank" rel="noopener" class="btn btn-filled">Chat on WhatsApp</a>
+                <a href="https://wa.me/2349056658964" id="generalWhatsappLink" aria-label="Chat with TRIANGLE LEARN support on WhatsApp" target="_blank" rel="noopener" class="btn btn-filled">Chat on WhatsApp</a>
             </div>
             <div class="float-bubble" id="enquiryBubble">💬</div>
         </div>
         <div style="position:relative;">
             <div class="float-card" id="emergencyCard">
                 <h4>🚨 Emergency Chat</h4><p>Need urgent assistance? Reach us now.</p>
-                <a href="https://wa.me/2348139529406" target="_blank" rel="noopener" class="btn btn-filled btn-emergency">Chat on WhatsApp</a>
+                <a href="https://wa.me/2348139529406" id="emergencyWhatsappLink" aria-label="Contact TRIANGLE LEARN emergency support on WhatsApp" target="_blank" rel="noopener" class="btn btn-filled btn-emergency">Chat on WhatsApp</a>
             </div>
             <div class="float-bubble emergency" id="emergencyBubble">🚨</div>
         </div>
@@ -1417,16 +1491,20 @@
             heroGrid: $('#heroGrid'),
             heroCaption: $('#heroCaption'),
             announceTrack: $('#announceTrack'),
-            batchBadge: $('#batchBadge'),
-            spotsBadge: $('#spotsBadge'),
-            spotsText: $('#spotsText'),
-            statLearners: $('#statLearners'),
-            coursesGrid: $('#coursesGrid'),
-            pricingGrid: $('#pricingGrid'),
             blogGrid: $('#blogGrid'),
             communityLink: $('#communityLink'),
             footerCommunity: $('#footerCommunity'),
             footerLinkedin: $('#footerLinkedin'),
+            footerEmail: $('#footerEmail'),
+            footerBrandDescription: $('#footerBrandDescription'),
+            footerCopyright: $('#footerCopyright'),
+            footerEmailText: $('#footerEmailText'),
+            footerWhatsAppLink: $('#footerWhatsAppLink'),
+            footerEmergencyLink: $('#footerEmergencyLink'),
+            learningExperienceTitle: $('#learningExperienceTitle'),
+            learningExperienceDescription: $('#learningExperienceDescription'),
+            generalWhatsappLink: $('#generalWhatsappLink'),
+            emergencyWhatsappLink: $('#emergencyWhatsappLink'),
             enquiryCard: $('#enquiryCard'),
             emergencyCard: $('#emergencyCard'),
             enquiryBubble: $('#enquiryBubble'),
@@ -1478,9 +1556,7 @@
             }
         }
 
-        // Show skeletons immediately
-        showSkeletonsCourses();
-        showSkeletonsPricing();
+        // Show the existing updates skeleton while published posts load.
         showSkeletonsBlog();
 
         // ============ PRELOADER ============
@@ -1660,8 +1736,12 @@
             popup.appendChild(img);
             popup.style.top = '50%';
             popup.style.left = '50%';
+            popup.style.animation = 'none';
             DOM.heroGrid.style.position = 'relative';
             DOM.heroGrid.appendChild(popup);
+            // Force a fresh animation cycle for every featured image.
+            popup.getBoundingClientRect();
+            popup.style.animation = 'popSlide 4s ease-in-out forwards';
 
             if (DOM.heroCaption) {
                 const captionSpan = DOM.heroCaption.querySelector('span');
@@ -1754,14 +1834,6 @@
         // ============ LOAD DYNAMIC CONTENT ============
         async function loadDynamicContent() {
             try {
-                const courseSnap = await AppState.db.collection('courses').where('active', '==', true).get();
-                renderCourses(courseSnap);
-                renderPricing(courseSnap);
-            } catch (e) {
-                console.error('Course load error:', e);
-            }
-
-            try {
                 const blogSnap = await AppState.db.collection('blog_posts')
                     .where('published', '==', true)
                     .orderBy('createdAt', 'desc')
@@ -1774,8 +1846,17 @@
 
             try {
                 const setSnap = await AppState.db.collection('settings').doc('contact').get();
-                if (setSnap.exists) {
-                    applySettings(setSnap.data());
+                if (setSnap.exists) applySettings(setSnap.data());
+            } catch (e) {
+                console.error('Settings load error:', e);
+            }
+
+            try {
+                const homeSnap = await AppState.db.collection('homepage').doc('content').get();
+                if (homeSnap.exists) {
+                    const home = homeSnap.data();
+                    if (home.learningTitle && DOM.learningExperienceTitle) DOM.learningExperienceTitle.textContent = home.learningTitle;
+                    if (home.learningDescription && DOM.learningExperienceDescription) DOM.learningExperienceDescription.textContent = home.learningDescription;
                 }
             } catch (e) {
                 console.error('Settings load error:', e);
@@ -1854,13 +1935,30 @@
         }
 
         function applySettings(s) {
+            const cleanPhone = value => String(value || '').replace(/[^0-9]/g, '');
+            const generalPhone = cleanPhone(s.whatsappNumber || s.phone || '2349056658964');
+            const emergencyPhone = cleanPhone(s.emergencyNumber || '2348139529406');
             if (s.communityLink) {
                 if (DOM.communityLink) DOM.communityLink.href = s.communityLink;
                 if (DOM.footerCommunity) DOM.footerCommunity.href = s.communityLink;
+            } else if (DOM.footerCommunity) {
+                DOM.footerCommunity.hidden = true;
             }
             if (s.linkedinUrl && DOM.footerLinkedin) {
                 DOM.footerLinkedin.href = s.linkedinUrl;
+            } else if (DOM.footerLinkedin) {
+                DOM.footerLinkedin.hidden = true;
             }
+            if (DOM.generalWhatsappLink && generalPhone) DOM.generalWhatsappLink.href = `https://wa.me/${generalPhone}`;
+            if (DOM.emergencyWhatsappLink && emergencyPhone) DOM.emergencyWhatsappLink.href = `https://wa.me/${emergencyPhone}`;
+            if (DOM.footerWhatsAppLink && generalPhone) DOM.footerWhatsAppLink.href = `https://wa.me/${generalPhone}`;
+            if (DOM.footerEmergencyLink && emergencyPhone) DOM.footerEmergencyLink.href = `https://wa.me/${emergencyPhone}`;
+            if (s.contactEmail) {
+                if (DOM.footerEmail) DOM.footerEmail.href = 'contact.html';
+                if (DOM.footerEmailText) DOM.footerEmailText.textContent = `Email support: ${s.contactEmail}`;
+            }
+            if (s.footerDescription && DOM.footerBrandDescription) DOM.footerBrandDescription.textContent = s.footerDescription;
+            if (s.footerCopyright && DOM.footerCopyright) DOM.footerCopyright.textContent = s.footerCopyright;
         }
 
         function escapeHtml(str) {
