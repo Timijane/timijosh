@@ -532,7 +532,8 @@
         const PROFILE_GATE_ENABLED = true;
 
         // Minimum profileComplete value required to leave the gate.
-        const PROFILE_COMPLETE_THRESHOLD = 100;
+        // Must match profile.html's PROFILE_GATE_THRESHOLD (60).
+        const PROFILE_COMPLETE_THRESHOLD = 60;
 
         // ============================================================
         // STATE
@@ -734,7 +735,6 @@
                 }
             } catch (_) {}
 
-            // Also honour ?redirect= if the user arrived via that param
             if (!returnTarget) {
                 const params = new URLSearchParams(location.search);
                 const redirectParam = params.get('redirect');
@@ -1347,7 +1347,7 @@
             setTimeout(async () => {
                 await detectReferralFromUrl();
             }, 300);
-            console.log('✅ TRIANGLE LEARN Auth — Phase 2 (profile gate ON)');
+            console.log('✅ TRIANGLE LEARN Auth — Phase 2 (profile gate at 60%)');
         }
         init();
     })();
