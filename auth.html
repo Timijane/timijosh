@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Sign In — TRIANGLE LEARN</title>
-    <meta name="description" content="Sign in to TRIANGLE LEARN. Access your courses, certificates, and community.">
     <link rel="icon" href="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ============ ROOT VARIABLES ============ */
         :root {
             --bg: #ffffff;
             --bg-alt: #f8f9fc;
@@ -35,8 +33,6 @@
             --success: #0d9488;
             --success-bg: #e8f8f0;
             --max-width: 520px;
-            
-            /* Fluid typography */
             --text-xs: clamp(0.65rem, 0.6vw + 0.35rem, 0.75rem);
             --text-sm: clamp(0.75rem, 0.8vw + 0.4rem, 0.85rem);
             --text-base: clamp(0.88rem, 1vw + 0.4rem, 0.95rem);
@@ -44,16 +40,8 @@
             --text-xl: clamp(1.2rem, 1.5vw + 0.6rem, 1.4rem);
             --text-2xl: clamp(1.4rem, 2vw + 0.7rem, 1.8rem);
         }
-
-        /* ============ RESET & BASE ============ */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html {
-            font-size: 16px;
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
-        }
-
+        html { font-size: 16px; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
         body {
             font-family: var(--font-body);
             background: var(--bg-alt);
@@ -69,83 +57,39 @@
             width: 100%;
             overflow-x: hidden;
         }
-
-        /* ============ AUTH WRAPPER ============ */
-        .auth-wrapper {
-            width: 100%;
-            max-width: var(--max-width);
-            padding: 0 4px;
-        }
-
-        /* ============ BACK LINK ============ */
+        .auth-wrapper { width: 100%; max-width: var(--max-width); padding: 0 4px; }
         .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: var(--text-sm);
-            font-weight: 500;
-            margin-bottom: 18px;
-            transition: color 0.2s;
-            padding: 4px 0;
-            min-height: 40px;
+            display: inline-flex; align-items: center; gap: 6px;
+            color: var(--text-secondary); text-decoration: none;
+            font-size: var(--text-sm); font-weight: 500;
+            margin-bottom: 18px; transition: color 0.2s;
+            padding: 4px 0; min-height: 40px;
         }
         .back-link:hover { color: var(--text); }
-        .back-link svg { 
-            width: clamp(16px, 2vw, 18px); 
-            height: clamp(16px, 2vw, 18px);
-            flex-shrink: 0;
-        }
-
-        /* ============ AUTH CARD ============ */
+        .back-link svg { width: clamp(16px, 2vw, 18px); height: clamp(16px, 2vw, 18px); flex-shrink: 0; }
         .auth-card {
-            background: #fff;
-            border-radius: var(--radius-lg);
+            background: #fff; border-radius: var(--radius-lg);
             padding: clamp(24px, 4vw, 40px) clamp(16px, 3vw, 32px);
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border);
-            position: relative;
-            overflow: hidden;
+            box-shadow: var(--shadow-lg); border: 1px solid var(--border);
+            position: relative; overflow: hidden;
         }
         .auth-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 4px;
-            background: var(--gradient);
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 100%; height: 4px; background: var(--gradient);
         }
-
-        /* ============ AUTH LOGO ============ */
         .auth-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 22px;
-            cursor: pointer;
+            display: flex; align-items: center; gap: 10px;
+            justify-content: center; margin-bottom: 22px;
         }
-        .auth-logo img { 
-            height: clamp(32px, 5vw, 40px); 
-            width: auto; 
-        }
+        .auth-logo img { height: clamp(32px, 5vw, 40px); width: auto; }
         .auth-logo span {
-            font-family: var(--font-heading);
-            font-weight: 700;
-            font-size: var(--text-lg);
-            color: var(--text);
-            letter-spacing: -0.5px;
+            font-family: var(--font-heading); font-weight: 700;
+            font-size: var(--text-lg); color: var(--text); letter-spacing: -0.5px;
         }
-
-        /* ============ REFERRAL BANNER ============ */
         .referral-banner {
-            display: none;
-            background: linear-gradient(135deg, #fff8f0, #fff0f6);
-            border: 1px solid #ffe0b2;
-            border-radius: var(--radius-sm);
-            padding: 12px 14px;
-            margin-bottom: 16px;
-            align-items: center;
-            gap: 12px;
+            display: none; background: linear-gradient(135deg, #fff8f0, #fff0f6);
+            border: 1px solid #ffe0b2; border-radius: var(--radius-sm);
+            padding: 12px 14px; margin-bottom: 16px; align-items: center; gap: 12px;
             animation: slideDown 0.5s ease;
         }
         .referral-banner.show { display: flex; }
@@ -154,105 +98,60 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .referral-banner .avatar {
-            width: clamp(36px, 5vw, 44px);
-            height: clamp(36px, 5vw, 44px);
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--gold);
-            flex-shrink: 0;
-            background: #f0f0f5;
+            width: clamp(36px, 5vw, 44px); height: clamp(36px, 5vw, 44px);
+            border-radius: 50%; object-fit: cover; border: 2px solid var(--gold);
+            flex-shrink: 0; background: #f0f0f5;
         }
         .referral-banner .avatar-placeholder {
-            width: clamp(36px, 5vw, 44px);
-            height: clamp(36px, 5vw, 44px);
-            border-radius: 50%;
-            background: var(--gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: 700;
-            font-size: var(--text-base);
+            width: clamp(36px, 5vw, 44px); height: clamp(36px, 5vw, 44px);
+            border-radius: 50%; background: var(--gradient);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-weight: 700; font-size: var(--text-base);
             flex-shrink: 0;
         }
         .referral-banner .ref-text {
-            flex: 1;
-            font-size: var(--text-sm);
-            font-weight: 500;
-            color: var(--text);
-            min-width: 0;
-            word-break: break-word;
+            flex: 1; font-size: var(--text-sm); font-weight: 500;
+            color: var(--text); min-width: 0; word-break: break-word;
         }
         .referral-banner .ref-text strong { color: var(--purple); }
         .referral-banner .ref-badge {
-            font-size: var(--text-xs);
-            background: var(--gold);
-            color: #fff;
-            padding: 2px 10px;
-            border-radius: 12px;
-            font-weight: 700;
-            white-space: nowrap;
-            flex-shrink: 0;
+            font-size: var(--text-xs); background: var(--gold); color: #fff;
+            padding: 2px 10px; border-radius: 12px; font-weight: 700;
+            white-space: nowrap; flex-shrink: 0;
         }
         .referral-banner .ref-badge.invalid { background: var(--danger); }
-
-        /* ============ SELF REFERRAL WARNING ============ */
         .self-referral-warning {
-            display: none;
-            background: var(--danger-bg);
-            border: 1px solid #fdd;
-            border-radius: var(--radius-sm);
-            padding: 10px 14px;
-            margin-bottom: 16px;
-            align-items: center;
-            gap: 8px;
-            color: var(--danger);
-            font-weight: 500;
-            font-size: var(--text-sm);
+            display: none; background: var(--danger-bg);
+            border: 1px solid #fdd; border-radius: var(--radius-sm);
+            padding: 10px 14px; margin-bottom: 16px; align-items: center;
+            gap: 8px; color: var(--danger);
+            font-weight: 500; font-size: var(--text-sm);
         }
         .self-referral-warning.show { display: flex; }
-
-        /* ============ TOAST NOTIFICATIONS ============ */
         .toast-container {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 99999;
-            width: 92%;
-            max-width: 440px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            position: fixed; bottom: 20px; left: 50%;
+            transform: translateX(-50%); z-index: 99999;
+            width: 92%; max-width: 440px;
+            display: flex; flex-direction: column; gap: 8px;
             pointer-events: none;
         }
         .toast {
-            padding: 12px 16px;
-            border-radius: var(--radius-sm);
-            font-weight: 500;
-            font-size: var(--text-sm);
+            padding: 12px 16px; border-radius: var(--radius-sm);
+            font-weight: 500; font-size: var(--text-sm);
             box-shadow: var(--shadow-lg);
             animation: toastIn 0.4s ease, toastOut 0.4s ease 3.6s forwards;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            pointer-events: auto;
-            border: 1px solid transparent;
+            display: flex; align-items: center; gap: 10px;
+            pointer-events: auto; border: 1px solid transparent;
         }
         .toast-success { background: #0d9488; color: #fff; border-color: #0f766e; }
         .toast-error { background: var(--danger); color: #fff; border-color: #c0392b; }
         .toast-info { background: var(--purple); color: #fff; border-color: #5a4bd1; }
         .toast .toast-emoji { font-size: var(--text-base); }
         .toast .toast-close {
-            margin-left: auto;
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.7);
-            cursor: pointer;
-            font-size: var(--text-base);
-            padding: 0 4px;
-            transition: color 0.2s;
-            min-height: 32px;
+            margin-left: auto; background: none; border: none;
+            color: rgba(255,255,255,0.7); cursor: pointer;
+            font-size: var(--text-base); padding: 0 4px;
+            transition: color 0.2s; min-height: 32px;
         }
         .toast .toast-close:hover { color: #fff; }
         @keyframes toastIn {
@@ -263,172 +162,86 @@
             from { opacity: 1; transform: translateY(0) scale(1); }
             to { opacity: 0; transform: translateY(20px) scale(0.95); }
         }
-
-        /* ============ AUTH TITLE ============ */
         .auth-title {
-            font-family: var(--font-heading);
-            font-size: var(--text-2xl);
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 4px;
-            letter-spacing: -0.5px;
+            font-family: var(--font-heading); font-size: var(--text-2xl);
+            font-weight: 700; text-align: center;
+            margin-bottom: 4px; letter-spacing: -0.5px;
         }
         .auth-subtitle {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: var(--text-sm);
-            margin-bottom: 22px;
+            text-align: center; color: var(--text-secondary);
+            font-size: var(--text-sm); margin-bottom: 22px;
         }
-
-        /* ============ FORM GROUPS ============ */
-        .form-group {
-            margin-bottom: 16px;
-            position: relative;
-        }
+        .form-group { margin-bottom: 16px; position: relative; }
         .form-group label {
-            display: block;
-            font-size: var(--text-xs);
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 4px;
-            letter-spacing: 0.3px;
+            display: block; font-size: var(--text-xs); font-weight: 600;
+            color: var(--text); margin-bottom: 4px; letter-spacing: 0.3px;
         }
-        .form-group .input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 11px 14px;
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-family: var(--font-body);
-            font-size: var(--text-base);
-            color: var(--text);
-            background: #fff;
-            transition: all 0.25s ease;
-            outline: none;
-            min-height: 44px;
-            -webkit-appearance: none;
-            appearance: none;
+        .form-group .input-wrapper { position: relative; display: flex; align-items: center; }
+        .form-group input, .form-group select {
+            width: 100%; padding: 11px 14px;
+            border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+            font-family: var(--font-body); font-size: var(--text-base);
+            color: var(--text); background: #fff;
+            transition: all 0.25s ease; outline: none;
+            min-height: 44px; -webkit-appearance: none; appearance: none;
         }
         .form-group select {
             cursor: pointer;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a8aa0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
+            background-repeat: no-repeat; background-position: right 12px center;
             padding-right: 36px;
         }
-        .form-group input:focus,
-        .form-group select:focus {
+        .form-group input:focus, .form-group select:focus {
             border-color: var(--purple);
             box-shadow: 0 0 0 3px rgba(108,92,231,0.1);
         }
-        .form-group input.input-error,
-        .form-group select.input-error {
+        .form-group input.input-error, .form-group select.input-error {
             border-color: var(--danger);
             box-shadow: 0 0 0 3px rgba(231,76,60,0.08);
         }
         .form-group .input-hint {
-            font-size: var(--text-xs);
-            color: var(--text-muted);
-            margin-top: 4px;
+            font-size: var(--text-xs); color: var(--text-muted); margin-top: 4px;
         }
-
-        /* ============ REMEMBER ME CHECKBOX ============ */
         .remember-me-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-            padding: 4px 0;
+            display: flex; align-items: center; gap: 10px;
+            margin-bottom: 12px; padding: 4px 0;
         }
         .remember-me-wrapper input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: var(--purple);
-            flex-shrink: 0;
-            min-height: 18px;
+            width: 18px; height: 18px; cursor: pointer;
+            accent-color: var(--purple); flex-shrink: 0; min-height: 18px;
         }
         .remember-me-wrapper label {
-            font-size: var(--text-sm);
-            color: var(--text-secondary);
-            cursor: pointer;
-            margin: 0;
-            user-select: none;
+            font-size: var(--text-sm); color: var(--text-secondary);
+            cursor: pointer; margin: 0; user-select: none;
         }
-
-        /* ============ PHONE INPUT ============ */
-        .phone-input-group {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+        .phone-input-group { display: flex; gap: 8px; flex-wrap: wrap; }
         .phone-input-group .country-code-select {
-            width: clamp(100px, 30%, 130px) !important;
-            flex-shrink: 0;
-            padding: 11px 10px !important;
-            font-size: var(--text-sm) !important;
+            width: clamp(100px, 30%, 130px) !important; flex-shrink: 0;
+            padding: 11px 10px !important; font-size: var(--text-sm) !important;
         }
-        .phone-input-group .phone-number-input {
-            flex: 1;
-            min-width: 120px;
-        }
-
-        /* ============ TOGGLE PASSWORD ============ */
+        .phone-input-group .phone-number-input { flex: 1; min-width: 120px; }
         .toggle-password {
-            position: absolute;
-            right: 12px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-muted);
-            padding: 4px;
-            display: flex;
-            align-items: center;
-            font-size: var(--text-base);
-            transition: color 0.2s;
-            z-index: 2;
-            min-height: 36px;
-            min-width: 36px;
-            justify-content: center;
+            position: absolute; right: 12px; background: none; border: none;
+            cursor: pointer; color: var(--text-muted); padding: 4px;
+            display: flex; align-items: center; font-size: var(--text-base);
+            transition: color 0.2s; z-index: 2;
+            min-height: 36px; min-width: 36px; justify-content: center;
         }
         .toggle-password:hover { color: var(--text); }
-
-        /* ============ FIELD ERROR ============ */
         .field-error {
-            font-size: var(--text-xs);
-            color: var(--danger);
-            margin-top: 4px;
-            display: none;
-            align-items: center;
-            gap: 4px;
+            font-size: var(--text-xs); color: var(--danger);
+            margin-top: 4px; display: none;
+            align-items: center; gap: 4px;
         }
         .field-error.show { display: flex; }
-
-        /* ============ SUBMIT BUTTON ============ */
         .btn-submit {
-            width: 100%;
-            padding: 12px 20px;
-            min-height: 48px;
-            background: var(--gradient);
-            color: #fff;
-            border: none;
-            border-radius: 25px;
-            font-family: var(--font-body);
-            font-weight: 600;
-            font-size: var(--text-base);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 4px;
-            touch-action: manipulation;
+            width: 100%; padding: 12px 20px; min-height: 48px;
+            background: var(--gradient); color: #fff; border: none;
+            border-radius: 25px; font-family: var(--font-body);
+            font-weight: 600; font-size: var(--text-base);
+            cursor: pointer; transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center;
+            gap: 8px; margin-top: 4px; touch-action: manipulation;
         }
         .btn-submit:hover {
             transform: translateY(-2px);
@@ -436,158 +249,87 @@
         }
         .btn-submit:active { transform: translateY(0); }
         .btn-submit:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+            opacity: 0.7; cursor: not-allowed;
+            transform: none; box-shadow: none;
         }
-
-        /* ============ SPINNER ============ */
         .spinner {
-            width: 20px;
-            height: 20px;
+            width: 20px; height: 20px;
             border: 2.5px solid rgba(255,255,255,0.3);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-            display: none;
+            border-top-color: #fff; border-radius: 50%;
+            animation: spin 0.7s linear infinite; display: none;
         }
         .btn-submit.loading .spinner { display: inline-block; }
         .btn-submit.loading .btn-text { display: none; }
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* ============ AUTH TOGGLE ============ */
         .auth-toggle {
-            text-align: center;
-            margin-top: 20px;
-            font-size: var(--text-sm);
-            color: var(--text-secondary);
+            text-align: center; margin-top: 20px;
+            font-size: var(--text-sm); color: var(--text-secondary);
         }
         .auth-toggle a {
-            color: var(--purple);
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            transition: color 0.2s;
+            color: var(--purple); font-weight: 600;
+            text-decoration: none; cursor: pointer; transition: color 0.2s;
         }
         .auth-toggle a:hover { color: var(--pink); }
-
-        /* ============ FORGOT LINK ============ */
         .forgot-link {
-            display: block;
-            text-align: right;
-            font-size: var(--text-xs);
-            color: var(--purple);
-            text-decoration: none;
-            font-weight: 500;
-            margin-top: 4px;
-            cursor: pointer;
-            transition: color 0.2s;
-            padding: 4px 0;
+            display: block; text-align: right;
+            font-size: var(--text-xs); color: var(--purple);
+            text-decoration: none; font-weight: 500;
+            margin-top: 4px; cursor: pointer;
+            transition: color 0.2s; padding: 4px 0;
         }
         .forgot-link:hover { color: var(--pink); }
-
-        /* ============ FORM SECTIONS ============ */
         .form-section { display: none; }
         .form-section.active { display: block; }
-
-        /* ============ TERMS TEXT ============ */
         .terms-text {
-            font-size: var(--text-xs);
-            color: var(--text-muted);
-            text-align: center;
-            margin-top: 12px;
+            font-size: var(--text-xs); color: var(--text-muted);
+            text-align: center; margin-top: 12px;
         }
         .terms-text a { color: var(--purple); }
-
-        /* ============ ROLE SELECTOR ============ */
         .role-selector {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 4px;
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 8px; margin-bottom: 4px;
         }
         .role-option {
-            padding: 12px 8px;
-            border: 2px solid var(--border);
-            border-radius: var(--radius-sm);
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            background: #fff;
-            touch-action: manipulation;
+            padding: 12px 8px; border: 2px solid var(--border);
+            border-radius: var(--radius-sm); text-align: center;
+            cursor: pointer; transition: all 0.25s ease;
+            background: #fff; touch-action: manipulation;
         }
-        .role-option:hover {
-            border-color: var(--purple);
-            transform: translateY(-2px);
-        }
+        .role-option:hover { border-color: var(--purple); transform: translateY(-2px); }
         .role-option.selected {
-            border-color: var(--purple);
-            background: #f3f0ff;
+            border-color: var(--purple); background: #f3f0ff;
             box-shadow: 0 0 0 3px rgba(108,92,231,0.15);
         }
-        .role-option .role-icon { 
-            font-size: clamp(1.2rem, 2vw, 1.6rem); 
-            display: block; 
-            margin-bottom: 4px; 
+        .role-option .role-icon {
+            font-size: clamp(1.2rem, 2vw, 1.6rem);
+            display: block; margin-bottom: 4px;
         }
-        .role-option .role-name { 
-            font-size: var(--text-xs); 
-            font-weight: 700; 
-            color: var(--text); 
+        .role-option .role-name {
+            font-size: var(--text-xs); font-weight: 700; color: var(--text);
         }
-        .role-option .role-desc { 
-            font-size: 0.6rem; 
-            color: var(--text-muted); 
-            line-height: 1.3; 
+        .role-option .role-desc {
+            font-size: 0.6rem; color: var(--text-muted); line-height: 1.3;
         }
-
-        /* ============ ADMIN CODE GROUP ============ */
-        .admin-code-group { display: none; }
-        .admin-code-group.show { display: block; }
-
-        /* ============ RESPONSIVE ============ */
         @media (max-width: 480px) {
-            .role-selector {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 6px;
-            }
-            .role-option {
-                padding: 10px 6px;
-            }
-            .role-option .role-desc {
-                display: none;
-            }
+            .role-selector { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+            .role-option { padding: 10px 6px; }
+            .role-option .role-desc { display: none; }
             .phone-input-group .country-code-select {
-                width: 100px !important;
-                font-size: var(--text-xs) !important;
+                width: 100px !important; font-size: var(--text-xs) !important;
                 padding: 10px 8px !important;
             }
-            .auth-card {
-                padding: 20px 14px;
-            }
+            .auth-card { padding: 20px 14px; }
         }
-
         @media (max-width: 380px) {
-            .role-selector {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 4px;
-            }
-            .role-option {
-                padding: 8px 4px;
-            }
-            .role-option .role-icon {
-                font-size: 1rem;
-            }
-            .role-option .role-name {
-                font-size: 0.6rem;
-            }
+            .role-selector { grid-template-columns: repeat(3, 1fr); gap: 4px; }
+            .role-option { padding: 8px 4px; }
+            .role-option .role-icon { font-size: 1rem; }
+            .role-option .role-name { font-size: 0.6rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- TOAST CONTAINER -->
     <div class="toast-container" id="toastContainer"></div>
 
     <div class="auth-wrapper">
@@ -602,7 +344,6 @@
                 <span>TRIANGLE LEARN</span>
             </div>
 
-            <!-- REFERRAL BANNER -->
             <div class="referral-banner" id="referralBanner">
                 <img class="avatar" id="referrerAvatar" src="" alt="Referrer" onerror="this.style.display='none';document.getElementById('avatarPlaceholder').style.display='flex'">
                 <div class="avatar-placeholder" id="avatarPlaceholder" style="display:none;">👤</div>
@@ -612,16 +353,13 @@
                 <span class="ref-badge" id="refBadge">✅ Valid</span>
             </div>
 
-            <!-- SELF-REFERRAL WARNING -->
             <div class="self-referral-warning" id="selfReferralWarning">
                 ⚠️ You can't refer yourself! This link is for new users only.
             </div>
 
-            <!-- ==================== LOGIN SECTION ==================== -->
             <div class="form-section active" id="loginSection">
                 <h2 class="auth-title">Welcome Back</h2>
                 <p class="auth-subtitle">Sign in to continue your learning journey</p>
-
                 <form id="loginForm" novalidate autocomplete="on">
                     <div class="form-group">
                         <label for="loginEmail">Email Address</label>
@@ -636,31 +374,24 @@
                         </div>
                         <div class="field-error" id="loginPasswordError"></div>
                     </div>
-
-                    <!-- ===== REMEMBER ME CHECKBOX ===== -->
                     <div class="remember-me-wrapper">
                         <input type="checkbox" id="rememberMe">
                         <label for="rememberMe">Keep me signed in</label>
                     </div>
-
                     <a class="forgot-link" id="showReset">Forgot password?</a>
-
                     <button type="submit" class="btn-submit" id="loginSubmit">
                         <span class="spinner"></span>
                         <span class="btn-text">Sign In</span>
                     </button>
                 </form>
-
                 <p class="auth-toggle">
                     Don't have an account? <a id="showSignup">Create one</a>
                 </p>
             </div>
 
-            <!-- ==================== SIGNUP SECTION ==================== -->
             <div class="form-section" id="signupSection">
                 <h2 class="auth-title">Create Account</h2>
                 <p class="auth-subtitle">Join the next generation of African builders</p>
-
                 <form id="signupForm" novalidate autocomplete="on">
                     <div class="form-group">
                         <label for="signupName">Full Name *</label>
@@ -697,38 +428,28 @@
                         <div class="field-error" id="signupPhoneError"></div>
                     </div>
 
-                    <!-- ===== ROLE SELECTOR ===== -->
                     <div class="form-group">
                         <label>I want to join as... *</label>
                         <div class="role-selector" id="roleSelector">
                             <div class="role-option selected" data-role="learner" onclick="window.selectRole('learner')">
                                 <span class="role-icon">🧑‍🎓</span>
                                 <div class="role-name">Learner</div>
-                                <div class="role-desc">Take courses & earn certificates</div>
+                                <div class="role-desc">Take courses &amp; earn certificates</div>
                             </div>
                             <div class="role-option" data-role="instructor" onclick="window.selectRole('instructor')">
                                 <span class="role-icon">👨‍🏫</span>
                                 <div class="role-name">Instructor</div>
-                                <div class="role-desc">Create & sell courses</div>
+                                <div class="role-desc">Create &amp; sell courses</div>
                             </div>
                             <div class="role-option" data-role="employer" onclick="window.selectRole('employer')">
                                 <span class="role-icon">🏢</span>
                                 <div class="role-name">Employer</div>
-                                <div class="role-desc">Post jobs & hire talent</div>
+                                <div class="role-desc">Post jobs &amp; hire talent</div>
                             </div>
                         </div>
                         <div class="field-error" id="signupRoleError"></div>
                     </div>
 
-                    <!-- ===== ADMIN CODE ===== -->
-                    <div class="form-group admin-code-group" id="adminCodeGroup">
-                        <label for="signupAdminCode">Admin Access Code</label>
-                        <input type="password" id="signupAdminCode" placeholder="Enter admin code">
-                        <div class="input-hint">Only if you have been given admin access</div>
-                        <div class="field-error" id="signupAdminCodeError"></div>
-                    </div>
-
-                    <!-- ===== REFERRAL CODE ===== -->
                     <div class="form-group">
                         <label for="signupReferral">Referral Code (Optional)</label>
                         <input type="text" id="signupReferral" placeholder="Enter referral code if you have one" style="text-transform:uppercase;">
@@ -747,36 +468,30 @@
                     <div class="terms-text">
                         By creating an account, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
                     </div>
-
                     <button type="submit" class="btn-submit" id="signupSubmit">
                         <span class="spinner"></span>
                         <span class="btn-text">Create Account</span>
                     </button>
                 </form>
-
                 <p class="auth-toggle">
                     Already have an account? <a id="showLogin">Sign in</a>
                 </p>
             </div>
 
-            <!-- ==================== RESET PASSWORD SECTION ==================== -->
             <div class="form-section" id="resetSection">
                 <h2 class="auth-title">Reset Password</h2>
                 <p class="auth-subtitle">Enter your email and we'll send you a secure reset link</p>
-
                 <form id="resetForm" novalidate>
                     <div class="form-group">
                         <label for="resetEmail">Email Address</label>
                         <input type="email" id="resetEmail" placeholder="you@example.com" required autocomplete="email">
                         <div class="field-error" id="resetEmailError"></div>
                     </div>
-
                     <button type="submit" class="btn-submit" id="resetSubmit">
                         <span class="spinner"></span>
                         <span class="btn-text">Send Reset Link</span>
                     </button>
                 </form>
-
                 <p class="auth-toggle">
                     <a id="showLoginFromReset">← Back to Sign In</a>
                 </p>
@@ -784,7 +499,6 @@
         </div>
     </div>
 
-    <!-- FIREBASE SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -793,9 +507,9 @@
     (function() {
         'use strict';
 
-        // ============================================
-        // FIREBASE CONFIG
-        // ============================================
+        // ============================================================
+        // FIREBASE
+        // ============================================================
         const firebaseConfig = {
             apiKey: "AIzaSyAvvB3C9SP8tDTqMmqzc6craI4d_0kSVX0",
             authDomain: "timijosh-b8bee.firebaseapp.com",
@@ -805,18 +519,24 @@
             appId: "1:779082784462:web:a9e9aca2177c7e343c3a9f",
             measurementId: "G-ZPS8VP8ZBX"
         };
-
-        if (!window._firebaseInitialized) {
-            firebase.initializeApp(firebaseConfig);
-            window._firebaseInitialized = true;
-        }
-
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // ============================================
-        // APP STATE
-        // ============================================
+        // ============================================================
+        // PROFILE COMPLETION GATE CONFIG
+        // ============================================================
+        // Toggle to false ONLY if profile.html is not yet ready to write
+        // back to users/{uid}.profileComplete — otherwise users will loop
+        // between auth.html and profile.html.
+        const PROFILE_GATE_ENABLED = true;
+
+        // Minimum profileComplete value required to leave the gate.
+        const PROFILE_COMPLETE_THRESHOLD = 100;
+
+        // ============================================================
+        // STATE
+        // ============================================================
         const State = {
             currentSection: 'login',
             isProcessing: false,
@@ -829,15 +549,12 @@
             redirectScheduled: false,
             isValidReferral: false,
             selectedRole: 'learner',
-            isAdmin: false,
-            adminSecretFromFirestore: null,
         };
 
-        // ============================================
-        // DOM REFS
-        // ============================================
+        // ============================================================
+        // DOM
+        // ============================================================
         const $ = (sel) => document.querySelector(sel);
-
         const DOM = {
             loginSection: $('#loginSection'),
             signupSection: $('#signupSection'),
@@ -856,7 +573,6 @@
             signupEmail: $('#signupEmail'),
             signupCountryCode: $('#signupCountryCode'),
             signupPhone: $('#signupPhone'),
-            signupAdminCode: $('#signupAdminCode'),
             signupReferral: $('#signupReferral'),
             signupPassword: $('#signupPassword'),
             signupSubmit: $('#signupSubmit'),
@@ -864,7 +580,6 @@
             signupEmailError: $('#signupEmailError'),
             signupPhoneError: $('#signupPhoneError'),
             signupRoleError: $('#signupRoleError'),
-            signupAdminCodeError: $('#signupAdminCodeError'),
             signupReferralError: $('#signupReferralError'),
             signupPasswordError: $('#signupPasswordError'),
 
@@ -879,70 +594,181 @@
             referrerName: $('#referrerName'),
             refBadge: $('#refBadge'),
             selfReferralWarning: $('#selfReferralWarning'),
-
             toastContainer: $('#toastContainer'),
-
             roleSelector: $('#roleSelector'),
-            adminCodeGroup: $('#adminCodeGroup'),
         };
 
-        // ============================================
-        // FETCH ADMIN CODE FROM FIRESTORE
-        // ============================================
-        async function fetchAdminSecret() {
-            try {
-                const doc = await db.collection('settings').doc('admin').get();
-                if (doc.exists && doc.data().adminCode) {
-                    State.adminSecretFromFirestore = doc.data().adminCode;
-                }
-            } catch (e) {
-                console.error('Failed to fetch admin settings:', e);
+        // ============================================================
+        // ROLE HELPERS
+        // ============================================================
+        const PUBLIC_ROLES = ['learner', 'instructor', 'employer'];
+
+        function dashboardForRole(role) {
+            switch (role) {
+                case 'admin':
+                case 'super_admin':
+                case 'superadmin':
+                    return 'admin-dashboard.html';
+                case 'instructor':
+                    return 'instructor-dashboard.html';
+                case 'employer':
+                    return 'employer.html';
+                case 'learner':
+                default:
+                    return 'learner-dashboard.html';
             }
         }
 
-        // ============================================
+        function resolveRole(data) {
+            if (!data) return 'learner';
+            if (data.role) {
+                const r = String(data.role).toLowerCase();
+                if (r === 'super_admin' || r === 'superadmin') return 'admin';
+                if (r === 'admin') return 'admin';
+                if (r === 'instructor') return 'instructor';
+                if (r === 'employer') return 'employer';
+                return 'learner';
+            }
+            if (Array.isArray(data.roles)) {
+                const roles = data.roles.map(x => String(x).toLowerCase());
+                if (roles.includes('admin') || roles.includes('super_admin') || roles.includes('superadmin')) return 'admin';
+                if (roles.includes('instructor')) return 'instructor';
+                if (roles.includes('employer')) return 'employer';
+            }
+            if (data.isAdmin === true) return 'admin';
+            return 'learner';
+        }
+
+        // ============================================================
+        // REDIRECT TARGET RESOLUTION
+        // ============================================================
+        function isValidRelativeUrl(url) {
+            if (!url || typeof url !== 'string') return false;
+            if (url.length > 500) return false;
+            if (/^https?:\/\//i.test(url)) {
+                try {
+                    const u = new URL(url);
+                    return u.origin === location.origin;
+                } catch (_) { return false; }
+            }
+            if (url.startsWith('//')) return false;
+            if (/^(javascript|data|vbscript):/i.test(url)) return false;
+            return true;
+        }
+
+        function getRedirectTarget(role) {
+            try {
+                const stored = sessionStorage.getItem('tl_post_login_redirect');
+                if (stored) {
+                    sessionStorage.removeItem('tl_post_login_redirect');
+                    if (isValidRelativeUrl(stored)) {
+                        if (/^https?:\/\//i.test(stored)) {
+                            try {
+                                const u = new URL(stored);
+                                return u.pathname + u.search + u.hash;
+                            } catch (_) {}
+                        }
+                        return stored;
+                    }
+                }
+            } catch (_) {}
+
+            const params = new URLSearchParams(location.search);
+            const redirectParam = params.get('redirect');
+            if (redirectParam) {
+                try {
+                    const decoded = decodeURIComponent(redirectParam);
+                    if (isValidRelativeUrl(decoded)) {
+                        if (/^https?:\/\//i.test(decoded)) {
+                            try {
+                                const u = new URL(decoded);
+                                if (u.origin === location.origin) {
+                                    return u.pathname + u.search + u.hash;
+                                }
+                            } catch (_) {}
+                        } else {
+                            return decoded;
+                        }
+                    }
+                } catch (_) {}
+            }
+
+            return dashboardForRole(role);
+        }
+
+        // ============================================================
+        // PROFILE URL HELPERS
+        // ============================================================
+        function peekStoredRedirect() {
+            try {
+                const stored = sessionStorage.getItem('tl_post_login_redirect');
+                if (stored && isValidRelativeUrl(stored)) {
+                    if (/^https?:\/\//i.test(stored)) {
+                        try {
+                            const u = new URL(stored);
+                            return u.pathname + u.search + u.hash;
+                        } catch (_) {}
+                    }
+                    return stored;
+                }
+            } catch (_) {}
+            return null;
+        }
+
+        function buildProfileUrl(isFirst) {
+            let returnTarget = null;
+            try {
+                const stored = sessionStorage.getItem('tl_post_login_redirect');
+                if (stored) {
+                    sessionStorage.removeItem('tl_post_login_redirect');
+                    if (isValidRelativeUrl(stored)) {
+                        if (/^https?:\/\//i.test(stored)) {
+                            try {
+                                const u = new URL(stored);
+                                returnTarget = u.pathname + u.search + u.hash;
+                            } catch (_) {}
+                        } else {
+                            returnTarget = stored;
+                        }
+                    }
+                }
+            } catch (_) {}
+
+            // Also honour ?redirect= if the user arrived via that param
+            if (!returnTarget) {
+                const params = new URLSearchParams(location.search);
+                const redirectParam = params.get('redirect');
+                if (redirectParam) {
+                    try {
+                        const decoded = decodeURIComponent(redirectParam);
+                        if (isValidRelativeUrl(decoded) && !/^https?:\/\//i.test(decoded)) {
+                            returnTarget = decoded;
+                        }
+                    } catch (_) {}
+                }
+            }
+
+            const params = new URLSearchParams();
+            params.set('complete', 'true');
+            if (isFirst) params.set('first', '1');
+            if (returnTarget) params.set('return', returnTarget);
+            return 'profile.html?' + params.toString();
+        }
+
+        // ============================================================
         // ROLE SELECTION
-        // ============================================
+        // ============================================================
         window.selectRole = function(role) {
+            if (!PUBLIC_ROLES.includes(role)) return;
             State.selectedRole = role;
             document.querySelectorAll('.role-option').forEach(el => {
                 el.classList.toggle('selected', el.dataset.role === role);
             });
-
-            if (role === 'admin') {
-                DOM.adminCodeGroup.classList.add('show');
-            } else {
-                DOM.adminCodeGroup.classList.remove('show');
-                if (DOM.signupAdminCode) DOM.signupAdminCode.value = '';
-            }
         };
 
-        // Reveal admin option by clicking logo 5 times
-        let logoClickCount = 0;
-        document.querySelector('.auth-logo')?.addEventListener('click', function() {
-            logoClickCount++;
-            if (logoClickCount === 5) {
-                const roleSelector = DOM.roleSelector;
-                if (!roleSelector.querySelector('[data-role="admin"]')) {
-                    const adminOption = document.createElement('div');
-                    adminOption.className = 'role-option';
-                    adminOption.dataset.role = 'admin';
-                    adminOption.innerHTML = `
-                        <span class="role-icon">👑</span>
-                        <div class="role-name">Admin</div>
-                        <div class="role-desc">Manage everything</div>
-                    `;
-                    adminOption.onclick = function() { window.selectRole('admin'); };
-                    roleSelector.appendChild(adminOption);
-                    showToast('👑 Admin role revealed!', 'info', '🔓');
-                }
-                logoClickCount = 0;
-            }
-        });
-
-        // ============================================
-        // TOAST SYSTEM
-        // ============================================
+        // ============================================================
+        // TOASTS
+        // ============================================================
         function showToast(message, type = 'success', emoji = '🎉') {
             const container = DOM.toastContainer;
             const toast = document.createElement('div');
@@ -953,37 +779,31 @@
                 <button class="toast-close" onclick="this.closest('.toast').remove()">✕</button>
             `;
             container.appendChild(toast);
-            setTimeout(() => {
-                if (toast.parentNode) toast.remove();
-            }, 4000);
+            setTimeout(() => { if (toast.parentNode) toast.remove(); }, 4000);
         }
 
-        // ============================================
-        // SECTION TOGGLING
-        // ============================================
+        // ============================================================
+        // SECTION SWITCHING
+        // ============================================================
         function showSection(section) {
             State.currentSection = section;
             DOM.loginSection.classList.remove('active');
             DOM.signupSection.classList.remove('active');
             DOM.resetSection.classList.remove('active');
             clearAllFieldErrors();
-
-            switch (section) {
-                case 'login': DOM.loginSection.classList.add('active'); break;
-                case 'signup': DOM.signupSection.classList.add('active'); break;
-                case 'reset': DOM.resetSection.classList.add('active'); break;
-            }
+            if (section === 'login') DOM.loginSection.classList.add('active');
+            else if (section === 'signup') DOM.signupSection.classList.add('active');
+            else if (section === 'reset') DOM.resetSection.classList.add('active');
         }
+        $('#showSignup').addEventListener('click', e => { e.preventDefault(); showSection('signup'); });
+        $('#showLogin').addEventListener('click', e => { e.preventDefault(); showSection('login'); });
+        $('#showReset').addEventListener('click', e => { e.preventDefault(); showSection('reset'); });
+        $('#showLoginFromReset').addEventListener('click', e => { e.preventDefault(); showSection('login'); });
 
-        $('#showSignup').addEventListener('click', (e) => { e.preventDefault(); showSection('signup'); });
-        $('#showLogin').addEventListener('click', (e) => { e.preventDefault(); showSection('login'); });
-        $('#showReset').addEventListener('click', (e) => { e.preventDefault(); showSection('reset'); });
-        $('#showLoginFromReset').addEventListener('click', (e) => { e.preventDefault(); showSection('login'); });
-
-        // ============================================
-        // PASSWORD TOGGLE
-        // ============================================
-        document.addEventListener('click', (e) => {
+        // ============================================================
+        // PASSWORD VISIBILITY TOGGLE
+        // ============================================================
+        document.addEventListener('click', e => {
             const btn = e.target.closest('.toggle-password');
             if (!btn) return;
             const targetId = btn.getAttribute('data-target');
@@ -994,9 +814,9 @@
             btn.textContent = isPass ? '🙈' : '👁️';
         });
 
-        // ============================================
-        // FIELD ERROR HANDLING
-        // ============================================
+        // ============================================================
+        // FIELD ERRORS
+        // ============================================================
         function showFieldError(el, msg) {
             if (!el) return;
             el.textContent = '⚠ ' + msg;
@@ -1025,29 +845,31 @@
                 'auth/user-not-found': 'No account found with this email.',
                 'auth/wrong-password': 'Incorrect password.',
                 'auth/invalid-credential': 'Invalid email or password.',
-                'auth/too-many-requests': 'Too many attempts. Wait a moment.',
-                'auth/network-request-failed': 'Network error.',
+                'auth/too-many-requests': 'Too many attempts. Please wait a moment.',
+                'auth/network-request-failed': 'Network error. Please check your connection.',
                 'auth/requires-recent-login': 'Please sign in again.',
             };
             return map[error?.code] || error?.message || 'An error occurred.';
         }
 
-        // ============================================
-        // LOADING STATE
-        // ============================================
+        // ============================================================
+        // LOADING HELPERS
+        // ============================================================
         function setButtonLoading(btn, loading) {
-            if (loading) { btn.classList.add('loading'); btn.disabled = true; }
-            else { btn.classList.remove('loading'); btn.disabled = false; }
+            if (!btn) return;
+            btn.classList.toggle('loading', !!loading);
+            btn.disabled = !!loading;
         }
         function setProcessingState(processing) {
-            State.isProcessing = processing;
-            [DOM.loginSubmit, DOM.signupSubmit, DOM.resetSubmit]
-                .forEach(b => { if (b) b.disabled = processing; });
+            State.isProcessing = !!processing;
+            [DOM.loginSubmit, DOM.signupSubmit, DOM.resetSubmit].forEach(b => {
+                if (b) b.disabled = !!processing;
+            });
         }
 
-        // ============================================
-        // VALIDATION
-        // ============================================
+        // ============================================================
+        // VALIDATORS
+        // ============================================================
         function validateEmail(email) {
             if (!email?.trim()) return 'Email is required.';
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return 'Invalid email.';
@@ -1067,8 +889,10 @@
             if (!phone?.trim()) return null;
             const digits = phone.replace(/\D/g, '');
             const lengthMap = {
-                '+234': 10, '+1': 10, '+44': 10,
-                '+233': 9, '+254': 9, '+27': 9,
+                '+234': 10, '+1': 10, '+44': 10, '+233': 9,
+                '+254': 9, '+27': 9, '+971': 9, '+91': 10,
+                '+61': 9, '+49': 10, '+33': 9, '+81': 10,
+                '+86': 11, '+55': 10, '+52': 10,
             };
             const expected = lengthMap[countryCode] || 8;
             if (digits.length < expected) return `Phone number seems too short for ${countryCode}.`;
@@ -1076,21 +900,15 @@
             return null;
         }
 
-        // ============================================
-        // REFERRAL CODE GENERATION
-        // ============================================
+        // ============================================================
+        // REFERRAL
+        // ============================================================
         function generateReferralCode(name) {
-            const base = (name || 'user')
-                .replace(/[^a-zA-Z0-9]/g, '')
-                .substring(0, 6)
-                .toUpperCase();
+            const base = (name || 'user').replace(/[^a-zA-Z0-9]/g, '').substring(0, 6).toUpperCase();
             const random = Math.random().toString(36).substring(2, 6).toUpperCase();
             return (base + random).substring(0, 10);
         }
 
-        // ============================================
-        // VALIDATE REFERRAL CODE
-        // ============================================
         async function getReferrerInfo(code) {
             if (!code?.trim()) return null;
             const cleanCode = code.trim().toUpperCase();
@@ -1099,41 +917,35 @@
                     .where('referralCode', '==', cleanCode)
                     .limit(1)
                     .get();
-                if (!snap.empty) {
-                    const doc = snap.docs[0];
-                    const data = doc.data();
-                    return {
-                        uid: doc.id,
-                        fullName: data.fullName || 'Someone',
-                        email: data.email,
-                        avatar: data.avatar || data.photoURL || null,
-                        referralCode: data.referralCode,
-                    };
-                }
-                return null;
+                if (snap.empty) return null;
+                const doc = snap.docs[0];
+                const data = doc.data();
+                return {
+                    uid: doc.id,
+                    fullName: data.fullName || 'Someone',
+                    email: data.email,
+                    avatar: data.avatar || data.photoURL || null,
+                    referralCode: data.referralCode,
+                };
             } catch (e) {
-                console.error('Referral validation error:', e);
+                console.error('Referral lookup error:', e);
                 return null;
             }
         }
 
-        // ============================================
-        // URL REFERRAL DETECTION
-        // ============================================
         async function detectReferralFromUrl() {
             const params = new URLSearchParams(window.location.search);
             const ref = params.get('ref');
             const source = params.get('source') || 'direct';
-
             if (!ref) return;
 
             State.referralFromUrl = ref.toUpperCase().trim();
             State.referralSource = source;
 
-            const currentUser = auth.currentUser;
             const referrerData = await getReferrerInfo(ref);
 
             if (referrerData) {
+                const currentUser = auth.currentUser;
                 if (currentUser && referrerData.uid === currentUser.uid) {
                     DOM.selfReferralWarning.classList.add('show');
                     DOM.referralBanner.classList.remove('show');
@@ -1164,19 +976,12 @@
                 DOM.referralBanner.classList.add('show');
                 DOM.selfReferralWarning.classList.remove('show');
 
-                if (DOM.signupReferral) {
-                    DOM.signupReferral.value = State.referralFromUrl;
-                }
-
+                if (DOM.signupReferral) DOM.signupReferral.value = State.referralFromUrl;
                 showSection('signup');
 
                 setTimeout(() => {
-                    showToast(
-                        `${referrerData.fullName} invited you! 🎉 Use their code to get started.`,
-                        'info', '👋'
-                    );
+                    showToast(`${referrerData.fullName} invited you! 🎉 Use their code to get started.`, 'info', '👋');
                 }, 500);
-
             } else {
                 State.isValidReferral = false;
                 DOM.referralBanner.classList.add('show');
@@ -1187,9 +992,7 @@
                 DOM.avatarPlaceholder.style.display = 'flex';
                 DOM.avatarPlaceholder.textContent = '❓';
 
-                if (DOM.signupReferral) {
-                    DOM.signupReferral.value = State.referralFromUrl;
-                }
+                if (DOM.signupReferral) DOM.signupReferral.value = State.referralFromUrl;
                 showSection('signup');
 
                 setTimeout(() => {
@@ -1198,50 +1001,30 @@
             }
         }
 
-        // ============================================
-        // CREATE USER DOCUMENT
-        // ============================================
+        // ============================================================
+        // USER DOC CREATION
+        // Public roles only. Admin/Super Admin never created from client.
+        // ============================================================
         async function createUserDocument(user, extraData = {}) {
-            const name = extraData.fullName || user.displayName || user.email?.split('@')[0] || 'Learner';
+            const name = extraData.fullName || user.displayName || (user.email || '').split('@')[0] || 'Learner';
             const referralCode = generateReferralCode(name);
             const countryCode = extraData.countryCode || '+234';
-            const phoneRaw = extraData.phone || user.phoneNumber || '';
+            const phoneRaw = extraData.phone || '';
             const fullPhone = phoneRaw ? `${countryCode}${phoneRaw.replace(/\D/g, '')}` : '';
-            const role = extraData.role || 'learner';
-            const isAdmin = extraData.isAdmin || false;
+
+            const role = PUBLIC_ROLES.includes(extraData.role) ? extraData.role : 'learner';
 
             const roles = ['learner'];
-            if (role === 'instructor' && !roles.includes('instructor')) roles.push('instructor');
-            if (role === 'employer' && !roles.includes('employer')) roles.push('employer');
-            if (isAdmin) roles.push('admin');
+            if (role !== 'learner' && !roles.includes(role)) roles.push(role);
 
-            const freeTrialEnd = role === 'instructor'
-                ? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-                : null;
-
-            // ===== PROFILE FIELDS TRACKING =====
             const phoneProvided = !!fullPhone;
             const profileFields = {
-                fullName: true,
-                email: true,
-                phone: phoneProvided,
-                role: true,
-                bio: false,
-                skills: false,
-                profilePicture: false,
-                coverImage: false,
-                jobTitle: false,
-                company: false,
-                socialLinks: false,
-                workExperience: false,
-                education: false,
-                teachingExperience: false,
-                expertiseAreas: false,
-                bankDetails: false,
-                companyName: false,
-                companyDescription: false,
-                companyWebsite: false,
-                industry: false,
+                fullName: true, email: true, phone: phoneProvided, role: true,
+                bio: false, skills: false, profilePicture: false, coverImage: false,
+                jobTitle: false, company: false, socialLinks: false,
+                workExperience: false, education: false,
+                teachingExperience: false, expertiseAreas: false, bankDetails: false,
+                companyName: false, companyDescription: false, companyWebsite: false, industry: false,
             };
 
             const userDoc = {
@@ -1249,8 +1032,11 @@
                 email: user.email,
                 phone: fullPhone,
                 countryCode: countryCode,
+
+                role: role,
                 roles: roles,
-                activeRole: isAdmin ? 'admin' : role,
+                activeRole: role,
+
                 referralCode: referralCode,
                 referralLink: `${window.location.origin}/auth.html?ref=${referralCode}`,
                 referredBy: extraData.referredBy || null,
@@ -1258,14 +1044,11 @@
                 referredByName: extraData.referredByName || null,
                 referredByEmail: extraData.referredByEmail || null,
                 referralSource: extraData.referralSource || 'direct',
-                profileComplete: 0,
                 referralEarnings: 0,
                 referralPending: 0,
-                profileViews: 0,
-                contacts: 0,
-                privacyLevel: 'public',
-                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+
+                profileComplete: 0,
+                profileFields: profileFields,
                 profilePicture: null,
                 coverImage: null,
                 bio: null,
@@ -1283,94 +1066,84 @@
                 companyWebsite: null,
                 companyDescription: null,
                 industry: null,
-                isAdmin: isAdmin,
-                subscriptionStatus: role === 'instructor' ? 'free_trial' : null,
-                subscriptionEnd: null,
-                freeTrialEnd: freeTrialEnd,
+                privacyLevel: 'public',
+
+                profileViews: 0,
+                contacts: 0,
                 enrolledCourses: [],
                 certificates: [],
-                profileFields: profileFields,
+
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
             };
 
-            await db.collection('users').doc(user.uid).set(userDoc);
-
-            if (extraData.referredBy) {
-                await db.collection('referrals').add({
-                    referrerUid: extraData.referredBy,
-                    referredUid: user.uid,
-                    referredName: name,
-                    referredEmail: user.email,
-                    referralCode: extraData.referredByCode,
-                    source: extraData.referralSource || 'direct',
-                    status: 'registered',
-                    rewardAmount: 0,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                });
+            if (role === 'instructor') {
+                userDoc.subscriptionStatus = 'free_trial';
+                userDoc.subscriptionEnd = null;
+                userDoc.freeTrialEnd = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
             }
 
+            await db.collection('users').doc(user.uid).set(userDoc);
             return userDoc;
         }
 
-        // ============================================
-        // POST-AUTH REDIRECT
-        // ============================================
-        async function handlePostAuthRedirect(user, isNewSignup = false) {
+        // ============================================================
+        // POST-AUTH REDIRECT (with profile gate)
+        // Priority:
+        //   1. Admin/Super Admin → admin dashboard (no gate)
+        //   2. Public role + profile incomplete → profile.html
+        //   3. Public role + profile complete → saved redirect OR dashboard
+        // ============================================================
+        async function handlePostAuthRedirect(user, isNewSignup) {
             if (State.redirectScheduled) return;
             State.redirectScheduled = true;
 
             try {
-                const userDocSnap = await db.collection('users').doc(user.uid).get();
-                const data = userDocSnap.exists ? userDocSnap.data() : {};
+                let userDocSnap = await db.collection('users').doc(user.uid).get();
+                let data;
 
                 if (!userDocSnap.exists) {
-                    const newUserRole = State.isAdmin ? 'admin' : (State.selectedRole || 'learner');
-                    await createUserDocument(user, {
-                        role: newUserRole,
-                        isAdmin: State.isAdmin,
-                        fullName: user.displayName || 'Learner',
-                        phone: user.phoneNumber || '',
+                    data = await createUserDocument(user, {
+                        fullName: user.displayName || '',
+                        role: 'learner',
                     });
-                    const roleNames = { 'learner': 'Learner', 'instructor': 'Instructor', 'employer': 'Employer', 'admin': 'Admin' };
-                    showToast(`🎉 Welcome! Account created as ${roleNames[newUserRole] || 'Learner'}. Complete your profile.`, 'success', '🎊');
-                    setTimeout(() => { window.location.href = 'dashboard.html?incomplete=true'; }, 1500);
+                } else {
+                    data = userDocSnap.data();
+                }
+
+                const role = resolveRole(data);
+                const name = data.fullName || 'Learner';
+
+                // ---- Admin bypasses the profile gate ----
+                if (role === 'admin') {
+                    const target = getRedirectTarget('admin');
+                    showToast(`👑 Welcome back, ${name}!`, 'info', '👑');
+                    setTimeout(() => { window.location.href = target; }, 800);
                     return;
                 }
 
-                if (isNewSignup && data.referredByName) {
-                    showToast(
-                        `🎉 Welcome ${data.fullName || 'Learner'}! You were referred by ${data.referredByName}. You both get rewards! 🎊`,
-                        'success', '🎊'
-                    );
-                    setTimeout(() => { window.location.href = 'dashboard.html?incomplete=true'; }, 2000);
+                // ---- Public roles: profile gate ----
+                const profileComplete = Number(data.profileComplete || 0);
+                const needsProfile = PROFILE_GATE_ENABLED && profileComplete < PROFILE_COMPLETE_THRESHOLD;
+
+                if (needsProfile) {
+                    const profileUrl = buildProfileUrl(isNewSignup);
+                    const msg = isNewSignup
+                        ? `🎉 Welcome, ${name}! Let's set up your profile to get started.`
+                        : `👋 Welcome back, ${name}! Please complete your profile to continue.`;
+                    showToast(msg, 'info', '📝');
+                    setTimeout(() => { window.location.href = profileUrl; }, 900);
                     return;
                 }
 
-                // Admin redirect
-                if (data.isAdmin || (data.roles && data.roles.includes('admin'))) {
-                    showToast('👑 Welcome Admin!', 'info', '👑');
-                    setTimeout(() => { window.location.href = 'admin-dashboard.html'; }, 1000);
-                    return;
+                // ---- Profile complete: normal redirect ----
+                const target = getRedirectTarget(role);
+                if (isNewSignup) {
+                    showToast(`🎉 Welcome, ${name}! Your account is ready.`, 'success', '🎊');
+                } else {
+                    showToast(`Welcome back, ${name}! 👋`, 'success', '👋');
                 }
-
-                const activeRole = data.activeRole || (data.roles && data.roles.length > 0 ? data.roles[0] : 'learner');
-                const profileComplete = data.profileComplete || 0;
-
-                // ===== 40% THRESHOLD → DASHBOARD WITH BANNER =====
-                if (profileComplete < 40) {
-                    showToast('📝 Please complete your profile to get started.', 'info', '📝');
-                    setTimeout(() => { window.location.href = 'dashboard.html?incomplete=true'; }, 1500);
-                    return;
-                }
-
-                const dashboardMap = {
-                    'learner': 'learner-dashboard.html',
-                    'instructor': 'instructor-dashboard.html',
-                    'employer': 'employer-dashboard.html',
-                    'admin': 'admin-dashboard.html'
-                };
-                const redirectUrl = dashboardMap[activeRole] || 'learner-dashboard.html';
-                showToast(`Welcome back, ${data.fullName || 'Learner'}! 👋`, 'success', '👋');
-                setTimeout(() => { window.location.href = redirectUrl; }, 1000);
+                setTimeout(() => { window.location.href = target; }, 800);
 
             } catch (e) {
                 State.redirectScheduled = false;
@@ -1380,9 +1153,9 @@
             }
         }
 
-        // ============================================
+        // ============================================================
         // LOGIN
-        // ============================================
+        // ============================================================
         DOM.loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (State.isProcessing) return;
@@ -1391,6 +1164,7 @@
             const email = DOM.loginEmail.value.trim();
             const pw = DOM.loginPassword.value;
             const rememberMe = DOM.rememberMe?.checked || false;
+
             const emailErr = validateEmail(email);
             const pwErr = validatePassword(pw);
             if (emailErr) showFieldError(DOM.loginEmailError, emailErr);
@@ -1401,12 +1175,11 @@
             setButtonLoading(DOM.loginSubmit, true);
 
             try {
-                // ===== SET PERSISTENCE BASED ON REMEMBER ME =====
-                const persistence = rememberMe 
-                    ? firebase.auth.Auth.Persistence.LOCAL 
+                const persistence = rememberMe
+                    ? firebase.auth.Auth.Persistence.LOCAL
                     : firebase.auth.Auth.Persistence.SESSION;
-                
                 await auth.setPersistence(persistence);
+
                 const cred = await auth.signInWithEmailAndPassword(email, pw);
                 await handlePostAuthRedirect(cred.user, false);
             } catch (err) {
@@ -1416,9 +1189,9 @@
             }
         });
 
-        // ============================================
+        // ============================================================
         // SIGNUP
-        // ============================================
+        // ============================================================
         DOM.signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (State.isProcessing) return;
@@ -1430,8 +1203,7 @@
             const phone = DOM.signupPhone.value.trim();
             const referralInput = DOM.signupReferral.value.trim();
             const pw = DOM.signupPassword.value;
-            const role = State.selectedRole || 'learner';
-            const adminCode = DOM.signupAdminCode.value.trim();
+            const role = PUBLIC_ROLES.includes(State.selectedRole) ? State.selectedRole : 'learner';
 
             const nameErr = validateName(name);
             const emailErr = validateEmail(email);
@@ -1444,31 +1216,11 @@
             if (phoneErr) showFieldError(DOM.signupPhoneError, phoneErr);
             if (nameErr || emailErr || pwErr || phoneErr) return;
 
-            let isAdmin = false;
-            if (role === 'admin') {
-                if (!State.adminSecretFromFirestore) {
-                    showFieldError(DOM.signupAdminCodeError, 'Admin verification unavailable. Try again.');
-                    return;
-                }
-                if (adminCode === State.adminSecretFromFirestore) {
-                    isAdmin = true;
-                } else {
-                    showFieldError(DOM.signupAdminCodeError, 'Invalid admin code.');
-                    return;
-                }
-            }
-
             let referralData = null;
             if (referralInput) {
                 referralData = await getReferrerInfo(referralInput);
                 if (!referralData) {
                     showFieldError(DOM.signupReferralError, 'Invalid referral code. You can still continue.');
-                } else {
-                    const currentUser = auth.currentUser;
-                    if (currentUser && referralData.uid === currentUser.uid) {
-                        showFieldError(DOM.signupReferralError, 'You cannot refer yourself!');
-                        return;
-                    }
                 }
             }
 
@@ -1484,68 +1236,19 @@
                 const referrerEmail = referralData?.email || State.referrerEmail || null;
                 const referralCode = referralData?.referralCode || State.referralFromUrl || null;
 
-                const finalRole = isAdmin ? 'admin' : role;
-
-                // ===== PHONE FLAG FOR PROFILE FIELDS =====
-                const phoneProvided = !!phone;
-
                 await createUserDocument(cred.user, {
                     fullName: name,
                     phone: phone,
                     countryCode: countryCode,
-                    role: finalRole,
-                    isAdmin: isAdmin,
+                    role: role,
                     referredBy: referrerUid,
                     referredByCode: referralCode,
                     referredByName: referrerName,
                     referredByEmail: referrerEmail,
                     referralSource: State.referralSource || 'direct',
-                    // Profile fields tracking
-                    profileFields: {
-                        fullName: true,
-                        email: true,
-                        phone: phoneProvided,
-                        role: true,
-                        bio: false,
-                        skills: false,
-                        profilePicture: false,
-                        coverImage: false,
-                        jobTitle: false,
-                        company: false,
-                        socialLinks: false,
-                        workExperience: false,
-                        education: false,
-                        teachingExperience: false,
-                        expertiseAreas: false,
-                        bankDetails: false,
-                        companyName: false,
-                        companyDescription: false,
-                        companyWebsite: false,
-                        industry: false,
-                    }
                 });
 
-                const roleMessages = {
-                    'learner': 'Start your learning journey! 🚀',
-                    'instructor': 'Create your first course! 📚',
-                    'employer': 'Post your first job! 💼',
-                    'admin': 'Welcome to the admin panel! 👑'
-                };
-
-                if (referrerName) {
-                    showToast(
-                        `🎉 Welcome ${name}! Referred by ${referrerName}. Role: ${role === 'employer' ? 'Employer' : finalRole.charAt(0).toUpperCase() + finalRole.slice(1)}. ${roleMessages[finalRole] || ''}`,
-                        'success', '🎊'
-                    );
-                } else {
-                    showToast(
-                        `🎉 Account created! Role: ${role === 'employer' ? 'Employer' : finalRole.charAt(0).toUpperCase() + finalRole.slice(1)}. ${roleMessages[finalRole] || ''}`,
-                        'success', '🎊'
-                    );
-                }
-
-                setTimeout(() => { window.location.href = 'dashboard.html?incomplete=true'; }, 2000);
-
+                await handlePostAuthRedirect(cred.user, true);
             } catch (err) {
                 showToast(getFirebaseError(err), 'error', '❌');
                 setProcessingState(false);
@@ -1553,9 +1256,9 @@
             }
         });
 
-        // ============================================
-        // PASSWORD RESET
-        // ============================================
+        // ============================================================
+        // RESET PASSWORD
+        // ============================================================
         DOM.resetForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (State.isProcessing) return;
@@ -1577,7 +1280,9 @@
                 DOM.resetEmail.value = '';
                 setProcessingState(false);
                 setButtonLoading(DOM.resetSubmit, false);
-                setTimeout(() => { if (State.currentSection === 'reset') showSection('login'); }, 3000);
+                setTimeout(() => {
+                    if (State.currentSection === 'reset') showSection('login');
+                }, 3000);
             } catch (err) {
                 showToast(getFirebaseError(err), 'error', '❌');
                 setProcessingState(false);
@@ -1585,9 +1290,9 @@
             }
         });
 
-        // ============================================
-        // REAL-TIME FIELD VALIDATION
-        // ============================================
+        // ============================================================
+        // BLUR VALIDATION
+        // ============================================================
         const blurValidators = [
             { input: DOM.loginEmail, error: DOM.loginEmailError, fn: validateEmail },
             { input: DOM.loginPassword, error: DOM.loginPasswordError, fn: validatePassword },
@@ -1596,7 +1301,6 @@
             { input: DOM.signupPassword, error: DOM.signupPasswordError, fn: validatePassword },
             { input: DOM.resetEmail, error: DOM.resetEmailError, fn: validateEmail },
         ];
-
         blurValidators.forEach(({ input, error, fn }) => {
             if (!input) return;
             input.addEventListener('blur', () => {
@@ -1605,32 +1309,29 @@
                 else clearFieldError(error);
             });
         });
-
         if (DOM.signupPhone) {
             DOM.signupPhone.addEventListener('blur', () => {
                 const phone = DOM.signupPhone.value.trim();
-                const countryCode = DOM.signupCountryCode.value;
-                if (phone) {
-                    const msg = validatePhone(phone, countryCode);
-                    if (msg) showFieldError(DOM.signupPhoneError, msg);
-                    else clearFieldError(DOM.signupPhoneError);
-                }
+                const code = DOM.signupCountryCode.value;
+                if (!phone) return;
+                const msg = validatePhone(phone, code);
+                if (msg) showFieldError(DOM.signupPhoneError, msg);
+                else clearFieldError(DOM.signupPhoneError);
             });
         }
 
-        document.addEventListener('input', (e) => {
+        document.addEventListener('input', e => {
             if (!e.target.closest('input, select')) return;
             const fg = e.target.closest('.form-group');
-            if (fg) {
-                const errEl = fg.querySelector('.field-error');
-                if (errEl) clearFieldError(errEl);
-                e.target.classList.remove('input-error');
-            }
+            if (!fg) return;
+            const errEl = fg.querySelector('.field-error');
+            if (errEl) clearFieldError(errEl);
+            e.target.classList.remove('input-error');
         });
 
-        // ============================================
+        // ============================================================
         // AUTH STATE LISTENER
-        // ============================================
+        // ============================================================
         auth.onAuthStateChanged(async (user) => {
             if (user && !State.isProcessing && !State.redirectScheduled) {
                 setProcessingState(true);
@@ -1638,18 +1339,16 @@
             }
         });
 
-        // ============================================
+        // ============================================================
         // INIT
-        // ============================================
+        // ============================================================
         async function init() {
-            await fetchAdminSecret();
             window.selectRole('learner');
             setTimeout(async () => {
                 await detectReferralFromUrl();
             }, 300);
-            console.log('✅ TRIANGLE LEARN Auth — Multi-role with profile completion tracking');
+            console.log('✅ TRIANGLE LEARN Auth — Phase 2 (profile gate ON)');
         }
-
         init();
     })();
     </script>
