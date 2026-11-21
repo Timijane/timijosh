@@ -113,7 +113,6 @@
             to { opacity: 0; transform: translateY(20px) scale(0.95); }
         }
 
-        /* Profile header */
         .profile-header {
             background: #fff; border-radius: var(--radius-lg); overflow: hidden;
             box-shadow: var(--shadow-sm); border: 1px solid var(--border); margin-bottom: 20px;
@@ -213,7 +212,6 @@
             .profile-name-info h1 { font-size: var(--text-sm); }
         }
 
-        /* Completion bar */
         .completion-bar {
             background: #fff; border-radius: var(--radius-sm); padding: 14px 16px;
             border: 1px solid var(--border); margin-bottom: 20px;
@@ -239,7 +237,6 @@
         }
         @media (min-width: 480px) { .completion-bar .status-msg { flex: none; text-align: left; } }
 
-        /* Form layout */
         .profile-form { display: grid; grid-template-columns: 1fr; gap: 16px; }
         @media (min-width: 768px) { .profile-form { grid-template-columns: 1fr 320px; gap: 20px; } }
         @media (min-width: 1024px) { .profile-form { grid-template-columns: 1fr 340px; } }
@@ -294,14 +291,14 @@
             border-color: var(--purple); box-shadow: 0 0 0 3px rgba(108,92,231,0.1);
         }
         .form-group textarea { resize: vertical; min-height: 60px; }
-        .form-group .field-hint { font-size: var(--text-xs); color: var(--text-muted); margin-top: 3px; }
+        .form-group .field-hint { font-size: var(--text-xs); color: var(--text-muted); margin-top: 3px; line-height: 1.4; }
+        .form-group .field-hint.reason { background: var(--bg-alt); padding: 6px 10px; border-radius: 8px; margin-top: 6px; }
         .form-group .field-error {
             font-size: var(--text-xs); color: var(--danger);
             margin-top: 3px; display: none;
         }
         .form-group .field-error.show { display: block; }
 
-        /* Skills */
         .skills-container {
             display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 6px;
             min-height: 44px; max-height: 180px; overflow-y: auto;
@@ -345,7 +342,6 @@
             .skills-input-group input, .skills-input-group select { width: 100%; flex: none; }
         }
 
-        /* Entry items */
         .entry-item {
             background: var(--bg-alt); border-radius: var(--radius-sm);
             padding: 12px; margin-bottom: 10px; border: 1px solid var(--border);
@@ -372,7 +368,6 @@
         .entry-item .entry-body .form-group input,
         .entry-item .entry-body .form-group textarea { font-size: var(--text-sm); padding: 6px 10px; min-height: 32px; }
 
-        /* Sidebar */
         .sidebar-section {
             background: #fff; border-radius: var(--radius-md);
             padding: 16px 14px; border: 1px solid var(--border);
@@ -387,7 +382,6 @@
         .sidebar-section .info-row .label { color: var(--text-muted); }
         .sidebar-section .info-row .value { font-weight: 600; }
 
-        /* Social links */
         .social-input { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
         @media (max-width: 480px) { .social-input { flex-direction: column; align-items: stretch; gap: 4px; } }
         .social-input .social-icon { font-size: var(--text-base); width: 26px; text-align: center; flex-shrink: 0; }
@@ -401,7 +395,6 @@
         @media (max-width: 480px) { .social-input input { min-width: auto; } }
         .social-input input:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(108,92,231,0.1); }
 
-        /* Buttons */
         .btn {
             display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
             border-radius: 22px; font-weight: 600; font-size: var(--text-sm);
@@ -510,12 +503,15 @@
                         <input type="text" id="company" placeholder="Google">
                     </div>
                     <div class="form-group">
-                        <label>Location <span class="optional-tag">(Optional)</span></label>
+                        <label>Location <span class="required-star">*</span> <span class="optional-tag">(City, Country)</span></label>
                         <input type="text" id="location" placeholder="Lagos, Nigeria">
+                        <div class="field-hint reason">📍 Why we ask: Your location powers job matching, local course discovery, and timezone alignment for live classes. We store city/region only — never your exact address.</div>
+                        <div class="field-error" id="locationError">Location is required</div>
                     </div>
                     <div class="form-group">
-                        <label>Bio / About You <span class="optional-tag">(Optional)</span></label>
+                        <label>Bio / About You <span class="required-star">*</span> <span class="optional-tag">(20+ characters)</span></label>
                         <textarea id="bio" rows="3" placeholder="Tell us about yourself, your expertise, and what you're passionate about..."></textarea>
+                        <div class="field-hint">Required — used for profile visibility and employer search.</div>
                     </div>
                 </div>
 
@@ -643,9 +639,10 @@
                 <div class="sidebar-section">
                     <h3>💡 Profile Tips</h3>
                     <ul style="font-size:var(--text-sm);color:var(--text-secondary);list-style:none;padding:0;line-height:2;">
-                        <li>📸 Add a professional photo</li>
+                        <li>📸 Add a professional photo (required)</li>
                         <li>🖼️ Add a cover image (required)</li>
-                        <li>📝 Write a compelling bio</li>
+                        <li>📍 Add your city/region (required)</li>
+                        <li>📝 Write a compelling bio (required)</li>
                         <li>🛠️ Add at least 3 skills</li>
                         <li>🔗 Connect your social profiles</li>
                         <li>📄 Upload your resume</li>
@@ -688,13 +685,13 @@
             folder: 'triangle_learn',
         };
 
-        // Profile must reach 80% to leave the gate.
-        // Target is 90-100% for a "complete" profile.
-        const PROFILE_GATE_THRESHOLD = 80;
+        // Gate at 60%. Target is 90-100% for full visibility.
+        const PROFILE_GATE_THRESHOLD = 60;
         const PROFILE_COMPLETE_TARGET = 90;
 
-        // If either picture is missing, score is capped below the gate.
-        const PIC_MISSING_CAP = 79;
+        // If any vital field is missing, score is capped below the gate.
+        // Vital = profile picture, cover image, full name, bio (20+), location.
+        const PIC_MISSING_CAP = 59;
 
         // ============================================
         // STATE
@@ -732,6 +729,7 @@
             jobTitle: $('#jobTitle'),
             company: $('#company'),
             location: $('#location'),
+            locationError: $('#locationError'),
             bio: $('#bio'),
             skillsContainer: $('#skillsContainer'),
             skillInput: $('#skillInput'),
@@ -784,9 +782,6 @@
             }
         }
 
-        // ============================================
-        // REDIRECT TARGET
-        // ============================================
         function isValidRelativeUrl(url) {
             if (!url || typeof url !== 'string') return false;
             if (url.length > 500) return false;
@@ -947,7 +942,7 @@
         }
 
         // ============================================
-        // ROLE-SPECIFIC FIELDS (employer, not jobgiver)
+        // ROLE-SPECIFIC FIELDS (employer)
         // ============================================
         function renderRoleSpecificFields(role) {
             const container = DOM.roleSpecificFields;
@@ -1037,6 +1032,9 @@
                                     <option value="201-500">201-500 employees</option>
                                     <option value="500+">500+ employees</option>
                                 </select>
+                            </div>
+                            <div class="form-group" style="margin-top:6px;">
+                                <div class="field-hint reason">📍 Your Location (above) is used as your Company HQ location. Applicants use this to filter roles by proximity.</div>
                             </div>
                         </div>
                     `;
@@ -1525,20 +1523,35 @@
 
         // ============================================
         // COMPLETION CALCULATION
+        // Vital (60%): profilePicture(20) + coverImage(12) + fullName(10) + bio(10) + location(8)
+        // Optional (40%): jobTitle(8) + company(4) + skills(10) + socialLinks(10) + workExperience(4) + education(2) + resume(2)
         // ============================================
         const WEIGHTS = {
+            // Vital — must all be present to pass 60% gate
             profilePicture: 20,
-            coverImage: 15,
+            coverImage: 12,
             fullName: 10,
-            jobTitle: 10,
-            company: 5,
             bio: 10,
+            location: 8,
+            // Optional — boost beyond 60%
+            jobTitle: 8,
+            company: 4,
             skills: 10,
             socialLinks: 10,
-            workExperience: 5,
-            education: 3,
+            workExperience: 4,
+            education: 2,
             resume: 2,
         };
+
+        function getMissingVital() {
+            const missing = [];
+            if (!State.avatarUrl) missing.push('profile picture');
+            if (!State.coverUrl) missing.push('cover image');
+            if (!DOM.fullName.value.trim()) missing.push('full name');
+            if (DOM.bio.value.trim().length < 20) missing.push('bio (20+ characters)');
+            if (!DOM.location.value.trim()) missing.push('location');
+            return missing;
+        }
 
         function calculateCompletion() {
             let completed = 0;
@@ -1553,14 +1566,17 @@
             if (DOM.fullName.value.trim().length > 0) completed += WEIGHTS.fullName;
             total += WEIGHTS.fullName;
 
+            if (DOM.bio.value.trim().length > 20) completed += WEIGHTS.bio;
+            total += WEIGHTS.bio;
+
+            if (DOM.location.value.trim().length > 0) completed += WEIGHTS.location;
+            total += WEIGHTS.location;
+
             if (DOM.jobTitle.value.trim().length > 0) completed += WEIGHTS.jobTitle;
             total += WEIGHTS.jobTitle;
 
             if (DOM.company.value.trim().length > 0) completed += WEIGHTS.company;
             total += WEIGHTS.company;
-
-            if (DOM.bio.value.trim().length > 20) completed += WEIGHTS.bio;
-            total += WEIGHTS.bio;
 
             const skillCount = State.skills.length;
             if (skillCount >= 3) completed += WEIGHTS.skills;
@@ -1588,8 +1604,9 @@
 
             const rawPercentage = Math.min(Math.round((completed / total) * 100), 100);
 
-            // HARD CAP: both profile picture and cover image required.
-            if (!State.avatarUrl || !State.coverUrl) {
+            // HARD CAP: if any vital field is missing, cap below the gate.
+            const missingVital = getMissingVital();
+            if (missingVital.length > 0) {
                 State.profileComplete = Math.min(rawPercentage, PIC_MISSING_CAP);
             } else {
                 State.profileComplete = rawPercentage;
@@ -1602,24 +1619,23 @@
             DOM.completionFill.style.width = pct + '%';
             DOM.completionPercent.textContent = pct + '%';
 
-            const missingPics = [];
-            if (!State.avatarUrl) missingPics.push('profile picture');
-            if (!State.coverUrl) missingPics.push('cover image');
+            const missingVital = getMissingVital();
 
             let msg = '';
-            if (missingPics.length > 0) {
-                msg = `📸 Add your ${missingPics.join(' and ')} to unlock the platform.`;
+            if (missingVital.length > 0) {
+                msg = `📸 Required: add ${missingVital.join(', ')}.`;
             } else if (pct >= 100) {
                 msg = '🎉 Perfect! Your profile is 100% complete!';
             } else if (pct >= PROFILE_COMPLETE_TARGET) {
                 msg = '🌟 Almost there! Add the last details to reach 100%.';
             } else if (pct >= PROFILE_GATE_THRESHOLD) {
-                msg = `✅ Ready to proceed! Improve your profile to ${PROFILE_COMPLETE_TARGET}%+ for full visibility.`;
+                msg = `✅ Ready to proceed! Improve to ${PROFILE_COMPLETE_TARGET}%+ for full visibility.`;
             } else {
-                msg = `📝 Complete your profile to ${PROFILE_GATE_THRESHOLD}% to unlock the platform.`;
+                msg = `📝 Complete the required fields to unlock the platform.`;
             }
             DOM.completionMsg.textContent = msg;
-            return pct >= PROFILE_GATE_THRESHOLD;
+
+            return missingVital.length === 0 && pct >= PROFILE_GATE_THRESHOLD;
         }
 
         // ============================================
@@ -1713,8 +1729,13 @@
                     setTimeout(() => { window.location.href = target; }, 1200);
                 } else {
                     updateCompletion();
-                    const needed = PROFILE_GATE_THRESHOLD - State.profileComplete;
-                    showToast(`Profile saved. ${needed}% more needed to unlock the platform.`, 'info', '📝');
+                    const missingVital = getMissingVital();
+                    if (missingVital.length > 0) {
+                        showToast(`Profile saved. Still required: ${missingVital.join(', ')}.`, 'info', '📝');
+                    } else {
+                        const needed = PROFILE_GATE_THRESHOLD - State.profileComplete;
+                        showToast(`Profile saved. ${needed}% more needed to unlock the platform.`, 'info', '📝');
+                    }
                 }
             } catch (error) {
                 console.error('Save error:', error);
@@ -1731,15 +1752,13 @@
         // SKIP
         // ============================================
         async function handleSkip() {
+            const missingVital = getMissingVital();
+            if (missingVital.length > 0) {
+                showToast(`Required: add ${missingVital.join(', ')}.`, 'warning', '📸');
+                return;
+            }
             if (State.profileComplete < PROFILE_GATE_THRESHOLD) {
-                const missingPics = [];
-                if (!State.avatarUrl) missingPics.push('profile picture');
-                if (!State.coverUrl) missingPics.push('cover image');
-                if (missingPics.length > 0) {
-                    showToast(`Please upload your ${missingPics.join(' and ')} first.`, 'warning', '📸');
-                } else {
-                    showToast(`You need ${PROFILE_GATE_THRESHOLD - State.profileComplete}% more profile completion to proceed.`, 'warning', '📝');
-                }
+                showToast(`You need ${PROFILE_GATE_THRESHOLD - State.profileComplete}% more to proceed.`, 'warning', '📝');
                 return;
             }
             await saveProfile();
@@ -1749,7 +1768,7 @@
         DOM.saveProfileBtn2.addEventListener('click', saveProfile);
         DOM.skipBtn.addEventListener('click', handleSkip);
 
-        // Auto-completion recalc on field changes
+        // Auto-recalc on field changes
         let recalcTimeout = null;
         function autoRecalc() {
             if (recalcTimeout) clearTimeout(recalcTimeout);
@@ -1790,7 +1809,7 @@
         window.openCloudinaryWidget = openCloudinaryWidget;
         window.handleSkip = handleSkip;
 
-        console.log('✅ TRIANGLE LEARN Profile — Phase 2 (employer fix, role-based routing, 80% gate, pics required)');
+        console.log('✅ TRIANGLE LEARN Profile — 60% gate, 5 vital fields, location reasoning shown');
     })();
     </script>
 </body>
