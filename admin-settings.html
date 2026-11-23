@@ -1,0 +1,2031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings — TRIANGLE LEARN Admin</title>
+    <link rel="icon" href="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f0f2f8;
+            --sidebar-bg: #0c0c1a;
+            --sidebar-hover: rgba(255,255,255,0.05);
+            --card-bg: #ffffff;
+            --text: #1a1a2e;
+            --text-light: #b0b0c8;
+            --text-muted: #6a6a80;
+            --text-secondary: #5a5a7a;
+            --gold: #f0a500;
+            --pink: #e84393;
+            --purple: #6c5ce7;
+            --cyan: #00c4cc;
+            --green: #0d9488;
+            --red: #e74c3c;
+            --gradient: linear-gradient(135deg, #f0a500 0%, #e84393 50%, #6c5ce7 100%);
+            --border: #e8ecf2;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.06);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.08);
+            --radius-sm: 10px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --font-heading: 'Sora', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --sidebar-width: 260px;
+            --header-height: 64px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 16px; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body); background: var(--bg); color: var(--text);
+            display: flex; min-height: 100vh; -webkit-font-smoothing: antialiased;
+            margin: 0; overflow-x: hidden;
+        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 10px; }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width); background: var(--sidebar-bg); color: #fff;
+            position: fixed; top: 0; left: 0; height: 100vh; z-index: 1000;
+            display: flex; flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto; overflow-x: hidden; transform: translateX(-100%);
+        }
+        .sidebar.open { transform: translateX(0); }
+        @media (min-width: 768px) { .sidebar { transform: translateX(0); } }
+        .sidebar-brand {
+            padding: 18px 16px; display: flex; align-items: center; gap: 10px;
+            text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.06); flex-shrink: 0;
+        }
+        .sidebar-brand img { height: 30px; width: auto; }
+        .sidebar-brand span { font-family: var(--font-heading); font-weight: 700; font-size: 0.9rem; color: #fff; letter-spacing: -0.3px; }
+        .sidebar-profile-card {
+            padding: 12px 14px; border-top: 1px solid rgba(255,255,255,0.06);
+            border-bottom: 1px solid rgba(255,255,255,0.06); flex-shrink: 0;
+        }
+        .sidebar-cover-wrapper {
+            width: 100%; height: 48px; border-radius: var(--radius-sm);
+            overflow: hidden; background: var(--gradient); margin-bottom: -16px;
+        }
+        .sidebar-cover-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+        .sidebar-avatar-row {
+            display: flex; align-items: flex-end; gap: 10px;
+            padding: 0 2px; position: relative; z-index: 1;
+        }
+        .sidebar-avatar-large {
+            width: 40px; height: 40px; border-radius: 50%;
+            border: 3px solid var(--sidebar-bg); background: var(--gradient);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.9rem; color: #fff; flex-shrink: 0; overflow: hidden;
+        }
+        .sidebar-avatar-large img { width: 100%; height: 100%; object-fit: cover; }
+        .sidebar-user-info { flex: 1; min-width: 0; padding-bottom: 2px; }
+        .sidebar-user-info .name { font-weight: 700; font-size: 0.8rem; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .sidebar-user-info .email { font-size: 0.65rem; color: rgba(255,255,255,0.5); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .sidebar-logout-btn {
+            background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer;
+            font-size: 0.9rem; padding: 4px 6px; border-radius: 6px; transition: all 0.2s; flex-shrink: 0;
+        }
+        .sidebar-logout-btn:hover { color: var(--red); background: rgba(231,76,60,0.15); }
+        .sidebar-nav { flex: 1; padding: 10px 8px; overflow-y: auto; }
+        .sidebar-nav .section-label {
+            font-size: 0.55rem; text-transform: uppercase; letter-spacing: 2px;
+            color: rgba(255,255,255,0.25); padding: 14px 12px 6px; font-weight: 700;
+        }
+        .sidebar-nav a {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+            border-radius: var(--radius-sm); color: var(--text-light); text-decoration: none;
+            font-size: 0.82rem; font-weight: 500; transition: all 0.2s;
+            margin-bottom: 2px; cursor: pointer; border: none; background: none;
+            width: 100%; text-align: left; font-family: var(--font-body); position: relative;
+        }
+        .sidebar-nav a:hover { background: var(--sidebar-hover); color: #fff; }
+        .sidebar-nav a.active {
+            background: rgba(240,165,0,0.12); color: var(--gold); font-weight: 600;
+        }
+        .sidebar-nav a.active::before {
+            content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+            width: 3px; height: 20px; background: var(--gold); border-radius: 0 4px 4px 0;
+        }
+        .sidebar-nav a .icon { font-size: 1.1rem; width: 22px; text-align: center; flex-shrink: 0; }
+        .sidebar-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 999;
+        }
+        .sidebar-overlay.show { display: block; }
+
+        /* Main */
+        .main { flex: 1; margin-left: 0; min-height: 100vh; display: flex; flex-direction: column; width: 100%; }
+        @media (min-width: 768px) { .main { margin-left: var(--sidebar-width); } }
+        .main-header {
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); padding: 0 14px; min-height: var(--header-height);
+            display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;
+            flex-wrap: wrap; gap: 8px;
+        }
+        .main-header .left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+        .main-header .left h1 { font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; white-space: nowrap; }
+        .main-header .subtitle { font-size: 0.65rem; color: var(--text-muted); font-weight: 400; display: none; }
+        @media (min-width: 480px) { .main-header .subtitle { display: inline; } }
+        .menu-toggle {
+            display: block; background: none; border: none; font-size: 1.3rem;
+            cursor: pointer; color: var(--text); padding: 4px;
+        }
+        @media (min-width: 768px) { .menu-toggle { display: none; } }
+        .main-header .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .main-header .header-actions .role-badge {
+            font-size: 0.55rem; padding: 3px 10px; border-radius: 10px;
+            font-weight: 600; background: var(--gold); color: #fff;
+        }
+        .main-header .header-actions .time-display { font-size: 0.6rem; color: var(--text-muted); font-weight: 500; }
+        @media (min-width: 480px) { .main-header .header-actions .time-display { font-size: 0.7rem; } }
+        .main-content { padding: 14px; flex: 1; }
+        @media (min-width: 480px) { .main-content { padding: 20px; } }
+        @media (min-width: 768px) { .main-content { padding: 28px; } }
+
+        /* Profile cover card */
+        .profile-cover-card {
+            background: var(--card-bg); border-radius: var(--radius-lg); overflow: hidden;
+            border: 1px solid var(--border); margin-bottom: 16px; box-shadow: var(--shadow-sm);
+        }
+        .profile-cover-card .cover-image-area {
+            width: 100%; height: 100px; background: var(--gradient);
+            position: relative; overflow: hidden;
+        }
+        @media (min-width: 480px) { .profile-cover-card .cover-image-area { height: 130px; } }
+        .profile-cover-card .cover-image-area img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-cover-card .cover-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0; padding: 10px 14px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.5));
+            display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+        }
+        @media (min-width: 480px) { .profile-cover-card .cover-overlay { padding: 14px 20px; gap: 14px; } }
+        .profile-cover-card .avatar-xl {
+            width: 50px; height: 50px; border-radius: 50%; border: 3px solid #fff;
+            background: var(--gradient); display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1.1rem; color: #fff; flex-shrink: 0;
+            overflow: hidden; box-shadow: var(--shadow-md);
+        }
+        @media (min-width: 480px) { .profile-cover-card .avatar-xl { width: 64px; height: 64px; font-size: 1.4rem; border-width: 4px; } }
+        .profile-cover-card .avatar-xl img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-cover-card .user-details { color: #fff; flex: 1; min-width: 80px; }
+        .profile-cover-card .user-details h2 { font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        @media (min-width: 480px) { .profile-cover-card .user-details h2 { font-size: 1.2rem; } }
+        .profile-cover-card .user-details p { font-size: 0.7rem; opacity: 0.85; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+        @media (min-width: 480px) { .profile-cover-card .user-details p { font-size: 0.82rem; } }
+        .btn-white-outline {
+            background: rgba(255,255,255,0.15); color: #fff;
+            border: 1.5px solid rgba(255,255,255,0.4); backdrop-filter: blur(4px);
+            font-size: 0.65rem; padding: 4px 12px; border-radius: 16px;
+            cursor: pointer; text-decoration: none; font-weight: 600; white-space: nowrap;
+        }
+        @media (min-width: 480px) { .btn-white-outline { font-size: 0.78rem; padding: 6px 14px; border-radius: 20px; } }
+        .btn-white-outline:hover { background: rgba(255,255,255,0.25); border-color: #fff; }
+
+        /* Tabs */
+        .tabs {
+            display: flex; gap: 4px; overflow-x: auto;
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: var(--radius-md); padding: 6px; margin-bottom: 16px;
+            scrollbar-width: thin; -webkit-overflow-scrolling: touch;
+        }
+        .tabs::-webkit-scrollbar { height: 3px; }
+        .tabs::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+        .tab-btn {
+            flex-shrink: 0; padding: 8px 16px; border-radius: var(--radius-sm);
+            border: none; background: transparent; cursor: pointer;
+            font-family: var(--font-body); font-size: 0.78rem; font-weight: 600;
+            color: var(--text-secondary); transition: all 0.2s; white-space: nowrap;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .tab-btn:hover { background: var(--bg); color: var(--text); }
+        .tab-btn.active { background: var(--purple); color: #fff; }
+
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; animation: fadeIn 0.25s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg); border-radius: var(--radius-md);
+            border: 1px solid var(--border); overflow: hidden;
+            transition: all 0.3s; margin-bottom: 16px;
+        }
+        .card:hover { box-shadow: var(--shadow-sm); }
+        .card-header {
+            padding: 12px 14px; border-bottom: 1px solid var(--border);
+            display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
+        }
+        @media (min-width: 480px) {
+            .card-header {
+                padding: 14px 18px; flex-direction: row; align-items: center;
+                justify-content: space-between; gap: 8px;
+            }
+        }
+        @media (min-width: 768px) { .card-header { padding: 16px 22px; } }
+        .card-header h2 {
+            font-family: var(--font-heading); font-size: 0.85rem; font-weight: 700;
+            display: flex; align-items: center; gap: 6px;
+        }
+        @media (min-width: 480px) { .card-header h2 { font-size: 0.9rem; } }
+        .card-header .card-actions { display: flex; gap: 4px; flex-wrap: wrap; }
+        .card-body { padding: 12px 14px; }
+        @media (min-width: 480px) { .card-body { padding: 14px 18px; } }
+        @media (min-width: 768px) { .card-body { padding: 18px 22px; } }
+        .card-body.no-padding { padding: 0; }
+
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto; -webkit-overflow-scrolling: touch;
+            margin: 0 -4px; padding: 0 4px;
+        }
+        @media (min-width: 480px) { .table-wrapper { margin: 0 -8px; padding: 0 8px; } }
+        .table-wrapper table { width: 100%; border-collapse: collapse; min-width: 560px; font-size: 0.72rem; }
+        @media (min-width: 480px) { .table-wrapper table { min-width: 600px; font-size: 0.78rem; } }
+        @media (min-width: 768px) { .table-wrapper table { min-width: 680px; font-size: 0.85rem; } }
+        th {
+            text-align: left; padding: 8px 10px; font-size: 0.6rem;
+            text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted);
+            font-weight: 700; background: #fafbfc; border-bottom: 1px solid var(--border); white-space: nowrap;
+        }
+        @media (min-width: 480px) { th { padding: 10px 14px; font-size: 0.65rem; letter-spacing: 1.2px; } }
+        @media (min-width: 768px) { th { padding: 10px 18px; font-size: 0.68rem; letter-spacing: 1.5px; } }
+        td {
+            padding: 8px 10px; font-size: 0.72rem; border-bottom: 1px solid var(--border);
+            color: var(--text); vertical-align: middle;
+        }
+        @media (min-width: 480px) { td { padding: 10px 14px; font-size: 0.78rem; } }
+        @media (min-width: 768px) { td { padding: 12px 18px; font-size: 0.85rem; } }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #fafbfc; }
+        td.actions-cell { white-space: nowrap; }
+        td.actions-cell .btn { margin-right: 3px; }
+
+        /* Badges */
+        .badge {
+            display: inline-block; padding: 2px 10px; border-radius: 16px;
+            font-size: 0.6rem; font-weight: 600; white-space: nowrap;
+        }
+        @media (min-width: 480px) { .badge { padding: 3px 12px; font-size: 0.65rem; } }
+        .badge-success { background: #e8f8f0; color: var(--green); }
+        .badge-warning { background: #fff8e6; color: #d97706; }
+        .badge-info { background: #eff6ff; color: #3b82f6; }
+        .badge-danger { background: #fff0f6; color: var(--red); }
+        .badge-gold { background: #fff8e8; color: var(--gold); }
+        .badge-purple { background: #f3f0ff; color: var(--purple); }
+        .badge-neutral { background: var(--bg); color: var(--text-muted); }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex; align-items: center; gap: 4px; padding: 6px 14px;
+            border-radius: 16px; font-weight: 600; font-size: 0.7rem; cursor: pointer;
+            border: none; font-family: var(--font-body); text-decoration: none;
+            transition: all 0.3s; white-space: nowrap; min-height: 32px;
+        }
+        @media (min-width: 480px) { .btn { padding: 8px 18px; font-size: 0.75rem; border-radius: 18px; min-height: 36px; } }
+        @media (min-width: 768px) { .btn { padding: 8px 20px; font-size: 0.78rem; border-radius: 20px; min-height: 40px; } }
+        .btn-sm { padding: 4px 10px; font-size: 0.6rem; min-height: 26px; }
+        @media (min-width: 480px) { .btn-sm { padding: 5px 14px; font-size: 0.65rem; min-height: 30px; } }
+        .btn-primary { background: var(--gradient); color: #fff; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(232,67,147,0.25); }
+        .btn-outline { background: #fff; color: var(--text); border: 1.5px solid var(--border); }
+        .btn-outline:hover { border-color: var(--purple); color: var(--purple); }
+        .btn-success { background: var(--green); color: #fff; }
+        .btn-success:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(13,148,136,0.3); }
+        .btn-danger { background: var(--red); color: #fff; }
+        .btn-danger:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(231,76,60,0.3); }
+        .btn-warning { background: var(--gold); color: #fff; }
+        .btn-warning:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(240,165,0,0.3); }
+        .btn-block { width: 100%; justify-content: center; }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+
+        /* Forms */
+        .form-group { margin-bottom: 12px; }
+        .form-group label {
+            display: block; font-size: 0.75rem; font-weight: 600;
+            color: var(--text); margin-bottom: 4px;
+        }
+        .form-group label .required-star { color: var(--red); margin-left: 2px; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 9px 12px; border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm); font-family: var(--font-body);
+            font-size: 0.85rem; color: var(--text); background: #fff;
+            transition: all 0.2s; outline: none;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: var(--purple); box-shadow: 0 0 0 3px rgba(108,92,231,0.1);
+        }
+        .form-group textarea { resize: vertical; min-height: 70px; }
+        .form-group .field-hint { font-size: 0.7rem; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+        .form-row {
+            display: grid; grid-template-columns: 1fr; gap: 10px;
+        }
+        @media (min-width: 480px) { .form-row { grid-template-columns: 1fr 1fr; gap: 14px; } }
+
+        .warning-box {
+            background: #fff0f0; border: 1px solid #fdd; border-radius: var(--radius-sm);
+            padding: 10px 14px; margin: 10px 0; font-size: 0.78rem; color: var(--red);
+        }
+        .warning-box strong { display: block; margin-bottom: 3px; }
+        .info-box {
+            background: #f8f7ff; border: 1px solid #d8d0f0; border-radius: var(--radius-sm);
+            padding: 10px 14px; margin: 10px 0; font-size: 0.8rem; color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .success-box {
+            background: #e8f8f0; border: 1px solid #b0e5c9; border-radius: var(--radius-sm);
+            padding: 10px 14px; margin: 10px 0; font-size: 0.8rem; color: #0b7c72;
+        }
+        .gold-box {
+            background: #fff8e8; border: 1px solid #f5d689; border-radius: var(--radius-sm);
+            padding: 10px 14px; margin: 10px 0; font-size: 0.8rem; color: #92400e;
+        }
+
+        /* Commission slider */
+        .commission-slider-group {
+            display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+        .commission-slider-group input[type="range"] {
+            flex: 1; min-width: 160px; accent-color: var(--purple);
+            height: 6px; cursor: pointer;
+        }
+        .commission-display {
+            font-family: var(--font-heading);
+            font-size: 1.3rem; font-weight: 800;
+            min-width: 80px; text-align: center;
+        }
+        .commission-bar {
+            display: flex; height: 8px; border-radius: 10px;
+            overflow: hidden; margin-bottom: 14px; background: var(--border);
+        }
+        .commission-bar .admin-bar {
+            background: var(--purple); transition: width 0.3s;
+        }
+        .commission-bar .instructor-bar {
+            background: var(--green); transition: width 0.3s;
+        }
+
+        /* Empty / loading */
+        .empty-state {
+            text-align: center; padding: 30px 16px; color: var(--text-muted);
+        }
+        @media (min-width: 480px) { .empty-state { padding: 40px 20px; } }
+        .empty-state .icon { font-size: 2.2rem; margin-bottom: 8px; }
+        .empty-state h3 { font-weight: 600; font-size: 0.9rem; color: var(--text); margin-bottom: 4px; }
+        .empty-state p { font-size: 0.78rem; }
+
+        .loading-row { text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.82rem; }
+        .loading-row .spin {
+            display: inline-block; width: 20px; height: 20px;
+            border: 2.5px solid var(--border); border-top-color: var(--purple);
+            border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 6px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Auth gate */
+        .auth-gate {
+            position: fixed; inset: 0; background: var(--bg);
+            display: none; align-items: center; justify-content: center; z-index: 5000;
+        }
+        .auth-gate.show { display: flex; }
+        .auth-gate-content { text-align: center; padding: 30px; }
+        .auth-gate .spin-lg {
+            display: inline-block; width: 40px; height: 40px;
+            border: 3px solid var(--border); border-top-color: var(--purple);
+            border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 16px;
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed; bottom: 16px; left: 10px; right: 10px; z-index: 9999;
+            display: flex; flex-direction: column; gap: 6px;
+            max-width: 400px; margin: 0 auto;
+        }
+        @media (min-width: 480px) { .toast-container { bottom: 24px; left: auto; right: 24px; max-width: 420px; } }
+        .toast {
+            padding: 10px 14px; border-radius: var(--radius-sm); font-weight: 500;
+            font-size: 0.78rem; box-shadow: var(--shadow-lg);
+            animation: slideIn 0.4s ease; display: flex; align-items: center; gap: 8px; color: #fff;
+        }
+        @media (min-width: 480px) { .toast { padding: 14px 20px; font-size: 0.85rem; } }
+        .toast-success { background: var(--green); }
+        .toast-error { background: var(--red); }
+        .toast-info { background: var(--purple); }
+        .toast-warning { background: var(--gold); color: #1a1a2e; }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .toast .toast-close {
+            margin-left: auto; background: none; border: none;
+            color: rgba(255,255,255,0.7); cursor: pointer; font-size: 1rem; padding: 0 4px;
+        }
+
+        /* Modals */
+        .modal {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px); z-index: 2000;
+            justify-content: center; align-items: center; padding: 12px;
+        }
+        .modal.open { display: flex; }
+        .modal-content {
+            background: #fff; border-radius: var(--radius-lg); padding: 20px 16px;
+            max-width: 95%; width: 100%; max-height: 90vh; overflow-y: auto;
+            animation: modalPop 0.3s ease;
+        }
+        @media (min-width: 480px) { .modal-content { padding: 28px 24px; max-width: 520px; } }
+        @media (min-width: 768px) { .modal-content { padding: 32px; max-width: 580px; } }
+        @keyframes modalPop {
+            from { opacity: 0; transform: scale(0.9) translateY(16px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .modal-content .modal-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;
+        }
+        .modal-content .modal-header h2 { font-family: var(--font-heading); font-weight: 700; font-size: 1rem; }
+        @media (min-width: 480px) { .modal-content .modal-header h2 { font-size: 1.1rem; } }
+        .modal-content .modal-header .close-modal {
+            background: none; border: none; font-size: 1.3rem; cursor: pointer;
+            color: var(--text-muted); padding: 0 4px;
+        }
+        .modal-content .modal-header .close-modal:hover { color: var(--text); }
+
+        .modal-actions {
+            display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px;
+        }
+        @media (max-width: 480px) {
+            .modal-actions { flex-direction: column; }
+            .modal-actions .btn { width: 100%; justify-content: center; }
+        }
+
+        /* Search result chip */
+        .search-result {
+            display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+            background: var(--bg); border-radius: var(--radius-sm); margin-top: 8px;
+            border: 1.5px solid var(--border);
+        }
+        .search-result .avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: var(--gradient); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.9rem; flex-shrink: 0;
+        }
+        .search-result .info { flex: 1; min-width: 0; }
+        .search-result .info strong { display: block; font-size: 0.88rem; }
+        .search-result .info small { display: block; color: var(--text-muted); font-size: 0.72rem; margin-top: 2px; }
+    </style>
+</head>
+<body>
+
+    <div class="auth-gate" id="authGate">
+        <div class="auth-gate-content">
+            <div class="spin-lg"></div>
+            <p style="color:var(--text-muted);font-size:0.9rem;">Verifying admin access…</p>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <a href="index.html" class="sidebar-brand">
+            <img src="https://res.cloudinary.com/dmbjrohtn/image/upload/v1781345170/Minimalist_MK_Letter_Logo__20260607_115102_0000_ws2vb2.png" alt="Logo" width="30" height="30">
+            <span>TRIANGLE LEARN</span>
+        </a>
+        <div class="sidebar-profile-card">
+            <div class="sidebar-cover-wrapper">
+                <div id="sidebarCoverPlaceholder" style="width:100%;height:100%;"></div>
+                <img id="sidebarCoverImage" src="" alt="Cover" style="display:none;">
+            </div>
+            <div class="sidebar-avatar-row">
+                <div class="sidebar-avatar-large">
+                    <span id="sidebarAvatarInitial">A</span>
+                    <img id="sidebarAvatarImg" src="" alt="Profile" style="display:none;">
+                </div>
+                <div class="sidebar-user-info">
+                    <div class="name" id="sidebarName">Admin</div>
+                    <div class="email" id="sidebarEmail">—</div>
+                </div>
+                <button class="sidebar-logout-btn" id="logoutBtn" title="Logout">🚪</button>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <span class="section-label">Overview</span>
+            <a href="admin-dashboard.html"><span class="icon">📊</span> Dashboard</a>
+            <span class="section-label">Management</span>
+            <a href="admin-manage.html"><span class="icon">👥</span> People</a>
+            <a href="admin-content.html"><span class="icon">📚</span> Content</a>
+            <span class="section-label">System</span>
+            <a class="active" href="admin-settings.html"><span class="icon">⚙️</span> Settings</a>
+            <a href="index.html"><span class="icon">🌐</span> View Platform</a>
+        </nav>
+    </aside>
+
+    <div class="main">
+        <header class="main-header">
+            <div class="left">
+                <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+                <div>
+                    <h1>⚙️ Settings</h1>
+                    <span class="subtitle">Commission, pricing, admins &amp; system config</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <span class="time-display" id="currentTime"></span>
+                <span class="role-badge" id="headerRoleBadge">👑 Admin</span>
+            </div>
+        </header>
+
+        <div class="main-content">
+
+            <div class="profile-cover-card">
+                <div class="cover-image-area">
+                    <div id="coverPlaceholder" style="width:100%;height:100%;"></div>
+                    <img id="coverImage" src="" alt="Cover" style="display:none;">
+                    <div class="cover-overlay">
+                        <div class="avatar-xl">
+                            <span id="avatarXLInitial">A</span>
+                            <img id="avatarXLImg" src="" alt="Profile" style="display:none;">
+                        </div>
+                        <div class="user-details">
+                            <h2 id="welcomeName">Admin</h2>
+                            <p id="welcomeSub">👑 Platform Administrator</p>
+                        </div>
+                        <a href="profile.html" class="btn-white-outline">✏️ Edit Profile</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs" role="tablist">
+                <button class="tab-btn" data-tab="commission" role="tab">📊 Commission</button>
+                <button class="tab-btn" data-tab="pricing" role="tab">💳 Pricing</button>
+                <button class="tab-btn" data-tab="admins" role="tab">👑 Admins</button>
+                <button class="tab-btn" data-tab="contact" role="tab">📞 Contact</button>
+                <button class="tab-btn" data-tab="referrals" role="tab">💰 Referrals</button>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- TAB: COMMISSION -->
+            <!-- ============================================================ -->
+            <div class="tab-panel" id="panel-commission">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📊 Platform Commission</h2>
+                        <span class="badge badge-gold">Global</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-box">
+                            This is the % TRIANGLE LEARN takes from each course sale. The instructor receives the remainder. Applied to all new enrolments after saving.
+                        </div>
+
+                        <div class="commission-slider-group">
+                            <span style="font-weight:600;font-size:0.85rem;min-width:120px;">Platform:</span>
+                            <input type="range" id="commissionSlider" min="0" max="50" value="10" step="1">
+                            <span class="commission-display" id="commissionDisplay" style="color:var(--purple);">10%</span>
+                        </div>
+
+                        <div class="commission-bar">
+                            <div class="admin-bar" id="adminBar" style="width:10%;"></div>
+                            <div class="instructor-bar" id="instructorBar" style="width:90%;"></div>
+                        </div>
+
+                        <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-muted);margin-bottom:16px;">
+                            <span>👑 Platform gets: <strong id="adminPercentLabel" style="color:var(--purple);">10%</strong></span>
+                            <span>👨‍🏫 Instructor gets: <strong id="instructorPercentLabel" style="color:var(--green);">90%</strong></span>
+                        </div>
+
+                        <div class="form-group" style="margin-top:14px;">
+                            <label>Example on a ₦100,000 course sale:</label>
+                            <div style="padding:10px 14px;background:var(--bg);border-radius:var(--radius-sm);font-size:0.85rem;line-height:1.9;">
+                                Platform earns: <strong id="exampleAdmin" style="color:var(--purple);">₦10,000</strong><br>
+                                Instructor earns: <strong id="exampleInstructor" style="color:var(--green);">₦90,000</strong>
+                            </div>
+                        </div>
+
+                        <div class="modal-actions" style="margin-top:16px;">
+                            <button class="btn btn-primary" onclick="saveCommission()">💾 Save Commission</button>
+                        </div>
+                        <div style="font-size:0.72rem;color:var(--text-muted);margin-top:8px;" id="commissionLastUpdated"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📜 Commission History</h2>
+                    </div>
+                    <div class="card-body no-padding">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>When</th>
+                                        <th>Changed By</th>
+                                        <th>Old → New</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="commissionHistoryTable">
+                                    <tr><td colspan="3" class="loading-row"><span class="spin"></span><br>Loading…</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- TAB: PRICING -->
+            <!-- ============================================================ -->
+            <div class="tab-panel" id="panel-pricing">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>💳 Instructor Subscription Pricing</h2>
+                        <span class="badge badge-info">Visible to instructors</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-box">
+                            Instructors pay this to publish courses on TRIANGLE LEARN. Prices are shown when they start their free trial. All fields are required.
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Monthly Price (₦) <span class="required-star">*</span></label>
+                                <input type="number" id="monthlyPrice" value="50000" min="0">
+                                <div class="field-hint">Billed every 30 days</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Annual Price (₦) <span class="required-star">*</span></label>
+                                <input type="number" id="annualPrice" value="500000" min="0">
+                                <div class="field-hint">Billed once per year</div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Trial Period (days) <span class="required-star">*</span></label>
+                                <input type="number" id="trialDays" value="7" min="0" max="90">
+                                <div class="field-hint">0 = no free trial (not recommended)</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Annual Discount vs Monthly (%)</label>
+                                <input type="number" id="annualDiscount" value="17" min="0" max="100">
+                                <div class="field-hint" id="annualDiscountHint">Shown as marketing copy</div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Minimum Withdrawal (₦)</label>
+                                <input type="number" id="minWithdrawal" value="10000" min="0">
+                                <div class="field-hint">Instructor must earn this before withdrawing</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Currency</label>
+                                <select id="settingsCurrency">
+                                    <option value="NGN">₦ Nigerian Naira</option>
+                                    <option value="USD">$ US Dollar</option>
+                                    <option value="EUR">€ Euro</option>
+                                    <option value="GBP">£ British Pound</option>
+                                    <option value="KES">KSh Kenyan Shilling</option>
+                                    <option value="GHS">₵ Ghanaian Cedi</option>
+                                    <option value="ZAR">R South African Rand</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="modal-actions" style="margin-top:16px;">
+                            <button class="btn btn-primary" onclick="saveSubscriptionSettings()">💾 Save Pricing</button>
+                        </div>
+                        <div style="font-size:0.72rem;color:var(--text-muted);margin-top:8px;" id="subscriptionLastUpdated"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- TAB: ADMINS -->
+            <!-- ============================================================ -->
+            <div class="tab-panel" id="panel-admins">
+                <!-- Warning for non-super-admins -->
+                <div id="nonSuperAdminNotice" style="display:none;">
+                    <div class="gold-box">
+                        <strong>👑 Super Admin only</strong><br>
+                        Managing admins requires super admin privileges. You can view the list below but cannot promote or demote.
+                    </div>
+                </div>
+
+                <!-- Promote Section -->
+                <div class="card" id="promoteSection" style="display:none;">
+                    <div class="card-header">
+                        <h2>➕ Promote User to Admin</h2>
+                        <span class="badge badge-gold" id="adminCountBadge">0 / 5 admins</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-box">
+                            <strong>⚠️ Important:</strong> This promotes an <em>existing</em> user to admin. It does NOT create a new account.<br>
+                            If the person hasn't signed up yet, ask them to register as a learner first, then promote them.
+                        </div>
+
+                        <div class="form-group">
+                            <label>User's Email <span class="required-star">*</span></label>
+                            <input type="email" id="promoteEmail" placeholder="user@example.com" autocomplete="off">
+                            <div class="field-hint">Must match an existing user's email exactly</div>
+                        </div>
+
+                        <button class="btn btn-outline" onclick="lookupUserForPromotion()">🔍 Look Up User</button>
+
+                        <div id="promoteResultArea" style="margin-top:12px;"></div>
+                    </div>
+                </div>
+
+                <!-- Password Reset Utility -->
+                <div class="card" id="passwordResetSection" style="display:none;">
+                    <div class="card-header">
+                        <h2>🔑 Send Password Reset</h2>
+                        <span class="badge badge-info">Support utility</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-box">
+                            Sends a secure password reset link to the user's email. Firebase handles the reset. We never see their password.
+                        </div>
+
+                        <div class="form-group">
+                            <label>User's Email <span class="required-star">*</span></label>
+                            <input type="email" id="passwordResetEmail" placeholder="user@example.com" autocomplete="off">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Reason (logged to audit) <span class="required-star">*</span></label>
+                            <input type="text" id="passwordResetReason" placeholder="e.g., User reported login issues" maxlength="200">
+                        </div>
+
+                        <button class="btn btn-primary" onclick="sendPasswordReset()">📧 Send Reset Email</button>
+                    </div>
+                </div>
+
+                <!-- Current Admins List -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>👑 Current Admins</h2>
+                        <button class="btn btn-outline btn-sm" onclick="loadAdmins()">🔄 Refresh</button>
+                    </div>
+                    <div class="card-body no-padding">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Level</th>
+                                        <th>Promoted</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminsTable">
+                                    <tr><td colspan="5" class="loading-row"><span class="spin"></span><br>Loading…</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- TAB: CONTACT -->
+            <!-- ============================================================ -->
+            <div class="tab-panel" id="panel-contact">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📞 Contact &amp; Support Information</h2>
+                        <span class="badge badge-info">Shows on public pages</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-box">
+                            These values are read by <code>index.html</code> and shown in the footer and floating contact buttons. Leave blank to hide a field.
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>WhatsApp Support Number</label>
+                                <input type="tel" id="contactWhatsApp" placeholder="+234 905 665 8964">
+                                <div class="field-hint">Include country code. Used in footer + floating bubble.</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Emergency Contact Number</label>
+                                <input type="tel" id="contactEmergency" placeholder="+234 813 952 9406">
+                                <div class="field-hint">For urgent issues. Separate from support.</div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Contact Email</label>
+                                <input type="email" id="contactEmail" placeholder="support@trianglelearn.com">
+                            </div>
+                            <div class="form-group">
+                                <label>LinkedIn URL</label>
+                                <input type="url" id="contactLinkedIn" placeholder="https://linkedin.com/company/trianglelearn">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>WhatsApp Community Link</label>
+                            <input type="url" id="contactCommunity" placeholder="https://chat.whatsapp.com/...">
+                            <div class="field-hint">Shown in footer "Connect" section. Leave blank to hide.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📝 Footer Content</h2>
+                        <span class="badge badge-info">Public footer</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Brand Description (footer)</label>
+                            <textarea id="footerDescription" rows="2" placeholder="TRIANGLE LEARN is a learning and career platform built to make practical education more accessible…"></textarea>
+                            <div class="field-hint">Shown under the logo in the footer. Keep under 200 characters.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Copyright Text</label>
+                            <input type="text" id="footerCopyright" placeholder="© 2026 TRIANGLE LEARN — A Triangletech Company.">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <button class="btn btn-primary btn-block" onclick="saveContactSettings()">💾 Save Contact &amp; Footer Settings</button>
+                        <div style="font-size:0.72rem;color:var(--text-muted);margin-top:8px;" id="contactLastUpdated"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- TAB: REFERRALS -->
+            <!-- ============================================================ -->
+            <div class="tab-panel" id="panel-referrals">
+                <div class="gold-box" style="font-size:0.85rem;">
+                    <strong>🚧 Coming in Phase 8</strong><br>
+                    The full referral system (fixed token rewards, withdrawal, campaign budgets) launches in Phase 8 along with OPay integration. Below you can see basic signup attribution data.
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📊 Referral Overview</h2>
+                        <button class="btn btn-outline btn-sm" onclick="loadReferrals()">🔄 Refresh</button>
+                    </div>
+                    <div class="card-body">
+                        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:12px;">
+                            <div style="padding:12px;background:var(--bg);border-radius:var(--radius-sm);text-align:center;">
+                                <div style="font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Referred Signups</div>
+                                <div style="font-size:1.5rem;font-weight:800;color:var(--purple);margin-top:4px;" id="referralSignupCount">—</div>
+                            </div>
+                            <div style="padding:12px;background:var(--bg);border-radius:var(--radius-sm);text-align:center;">
+                                <div style="font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Active Referrers</div>
+                                <div style="font-size:1.5rem;font-weight:800;color:var(--green);margin-top:4px;" id="referralReferrerCount">—</div>
+                            </div>
+                        </div>
+                        <div class="info-box" style="margin-bottom:0;">
+                            Full referral tracking, reward distribution, and campaign management will appear here once Phase 8 ships.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>👥 Referred Users</h2>
+                    </div>
+                    <div class="card-body no-padding">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Referred By</th>
+                                        <th>Code Used</th>
+                                        <th>Joined</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="referralsTable">
+                                    <tr><td colspan="4" class="loading-row"><span class="spin"></span><br>Loading…</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODALS -->
+    <!-- ============================================================ -->
+
+    <!-- Promote Admin Confirmation -->
+    <div class="modal" id="promoteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>👑 Confirm Promotion</h2>
+                <button class="close-modal" data-close="promoteModal">✕</button>
+            </div>
+            <div class="warning-box">
+                <strong>⚠️ Admin access is powerful</strong>
+                <p>This user will have full access to all admin pages: commission changes, instructor approvals, course featured toggles, and more. Only promote people you fully trust.</p>
+            </div>
+            <div id="promoteConfirmBody"></div>
+            <div class="modal-actions">
+                <button class="btn btn-danger" id="confirmPromoteBtn">👑 Promote to Admin</button>
+                <button class="btn btn-outline" data-close="promoteModal">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Demote Admin Confirmation -->
+    <div class="modal" id="demoteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⏬ Demote Admin</h2>
+                <button class="close-modal" data-close="demoteModal">✕</button>
+            </div>
+            <div class="warning-box">
+                <strong>⚠️ This removes admin access</strong>
+                <p>The user will lose access to all admin pages. They'll be reverted to their previous role (usually learner).</p>
+            </div>
+            <div id="demoteConfirmBody"></div>
+            <div class="form-group">
+                <label>Reason for demotion <span class="required-star">*</span></label>
+                <textarea id="demoteReason" rows="2" placeholder="Why is this admin being demoted?"></textarea>
+                <div class="field-hint">Logged to audit trail</div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-warning" id="confirmDemoteBtn">⏬ Demote</button>
+                <button class="btn btn-outline" data-close="demoteModal">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script>
+    (function () {
+        'use strict';
+
+        // ============================================================
+        // FIREBASE
+        // ============================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyAvvB3C9SP8tDTqMmqzc6craI4d_0kSVX0",
+            authDomain: "timijosh-b8bee.firebaseapp.com",
+            projectId: "timijosh-b8bee",
+            storageBucket: "timijosh-b8bee.firebasestorage.app",
+            messagingSenderId: "779082784462",
+            appId: "1:779082784462:web:a9e9aca2177c7e343c3a9f",
+            measurementId: "G-ZPS8VP8ZBX"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // ============================================================
+        // CONFIG
+        // ============================================================
+        const MAX_ADMINS = 5;
+        const DEFAULT_COMMISSION = 10; // % per business plan
+
+        // ============================================================
+        // STATE
+        // ============================================================
+        let currentUser = null;
+        let currentEmail = '';
+        let currentAdminData = null;
+        let currentRole = 'admin';
+        let isSuperAdmin = false;
+
+        let allAdmins = [];
+        let allUsers = [];
+        let pendingPromoteTarget = null; // { uid, email, fullName, currentRole }
+        let pendingDemoteTarget = null;
+
+        // ============================================================
+        // HELPERS
+        // ============================================================
+        const $ = id => document.getElementById(id);
+        const $$ = sel => document.querySelectorAll(sel);
+
+        function escapeHtml(s) {
+            if (s == null) return '';
+            const d = document.createElement('div');
+            d.textContent = String(s);
+            return d.innerHTML;
+        }
+
+        function toDate(v) {
+            if (!v) return null;
+            if (typeof v.toDate === 'function') return v.toDate();
+            if (v instanceof Date) return v;
+            if (typeof v === 'number') return new Date(v);
+            if (typeof v === 'string') {
+                const t = Date.parse(v);
+                if (!isNaN(t)) return new Date(t);
+            }
+            return null;
+        }
+
+        function formatDate(d) {
+            if (!d) return '—';
+            return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        function relativeTime(d) {
+            if (!d) return '—';
+            const diff = Date.now() - d.getTime();
+            const sec = Math.floor(diff / 1000);
+            if (sec < 60) return 'just now';
+            const min = Math.floor(sec / 60);
+            if (min < 60) return `${min}m ago`;
+            const hr = Math.floor(min / 60);
+            if (hr < 24) return `${hr}h ago`;
+            const day = Math.floor(hr / 24);
+            if (day < 7) return `${day}d ago`;
+            return formatDate(d);
+        }
+
+        function formatNaira(n) {
+            return '₦' + Number(n || 0).toLocaleString();
+        }
+
+        function resolveRole(data) {
+            if (!data) return 'learner';
+            if (data.role) {
+                const r = String(data.role).toLowerCase();
+                if (r === 'super_admin' || r === 'superadmin') return 'admin';
+                if (r === 'admin') return 'admin';
+                if (r === 'instructor') return 'instructor';
+                if (r === 'employer') return 'employer';
+                if (r === 'learner') return 'learner';
+            }
+            if (Array.isArray(data.roles)) {
+                const roles = data.roles.map(x => String(x).toLowerCase());
+                if (roles.includes('admin')) return 'admin';
+                if (roles.includes('instructor')) return 'instructor';
+                if (roles.includes('employer')) return 'employer';
+            }
+            if (data.isAdmin === true) return 'admin';
+            return 'learner';
+        }
+
+        function showToast(msg, type = 'success') {
+            const container = $('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+            toast.innerHTML = `
+                <span>${icons[type] || '📢'}</span>
+                <span>${escapeHtml(msg)}</span>
+                <button class="toast-close" onclick="this.closest('.toast').remove()">✕</button>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => { if (toast.parentNode) toast.remove(); }, 4000);
+        }
+
+        async function logAdminAction(action, details) {
+            if (!currentUser) return;
+            try {
+                await db.collection('auditLogs').add({
+                    adminUid: currentUser.uid,
+                    adminEmail: currentEmail,
+                    action: action,
+                    details: details || {},
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            } catch (_) {}
+        }
+
+        // ============================================================
+        // SIDEBAR + CLOCK
+        // ============================================================
+        window.toggleSidebar = function () {
+            $('sidebar').classList.toggle('open');
+            $('sidebarOverlay').classList.toggle('show');
+        };
+
+        function updateClock() {
+            const now = new Date();
+            $('currentTime').textContent =
+                now.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }) +
+                ' · ' + now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+        }
+        updateClock();
+        setInterval(updateClock, 30000);
+
+        // ============================================================
+        // MODALS
+        // ============================================================
+        window.openModal = function (id) {
+            const m = document.getElementById(id);
+            if (m) m.classList.add('open');
+        };
+        window.closeModal = function (id) {
+            const m = document.getElementById(id);
+            if (m) m.classList.remove('open');
+        };
+        document.querySelectorAll('[data-close]').forEach(btn => {
+            btn.addEventListener('click', () => closeModal(btn.dataset.close));
+        });
+        document.querySelectorAll('.modal').forEach(m => {
+            m.addEventListener('click', e => {
+                if (e.target === m) m.classList.remove('open');
+            });
+        });
+
+        // ============================================================
+        // TABS
+        // ============================================================
+        function switchTab(tab) {
+            $$('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+            $$('.tab-panel').forEach(p => p.classList.toggle('active', p.id === `panel-${tab}`));
+            if (location.hash !== '#' + tab) history.replaceState(null, '', '#' + tab);
+
+            if (tab === 'commission') loadCommission();
+            else if (tab === 'pricing') loadPricing();
+            else if (tab === 'admins') loadAdmins();
+            else if (tab === 'contact') loadContact();
+            else if (tab === 'referrals') loadReferrals();
+        }
+
+        $$('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+        });
+
+        // ============================================================
+        // AUTH
+        // ============================================================
+        auth.onAuthStateChanged(async user => {
+            if (!user) { window.location.replace('auth.html'); return; }
+            currentUser = user;
+            currentEmail = user.email || '';
+
+            let userDoc;
+            try {
+                userDoc = await db.collection('users').doc(user.uid).get();
+            } catch (err) {
+                showAuthGateError('Failed to load account. Please sign in again.');
+                return;
+            }
+
+            if (!userDoc.exists) {
+                showAuthGateError('Account not found.');
+                setTimeout(async () => { await auth.signOut(); window.location.replace('auth.html'); }, 1500);
+                return;
+            }
+
+            currentAdminData = userDoc.data();
+            currentRole = resolveRole(currentAdminData);
+            isSuperAdmin = currentAdminData.isSuperAdmin === true;
+
+            if (currentRole !== 'admin') {
+                showAuthGateError('Admin access required. Redirecting…');
+                setTimeout(async () => { await auth.signOut(); window.location.replace('auth.html'); }, 1500);
+                return;
+            }
+
+            populateAdminProfile(currentAdminData);
+            applySuperAdminGate();
+            $('authGate').classList.remove('show');
+
+            // Pre-load users cache
+            await preloadUsers();
+
+            const initialTab = (location.hash || '#commission').replace('#', '');
+            const validTabs = ['commission', 'pricing', 'admins', 'contact', 'referrals'];
+            switchTab(validTabs.includes(initialTab) ? initialTab : 'commission');
+        });
+
+        function applySuperAdminGate() {
+            // Show/hide admin management sections based on isSuperAdmin
+            const promoteSection = $('promoteSection');
+            const passwordResetSection = $('passwordResetSection');
+            const nonSuperAdminNotice = $('nonSuperAdminNotice');
+
+            if (isSuperAdmin) {
+                if (promoteSection) promoteSection.style.display = '';
+                if (passwordResetSection) passwordResetSection.style.display = '';
+                if (nonSuperAdminNotice) nonSuperAdminNotice.style.display = 'none';
+            } else {
+                if (promoteSection) promoteSection.style.display = 'none';
+                if (passwordResetSection) passwordResetSection.style.display = '';
+                if (nonSuperAdminNotice) nonSuperAdminNotice.style.display = '';
+            }
+        }
+
+        function showAuthGateError(msg) {
+            const gate = $('authGate');
+            gate.classList.add('show');
+            gate.innerHTML = `
+                <div class="auth-gate-content">
+                    <div style="font-size:2.5rem;margin-bottom:12px;">⚠️</div>
+                    <p style="color:var(--text);font-weight:600;margin-bottom:6px;">Access Denied</p>
+                    <p style="color:var(--text-muted);font-size:0.9rem;">${escapeHtml(msg)}</p>
+                </div>
+            `;
+        }
+
+        function populateAdminProfile(data) {
+            const name = data.fullName || 'Admin';
+            const initial = name.trim().charAt(0).toUpperCase() || 'A';
+            $('sidebarName').textContent = name;
+            $('sidebarEmail').textContent = data.email || currentEmail;
+            $('welcomeName').textContent = name;
+            $('welcomeSub').textContent = data.isSuperAdmin ? '👑 Super Administrator' : '👑 Platform Administrator';
+            ['sidebarAvatarInitial', 'avatarXLInitial'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = initial;
+            });
+            if (data.profilePicture) {
+                ['sidebarAvatarImg', 'avatarXLImg'].forEach(id => {
+                    const img = document.getElementById(id);
+                    if (img) { img.src = data.profilePicture; img.style.display = 'block'; }
+                });
+                ['sidebarAvatarInitial', 'avatarXLInitial'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.style.display = 'none';
+                });
+            }
+            if (data.coverImage) {
+                const c1 = $('sidebarCoverImage'), cp1 = $('sidebarCoverPlaceholder');
+                const c2 = $('coverImage'), cp2 = $('coverPlaceholder');
+                if (c1) { c1.src = data.coverImage; c1.style.display = 'block'; }
+                if (cp1) cp1.style.display = 'none';
+                if (c2) { c2.src = data.coverImage; c2.style.display = 'block'; }
+                if (cp2) cp2.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const lb = $('logoutBtn');
+            if (lb) lb.addEventListener('click', async () => {
+                try { await auth.signOut(); } catch (_) {}
+                window.location.replace('auth.html');
+            });
+        });
+
+        // ============================================================
+        // PRELOAD
+        // ============================================================
+        async function preloadUsers() {
+            try {
+                const snap = await db.collection('users').get();
+                allUsers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                allAdmins = allUsers.filter(u => resolveRole(u) === 'admin' && !u.deleted);
+                updateAdminCountBadge();
+            } catch (err) {
+                console.error('Preload users error:', err);
+            }
+        }
+
+        function updateAdminCountBadge() {
+            const badge = $('adminCountBadge');
+            if (badge) badge.textContent = `${allAdmins.length} / ${MAX_ADMINS} admins`;
+        }
+
+        // ============================================================
+        // TAB: COMMISSION
+        // ============================================================
+        async function loadCommission() {
+            try {
+                const doc = await db.collection('settings').doc('commission').get();
+                let currentPercent = DEFAULT_COMMISSION;
+
+                if (doc.exists) {
+                    currentPercent = doc.data().adminPercentage ?? DEFAULT_COMMISSION;
+                    const updated = toDate(doc.data().updatedAt);
+                    const updater = doc.data().updatedByEmail || 'unknown';
+                    $('commissionLastUpdated').textContent = updated
+                        ? `Last updated ${relativeTime(updated)} by ${updater}`
+                        : '';
+                }
+
+                $('commissionSlider').value = currentPercent;
+                updateCommissionDisplay(currentPercent);
+            } catch (err) {
+                console.error('Load commission error:', err);
+                showToast('Failed to load commission settings', 'error');
+            }
+
+            // History from audit logs
+            loadCommissionHistory();
+        }
+
+        async function loadCommissionHistory() {
+            const table = $('commissionHistoryTable');
+            try {
+                const snap = await db.collection('auditLogs')
+                    .where('action', '==', 'updated_commission')
+                    .orderBy('timestamp', 'desc')
+                    .limit(10)
+                    .get();
+
+                if (snap.empty) {
+                    table.innerHTML = `
+                        <tr><td colspan="3">
+                            <div class="empty-state" style="padding:20px;">
+                                <div class="icon">📜</div>
+                                <h3>No changes yet</h3>
+                                <p>Commission changes will appear here.</p>
+                            </div>
+                        </td></tr>`;
+                    return;
+                }
+
+                table.innerHTML = snap.docs.map(doc => {
+                    const log = doc.data();
+                    const details = log.details || {};
+                    const when = toDate(log.timestamp);
+                    const oldP = details.oldPercentage ?? '—';
+                    const newP = details.newPercentage ?? '—';
+                    return `
+                        <tr>
+                            <td style="font-size:0.75rem;">${when ? relativeTime(when) : '—'}</td>
+                            <td style="font-size:0.75rem;">${escapeHtml(log.adminEmail || 'Unknown')}</td>
+                            <td><strong>${oldP}% → ${newP}%</strong></td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (err) {
+                console.error('Load commission history error:', err);
+                table.innerHTML = `<tr><td colspan="3" class="loading-row">Error: ${escapeHtml(err.message)}</td></tr>`;
+            }
+        }
+
+        function updateCommissionDisplay(val) {
+            val = parseInt(val) || 0;
+            const instructorPercent = 100 - val;
+            $('commissionDisplay').textContent = val + '%';
+            $('adminPercentLabel').textContent = val + '%';
+            $('instructorPercentLabel').textContent = instructorPercent + '%';
+            $('adminBar').style.width = val + '%';
+            $('instructorBar').style.width = instructorPercent + '%';
+            $('exampleAdmin').textContent = formatNaira(val * 1000);
+            $('exampleInstructor').textContent = formatNaira(instructorPercent * 1000);
+        }
+
+        $('commissionSlider').addEventListener('input', e => {
+            updateCommissionDisplay(e.target.value);
+        });
+
+        window.saveCommission = async function () {
+            const newVal = parseInt($('commissionSlider').value);
+
+            if (newVal < 0 || newVal > 50) {
+                showToast('Commission must be between 0% and 50%', 'warning');
+                return;
+            }
+
+            try {
+                const doc = await db.collection('settings').doc('commission').get();
+                const oldVal = doc.exists ? (doc.data().adminPercentage ?? DEFAULT_COMMISSION) : DEFAULT_COMMISSION;
+
+                if (oldVal === newVal) {
+                    showToast('No change to save', 'info');
+                    return;
+                }
+
+                await db.collection('settings').doc('commission').set({
+                    adminPercentage: newVal,
+                    instructorPercentage: 100 - newVal,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedBy: currentUser.uid,
+                    updatedByEmail: currentEmail
+                }, { merge: true });
+
+                await logAdminAction('updated_commission', {
+                    oldPercentage: oldVal,
+                    newPercentage: newVal,
+                    instructorPercentage: 100 - newVal
+                });
+
+                showToast(`Commission updated: ${oldVal}% → ${newVal}%`, 'success');
+                $('commissionLastUpdated').textContent = `Last updated just now by ${currentEmail}`;
+                loadCommissionHistory();
+            } catch (err) {
+                showToast('Failed: ' + err.message, 'error');
+            }
+        };
+
+        // ============================================================
+        // TAB: PRICING
+        // ============================================================
+        async function loadPricing() {
+            try {
+                const doc = await db.collection('settings').doc('subscription').get();
+                if (doc.exists) {
+                    const d = doc.data();
+                    if (d.monthlyPrice != null) $('monthlyPrice').value = d.monthlyPrice;
+                    if (d.annualPrice != null) $('annualPrice').value = d.annualPrice;
+                    if (d.trialDays != null) $('trialDays').value = d.trialDays;
+                    if (d.annualDiscount != null) $('annualDiscount').value = d.annualDiscount;
+                    if (d.minWithdrawal != null) $('minWithdrawal').value = d.minWithdrawal;
+                    if (d.currency) $('settingsCurrency').value = d.currency;
+
+                    const updated = toDate(d.updatedAt);
+                    $('subscriptionLastUpdated').textContent = updated
+                        ? `Last updated ${relativeTime(updated)}`
+                        : '';
+                }
+                updateAnnualDiscountHint();
+            } catch (err) {
+                console.error('Load pricing error:', err);
+                showToast('Failed to load pricing', 'error');
+            }
+        }
+
+        function updateAnnualDiscountHint() {
+            const monthly = parseInt($('monthlyPrice').value) || 0;
+            const annual = parseInt($('annualPrice').value) || 0;
+            if (monthly <= 0) { $('annualDiscountHint').textContent = '—'; return; }
+
+            const fullYearCost = monthly * 12;
+            const savings = fullYearCost - annual;
+            const pct = fullYearCost > 0 ? Math.round((savings / fullYearCost) * 100) : 0;
+
+            if (savings > 0) {
+                $('annualDiscountHint').innerHTML = `Saves <strong>${pct}%</strong> vs monthly (${formatNaira(savings)}/year)`;
+            } else {
+                $('annualDiscountHint').textContent = 'Annual is not cheaper — check pricing';
+            }
+        }
+
+        $('monthlyPrice').addEventListener('input', updateAnnualDiscountHint);
+        $('annualPrice').addEventListener('input', updateAnnualDiscountHint);
+
+        window.saveSubscriptionSettings = async function () {
+            const monthlyPrice = parseInt($('monthlyPrice').value) || 0;
+            const annualPrice = parseInt($('annualPrice').value) || 0;
+            const trialDays = parseInt($('trialDays').value) || 0;
+            const annualDiscount = parseInt($('annualDiscount').value) || 0;
+            const minWithdrawal = parseInt($('minWithdrawal').value) || 0;
+            const currency = $('settingsCurrency').value;
+
+            if (monthlyPrice < 0 || annualPrice < 0) {
+                showToast('Prices must be non-negative', 'warning');
+                return;
+            }
+            if (trialDays < 0 || trialDays > 90) {
+                showToast('Trial must be 0–90 days', 'warning');
+                return;
+            }
+
+            try {
+                await db.collection('settings').doc('subscription').set({
+                    monthlyPrice,
+                    annualPrice,
+                    trialDays,
+                    annualDiscount,
+                    minWithdrawal,
+                    currency,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedBy: currentUser.uid,
+                    updatedByEmail: currentEmail
+                }, { merge: true });
+
+                await logAdminAction('updated_subscription_settings', {
+                    monthlyPrice, annualPrice, trialDays, annualDiscount, minWithdrawal, currency
+                });
+
+                showToast('Pricing saved', 'success');
+                $('subscriptionLastUpdated').textContent = 'Last updated just now';
+            } catch (err) {
+                showToast('Failed: ' + err.message, 'error');
+            }
+        };
+
+        // ============================================================
+        // TAB: ADMINS
+        // ============================================================
+        async function loadAdmins() {
+            const table = $('adminsTable');
+            table.innerHTML = `<tr><td colspan="5" class="loading-row"><span class="spin"></span><br>Loading…</td></tr>`;
+
+            try {
+                // Refresh from Firestore
+                const snap = await db.collection('users').get();
+                allUsers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                allAdmins = allUsers.filter(u => resolveRole(u) === 'admin' && !u.deleted);
+                updateAdminCountBadge();
+
+                if (allAdmins.length === 0) {
+                    table.innerHTML = `<tr><td colspan="5">
+                        <div class="empty-state">
+                            <div class="icon">👑</div>
+                            <h3>No admins</h3>
+                            <p>Something is wrong — you should be here.</p>
+                        </div>
+                    </td></tr>`;
+                    return;
+                }
+
+                // Sort: super admins first, then by creation date
+                allAdmins.sort((a, b) => {
+                    if (a.isSuperAdmin && !b.isSuperAdmin) return -1;
+                    if (!a.isSuperAdmin && b.isSuperAdmin) return 1;
+                    const at = toDate(a.createdAt)?.getTime() || 0;
+                    const bt = toDate(b.createdAt)?.getTime() || 0;
+                    return at - bt;
+                });
+
+                table.innerHTML = allAdmins.map(u => {
+                    const levelBadge = u.isSuperAdmin
+                        ? '<span class="badge badge-gold">👑 Super Admin</span>'
+                        : '<span class="badge badge-purple">Admin</span>';
+
+                    const promoted = toDate(u.promotedToAdminAt);
+                    const joined = toDate(u.createdAt);
+                    const when = promoted || joined;
+
+                    const isSelf = u.id === currentUser.uid;
+                    const canDemote = isSuperAdmin && !isSelf && !u.isSuperAdmin;
+
+                    return `
+                        <tr>
+                            <td><strong>${escapeHtml(u.fullName || '—')}</strong>${isSelf ? ' <span style="font-size:0.65rem;color:var(--text-muted);">(you)</span>' : ''}</td>
+                            <td style="font-size:0.72rem;">${escapeHtml(u.email || '—')}</td>
+                            <td>${levelBadge}</td>
+                            <td style="font-size:0.72rem;color:var(--text-muted);">${when ? formatDate(when) : '—'}</td>
+                            <td class="actions-cell">
+                                ${canDemote
+                                    ? `<button class="btn btn-warning btn-sm" onclick="openDemoteModal('${u.id}')">⏬ Demote</button>`
+                                    : `<span style="font-size:0.7rem;color:var(--text-muted);">${u.isSuperAdmin ? 'Protected' : isSelf ? 'Cannot demote yourself' : '—'}</span>`
+                                }
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+            } catch (err) {
+                console.error('Load admins error:', err);
+                table.innerHTML = `<tr><td colspan="5" class="loading-row">Error: ${escapeHtml(err.message)}</td></tr>`;
+            }
+        }
+
+        // Look up user for promotion
+        window.lookupUserForPromotion = async function () {
+            const email = $('promoteEmail').value.trim().toLowerCase();
+            const resultArea = $('promoteResultArea');
+
+            if (!email) {
+                showToast('Enter an email first', 'warning');
+                return;
+            }
+
+            resultArea.innerHTML = `<div class="loading-row"><span class="spin"></span><br>Searching…</div>`;
+
+            try {
+                const snap = await db.collection('users').where('email', '==', email).limit(1).get();
+
+                if (snap.empty) {
+                    resultArea.innerHTML = `
+                        <div class="warning-box" style="margin-top:12px;">
+                            <strong>❌ No user found</strong>
+                            <p>No account exists with this email. Ask them to sign up first, then come back to promote them.</p>
+                        </div>`;
+                    return;
+                }
+
+                const doc = snap.docs[0];
+                const user = doc.data();
+
+                // Check: already admin?
+                const existingRole = resolveRole(user);
+                if (existingRole === 'admin') {
+                    resultArea.innerHTML = `
+                        <div class="info-box" style="margin-top:12px;">
+                            <strong>ℹ️ Already an admin</strong><br>
+                            ${escapeHtml(user.fullName || email)} already has admin access. No action needed.
+                        </div>`;
+                    return;
+                }
+
+                // Check: already super admin?
+                if (user.isSuperAdmin) {
+                    resultArea.innerHTML = `
+                        <div class="info-box" style="margin-top:12px;">
+                            <strong>ℹ️ Super Admin</strong><br>
+                            ${escapeHtml(user.fullName || email)} is a Super Admin. Cannot be modified via UI.
+                        </div>`;
+                    return;
+                }
+
+                // Check: admin count
+                if (allAdmins.length >= MAX_ADMINS) {
+                    resultArea.innerHTML = `
+                        <div class="warning-box" style="margin-top:12px;">
+                            <strong>⚠️ Admin limit reached</strong>
+                            <p>You have ${allAdmins.length} admins (max ${MAX_ADMINS}). Demote an existing admin before promoting someone new.</p>
+                        </div>`;
+                    return;
+                }
+
+                // Store target and show confirmation chip
+                pendingPromoteTarget = {
+                    uid: doc.id,
+                    email: user.email || email,
+                    fullName: user.fullName || 'User',
+                    currentRole: user.role || 'learner'
+                };
+
+                const initial = (pendingPromoteTarget.fullName || '?').charAt(0).toUpperCase();
+                const roleLabels = {
+                    'learner': '🧑‍🎓 Learner',
+                    'instructor': '👨‍🏫 Instructor',
+                    'employer': '🏢 Employer'
+                };
+                const currentRoleLabel = roleLabels[pendingPromoteTarget.currentRole] || pendingPromoteTarget.currentRole;
+
+                resultArea.innerHTML = `
+                    <div class="search-result">
+                        <div class="avatar">${escapeHtml(initial)}</div>
+                        <div class="info">
+                            <strong>${escapeHtml(pendingPromoteTarget.fullName)}</strong>
+                            <small>${escapeHtml(pendingPromoteTarget.email)} · Currently: ${currentRoleLabel}</small>
+                        </div>
+                        <button class="btn btn-danger btn-sm" onclick="openPromoteModal()">👑 Promote</button>
+                    </div>`;
+            } catch (err) {
+                console.error('Lookup error:', err);
+                resultArea.innerHTML = `<div class="warning-box" style="margin-top:12px;"><strong>Error:</strong> ${escapeHtml(err.message)}</div>`;
+            }
+        };
+
+        window.openPromoteModal = function () {
+            if (!pendingPromoteTarget) return;
+
+            const body = $('promoteConfirmBody');
+            body.innerHTML = `
+                <div class="detail-grid" style="margin-top:12px;">
+                    <div style="padding:10px;background:var(--bg);border-radius:var(--radius-sm);">
+                        <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Name</div>
+                        <div style="font-size:0.95rem;font-weight:600;margin-top:3px;">${escapeHtml(pendingPromoteTarget.fullName)}</div>
+                    </div>
+                    <div style="padding:10px;background:var(--bg);border-radius:var(--radius-sm);">
+                        <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Email</div>
+                        <div style="font-size:0.95rem;font-weight:600;margin-top:3px;">${escapeHtml(pendingPromoteTarget.email)}</div>
+                    </div>
+                    <div style="padding:10px;background:var(--bg);border-radius:var(--radius-sm);">
+                        <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Current Role</div>
+                        <div style="font-size:0.95rem;font-weight:600;margin-top:3px;">${escapeHtml(pendingPromoteTarget.currentRole)}</div>
+                    </div>
+                    <div style="padding:10px;background:var(--bg);border-radius:var(--radius-sm);">
+                        <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">New Role</div>
+                        <div style="font-size:0.95rem;font-weight:600;margin-top:3px;color:var(--gold);">Admin 👑</div>
+                    </div>
+                </div>
+                <div class="info-box" style="margin-top:12px;">
+                    <strong>📝 After promotion:</strong> This user must log out and log back in for admin dashboard access. Firestore rules (Phase 7) will enforce authorization server-side.
+                </div>
+            `;
+            openModal('promoteModal');
+        };
+
+        $('confirmPromoteBtn').addEventListener('click', async () => {
+            if (!pendingPromoteTarget) return;
+            if (!isSuperAdmin) {
+                showToast('Only super admin can promote', 'error');
+                return;
+            }
+
+            $('confirmPromoteBtn').disabled = true;
+            try {
+                const target = pendingPromoteTarget;
+                const oldRole = target.currentRole || 'learner';
+
+                // CRITICAL: Update existing user doc — never createUserWithEmailAndPassword
+                const updates = {
+                    role: 'admin',
+                    activeRole: 'admin',
+                    isAdmin: true,
+                    roleBeforeAdmin: oldRole, // for correct demotion later
+                    promotedToAdminAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    promotedToAdminBy: currentUser.uid,
+                    promotedToAdminByEmail: currentEmail,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                // Merge admin into roles[] array if it exists
+                const targetDoc = await db.collection('users').doc(target.uid).get();
+                const targetData = targetDoc.data() || {};
+                const existingRoles = Array.isArray(targetData.roles) ? [...targetData.roles] : ['learner'];
+                if (!existingRoles.includes('admin')) existingRoles.push('admin');
+                updates.roles = existingRoles;
+
+                await db.collection('users').doc(target.uid).update(updates);
+
+                await logAdminAction('promoted_to_admin', {
+                    targetUid: target.uid,
+                    targetEmail: target.email,
+                    targetName: target.fullName,
+                    previousRole: oldRole
+                });
+
+                showToast(`${target.fullName} promoted to admin`, 'success');
+                closeModal('promoteModal');
+
+                // Clear state
+                pendingPromoteTarget = null;
+                $('promoteEmail').value = '';
+                $('promoteResultArea').innerHTML = '';
+
+                // Reload
+                await loadAdmins();
+            } catch (err) {
+                showToast('Failed: ' + err.message, 'error');
+            } finally {
+                $('confirmPromoteBtn').disabled = false;
+            }
+        });
+
+        // Demote flow
+        window.openDemoteModal = function (uid) {
+            const user = allAdmins.find(u => u.id === uid);
+            if (!user) return;
+            if (user.id === currentUser.uid) {
+                showToast('You cannot demote yourself', 'warning');
+                return;
+            }
+            if (user.isSuperAdmin) {
+                showToast('Cannot demote a super admin via UI', 'warning');
+                return;
+            }
+
+            pendingDemoteTarget = {
+                uid: user.id,
+                email: user.email || '',
+                fullName: user.fullName || 'User',
+                roleBeforeAdmin: user.roleBeforeAdmin || 'learner'
+            };
+
+            $('demoteConfirmBody').innerHTML = `
+                <div class="detail-grid" style="margin-top:12px;">
+                    <div style="padding:10px;background:var(--bg);border-radius:var(--radius-sm);">
+                        <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Name</div>
+                        <div style="font-size:0.95rem;font-weight:600;margin-top:3px;">${escapeHtml(pendingDemoteTarget.fullName)}</div>
+                    </div>
+                    <div style="padding:10px;background:var(--bg);border-radius:var(--radius-sm);">
+                        <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Email</div>
+                        <div style="font-size:0.95rem;font-weight:600;margin-top:3px;">${escapeHtml(pendingDemoteTarget.email)}</div>
+                    </div>
+                    <div style="padding:10px;background:var(--bg);border-radius:var(--radius-sm);grid-column:1/-1;">
+                        <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Will revert to</div>
+                        <div style="font-size:0.95rem;font-weight:600;margin-top:3px;">${escapeHtml(pendingDemoteTarget.roleBeforeAdmin)}</div>
+                    </div>
+                </div>
+            `;
+
+            $('demoteReason').value = '';
+            openModal('demoteModal');
+        };
+
+        $('confirmDemoteBtn').addEventListener('click', async () => {
+            if (!pendingDemoteTarget) return;
+            if (!isSuperAdmin) {
+                showToast('Only super admin can demote', 'error');
+                return;
+            }
+
+            const reason = $('demoteReason').value.trim();
+            if (!reason) {
+                showToast('Please provide a reason', 'warning');
+                return;
+            }
+
+            $('confirmDemoteBtn').disabled = true;
+            try {
+                const target = pendingDemoteTarget;
+                const revertTo = target.roleBeforeAdmin || 'learner';
+
+                const updates = {
+                    role: revertTo,
+                    activeRole: revertTo,
+                    isAdmin: false,
+                    demotedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    demotedBy: currentUser.uid,
+                    demotedByEmail: currentEmail,
+                    demotionReason: reason,
+                    roleBeforeAdmin: null,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                // Remove admin from roles[] array
+                const targetDoc = await db.collection('users').doc(target.uid).get();
+                const targetData = targetDoc.data() || {};
+                if (Array.isArray(targetData.roles)) {
+                    updates.roles = targetData.roles.filter(r => r !== 'admin');
+                }
+
+                await db.collection('users').doc(target.uid).update(updates);
+
+                await logAdminAction('demoted_admin', {
+                    targetUid: target.uid,
+                    targetEmail: target.email,
+                    targetName: target.fullName,
+                    revertedTo: revertTo,
+                    reason: reason
+                });
+
+                showToast(`${target.fullName} demoted to ${revertTo}`, 'success');
+                closeModal('demoteModal');
+
+                pendingDemoteTarget = null;
+                await loadAdmins();
+            } catch (err) {
+                showToast('Failed: ' + err.message, 'error');
+            } finally {
+                $('confirmDemoteBtn').disabled = false;
+            }
+        });
+
+        // Password reset
+        window.sendPasswordReset = async function () {
+            const email = $('passwordResetEmail').value.trim();
+            const reason = $('passwordResetReason').value.trim();
+
+            if (!email) { showToast('Enter an email', 'warning'); return; }
+            if (!reason) { showToast('Provide a reason', 'warning'); return; }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showToast('Invalid email format', 'warning');
+                return;
+            }
+
+            try {
+                // Verify user exists first
+                const snap = await db.collection('users').where('email', '==', email).limit(1).get();
+                if (snap.empty) {
+                    showToast('No user found with that email', 'warning');
+                    return;
+                }
+
+                // Send the reset link — Firebase handles this safely
+                await auth.sendPasswordResetEmail(email, {
+                    url: window.location.origin + '/auth.html',
+                    handleCodeInApp: false
+                });
+
+                await logAdminAction('sent_password_reset', {
+                    targetEmail: email,
+                    reason: reason
+                });
+
+                showToast(`Reset link sent to ${email}`, 'success');
+                $('passwordResetEmail').value = '';
+                $('passwordResetReason').value = '';
+            } catch (err) {
+                showToast('Failed: ' + err.message, 'error');
+            }
+        };
+
+        // ============================================================
+        // TAB: CONTACT
+        // ============================================================
+        async function loadContact() {
+            try {
+                const doc = await db.collection('settings').doc('contact').get();
+                if (doc.exists) {
+                    const d = doc.data();
+                    if (d.whatsappNumber) $('contactWhatsApp').value = d.whatsappNumber;
+                    if (d.emergencyNumber) $('contactEmergency').value = d.emergencyNumber;
+                    if (d.contactEmail) $('contactEmail').value = d.contactEmail;
+                    if (d.linkedinUrl) $('contactLinkedIn').value = d.linkedinUrl;
+                    if (d.communityLink) $('contactCommunity').value = d.communityLink;
+                    if (d.footerDescription) $('footerDescription').value = d.footerDescription;
+                    if (d.footerCopyright) $('footerCopyright').value = d.footerCopyright;
+
+                    const updated = toDate(d.updatedAt);
+                    $('contactLastUpdated').textContent = updated
+                        ? `Last updated ${relativeTime(updated)}`
+                        : '';
+                }
+            } catch (err) {
+                console.error('Load contact error:', err);
+                showToast('Failed to load contact settings', 'error');
+            }
+        }
+
+        window.saveContactSettings = async function () {
+            const whatsappNumber = $('contactWhatsApp').value.trim();
+            const emergencyNumber = $('contactEmergency').value.trim();
+            const contactEmail = $('contactEmail').value.trim();
+            const linkedinUrl = $('contactLinkedIn').value.trim();
+            const communityLink = $('contactCommunity').value.trim();
+            const footerDescription = $('footerDescription').value.trim();
+            const footerCopyright = $('footerCopyright').value.trim();
+
+            try {
+                await db.collection('settings').doc('contact').set({
+                    whatsappNumber,
+                    emergencyNumber,
+                    contactEmail,
+                    linkedinUrl,
+                    communityLink,
+                    footerDescription,
+                    footerCopyright,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedBy: currentUser.uid,
+                    updatedByEmail: currentEmail
+                }, { merge: true });
+
+                await logAdminAction('updated_contact_settings', {
+                    hasWhatsApp: !!whatsappNumber,
+                    hasEmergency: !!emergencyNumber,
+                    hasEmail: !!contactEmail
+                });
+
+                showToast('Contact settings saved — refresh homepage to see changes', 'success');
+                $('contactLastUpdated').textContent = 'Last updated just now';
+            } catch (err) {
+                showToast('Failed: ' + err.message, 'error');
+            }
+        };
+
+        // ============================================================
+        // TAB: REFERRALS
+        // ============================================================
+        async function loadReferrals() {
+            const table = $('referralsTable');
+            table.innerHTML = `<tr><td colspan="4" class="loading-row"><span class="spin"></span><br>Loading…</td></tr>`;
+
+            try {
+                // Get all users who were referred (have referredBy field)
+                const snap = await db.collection('users').get();
+                const allUsersData = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+                const referredUsers = allUsersData.filter(u => u.referredBy || u.referredByCode);
+                const uniqueReferrers = new Set(
+                    referredUsers.map(u => u.referredBy).filter(Boolean)
+                );
+
+                $('referralSignupCount').textContent = referredUsers.length;
+                $('referralReferrerCount').textContent = uniqueReferrers.size;
+
+                if (referredUsers.length === 0) {
+                    table.innerHTML = `
+                        <tr><td colspan="4">
+                            <div class="empty-state">
+                                <div class="icon">💰</div>
+                                <h3>No referred signups yet</h3>
+                                <p>Users who sign up via referral links will appear here.</p>
+                            </div>
+                        </td></tr>`;
+                    return;
+                }
+
+                // Build referrer name map
+                const nameMap = new Map(allUsersData.map(u => [u.id, u.fullName || u.email || 'Unknown']));
+
+                referredUsers.sort((a, b) => {
+                    const at = toDate(a.createdAt)?.getTime() || 0;
+                    const bt = toDate(b.createdAt)?.getTime() || 0;
+                    return bt - at;
+                });
+
+                table.innerHTML = referredUsers.slice(0, 50).map(u => {
+                    const referrerName = nameMap.get(u.referredBy) || u.referredByName || 'Unknown';
+                    const joined = toDate(u.createdAt);
+                    return `
+                        <tr>
+                            <td><strong>${escapeHtml(u.fullName || '—')}</strong></td>
+                            <td>${escapeHtml(referrerName)}</td>
+                            <td style="font-family:monospace;font-size:0.75rem;">${escapeHtml(u.referredByCode || '—')}</td>
+                            <td style="font-size:0.72rem;color:var(--text-muted);">${joined ? formatDate(joined) : '—'}</td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (err) {
+                console.error('Load referrals error:', err);
+                table.innerHTML = `<tr><td colspan="4" class="loading-row">Error: ${escapeHtml(err.message)}</td></tr>`;
+            }
+        }
+
+        // ============================================================
+        // EXPOSE LOADERS
+        // ============================================================
+        window.loadAdmins = loadAdmins;
+        window.loadCommission = loadCommission;
+        window.loadPricing = loadPricing;
+        window.loadContact = loadContact;
+        window.loadReferrals = loadReferrals;
+
+        console.log('✅ TRIANGLE LEARN Admin Settings — Phase 3 Page 4/4 loaded');
+    })();
+    </script>
+</body>
+</html>
